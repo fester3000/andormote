@@ -1,6 +1,7 @@
 package mobi.andromote.andro;
 
 import mobi.andromote.andro.util.SystemUiHider;
+import mobi.andromote.andro.webservice.WebService;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -17,6 +18,8 @@ import android.view.View;
  * @see SystemUiHider
  */
 public class MainActivity extends Activity {
+	
+	WebService webService;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -48,6 +51,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        webService = new WebService(this);
+		webService.start();
 
         setContentView(R.layout.activity_main);
 
@@ -115,6 +120,14 @@ public class MainActivity extends Activity {
     }
 
     @Override
+	protected void onDestroy() {
+		super.onDestroy();
+		webService.destroy();
+	}
+
+
+
+	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
