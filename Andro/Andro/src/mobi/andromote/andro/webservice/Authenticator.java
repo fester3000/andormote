@@ -1,13 +1,12 @@
 package mobi.andromote.andro.webservice;
 
-import android.util.Log;
-import mobi.andromote.andro.androscript.processingTools.Parser;
+import org.apache.log4j.Logger;
 
 public class Authenticator {
-	private static final String TAG = Authenticator.class.getSimpleName();
+	private final Logger log = Logger.getLogger(Authenticator.class);
 
-	public static AuthenticationStatus isAuthenticated() {
-		Log.d(TAG, "isAuthenticated");
+	public AuthenticationStatus isAuthenticated() {
+		log.debug("isAuthenticated");
 		return AuthenticationStatus.OK;
 	}
 }

@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.Date;
 import java.util.Enumeration;
 
+import mobi.andromote.andro.MainActivity;
 import mobi.andromote.andro.androscript.AndroscriptProcessor;
 import mobi.andromote.andro.androscript.datatypes.UnverifiedScript;
 
@@ -22,12 +23,14 @@ import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import android.app.Activity;
+import android.content.Context;
 import android.widget.Toast;
 
 public class WebService {
-
+	private final Logger log = Logger.getLogger(WebService.class);
 	Activity mainActivity; 
 	String message = "";
 	ServerSocket serverSocket;
@@ -91,6 +94,7 @@ public class WebService {
 
 		@Override
 		public void run() {
+			Authenticator authenticator = new Authenticator(); 
 			UnverifiedScript unverifiedScript = UnverifiedScript.nullValue();
 			DefaultHttpServerConnection connection = new DefaultHttpServerConnection();
 			try {
@@ -101,20 +105,19 @@ public class WebService {
 				String content = EntityUtils.toString(entity);
 				toastMessage(content);
 				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
+				//TODO Test
 				unverifiedScript = new UnverifiedScript("Script1", content, new Date());
+				//TODO Test
 				connection.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (HttpException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(Authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
-				AndroscriptProcessor.INSTANCE.process(unverifiedScript);
+			if(authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
+				AndroscriptProcessor.INSTANCE.process(unverifiedScript, mainActivity);
 			}
 		}
 

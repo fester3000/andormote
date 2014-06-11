@@ -1,5 +1,8 @@
 package mobi.andromote.andro;
 
+import org.apache.log4j.Logger;
+
+import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.util.SystemUiHider;
 import mobi.andromote.andro.webservice.WebService;
 
@@ -18,7 +21,7 @@ import android.view.View;
  * @see SystemUiHider
  */
 public class MainActivity extends Activity {
-	
+	private final Logger log = Logger.getLogger(MainActivity.class);
 	WebService webService;
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -51,6 +54,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ConfigureLog4J.configure();
         webService = new WebService(this);
 		webService.start();
 

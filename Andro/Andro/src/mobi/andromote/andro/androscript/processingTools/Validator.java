@@ -1,16 +1,16 @@
 package mobi.andromote.andro.androscript.processingTools;
 
-import android.util.Log;
-import mobi.andromote.andro.androscript.AndroscriptProcessor;
 import mobi.andromote.andro.androscript.datatypes.ScriptProcessStatus;
 import mobi.andromote.andro.androscript.datatypes.UnverifiedScript;
 
+import org.apache.log4j.Logger;
+
 public class Validator {
-	private static final String TAG = Validator.class.getSimpleName();
+	private final Logger log = Logger.getLogger(Validator.class);
 
 	public ScriptProcessStatus validate(UnverifiedScript script) {
 		//TODO validate
-		Log.d(TAG, "validating");
+		log.debug("validating");
 		return ScriptProcessStatus.OK;
 		}
 }
