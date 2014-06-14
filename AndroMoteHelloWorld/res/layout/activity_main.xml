@@ -135,20 +135,6 @@
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/left90Button"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="left 90" />
-
-            <Button
-                android:id="@+id/right90Button"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="right 90" />
         </LinearLayout>
     </LinearLayout>
 

@@ -3,7 +3,10 @@ package andro_mote.ioio_service;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import andro_mote.api.exceptions.UnknownDeviceException;
+import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
+import andro_mote.commons.DeviceDefinitions.MotorDrivers;
 import andro_mote.commons.MotionModes;
+import andro_mote.commons.Packet;
 import andro_mote.devices.Device;
 import andro_mote.devices.DeviceFactory;
 import andro_mote.logger.AndroMoteLogger;
@@ -20,13 +23,17 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	private AndroMoteLogger logger = null;
 	private Device device;
 	private Step currentStep = null;	
+	private MobilePlatforms platformName;
+	private MotorDrivers driverName;
 
-	public EngineControllerLooper(EnginesControllerService enginesControllerService, String platformName, String driverName) throws ConnectionLostException,
+	public EngineControllerLooper(EnginesControllerService enginesControllerService, MobilePlatforms platformName, MotorDrivers driverName) throws ConnectionLostException,
 	InterruptedException, UnknownDeviceException {
-		this.parentControllerService = enginesControllerService;
-		device = DeviceFactory.getDevice(platformName, driverName, ioio_);
+		super();
 		logger = new AndroMoteLogger(EngineControllerLooper.class);
 		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
+		this.parentControllerService = enginesControllerService;
+		this.platformName = platformName;
+		this.driverName = driverName;
 		logger.debug(TAG, "setup ioio engine controller");
 	}
 
@@ -34,9 +41,13 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	public void setup() throws ConnectionLostException, InterruptedException {
 		logger.debug(TAG, "EngineControllerLooper: initIOIOPins");
 		try {
+			device = DeviceFactory.getDevice(platformName, driverName, ioio_);
 			device.initIOIOPins();
 		} catch (ConnectionLostException e) {
 			logger.error(TAG, e);
+		} catch (UnknownDeviceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -47,8 +58,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 
 			// blokada przed pobieraniem kolejnych kroków w trakcie wykonywanej akcji
 			if (!this.parentControllerService.isOperationExecuted()) {
-				// logger.debug(TAG,
-				// "EngineControllerLooper; stepperMode: operationIsExecuted == false");
+				// logger.debug(TAG, "EngineControllerLooper; stepperMode: operationIsExecuted == false");
 				currentStep = this.parentControllerService.getNextStep();
 				if (currentStep != null) {
 					logger.debug(TAG,
@@ -98,5 +108,9 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 
 	public void setParentControllerService(EnginesControllerService parentControllerService) {
 		this.parentControllerService = parentControllerService;
+	}
+
+	public void executePacket(Packet inputPacket) {
+		device.interpretMotionPacket(inputPacket);
 	}
 }

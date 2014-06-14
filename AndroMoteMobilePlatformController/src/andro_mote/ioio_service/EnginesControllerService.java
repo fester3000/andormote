@@ -8,17 +8,14 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 import andro_mote.api.exceptions.UnknownDeviceException;
+import andro_mote.commons.DeviceDefinitions;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
+import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.compass.Compass;
-import andro_mote.devices.DeviceFactory;
-import andro_mote.devices.motorDrivers.MotorDriverFactory;
-import andro_mote.devices.platforms.ModelFactory;
-import andro_mote.devices.platforms.PlatformNewBright;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.content.BroadcastReceiver;
@@ -27,7 +24,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.os.Parcelable;
-import andro_mote.commons.MotionModes;
 
 public class EnginesControllerService extends IOIOService {
 	private static final String TAG = EnginesControllerService.class.getName();
@@ -46,7 +42,7 @@ public class EnginesControllerService extends IOIOService {
 	private AndroMoteLogger logger = new AndroMoteLogger(EnginesControllerBroadcastReceiver.class);
 	EngineControllerLooper looper = null;
 
-	private Compass compass = null;
+//	private Compass compass = null;
 
 	/**
 	 * Aktualna prędkość silnika.
@@ -58,19 +54,19 @@ public class EnginesControllerService extends IOIOService {
 	 */
 	private static long pauseTimeBetweenSteps = 1000;
 
-	private long stepDuration = 600;
+	public static long stepDuration = 600;
 
 	private LinkedList<Step> stepsQueue;
 
 	/**
 	 * Nazwa aktualnie obsługiwanego modelu.
 	 */
-	private String platformName = null;
+	private DeviceDefinitions.MobilePlatforms platformName = null;
 
 	/**
 	 * Nazwa aktualnie obsługiwanego modelu.
 	 */
-	private String driverName = null;
+	private DeviceDefinitions.MotorDrivers driverName = null;
 
 	/**
 	 * Tryb ruchu samochodu.
@@ -80,13 +76,13 @@ public class EnginesControllerService extends IOIOService {
 	 */
 	private MotionModes motionMode = MotionModes.MOTION_MODE_CONTINUOUS;
 
-	/**
-	 * Flaga informująca o tym czy wykonywana jest operacja np. skrętu o
-	 * określony kąt, zawracania. Gdy flaga jest aktywna komendy sterujące
-	 * odbierane przez serwis są ignorowane do momentu zakończenia wykoywanaego
-	 * zadania - na każde zapytanie jest wysyłana intencja zwrotna.
-	 */
-	private boolean isOperationExecuted = false;
+//	/**
+//	 * Flaga informująca o tym czy wykonywana jest operacja np. skrętu o
+//	 * określony kąt, zawracania. Gdy flaga jest aktywna komendy sterujące
+//	 * odbierane przez serwis są ignorowane do momentu zakończenia wykoywanaego
+//	 * zadania - na każde zapytanie jest wysyłana intencja zwrotna.
+//	 */
+	public static boolean isOperationExecuted = false;
 
 	/**
 	 * Flaga określająca czy po wykonanym kroku następuje wysłanie paketu
@@ -116,7 +112,7 @@ public class EnginesControllerService extends IOIOService {
 		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
 		logger.debug(TAG, "onStartCommand engine service");
 		trySetupDevicesWithExtrasFrom(intent); 
-		this.isOperationExecuted = false;
+//		this.isOperationExecuted = false;
 		initReceiver();
 		super.onStartCommand(intent, flags, startId);
 
@@ -126,14 +122,14 @@ public class EnginesControllerService extends IOIOService {
 	private void trySetupDevicesWithExtrasFrom(Intent intent) {
 		try {
 			Packet pack = (Packet) intent.getParcelableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
-			if (pack != null && pack.getModelName() != null && pack.getDriverName() != null) {
-				logger.debug(TAG, "Engines Service: setting model name: " + pack.getModelName());
-				this.platformName = pack.getModelName();
+			if (pack != null && pack.getPlatformName() != null && pack.getDriverName() != null) {
+				logger.debug(TAG, "Engines Service: setting model name: " + pack.getPlatformName());
+				this.platformName = pack.getPlatformName();
 				this.driverName = pack.getDriverName();
-				if (this.compass == null) {
-					this.compass = new Compass(this.getApplicationContext());
-					this.compass.unregisterListeners();
-				}
+//				if (this.compass == null) {
+//					this.compass = new Compass(this.getApplicationContext());
+//					this.compass.unregisterListeners();
+//				}
 			} else {
 				logger.debug(TAG, "Engines Service: input packet has no device info;");
 				//TODO zabezpieczyć przed sytuacją niedookreśloną			
@@ -145,7 +141,7 @@ public class EnginesControllerService extends IOIOService {
 
 	@Override
 	public void onDestroy() {
-		this.compass.unregisterListeners();
+//		this.compass.unregisterListeners();
 		this.unregisterEngineMessagesReceiver();
 		super.onDestroy();
 	}
@@ -203,84 +199,13 @@ public class EnginesControllerService extends IOIOService {
 	}
 
 	private void interpretMotionPacketContinuous(Packet inputPacket) {
+		//TODO składować gdzie indziej
 		if (inputPacket.getSpeed() >= EnginesControllerService.MIN_SPEED) {
 			this.setSpeed(inputPacket.getSpeed());
 		}
-
+		looper.executePacket(inputPacket);
 		logger.debug(TAG, "engine service received: " + inputPacket.getPacketType());
-		if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveForward(getSpeed());
-				looper.getModel().steerLeft();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_FORWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveForward(getSpeed());
-				looper.getModel().steerCenter();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveForward(getSpeed());
-				looper.getModel().steerRight();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveForward(0.0);
-				looper.getModel().steerLeft();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.STOP_REQUEST) {
-			if (looper != null) {
-				looper.getModel().stop();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_REQUEST) {
-			if (looper != null && looper.getModel() != null) {
-				try {
-					looper.getModel().stop();
-					looper.getModel().steerRight();
-				} catch (Exception e) {
-					logger.error(TAG, e);
-				}
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveBackward(getSpeed());
-				looper.getModel().steerLeft();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveBackward(getSpeed());
-				looper.getModel().steerCenter();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-			if (looper != null) {
-				looper.getModel().moveBackward(getSpeed());
-				looper.getModel().steerRight();
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_90_DEGREES_REQUEST) {
-			if (looper != null) {
-				if (!this.isOperationExecuted) {
-					looper.getModel().turn90Left();
-				}
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_90_DEGREES_REQUEST) {
-			if (looper != null) {
-				if (!this.isOperationExecuted) {
-					looper.getModel().turn90Right();
-				}
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_DEGREES_REQUEST) {
-			if (looper != null) {
-				if (!this.isOperationExecuted) {
-					looper.getModel().turnRightDegrees(inputPacket.getBearing());
-				}
-			}
-		} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_DEGREES_REQUEST) {
-			if (looper != null) {
-				if (!this.isOperationExecuted) {
-					looper.getModel().turnLeftDegrees(inputPacket.getBearing());
-				}
-			}
-		}
+		
 	}
 
 	private void interpretMotionPacketStepper(Packet inputPacket) {
@@ -538,13 +463,13 @@ public class EnginesControllerService extends IOIOService {
 		this.isOperationExecuted = isOperationExecuted;
 	}
 
-	public Compass getCompass() {
-		return compass;
-	}
-
-	public void setCompass(Compass compass) {
-		this.compass = compass;
-	}
+//	public Compass getCompass() {
+//		return compass;
+//	}
+//
+//	public void setCompass(Compass compass) {
+//		this.compass = compass;
+//	}
 
 	public boolean isSendStepExecutedPacket() {
 		return sendStepExecutedPacket;

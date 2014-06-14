@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import andro_mote.api.IPacket;
 import andro_mote.commons.PacketType.IPacketType;
@@ -38,10 +37,10 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	private double speed = 0.0;
 	private PacketType.IPacketType stepDirection = null;
 	private long stepDuration = 600;
-	private String platformName = "";
-	private String driverName = "";
+	private DeviceDefinitions.MobilePlatforms platformName = null;
+	private DeviceDefinitions.MotorDrivers driverName = null;
 	private Packet packet = null;
-	private ArrayList<String> devicesList = null;
+//	private ArrayList<String> devicesList = null;
 	private int nodeStatus = 0;
 	private int oldState = 0;
 	private int newState = 0;
@@ -57,10 +56,10 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.speed = pc.readDouble();
 		this.stepDirection = (IPacketType) pc.readSerializable();
 		this.stepDuration = pc.readLong();
-		this.platformName = pc.readString();
-		this.driverName = pc.readString();
+		this.platformName = (DeviceDefinitions.MobilePlatforms) pc.readSerializable();
+		this.driverName = (DeviceDefinitions.MotorDrivers) pc.readSerializable();
 		this.packet = (Packet) pc.readSerializable();
-		this.devicesList = (ArrayList<String>) pc.readArrayList(null);
+//		this.devicesList = (ArrayList<String>) pc.readArrayList(null);
 		this.nodeStatus = pc.readInt();
 		this.oldState = pc.readInt();
 		this.newState = pc.readInt();
@@ -78,10 +77,10 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		dest.writeDouble(speed);
 		dest.writeSerializable((Serializable) stepDirection);
 		dest.writeLong(stepDuration);
-		dest.writeString(platformName);
-		dest.writeString(driverName);
+		dest.writeSerializable((Serializable)platformName);
+		dest.writeSerializable((Serializable)driverName);
 		dest.writeSerializable(packet);
-		dest.writeList(devicesList);
+//		dest.writeList(devicesList);
 		dest.writeInt(nodeStatus);
 		dest.writeInt(oldState);
 		dest.writeInt(newState);
@@ -114,13 +113,13 @@ public class Packet implements Serializable, Parcelable, IPacket {
 
 	};
 
-	public ArrayList<String> getDevicesList() {
-		return devicesList;
-	}
-
-	public void setDevicesList(ArrayList<String> pairedDevices) {
-		this.devicesList = pairedDevices;
-	}
+//	public ArrayList<String> getDevicesList() {
+//		return devicesList;
+//	}
+//
+//	public void setDevicesList(ArrayList<String> pairedDevices) {
+//		this.devicesList = pairedDevices;
+//	}
 
 	public PacketType.IPacketType getStepDirection() {
 		return stepDirection;
@@ -189,14 +188,11 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.stepDuration = stepDuration;
 	}
 
-	public String getPlatformName() {
-		if (platformName == null)
-			return "";
-		else
-			return platformName;
+	public DeviceDefinitions.MobilePlatforms getPlatformName() {
+		return platformName;
 	}
 
-	public void setPlatformName(String platformName) {
+	public void setPlatformName(DeviceDefinitions.MobilePlatforms platformName) {
 		this.platformName = platformName;
 	}
 
@@ -216,11 +212,11 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.bearing = bearing;
 	}
 
-	public String getDriverName() {
+	public DeviceDefinitions.MotorDrivers getDriverName() {
 		return driverName;
 	}
 
-	public void setDriverName(String driverName) {
+	public void setDriverName(DeviceDefinitions.MotorDrivers driverName) {
 		this.driverName = driverName;
 	}
 

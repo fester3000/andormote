@@ -42,7 +42,7 @@ public class IntentsIdentifiers {
 	 * Identyfikator intencji startującej serwis kontroli silników. Nie zawiera
 	 * pól dodatkowych.
 	 */
-	public static String ACTION_ENGINES_CONTROLLER = "andro_mote.engine_service.engine_controller";
+	public static String ACTION_ENGINES_CONTROLLER = "andro_mote.ioio_service.EnginesControllerService";
 
 	/**
 	 * Identyfikator intencji broadcastowych odbieranych przez sterownik

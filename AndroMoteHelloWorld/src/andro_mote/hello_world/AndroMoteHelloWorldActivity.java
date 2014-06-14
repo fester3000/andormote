@@ -5,16 +5,15 @@ import java.io.Serializable;
 import org.apache.log4j.BasicConfigurator;
 
 import andro_mote.api.exceptions.MobilePlatformException;
+import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
+import andro_mote.commons.DeviceDefinitions.MotorDrivers;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
-import andro_mote.devices.RNVN2Model;
-
-import andro_mote.ioio_service.EnginesControllerService;
-import andro_mote.ioio_service.RoverEngineControllerLooper;
+import andro_mote.commons.PacketType.Motion;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.platform_controller.AndroMoteMobilePlatformController;
 import android.app.Activity;
@@ -24,7 +23,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * Aplikaja HelloWorld dla AndroMote.
@@ -35,6 +33,10 @@ import android.widget.Toast;
 public class AndroMoteHelloWorldActivity extends Activity implements OnClickListener {
 
 	public static final String TAG = AndroMoteHelloWorldActivity.class.toString();
+
+	private MotorDrivers motorDriver = MotorDrivers.RNVN2;
+	private MobilePlatforms mobilePlatform = MobilePlatforms.ROVER5TwoEngines;
+
 	private Button mLFButton = null;
 	private Button mFButton = null;
 	private Button mRFButton = null;
@@ -49,8 +51,6 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	private Button stopServiceButton = null;
 	private Button stepperButton = null;
 	private Button continousButton = null;
-	private Button left90Button = null;
-	private Button right90Button = null;
 
 	private AndroMoteMobilePlatformController api = null;
 
@@ -60,11 +60,10 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		this.initComponents();
 		BasicConfigurator.configure();
-
 		this.api = new AndroMoteMobilePlatformController(this.getApplication());
+		startEngineService();
 	}
 
 	@Override
@@ -90,8 +89,6 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 
 		this.startServiceButton = (Button) findViewById(R.id.startServiceButton);
 		this.stopServiceButton = (Button) findViewById(R.id.stopServiceButton);
-		this.left90Button = (Button) findViewById(R.id.left90Button);
-		this.right90Button = (Button) findViewById(R.id.right90Button);
 		this.stepperButton = (Button) findViewById(R.id.setStepperModeButton);
 		this.continousButton = (Button) findViewById(R.id.setContinuousModeButton);
 
@@ -106,8 +103,6 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		this.mRBButton.setOnClickListener(this);
 		this.startServiceButton.setOnClickListener(this);
 		this.stopServiceButton.setOnClickListener(this);
-		this.left90Button.setOnClickListener(this);
-		this.right90Button.setOnClickListener(this);
 		this.stepperButton.setOnClickListener(this);
 		this.continousButton.setOnClickListener(this);
 
@@ -120,7 +115,8 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		// start serwisu silników
 		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
 		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
-		pack.setDeviceName(RNVN2Model.class.getName());
+		pack.setPlatformName(mobilePlatform);
+		pack.setDriverName(motorDriver);
 		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		startService(startEngineServiceIntent);
 
@@ -145,16 +141,23 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	 * Czas trwania jednego kroku - 500 ms. Prędkość tylnego silnika - 0,8.
 	 */
 	private void initEngineService() {
-		this.sendPacketToEngineService(new Packet(Engine.SET_STEPPER_MODE));
-
 		// zmiana czasu trwaniajednego węzła
+		Packet motionMode = new Packet(Engine.SET_CONTINUOUS_MODE);
 		Packet stepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
 		stepDurationPacket.setStepDuration(500);
-		this.sendPacketToEngineService(stepDurationPacket);
-
 		Packet speedPacket = new Packet(Engine.SET_SPEED);
 		speedPacket.setSpeed(0.8);
-		this.sendPacketToEngineService(speedPacket);
+		try {
+			this.api.sendMessageToDevice(motionMode);
+			this.api.sendMessageToDevice(stepDurationPacket);
+			this.api.sendMessageToDevice(speedPacket);
+		} catch (UnsupportedOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MobilePlatformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -168,107 +171,72 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		stopService(closeService);
 	}
 
-	/**
-	 * Wysłanie pakietu do serwisu silników.
-	 * 
-	 * @param packet
-	 *            Wysyłany pakiet {@link Packet}
-	 */
-	public void sendPacketToEngineService(Packet packet) {
-		Intent broadcastEngine = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		broadcastEngine.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) packet);
-		sendBroadcast(broadcastEngine);
-	}
-
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.lfButton) {
+		Packet packet = null;
+		switch(v.getId()) {
+		case R.id.lfButton:
+			packet = new Packet(Motion.MOVE_LEFT_FORWARD_REQUEST);
+			break;
+		case R.id.fButton:
+			packet = new Packet(Motion.MOVE_FORWARD_REQUEST);
+			break;
+		case R.id.rfButton:
+			packet = new Packet(Motion.MOVE_RIGHT_FORWARD_REQUEST);
+			break;
+		case R.id.lButton:
+			packet = new Packet(Motion.MOVE_LEFT_BACKWARD_REQUEST);
+			break;
+		case R.id.stopButton:
+			packet = new Packet(Motion.STOP_REQUEST);
+			break;
+		case R.id.rButton:
+			packet = new Packet(Motion.MOVE_RIGHT_REQUEST);
+			break;
+		case R.id.lbButton:
+			packet = new Packet(Motion.MOVE_LEFT_BACKWARD_REQUEST);
+			break;
+		case R.id.bButton:
+			packet = new Packet(Motion.MOVE_BACKWARD_REQUEST);
+			break;
+		case R.id.rbButton:
+			packet = new Packet(Motion.MOVE_RIGHT_BACKWARD_REQUEST);
+			break;
+		case R.id.startServiceButton:
 			try {
-				this.api.moveLeftForward();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
+				this.api.startCommunicationWithDevice(mobilePlatform, motorDriver);
+			} catch (MobilePlatformException e1) {
+				e1.printStackTrace();
 			}
-		} else if (v.getId() == R.id.fButton) {
-			try {
-				this.api.moveForward();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.rfButton) {
-			try {
-				this.api.moveRightForward();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.lButton) {
-			try {
-				this.api.moveLeft();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.stopButton) {
-			try {
-				this.api.stopMobilePlatform();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.rButton) {
-			try {
-				this.api.moveRight();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.lbButton) {
-			try {
-				this.api.moveLeftBackward();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.bButton) {
-			try {
-				this.api.moveBackward();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.rbButton) {
-			try {
-				this.api.moveRight();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.left90Button) {
-			try {
-				this.api.turn90LeftDegrees();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.right90Button) {
-			try {
-				this.api.turn90RightDegrees();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.startServiceButton) {
-			try {
-				this.api.startCommunicationWithDevice("RNVN2Model");
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
-		} else if (v.getId() == R.id.stopServiceButton) {
+			break;
+		case R.id.stopServiceButton:
 			try {
 				this.api.stopCommunicationWithDevice();
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
+			} catch (MobilePlatformException e1) {
+				e1.printStackTrace();
 			}
-		} else if (v.getId() == R.id.setContinuousModeButton) {
+			break;
+		case R.id.setContinuousModeButton:
 			try {
 				this.api.setMotionMode(MotionModes.MOTION_MODE_CONTINUOUS);
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
+			} catch (MobilePlatformException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		} else if (v.getId() == R.id.setStepperModeButton) {
+			break;
+		case R.id.setStepperModeButton:
 			try {
 				this.api.setMotionMode(MotionModes.MOTION_MODE_STEPPER);
+			} catch (MobilePlatformException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			break;
+		} 
+		if(packet!= null) {
+			try {	
+				packet.setSpeed(0.7);
+				this.api.sendMessageToDevice(packet);
 			} catch (MobilePlatformException e) {
 				e.printStackTrace();
 			}

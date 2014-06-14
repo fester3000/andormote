@@ -1,6 +1,5 @@
 package andro_mote.api;
 
-import andro_mote.api.DevicesDefinitions.MobilePlatforms;
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.api.exceptions.UnknownDeviceException;
 
@@ -22,7 +21,7 @@ public interface IAndroMoteApi {
 	 * @param deviceName
 	 *            nazwa podłączanego urządzenia. Wszystkie nazwy zostały
 	 *            zdefiniowane w typie {@link MobilePlatforms} w klasie
-	 *            {@link DevicesDefinitions}
+	 *            {@link DeviceDefinitions}
 	 * @return Flaga informująca o statusie wykonania połączenia.
 	 * @throws {@link MobilePlatformException}
 	 * @throws {@link UnknownDeviceException}

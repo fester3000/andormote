@@ -5,12 +5,10 @@ int id bButton 0x7f080007
 int id fButton 0x7f080001
 int id lButton 0x7f080003
 int id lbButton 0x7f080006
-int id left90Button 0x7f08000d
 int id lfButton 0x7f080000
 int id rButton 0x7f080005
 int id rbButton 0x7f080008
 int id rfButton 0x7f080002
-int id right90Button 0x7f08000e
 int id setContinuousModeButton 0x7f08000c
 int id setStepperModeButton 0x7f08000b
 int id startServiceButton 0x7f080009

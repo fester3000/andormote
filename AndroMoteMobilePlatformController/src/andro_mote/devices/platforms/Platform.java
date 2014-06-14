@@ -1,6 +1,7 @@
 package andro_mote.devices.platforms;
 
 import andro_mote.commons.IntentsIdentifiers;
+import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.exceptions.SensorRegisteringError;
 import andro_mote.stepper.Step;
@@ -14,52 +15,49 @@ import andro_mote.stepper.Step;
  */
 public interface Platform {
 
-	/**
-	 * Skręt w lewo.
-	 */
-	public void steerLeft();
+//	public void steerLeft();
+//
+//	public void steerRight();
+//
+//	public void steerCenter();
+//
+//	public void moveForward(double speed);
+//
+//	public void moveBackward(double speed);
+//
+//	/**
+//	 * Skręt w prawo 90* w prawo
+//	 */
+//	public void turn90Right();
+//
+//	/**
+//	 * Skręt 95* w lewo
+//	 * 
+//	 * @throws SensorRegisteringError
+//	 */
+//	public void turn90Left();
+//
+//	/**
+//	 * Skręt o okresloną liczbę stopni w prawo. Obrót może być realizowany z
+//	 * wykorzystaniem żyroskopu lub GPS.
+//	 * 
+//	 * @param degrees
+//	 *            liczba stopni obrotu
+//	 */
+//	public void turnRightDegrees(int degrees);
+//
+//	/**
+//	 * Skręt o okresloną liczbę stopni w lewo. Obrót może być realizowany z
+//	 * wykorzystaniem żyroskopu lub GPS.
+//	 * 
+//	 * @param degrees
+//	 *            liczba stopni obrotu
+//	 */
+//	public void turnLeftDegrees(int degrees);
 
-	public void steerRight();
-
-	public void steerCenter();
-
-	public void moveForward(double speed);
-
-	public void moveBackward(double speed);
-
-	public void stop();
-
-	/**
-	 * Skręt w prawo 90* w prawo
-	 */
-	public void turn90Right();
-
-	/**
-	 * Skręt 95* w lewo
-	 * 
-	 * @throws SensorRegisteringError
-	 */
-	public void turn90Left();
-
-	/**
-	 * Skręt o okresloną liczbę stopni w prawo. Obrót może być realizowany z
-	 * wykorzystaniem żyroskopu lub GPS.
-	 * 
-	 * @param degrees
-	 *            liczba stopni obrotu
-	 */
-	public void turnRightDegrees(int degrees);
-
-	/**
-	 * Skręt o okresloną liczbę stopni w lewo. Obrót może być realizowany z
-	 * wykorzystaniem żyroskopu lub GPS.
-	 * 
-	 * @param degrees
-	 *            liczba stopni obrotu
-	 */
-	public void turnLeftDegrees(int degrees);
-
-	public PacketType.IPacketType getCurrentStepName();
+	public void interpretMotionPacket(Packet inputPacket);
+	
+//	public PacketType.IPacketType getCurrentStepName();
 
 	/**
 	 * Funkcja interpretująca kolejny krok z kolejki i uruchamiająca odpowidni
@@ -85,4 +83,6 @@ public interface Platform {
 		public void run() {
 		}
 	}
+
+	void stop();
 }

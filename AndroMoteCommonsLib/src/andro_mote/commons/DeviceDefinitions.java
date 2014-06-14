@@ -1,8 +1,8 @@
-package andro_mote.api;
+package andro_mote.commons;
 
 import andro_mote.api.exceptions.UnknownDeviceException;
 
-public class DevicesDefinitions {
+public class DeviceDefinitions {
 
 	/**
 	 * Identyfikatory urządzeń obsługiwanych przez API w formie implementowanej
@@ -19,12 +19,6 @@ public class DevicesDefinitions {
 		 * projektu AndroMote: New Bright Model: http://www.newbright.com/product/view/id/16
 		 */
 		NewBrightModel,
-		
-		/**
-		 * Niezaimplementowany sprzętowo model robota własnej produkcji złożeonego z części Pololu: http://www.pololu.com/.
-		 */
-		PololuTwoEngines,
-		
 		/**
 		 * Platforma Rover5 produkcji DAGU
 		 */

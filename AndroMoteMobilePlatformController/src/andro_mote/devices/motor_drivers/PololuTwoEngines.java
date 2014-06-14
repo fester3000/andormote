@@ -1,11 +1,11 @@
-package andro_mote.devices.motorDrivers;
+package andro_mote.devices.motor_drivers;
 
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 
-public class MotorDriverPololuTwoEngines extends MotorDriverAbstract {
+public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriverNewBrightCompatible {
 	private static final int AIN1_PIN = 44;
 	private static final int AIN2_PIN = 45;
 	private static final int PWMA_PIN = 46;
@@ -32,9 +32,8 @@ public class MotorDriverPololuTwoEngines extends MotorDriverAbstract {
 	private boolean engineGearBackward = false;
 	private double engineFreq = 0;
 	private boolean stby = true;
-	private DigitalOutput hardStop_;
 
-	public MotorDriverPololuTwoEngines(IOIO ioio) {
+	public PololuTwoEngines(IOIO ioio) {
 		super(ioio);
 	}
 
@@ -81,5 +80,61 @@ public class MotorDriverPololuTwoEngines extends MotorDriverAbstract {
 		pwmb_.setDutyCycle((float) 0);
 		bin1_.write(false);
 		bin2_.write(false);
+	}
+//
+//	public boolean getServoLeft() {
+//		return servoLeft;
+//	}
+
+	public void setServoLeft(boolean servoLeft) {
+		this.servoLeft = servoLeft;
+	}
+//
+//	public boolean getServoRight() {
+//		return servoRight;
+//	}
+
+	public void setServoRight(boolean servoRight) {
+		this.servoRight = servoRight;
+	}
+//
+//	public int getServoVoltage() {
+//		return servoVoltage;
+//	}
+
+	public void setServoVoltage(int servoVoltage) {
+		this.servoVoltage = servoVoltage;
+	}
+//
+//	public boolean getEngineGearForward() {
+//		return engineGearForward;
+//	}
+
+	public void setEngineGearForward(boolean engineGearForward) {
+		this.engineGearForward = engineGearForward;
+	}
+//
+//	public boolean getEngineGearBackward() {
+//		return engineGearBackward;
+//	}
+
+	public void setEngineGearBackward(boolean engineGearBackward) {
+		this.engineGearBackward = engineGearBackward;
+	}
+//
+//	public double getEngineFreq() {
+//		return engineFreq;
+//	}
+
+	public void setEngineFreq(double engineFreq) {
+		this.engineFreq = engineFreq;
+	}
+//
+//	public boolean isStby() {
+//		return stby;
+//	}
+
+	public void setStby(boolean stby) {
+		this.stby = stby;
 	}
 }

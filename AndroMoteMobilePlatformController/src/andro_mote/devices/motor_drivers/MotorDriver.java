@@ -1,4 +1,4 @@
-package andro_mote.devices.motorDrivers;
+package andro_mote.devices.motor_drivers;
 
 import ioio.lib.api.exception.ConnectionLostException;
 

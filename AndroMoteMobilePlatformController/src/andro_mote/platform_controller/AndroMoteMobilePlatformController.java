@@ -5,6 +5,8 @@ import java.io.Serializable;
 import andro_mote.api.AndroMoteMobilePlatformApiAbstract;
 import andro_mote.api.IPacket;
 import andro_mote.api.exceptions.MobilePlatformException;
+import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
+import andro_mote.commons.DeviceDefinitions.MotorDrivers;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionModes;
@@ -12,7 +14,6 @@ import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.ioio_service.EnginesControllerService;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 import android.content.ComponentName;
@@ -59,8 +60,9 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 * @throws MobilePlatformException
 	 */
 	//FIXME OK
-	public boolean startCommunicationWithDevice(String platformName, String driverName) throws MobilePlatformException {
-		checkExecutionPreconditions();
+	public boolean startCommunicationWithDevice(MobilePlatforms platformName, MotorDrivers driverName) throws MobilePlatformException {
+		checkIfServiceIsStopped();
+		checkIfApplicationIsNull();
 
 		//FIXME Przemianować na uniwersalną nazwę
 		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
@@ -135,7 +137,8 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	//FIXME OK
+//
+//	
 	@Override
 	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
 		checkExecutionPreconditions();
@@ -232,13 +235,12 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	// PRIVATE
 	private void createAndSendIntentWithExtra(IPacket pack) {
 		Intent sendInfoIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-
 		sendInfoIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		application.sendBroadcast(sendInfoIntent);
 	}
 
 	private void checkExecutionPreconditions() throws MobilePlatformException {
-		checkIfServiceIsStopped();
+		checkIfServiceIsStarted();
 		checkIfApplicationIsNull();
 	}
 
@@ -281,5 +283,4 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 		logger.debug(TAG,
 				"AndroMoteMobilePlatformController: packet from mobile platform received: " + pack.getPacketType());
 	}
-
 }

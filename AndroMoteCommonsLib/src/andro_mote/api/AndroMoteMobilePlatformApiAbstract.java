@@ -69,70 +69,25 @@ public abstract class AndroMoteMobilePlatformApiAbstract implements IAndroMoteAp
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public boolean moveLeftForward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveForward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveRightForward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveLeft() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean stopMobilePlatform() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveRight() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveLeftBackward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveBackward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean moveRightBackward() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean turn90RightDegrees() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean turn90LeftDegrees() throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public boolean turn90RightDegrees() throws MobilePlatformException {
+//		throw new UnsupportedOperationException();
+//	}
+//
+//	@Override
+//	public boolean turn90LeftDegrees() throws MobilePlatformException {
+//		throw new UnsupportedOperationException();
+//	}
+//
+//	@Override
+//	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
+//		throw new UnsupportedOperationException();
+//	}
+//
+//	@Override
+//	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	public Application getApplication() {
 		return application;
