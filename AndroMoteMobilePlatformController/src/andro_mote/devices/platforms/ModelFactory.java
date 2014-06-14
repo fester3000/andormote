@@ -1,7 +1,9 @@
-package andro_mote.devices;
+package andro_mote.devices.platforms;
 
-import andro_mote.api.DevicesDefinitions.Devices;
+import andro_mote.api.DevicesDefinitions.MobilePlatforms;
+import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.api.exceptions.UnknownDeviceException;
+import andro_mote.devices.motorDrivers.MotorDriver;
 import andro_mote.ioio_service.EngineControllerLooper;
 import andro_mote.logger.AndroMoteLogger;
 
@@ -17,15 +19,15 @@ public class ModelFactory {
 
 	private static AndroMoteLogger logger = new AndroMoteLogger(ModelFactory.class);
 
-	public static IModel getModel(String name, EngineControllerLooper looper) throws UnknownDeviceException {
+	public static Platform getModel(String name, MotorDriver driver) throws UnknownDeviceException {
 		logger.debug(TAG, "testing: name otrzymane:" + name);
-		logger.debug(TAG, "testing: name z enuma:" + Devices.NewBrightModel.toString());
-		if (name.equals(Devices.NewBrightModel.toString())) {
+		logger.debug(TAG, "testing: name z enuma:" + MobilePlatforms.NewBrightModel.toString());
+		if (name.equals(MobilePlatforms.NewBrightModel.toString())) {
 			logger.debug(TAG, "Model factory: creating NewBrightModel");
-			return new NewBrightModel(looper);
-		} else if (name.equals(Devices.PololuTwoEngines.toString())) {
+			return new PlatformNewBright(driver);
+		} else if (name.equals(MobilePlatforms.PololuTwoEngines.toString())) {
 			logger.debug(TAG, "Model factory: creating PololuTwoEnginesModel");
-			return new PololuTwoEnginesModel(looper);
+			return new PololuTwoEnginesModel(driver);
 		} else {
 			throw new UnknownDeviceException("Unknown model: " + name);
 		}

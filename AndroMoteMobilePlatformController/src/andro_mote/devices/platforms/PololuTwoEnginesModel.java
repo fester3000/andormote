@@ -1,12 +1,13 @@
-package andro_mote.devices;
+package andro_mote.devices.platforms;
 
 import andro_mote.commons.PacketType;
+import andro_mote.devices.motorDrivers.MotorDriver;
 import andro_mote.ioio_service.EngineControllerLooper;
 
-public class PololuTwoEnginesModel extends AbstractModel {
+public class PololuTwoEnginesModel extends PlatformAbstract {
 
-	public PololuTwoEnginesModel(EngineControllerLooper looper) {
-		super(looper);
+	public PololuTwoEnginesModel(MotorDriver driver) {
+		super(driver);
 	}
 
 	@Override

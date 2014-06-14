@@ -1,4 +1,4 @@
-package andro_mote.devices;
+package andro_mote.devices.platforms;
 
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.PacketType;
@@ -12,7 +12,7 @@ import andro_mote.stepper.Step;
  * @author Maciej Gzik
  * 
  */
-public interface IModel {
+public interface Platform {
 
 	/**
 	 * Skręt w lewo.

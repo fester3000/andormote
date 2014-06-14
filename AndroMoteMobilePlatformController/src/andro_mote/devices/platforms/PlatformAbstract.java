@@ -1,23 +1,24 @@
-package andro_mote.devices;
+package andro_mote.devices.platforms;
 
 import andro_mote.commons.PacketType;
 import andro_mote.compass.Compass;
+import andro_mote.devices.motorDrivers.MotorDriver;
 import andro_mote.ioio_service.EngineControllerLooper;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.hardware.SensorManager;
 import android.text.format.Time;
 
-public class AbstractModel implements IModel {
+public class PlatformAbstract implements Platform {
 
-	private static final String TAG = AbstractModel.class.toString();
+	private static final String TAG = PlatformAbstract.class.toString();
 
-	protected EngineControllerLooper looper;
+	protected MotorDriver driver;
 
-	private AndroMoteLogger logger = new AndroMoteLogger(AbstractModel.class);
+	private AndroMoteLogger logger = new AndroMoteLogger(PlatformAbstract.class);
 
-	public AbstractModel(EngineControllerLooper looper) {
-		this.looper = looper;
+	public PlatformAbstract(MotorDriver driver) {
+		this.driver = driver;
 	}
 
 	@Override
@@ -128,9 +129,9 @@ public class AbstractModel implements IModel {
 	 * wykonywania skrętu lub innej wymagającej pomiaru położenia czynności.
 	 */
 	protected void registerCompassListeners() {
-		if (looper != null && looper.getParentControllerService().getCompass() != null) {
+		if (driver != null && driver.getParentControllerService().getCompass() != null) {
 			logger.debug(TAG, "Model: registering compass");
-			(new Thread(new RegisterCompassListenersThread(looper.getParentControllerService().getCompass()))).start();
+			(new Thread(new RegisterCompassListenersThread(driver.getParentControllerService().getCompass()))).start();
 		} else {
 			logger.debug(TAG, "Model: compass cannot be registered");
 		}
@@ -140,9 +141,9 @@ public class AbstractModel implements IModel {
 	 * Wyłaczenie kompasu po skończeniu wykonywania kroku.
 	 */
 	protected void unregisterCompassListeners() {
-		if (looper != null && looper.getParentControllerService().getCompass() != null) {
+		if (driver != null && driver.getParentControllerService().getCompass() != null) {
 			logger.debug(TAG, "Model: unregistering compass");
-			(new Thread(new UnregisterCompassListenersThread(looper.getParentControllerService().getCompass())))
+			(new Thread(new UnregisterCompassListenersThread(driver.getParentControllerService().getCompass())))
 					.start();
 			// looper.getParentControllerService().getCompass().unregisterListeners();
 		} else {

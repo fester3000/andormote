@@ -7,6 +7,7 @@ import andro_mote.api.IPacket;
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
+import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
@@ -25,15 +26,13 @@ import android.content.Intent;
  * korzystać bezpośrednio z klas w bibliotekach Android.
  * 
  * @author Maciej Gzik
+ * @author Sebastian Łuczak
  * 
  */
 public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformApiAbstract {
 
 	private static final String TAG = AndroMoteMobilePlatformController.class.toString();
 	private static AndroMoteLogger logger = new AndroMoteLogger(AndroMoteMobilePlatformController.class);
-
-	// private Application application = null;
-	// private boolean isConnectionActive = false;
 
 	/**
 	 * Konstruktor obiektu API.
@@ -43,6 +42,7 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *            sterowania silnikami oraz rejestrowania obiektów
 	 *            rejestrujących zdarzenia sterownika silników.
 	 */
+	//FIXME OK
 	public AndroMoteMobilePlatformController(Application application) {
 		super(application);
 	}
@@ -50,7 +50,7 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	/**
 	 * Start serwisu sterowania silnikami.
 	 * 
-	 * @param deviceName
+	 * @param platformName
 	 *            Nazwa modelu, który jest podłaczony do mikrokontrolera IOIO.
 	 *            Lista obsługiwanych modelów znajduje się w klasie
 	 *            andro_mote.models.ModelFactory.
@@ -58,13 +58,15 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *         uruchomiony.
 	 * @throws MobilePlatformException
 	 */
-	public boolean startCommunicationWithDevice(String deviceName) throws MobilePlatformException {
-		checkIfServiceIsStopped();
-		checkIfApplicationIsNull();
+	//FIXME OK
+	public boolean startCommunicationWithDevice(String platformName, String driverName) throws MobilePlatformException {
+		checkExecutionPreconditions();
 
-		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_START_ENGINES_CONTROLLER);
+		//FIXME Przemianować na uniwersalną nazwę
+		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
 		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
-		pack.setDeviceName(deviceName);
+		pack.setPlatformName(platformName);
+		pack.setDriverName(driverName);
 		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		ComponentName name = application.startService(startEngineServiceIntent);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: startEngineService: component name: " + name);
@@ -84,26 +86,16 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
+	//FIXME OK
 	public boolean stopCommunicationWithDevice() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
+		checkExecutionPreconditions();
 
-		Intent closeService = new Intent(IntentsIdentifiers.ACTION_START_ENGINES_CONTROLLER);
+		Intent closeService = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
 		application.stopService(closeService);
 		isConnectionActive = false;
 		logger.debug(TAG, "AndroMoteEngineControllerApi: stopEngineService: engine service stopped");
 
 		return true;
-	}
-
-	@Override
-	public boolean checkIfConnectionIsActive() throws MobilePlatformException, UnsupportedOperationException {
-		try {
-			this.checkIfServiceIsStarted();
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
 	}
 
 	/**
@@ -118,15 +110,13 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
+	//FIXME OK
 	public boolean setPlatformSpeed(double speed) throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent setSpeed = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
+		checkExecutionPreconditions();
+		
 		Packet setSpeedPacket = new Packet(Engine.SET_SPEED);
 		setSpeedPacket.setSpeed(speed);
-		setSpeed.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) setSpeedPacket);
-		application.sendBroadcast(setSpeed);
+		createAndSendIntentWithExtra(setSpeedPacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setSpeed: speed set to: " + speed);
 
 		return true;
@@ -145,21 +135,18 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
+	//FIXME OK
 	@Override
-	public boolean setMotionMode(String motionMode) throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
+	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
+		checkExecutionPreconditions();
 
-		Intent setMotionModeIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
 		Packet setMotionModePacket = null;
-		if (motionMode.equals(EnginesControllerService.MOTION_MODE_CONTINUOUS)) {
+		if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 			setMotionModePacket = new Packet(Engine.SET_CONTINUOUS_MODE);
 		} else {
 			setMotionModePacket = new Packet(Engine.SET_STEPPER_MODE);
 		}
-
-		setMotionModeIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) setMotionModePacket);
-		application.sendBroadcast(setMotionModeIntent);
+		createAndSendIntentWithExtra(setMotionModePacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setMotionMode: motionMode set to: " + motionMode);
 
 		return true;
@@ -177,25 +164,23 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
+	//FIXME OK
 	@Override
 	public boolean setStepDuration(int stepDuration) throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
+		checkExecutionPreconditions();
 
-		Intent setStepDurationIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
 		Packet setStepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
 		setStepDurationPacket.setStepDuration(stepDuration);
-		setStepDurationIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) setStepDurationPacket);
-		application.sendBroadcast(setStepDurationIntent);
+		createAndSendIntentWithExtra(setStepDurationPacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setStepDuration: step duration set to: " + stepDuration);
 
 		return true;
 	}
 
 	/**
-	 * Zlecenie wykonania ruchu do przodu w lewo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
+	 * Przekazanie instrukcji do wykonania przez pojazd
 	 * 
+	 * @param packet pakiet wysylany do urzadzenia
 	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
 	 *         wysłany.
 	 * @throws EngineServiceException
@@ -203,89 +188,14 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
 	@Override
-	public boolean moveLeftForward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_LEFT_FORWARD_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveLeftForward");
-
+	public boolean sendMessageToDevice(IPacket packet) throws MobilePlatformException, UnsupportedOperationException {
+		checkExecutionPreconditions();
+		createAndSendIntentWithExtra(packet);
+		logger.debug(TAG,
+				"AndroMoteApi: sending message to servicedevice;PacketType: " + ((Packet) packet).getPacketType());
 		return true;
 	}
 
-	/**
-	 * Zlecenie wykonania ruchu do przodu. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	@Override
-	public boolean moveForward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveForwardIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveForwardIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_FORWARD_REQUEST));
-		application.sendBroadcast(moveForwardIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveForward");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania ruchu do przodu w prawo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	@Override
-	public boolean moveRightForward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_RIGHT_FORWARD_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveRightForward");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania ruchu w lewo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	@Override
-	public boolean moveLeft() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(Motion.MOVE_LEFT_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveLeft");
-
-		return true;
-	}
 
 	/**
 	 * Zlecenie zatrzymania węzła.
@@ -298,8 +208,7 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 */
 	@Override
 	public boolean stopMobilePlatform() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
+		checkExecutionPreconditions();
 
 		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
 		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(Motion.STOP_REQUEST));
@@ -309,208 +218,29 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 		return true;
 	}
 
-	/**
-	 * Zlecenie wykonania ruchu w prawo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean moveRight() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent
-				.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(Motion.MOVE_RIGHT_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveRight");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania ruchu do tyłu w lewo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean moveLeftBackward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_LEFT_BACKWARD_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveLeftBackward");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania ruchu do tyłu. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean moveBackward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_BACKWARD_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveBackward");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania ruchu do tyłu w prawo. W zależności od trybu jest to
-	 * nieprzerwany ruch lub zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean moveRightBackward() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_RIGHT_BACKWARD_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: moveRightBackward");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania skrętu w prawo o 90 stopni. Niezależnie od trybu ruchu
-	 * węzła jest to zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean turn90RightDegrees() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_RIGHT_90_DEGREES_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: turn90RightDegrees");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania skrętu w lewo o 90 stopni. Niezależnie od trybu ruchu
-	 * węzła jest to zakolejkowanie kroku.
-	 * 
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean turn90LeftDegrees() throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(
-				Motion.MOVE_LEFT_90_DEGREES_REQUEST));
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: turn90LeftDegrees");
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania skrętu w prawo o kreśloną przez użytkownika liczbę
-	 * stopni. Niezależnie od trybu ruchu węzła jest to zakolejkowanie kroku.
-	 * 
-	 * @param bearing
-	 *            liczba stopni o jakie ma zostać wykonany skręt
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		Packet pack = new Packet(Motion.MOVE_RIGHT_DEGREES_REQUEST);
-		pack.setBearing(bearing);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: turnRightDegrees: " + bearing);
-
-		return true;
-	}
-
-	/**
-	 * Zlecenie wykonania skrętu w lewo o kreśloną przez użytkownika liczbę
-	 * stopni. Niezależnie od trybu ruchu węzła jest to zakolejkowanie kroku.
-	 * 
-	 * @param bearing
-	 *            liczba stopni o jakie ma zostać wykonany skręt
-	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
-	 *         wysłany.
-	 * @throws EngineServiceException
-	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
-	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
-	 */
-	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
-		this.checkIfServiceIsStarted();
-		this.checkIfApplicationIsNull();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		Packet pack = new Packet(Motion.MOVE_RIGHT_DEGREES_REQUEST);
-		pack.setBearing(bearing);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
-		application.sendBroadcast(moveIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: turnLeftDegrees: " + bearing);
-
-		return true;
-	}
-
+	//FIXME Czy to jest potrzebne?
 	@Override
-	public boolean sendMessageToDevice(IPacket pack) throws MobilePlatformException, UnsupportedOperationException {
+	public boolean checkIfConnectionIsActive() throws MobilePlatformException, UnsupportedOperationException {
+		try {
+			this.checkIfServiceIsStarted();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	// PRIVATE
+	private void createAndSendIntentWithExtra(IPacket pack) {
 		Intent sendInfoIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
 
 		sendInfoIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		application.sendBroadcast(sendInfoIntent);
-		logger.debug(TAG,
-				"AndroMoteApi: sending message to servicedevice;PacketType: " + ((Packet) pack).getPacketType());
-		return true;
 	}
 
-	// PRIVATE
+	private void checkExecutionPreconditions() throws MobilePlatformException {
+		checkIfServiceIsStopped();
+		checkIfApplicationIsNull();
+	}
 
 	private void checkIfServiceIsStarted() throws MobilePlatformException {
 		if (!isConnectionActive) {

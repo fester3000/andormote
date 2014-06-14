@@ -38,7 +38,8 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	private double speed = 0.0;
 	private PacketType.IPacketType stepDirection = null;
 	private long stepDuration = 600;
-	private String deviceName = "";
+	private String platformName = "";
+	private String driverName = "";
 	private Packet packet = null;
 	private ArrayList<String> devicesList = null;
 	private int nodeStatus = 0;
@@ -56,7 +57,8 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.speed = pc.readDouble();
 		this.stepDirection = (IPacketType) pc.readSerializable();
 		this.stepDuration = pc.readLong();
-		this.deviceName = pc.readString();
+		this.platformName = pc.readString();
+		this.driverName = pc.readString();
 		this.packet = (Packet) pc.readSerializable();
 		this.devicesList = (ArrayList<String>) pc.readArrayList(null);
 		this.nodeStatus = pc.readInt();
@@ -76,7 +78,8 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		dest.writeDouble(speed);
 		dest.writeSerializable((Serializable) stepDirection);
 		dest.writeLong(stepDuration);
-		dest.writeString(deviceName);
+		dest.writeString(platformName);
+		dest.writeString(driverName);
 		dest.writeSerializable(packet);
 		dest.writeList(devicesList);
 		dest.writeInt(nodeStatus);
@@ -186,15 +189,15 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.stepDuration = stepDuration;
 	}
 
-	public String getDeviceName() {
-		if (deviceName == null)
+	public String getPlatformName() {
+		if (platformName == null)
 			return "";
 		else
-			return deviceName;
+			return platformName;
 	}
 
-	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName;
+	public void setPlatformName(String platformName) {
+		this.platformName = platformName;
 	}
 
 	public Packet getPacket() {
@@ -211,6 +214,14 @@ public class Packet implements Serializable, Parcelable, IPacket {
 
 	public void setBearing(int bearing) {
 		this.bearing = bearing;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.apache.log4j.BasicConfigurator;
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
+import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
@@ -117,7 +118,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	 */
 	private void startEngineService() {
 		// start serwisu silników
-		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_START_ENGINES_CONTROLLER);
+		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
 		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
 		pack.setDeviceName(RNVN2Model.class.getName());
 		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
@@ -163,7 +164,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	 * mikrokontrolerem przed kolejną próbą połaczenia.
 	 */
 	private void stopEngineService() {
-		Intent closeService = new Intent(IntentsIdentifiers.ACTION_START_ENGINES_CONTROLLER);
+		Intent closeService = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
 		stopService(closeService);
 	}
 
@@ -261,13 +262,13 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 			}
 		} else if (v.getId() == R.id.setContinuousModeButton) {
 			try {
-				this.api.setMotionMode(EnginesControllerService.MOTION_MODE_CONTINUOUS);
+				this.api.setMotionMode(MotionModes.MOTION_MODE_CONTINUOUS);
 			} catch (MobilePlatformException e) {
 				e.printStackTrace();
 			}
 		} else if (v.getId() == R.id.setStepperModeButton) {
 			try {
-				this.api.setMotionMode(EnginesControllerService.MOTION_MODE_STEPPER);
+				this.api.setMotionMode(MotionModes.MOTION_MODE_STEPPER);
 			} catch (MobilePlatformException e) {
 				e.printStackTrace();
 			}

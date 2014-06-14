@@ -1,75 +1,76 @@
-package andro_mote.devices;
+package andro_mote.devices.platforms;
 
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.motorDrivers.MotorDriver;
 import andro_mote.ioio_service.EngineControllerLooper;
 import andro_mote.ioio_service.EnginesControllerService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 
-public class NewBrightModel extends AbstractModel {
+public class PlatformNewBright extends PlatformAbstract {
 
-	private static final String TAG = NewBrightModel.class.getName();
-	private AndroMoteLogger logger = new AndroMoteLogger(NewBrightModel.class);
+	private static final String TAG = PlatformNewBright.class.getName();
+	private AndroMoteLogger logger = new AndroMoteLogger(PlatformNewBright.class);
 
 	private static final int STEPS_DELAY = 1000;
 	
 	// private double operationSpeed = 1;
 
-	public NewBrightModel(EngineControllerLooper looper) {
-		super(looper);
+	public PlatformNewBright(MotorDriver driver) {
+		super(driver);
 	}
 
 	@Override
 	public void steerLeft() {
-		looper.servoVoltage = 1;
-		looper.servoLeft = false;
-		looper.servoRight = true;
+		driver.servoVoltage = 1;
+		driver.servoLeft = false;
+		driver.servoRight = true;
 	}
 
 	@Override
 	public void steerRight() {
-		this.looper.servoVoltage = 1;
-		this.looper.servoLeft = true;
-		this.looper.servoRight = false;
+		this.driver.servoVoltage = 1;
+		this.driver.servoLeft = true;
+		this.driver.servoRight = false;
 	}
 
 	@Override
 	public void steerCenter() {
-		this.looper.servoVoltage = 0;
-		this.looper.servoLeft = false;
-		this.looper.servoRight = true;
+		this.driver.servoVoltage = 0;
+		this.driver.servoLeft = false;
+		this.driver.servoRight = true;
 	}
 
 	@Override
 	public void moveForward(double speed) {
-		this.looper.engineGearBackward = false;
-		this.looper.engineGearForward = true;
-		this.looper.engineFreq = speed;
+		this.driver.engineGearBackward = false;
+		this.driver.engineGearForward = true;
+		this.driver.engineFreq = speed;
 
 	}
 
 	@Override
 	public void moveBackward(double speed) {
-		this.looper.engineGearBackward = true;
-		this.looper.engineGearForward = false;
-		this.looper.engineFreq = speed;
+		this.driver.engineGearBackward = true;
+		this.driver.engineGearForward = false;
+		this.driver.engineFreq = speed;
 	}
 
 	@Override
 	public void stop() {
-		this.looper.engineFreq = 0;
-		this.looper.engineGearBackward = false;
-		this.looper.engineGearForward = false;
+		this.driver.engineFreq = 0;
+		this.driver.engineGearBackward = false;
+		this.driver.engineGearForward = false;
 		this.steerCenter();
 	}
 
 	@Override
 	public void turn90Right() {
 		logger.debug(TAG, "NewBrightModel: turn90Right");
-		if (!this.looper.getParentControllerService().isOperationExecuted()) {
-			this.looper.getParentControllerService().setOperationExecuted(true);
+		if (!this.driver.getParentControllerService().isOperationExecuted()) {
+			this.driver.getParentControllerService().setOperationExecuted(true);
 			registerCompassListeners();
 			TurnRightThread turnRightThread = new TurnRightThread(90);
 			turnRightThread.startThread();
@@ -79,8 +80,8 @@ public class NewBrightModel extends AbstractModel {
 	@Override
 	public void turn90Left() {
 		logger.debug(TAG, "NewBrightModel: turn90Left");
-		if (!this.looper.getParentControllerService().isOperationExecuted()) {
-			this.looper.getParentControllerService().setOperationExecuted(true);
+		if (!this.driver.getParentControllerService().isOperationExecuted()) {
+			this.driver.getParentControllerService().setOperationExecuted(true);
 			registerCompassListeners();
 			TurnLeftThread turnLeftThread = new TurnLeftThread(90);
 			turnLeftThread.startThread();
@@ -90,8 +91,8 @@ public class NewBrightModel extends AbstractModel {
 	@Override
 	public void turnRightDegrees(int degrees) {
 		logger.debug(TAG, "NewBrightModel: turnRightDegrees: " + degrees);
-		if (!this.looper.getParentControllerService().isOperationExecuted()) {
-			this.looper.getParentControllerService().setOperationExecuted(true);
+		if (!this.driver.getParentControllerService().isOperationExecuted()) {
+			this.driver.getParentControllerService().setOperationExecuted(true);
 
 			// registering compass
 			registerCompassListeners();
@@ -104,8 +105,8 @@ public class NewBrightModel extends AbstractModel {
 	@Override
 	public void turnLeftDegrees(int degrees) {
 		logger.debug(TAG, "NewBrightModel: turnLeftDegrees: " + degrees);
-		if (!this.looper.getParentControllerService().isOperationExecuted()) {
-			this.looper.getParentControllerService().setOperationExecuted(true);
+		if (!this.driver.getParentControllerService().isOperationExecuted()) {
+			this.driver.getParentControllerService().setOperationExecuted(true);
 
 			registerCompassListeners();
 
@@ -115,29 +116,29 @@ public class NewBrightModel extends AbstractModel {
 	}
 
 	private boolean isSteerLeft() {
-		if (this.looper.servoVoltage == 1 && this.looper.servoLeft == false && this.looper.servoRight == true) {
+		if (this.driver.servoVoltage == 1 && this.driver.servoLeft == false && this.driver.servoRight == true) {
 			return true;
 		} else
 			return false;
 	}
 
 	private boolean isSteerRight() {
-		if (this.looper.servoVoltage == 1 && this.looper.servoLeft == true && this.looper.servoRight == false) {
+		if (this.driver.servoVoltage == 1 && this.driver.servoLeft == true && this.driver.servoRight == false) {
 			return true;
 		} else
 			return false;
 	}
 
 	private boolean isSteerCenter() {
-		if (this.looper.servoVoltage == 0 && this.looper.servoLeft == false && this.looper.servoRight == true) {
+		if (this.driver.servoVoltage == 0 && this.driver.servoLeft == false && this.driver.servoRight == true) {
 			return true;
 		} else
 			return false;
 	}
 
 	private boolean isMoveForward() {
-		if (this.looper.engineGearBackward == false && this.looper.engineGearForward == true
-				&& this.looper.engineFreq != 0) {
+		if (this.driver.engineGearBackward == false && this.driver.engineGearForward == true
+				&& this.driver.engineFreq != 0) {
 			return true;
 		} else {
 			return false;
@@ -145,8 +146,8 @@ public class NewBrightModel extends AbstractModel {
 	}
 
 	private boolean isMoveBackward() {
-		if (this.looper.engineGearBackward == true && this.looper.engineGearForward == false
-				&& this.looper.engineFreq != 0) {
+		if (this.driver.engineGearBackward == true && this.driver.engineGearForward == false
+				&& this.driver.engineFreq != 0) {
 			return true;
 		} else {
 			return false;
@@ -154,7 +155,7 @@ public class NewBrightModel extends AbstractModel {
 	}
 
 	private boolean isStopped() {
-		if (this.looper.engineFreq == 0) {
+		if (this.driver.engineFreq == 0) {
 			return true;
 		} else {
 			return false;
@@ -167,31 +168,31 @@ public class NewBrightModel extends AbstractModel {
 	 */
 	private void setValuesForSimpleStep(IPacketType packetType) {
 		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			looper.getModel().moveForward(EnginesControllerService.getSpeed());
-			looper.getModel().steerLeft();
+			driver.getModel().moveForward(EnginesControllerService.getSpeed());
+			driver.getModel().steerLeft();
 		} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
-			looper.getModel().moveForward(EnginesControllerService.getSpeed());
-			looper.getModel().steerCenter();
+			driver.getModel().moveForward(EnginesControllerService.getSpeed());
+			driver.getModel().steerCenter();
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-			looper.getModel().moveForward(EnginesControllerService.getSpeed());
-			looper.getModel().steerRight();
+			driver.getModel().moveForward(EnginesControllerService.getSpeed());
+			driver.getModel().steerRight();
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
-			looper.getModel().moveForward(0.0);
-			looper.getModel().steerLeft();
+			driver.getModel().moveForward(0.0);
+			driver.getModel().steerLeft();
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
-			looper.getModel().moveForward(0.0);
-			looper.getModel().steerRight();
+			driver.getModel().moveForward(0.0);
+			driver.getModel().steerRight();
 		} else if (packetType == PacketType.Motion.STOP_REQUEST) {
-			looper.getModel().stop();
+			driver.getModel().stop();
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			looper.getModel().moveBackward(EnginesControllerService.getSpeed());
-			looper.getModel().steerLeft();
+			driver.getModel().moveBackward(EnginesControllerService.getSpeed());
+			driver.getModel().steerLeft();
 		} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
-			looper.getModel().moveBackward(EnginesControllerService.getSpeed());
-			looper.getModel().steerCenter();
+			driver.getModel().moveBackward(EnginesControllerService.getSpeed());
+			driver.getModel().steerCenter();
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-			looper.getModel().moveBackward(EnginesControllerService.getSpeed());
-			looper.getModel().steerRight();
+			driver.getModel().moveBackward(EnginesControllerService.getSpeed());
+			driver.getModel().steerRight();
 		}
 	}
 
@@ -285,19 +286,19 @@ public class NewBrightModel extends AbstractModel {
 			// praktycznie zerowe na doublach, więc ten sposób może być dobry
 
 			int waitCounter = 0;
-			while ((looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0
-					|| looper.getParentControllerService().getCompass().getMagneticFieldSensorAccuracy() == 0 || looper
+			while ((driver.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0
+					|| driver.getParentControllerService().getCompass().getMagneticFieldSensorAccuracy() == 0 || driver
 					.getParentControllerService().getCompass().getBearing() == 0.0)
 					&& waitCounter < 5) {
 				try {
 					logger.debug(TAG,
 							"looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy(): "
-									+ looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy());
+									+ driver.getParentControllerService().getCompass().getAccelerometerSensorAccuracy());
 					logger.debug(TAG,
 							"looper.getParentControllerService().getCompass().getMagneticFieldSensorAccuracy(): "
-									+ looper.getParentControllerService().getCompass().getMagneticFieldSensorAccuracy());
+									+ driver.getParentControllerService().getCompass().getMagneticFieldSensorAccuracy());
 					logger.debug(TAG, "looper.getParentControllerService().getCompass().getBearing()"
-							+ looper.getParentControllerService().getCompass().getBearing());
+							+ driver.getParentControllerService().getCompass().getBearing());
 					Thread.sleep(1000);
 					waitCounter++;
 				} catch (InterruptedException e) {
@@ -305,19 +306,19 @@ public class NewBrightModel extends AbstractModel {
 				}
 				logger.debug(TAG, "NewBrightModel: waiting for registering sensors...");
 			}
-			if ((looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || looper
+			if ((driver.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || driver
 					.getParentControllerService().getCompass().getBearing() == 0.0)) {
 				logger.debug(TAG,
 						"NewBrightModel: turn left thread: sensors cannot be initialized. Step cannot be executed!");
-				looper.getParentControllerService().sendStepExecutionErrorBroadcast(
+				driver.getParentControllerService().sendStepExecutionErrorBroadcast(
 						(Motion) Step.getTakenStep(Motion.MOVE_LEFT_DEGREES));
-				looper.getParentControllerService().setOperationExecuted(false);
+				driver.getParentControllerService().setOperationExecuted(false);
 				return;
 			}
 
-			startAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+			startAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 			logger.debug(TAG, "startAzimut turn left: " + startAzimut);
-			currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+			currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 			logger.debug(TAG, "turn turn left: " + turn);
 
 			// nowa wersja wyznaczania pozycji
@@ -344,20 +345,20 @@ public class NewBrightModel extends AbstractModel {
 							// do tyłu w prawo
 							steerRight();
 							moveBackward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							Thread.sleep(100);
 							// logTimestamp(logger, TAG);
 							steerLeft();
 							moveForward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							// oczekiwanie na ustabilizowanie kompasu
 							Thread.sleep(STEPS_DELAY);
 							// logTimestamp(logger, TAG);
-							currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+							currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 
 							logger.debug(TAG, "NewBrightModel: turnleft: step: " + step + "(max_steps=" + maxSteps
 									+ ");current azimut after loop: " + currentAzimut);
@@ -376,19 +377,19 @@ public class NewBrightModel extends AbstractModel {
 							// do tyłu w prawo
 							steerRight();
 							moveBackward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							Thread.sleep(500);
 							// logTimestamp(logger, TAG);
 							steerLeft();
 							moveForward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							Thread.sleep(STEPS_DELAY);
 							// logTimestamp(logger, TAG);
-							currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+							currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 
 							logger.debug(TAG, "NewBrightModel: turnLeft: step: " + step
 									+ ";current azimut after loop: " + currentAzimut);
@@ -401,14 +402,14 @@ public class NewBrightModel extends AbstractModel {
 				}
 
 				logger.debug(TAG, "final position after turn left (" + turn + ": "
-						+ (int) looper.getParentControllerService().getCompass().getBearing());
-				looper.getParentControllerService().getCompass().unregisterListeners();
+						+ (int) driver.getParentControllerService().getCompass().getBearing());
+				driver.getParentControllerService().getCompass().unregisterListeners();
 
-				looper.getParentControllerService().setOperationExecuted(false);
+				driver.getParentControllerService().setOperationExecuted(false);
 
-				if (looper.getParentControllerService().isSendStepExecutedPacket()) {
+				if (driver.getParentControllerService().isSendStepExecutedPacket()) {
 					logger.debug(TAG, "NewBrightModel: broadcasting step executed: " + Motion.MOVE_LEFT_DEGREES);
-					looper.getParentControllerService().sendStepExecutedBroadcast(
+					driver.getParentControllerService().sendStepExecutedBroadcast(
 							(Motion) Step.getTakenStep(Motion.MOVE_LEFT_DEGREES_REQUEST), stepStopTime - stepStartTime,
 							EnginesControllerService.getSpeed());
 				}
@@ -455,7 +456,7 @@ public class NewBrightModel extends AbstractModel {
 			// różny od 0.0 (bo prawdopodobieństwo takiej wartości jest
 			// praktycznie zerowe na doublach, więc ten sposób może być dobry
 			int waitCounter = 0;
-			while ((looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || looper
+			while ((driver.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || driver
 					.getParentControllerService().getCompass().getBearing() == 0.0)
 					&& waitCounter < 5) {
 				try {
@@ -467,19 +468,19 @@ public class NewBrightModel extends AbstractModel {
 				logger.debug(TAG, "NewBrightModel: waiting for registering sensors...");
 			}
 
-			if ((looper.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || looper
+			if ((driver.getParentControllerService().getCompass().getAccelerometerSensorAccuracy() == 0 || driver
 					.getParentControllerService().getCompass().getBearing() == 0.0)) {
 				logger.debug(TAG,
 						"NewBrightModel: turn left thread: sensors cannot be initialized. Step cannot be executed!");
-				looper.getParentControllerService().sendStepExecutionErrorBroadcast(
+				driver.getParentControllerService().sendStepExecutionErrorBroadcast(
 						(Motion) Step.getTakenStep(Motion.MOVE_RIGHT_DEGREES));
-				looper.getParentControllerService().setOperationExecuted(false);
+				driver.getParentControllerService().setOperationExecuted(false);
 				return;
 			}
 
-			startAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+			startAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 			logger.debug(TAG, "startAzimut turn right: " + startAzimut);
-			currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+			currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 			logger.debug(TAG, "turn right: " + turn);
 
 			// targetBearing = (startAzimut - turn) % 360;
@@ -516,20 +517,20 @@ public class NewBrightModel extends AbstractModel {
 							// do tyłu w prawo
 							steerLeft();
 							moveBackward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							Thread.sleep(100);
 							// logTimestamp(logger, TAG);
 							steerRight();
 							moveForward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							// oczekiwanie na ustabilizowanie kompasu
 							Thread.sleep(STEPS_DELAY);
 							// logTimestamp(logger, TAG);
-							currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+							currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 
 							logger.debug(TAG, "NewBrightModel: turnRight: step: " + step + "(max_steps=" + maxSteps
 									+ ");current azimut after loop: " + currentAzimut);
@@ -548,16 +549,16 @@ public class NewBrightModel extends AbstractModel {
 							// do tyłu w prawo
 							steerLeft();
 							moveBackward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							// logTimestamp(logger, TAG);
 							stop();
 							Thread.sleep(500);
 							steerRight();
 							moveForward(EnginesControllerService.getSpeed());
-							Thread.sleep(looper.getParentControllerService().getStepDuration());
+							Thread.sleep(driver.getParentControllerService().getStepDuration());
 							stop();
 							Thread.sleep(STEPS_DELAY);
-							currentAzimut = (int) looper.getParentControllerService().getCompass().getBearing();
+							currentAzimut = (int) driver.getParentControllerService().getCompass().getBearing();
 
 							logger.debug(TAG, "NewBrightModel: turnRight: step: " + step
 									+ ";current azimut after loop: " + currentAzimut);
@@ -570,16 +571,16 @@ public class NewBrightModel extends AbstractModel {
 				}
 
 				logger.debug(TAG, "final position after turn left (" + turn + ": "
-						+ (int) looper.getParentControllerService().getCompass().getBearing());
-				looper.getParentControllerService().getCompass().unregisterListeners();
+						+ (int) driver.getParentControllerService().getCompass().getBearing());
+				driver.getParentControllerService().getCompass().unregisterListeners();
 
-				looper.getParentControllerService().setOperationExecuted(false);
+				driver.getParentControllerService().setOperationExecuted(false);
 				unregisterCompassListeners();
 
 				// wysyłanie pakietu z informacją o wykonanym kroku
-				if (looper.getParentControllerService().isSendStepExecutedPacket()) {
+				if (driver.getParentControllerService().isSendStepExecutedPacket()) {
 					logger.debug(TAG, "NewBrightModel: broadcasting step executed: " + Motion.MOVE_RIGHT_DEGREES);
-					looper.getParentControllerService().sendStepExecutedBroadcast(
+					driver.getParentControllerService().sendStepExecutedBroadcast(
 							(Motion) Step.getTakenStep(Motion.MOVE_RIGHT_DEGREES_REQUEST),
 							stepStopTime - stepStartTime, EnginesControllerService.getSpeed());
 				}
@@ -614,32 +615,32 @@ public class NewBrightModel extends AbstractModel {
 			long stepStartTime = 0;
 			long stepStopTime = 0;
 			try {
-				looper.getParentControllerService().setOperationExecuted(true);
+				driver.getParentControllerService().setOperationExecuted(true);
 				stepStartTime = System.currentTimeMillis();
 
 				// zmiana stanu silników
 				setValuesForSimpleStep(step.getStepType());
 
 				// początek kroku
-				Thread.sleep(looper.getParentControllerService().getStepDuration());
+				Thread.sleep(driver.getParentControllerService().getStepDuration());
 				stepStopTime = System.currentTimeMillis();
 				// koniec kroku
 
 				// zatrzymanie węzła
-				NewBrightModel.this.stop();
+				PlatformNewBright.this.stop();
 
 				// przerwa pomiędzy kolejnymi krokami
 				Thread.sleep(EnginesControllerService.getPauseTimeBetweenSteps());
 			} catch (InterruptedException e) {
 				logger.error(TAG, e);
 			} finally {
-				looper.getParentControllerService().setOperationExecuted(false);
+				driver.getParentControllerService().setOperationExecuted(false);
 			}
 
 			// wysyłanie pakietu z informacją o wykonanym kroku
-			if (looper.getParentControllerService().isSendStepExecutedPacket()) {
+			if (driver.getParentControllerService().isSendStepExecutedPacket()) {
 				logger.debug(TAG, "NewBrightModel: broadcasting step executed: " + step.getStepType());
-				looper.getParentControllerService().sendStepExecutedBroadcast(
+				driver.getParentControllerService().sendStepExecutedBroadcast(
 						(Motion) Step.getTakenStep((Motion) step.getStepType()), stepStopTime - stepStartTime,
 						EnginesControllerService.getSpeed());
 			}

@@ -15,8 +15,10 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.compass.Compass;
-import andro_mote.devices.ModelFactory;
-import andro_mote.devices.NewBrightModel;
+import andro_mote.devices.DeviceFactory;
+import andro_mote.devices.motorDrivers.MotorDriverFactory;
+import andro_mote.devices.platforms.ModelFactory;
+import andro_mote.devices.platforms.PlatformNewBright;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.content.BroadcastReceiver;
@@ -25,9 +27,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.os.Parcelable;
+import andro_mote.commons.MotionModes;
 
 public class EnginesControllerService extends IOIOService {
 	private static final String TAG = EnginesControllerService.class.getName();
+
+	/**
+	 * Maksymalny czas trwania kroku w trybie MOTION_MODE_STEPPER
+	 */
+	private static final int MAX_STEP_DURATION = 2000;
+
+	/**
+	 * Minimalna prędkość silników. Zabezpieczenie przed małą mocą.
+	 */
+	private static final double MIN_SPEED = 0.4;
 
 	private EnginesControllerBroadcastReceiver enginesReceiver = null;
 	private AndroMoteLogger logger = new AndroMoteLogger(EnginesControllerBroadcastReceiver.class);
@@ -38,17 +51,7 @@ public class EnginesControllerService extends IOIOService {
 	/**
 	 * Aktualna prędkość silnika.
 	 */
-	public static double SPEED = 0.6;
-
-	/**
-	 * Minimalna prędkość silników. Zabezpieczenie przed małą mocą.
-	 */
-	public static double MIN_SPEED = 0.4;
-
-	/**
-	 * Maksymalny czas trwania kroku w trybie MOTION_MODE_STEPPER
-	 */
-	private static final int MAX_STEP_DURATION = 2000;
+	private static double currentSpeed = 0.6;
 
 	/**
 	 * Czas oczekiwania pomiędzy kolejnymi krokami.
@@ -62,19 +65,12 @@ public class EnginesControllerService extends IOIOService {
 	/**
 	 * Nazwa aktualnie obsługiwanego modelu.
 	 */
-	private String modelName = null;
+	private String platformName = null;
 
 	/**
-	 * Krokowy tryb poruszania się samochodu z rozgłaszaniem wykonywanych
-	 * kroków.
+	 * Nazwa aktualnie obsługiwanego modelu.
 	 */
-	public static String MOTION_MODE_STEPPER = "stepper";
-
-	/**
-	 * Ciągły tryb poruszania - kroki nie są zapisywane, ale zmiana kierunku
-	 * ruchu jest atychmiastowa.
-	 */
-	public static String MOTION_MODE_CONTINUOUS = "continuous";
+	private String driverName = null;
 
 	/**
 	 * Tryb ruchu samochodu.
@@ -82,7 +78,7 @@ public class EnginesControllerService extends IOIOService {
 	 * @see EnginesControllerService.MOVING_MODE_CONTINUOUS
 	 * @see EnginesControllerService.MOVING_MODE_STEPPER
 	 */
-	private String motionMode = MOTION_MODE_CONTINUOUS;
+	private MotionModes motionMode = MotionModes.MOTION_MODE_CONTINUOUS;
 
 	/**
 	 * Flaga informująca o tym czy wykonywana jest operacja np. skrętu o
@@ -106,29 +102,8 @@ public class EnginesControllerService extends IOIOService {
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-
 		logger.debug(TAG, "engineService; onStart(); startId=" + startId);
-		try {
-			Packet pack = (Packet) intent.getSerializableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
-			if (pack != null && pack.getDeviceName() != null) {
-				logger.debug(TAG, "Engines Service: setting model name: " + pack.getDeviceName());
-				this.modelName = pack.getDeviceName();
-			} else {
-				logger.debug(TAG,
-						"Engines Service: input packet empty; setting model name: " + NewBrightModel.class.getName());
-				this.modelName = NewBrightModel.class.getName();
-			}
-		} catch (NullPointerException e) {
-			logger.error(TAG, e);
-		} catch (Exception e) {
-			logger.error(TAG, e);
-		}
-
-		if (this.compass == null) {
-			this.compass = new Compass(this.getApplicationContext());
-			this.compass.unregisterListeners();
-		}
-
+		trySetupDevicesWithExtrasFrom(intent); 
 		super.onStart(intent, startId);
 		this.initStepsList();
 	}
@@ -136,37 +111,36 @@ public class EnginesControllerService extends IOIOService {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
+		logger = new AndroMoteLogger(EnginesControllerBroadcastReceiver.class);
 		logger.debug(TAG, "engineService; onStartCommand(); startId=" + startId);
-		try {
-			logger = new AndroMoteLogger(EnginesControllerBroadcastReceiver.class);
-			AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
-			logger.debug(TAG, "onStartCommand engine service");
-
-			Packet pack = (Packet) intent.getParcelableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
-			if (pack != null && pack.getDeviceName() != null) {
-				logger.debug(TAG, "Engines Service: setting model name: " + pack.getDeviceName());
-				this.modelName = pack.getDeviceName();
-			} else {
-				logger.debug(TAG,
-						"Engines Service: input packet empty; setting model name: " + NewBrightModel.class.getName());
-				this.modelName = NewBrightModel.class.getName();
-			}
-		} catch (Exception e) {
-			logger.error(TAG, e);
-		}
-
+		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
+		logger.debug(TAG, "onStartCommand engine service");
+		trySetupDevicesWithExtrasFrom(intent); 
 		this.isOperationExecuted = false;
-
 		initReceiver();
-
-		if (this.compass == null) {
-			this.compass = new Compass(this.getApplicationContext());
-			this.compass.unregisterListeners();
-		}
-
 		super.onStartCommand(intent, flags, startId);
 
 		return startId;
+	}
+
+	private void trySetupDevicesWithExtrasFrom(Intent intent) {
+		try {
+			Packet pack = (Packet) intent.getParcelableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
+			if (pack != null && pack.getModelName() != null && pack.getDriverName() != null) {
+				logger.debug(TAG, "Engines Service: setting model name: " + pack.getModelName());
+				this.platformName = pack.getModelName();
+				this.driverName = pack.getDriverName();
+				if (this.compass == null) {
+					this.compass = new Compass(this.getApplicationContext());
+					this.compass.unregisterListeners();
+				}
+			} else {
+				logger.debug(TAG, "Engines Service: input packet has no device info;");
+				//TODO zabezpieczyć przed sytuacją niedookreśloną			
+			}
+		} catch (NullPointerException e) {
+			logger.error(TAG, e);
+		}
 	}
 
 	@Override
@@ -174,7 +148,6 @@ public class EnginesControllerService extends IOIOService {
 		this.compass.unregisterListeners();
 		this.unregisterEngineMessagesReceiver();
 		super.onDestroy();
-
 	}
 
 	/**
@@ -191,7 +164,7 @@ public class EnginesControllerService extends IOIOService {
 	 * Pobranie kolejnego kroku z kolejki.
 	 */
 	public synchronized Step getNextStep() {
-		if (motionMode.equals(EnginesControllerService.MOTION_MODE_STEPPER) && stepsQueue != null
+		if (motionMode.equals(MotionModes.MOTION_MODE_STEPPER) && stepsQueue != null
 				&& stepsQueue.size() > 0) {
 			Step step = stepsQueue.getFirst();
 			stepsQueue.removeFirst();
@@ -365,7 +338,7 @@ public class EnginesControllerService extends IOIOService {
 
 			// odrzucenie pakietów Engine i Motion w przypadku wykonywania
 			// zadania
-			if (motionMode.equals(EnginesControllerService.MOTION_MODE_CONTINUOUS) && isOperationExecuted
+			if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS) && isOperationExecuted
 					&& (inputPacket.getPacketType() instanceof Motion || inputPacket.getPacketType() instanceof Engine)) {
 				logger.debug(TAG, "Engine Service: incoming packet instanceof: " + inputPacket.getPacketType()
 						+ " rejected - operationIsExecuted");
@@ -377,18 +350,18 @@ public class EnginesControllerService extends IOIOService {
 
 			// zmiany ustawień dotyczących ruchu
 			if (inputPacket.getPacketType() == PacketType.Engine.SET_STEPPER_MODE) {
-				if (EnginesControllerService.this.motionMode.equals(EnginesControllerService.MOTION_MODE_CONTINUOUS)) {
+				if (EnginesControllerService.this.motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 					logger.debug(TAG, "zmiana trybu ruchu na krokowy");
-					EnginesControllerService.this.setControllMode(EnginesControllerService.MOTION_MODE_STEPPER);
+					EnginesControllerService.this.setControlMode(MotionModes.MOTION_MODE_STEPPER);
 					// zerowanie kolejki ruchów
 					if (stepsQueue != null && stepsQueue.size() > 0) {
 						stepsQueue.clear();
 					}
 				}
 			} else if (inputPacket.getPacketType() == PacketType.Engine.SET_CONTINUOUS_MODE) {
-				if (EnginesControllerService.this.motionMode.equals(EnginesControllerService.MOTION_MODE_STEPPER)) {
+				if (EnginesControllerService.this.motionMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
 					logger.debug(TAG, "zmiana trybu ruchu na ciągły");
-					EnginesControllerService.this.setControllMode(EnginesControllerService.MOTION_MODE_CONTINUOUS);
+					EnginesControllerService.this.setControlMode(MotionModes.MOTION_MODE_CONTINUOUS);
 					if (stepsQueue != null && stepsQueue.size() > 0) {
 						stepsQueue = null;
 					}
@@ -403,9 +376,9 @@ public class EnginesControllerService extends IOIOService {
 			} else if (inputPacket.getPacketType() == PacketType.Connection.NODE_CONNECTION_STATUS_REQUEST) {
 				logger.debug(TAG, "engine service: sending motion mode: " + motionMode);
 				Packet pack = null;
-				if (motionMode.equals(MOTION_MODE_CONTINUOUS)) {
+				if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 					pack = new Packet(PacketType.Engine.CONTINUOUS_MODE_RESPONSE);
-				} else if (motionMode.equals(MOTION_MODE_STEPPER)) {
+				} else if (motionMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
 					pack = new Packet(PacketType.Engine.STEPPER_MODE_RESPONSE);
 				}
 				broadcastEngineIntent(pack);
@@ -421,9 +394,9 @@ public class EnginesControllerService extends IOIOService {
 			}
 			// pakiety ruchu
 			else if (inputPacket.getPacketType() instanceof PacketType.Motion) {
-				if (motionMode.equals(EnginesControllerService.MOTION_MODE_CONTINUOUS)) {
+				if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 					interpretMotionPacketContinuous(inputPacket);
-				} else if (motionMode.equals(EnginesControllerService.MOTION_MODE_STEPPER)) {
+				} else if (motionMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
 					interpretMotionPacketStepper(inputPacket);
 				}
 			}
@@ -486,41 +459,35 @@ public class EnginesControllerService extends IOIOService {
 	protected IOIOLooper createIOIOLooper() {
 		logger.debug(TAG, "EnginesControllerService: creating IOIOLooper");
 		try {
-			looper = new EngineControllerLooper();
+			looper = new EngineControllerLooper(this, platformName, driverName);
 			logger.debug(TAG, "looper created...");
 		} catch (ConnectionLostException e) {
 			logger.error(TAG, e);
+		} catch (UnknownDeviceException e) {
+			logger.error(TAG, e);
+			this.stopEngineServiceOnError();
 		} catch (InterruptedException e) {
 			logger.error(TAG, e);
 		}
 		logger.debug(TAG, "setting looper in service...");
-		looper.setParentControllerService(this);
 		logger.debug(TAG, "creating model...");
-
-		try {
-			looper.setModel(ModelFactory.getModel(modelName, looper));
-		} catch (UnknownDeviceException e) {
-			logger.error(TAG, e);
-			this.stopEngineServiceOnError();
-		}
-
 		logger.debug(TAG, "model created...");
 		return looper;
 	}
 
-	public String getControllMode() {
+	public MotionModes getControlMode() {
 		return motionMode;
 	}
 
-	public void setControllMode(String controllMode) {
-		this.motionMode = controllMode;
+	public void setControlMode(MotionModes controlMode) {
+		this.motionMode = controlMode;
 		Packet pack = null;
-		if (controllMode.equals(MOTION_MODE_CONTINUOUS)) {
+		if (controlMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 			pack = new Packet(PacketType.Engine.CONTINUOUS_MODE_RESPONSE);
-		} else if (controllMode.equals(MOTION_MODE_STEPPER)) {
+		} else if (controlMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
 			pack = new Packet(PacketType.Engine.STEPPER_MODE_RESPONSE);
 		}
-		logger.debug(TAG, "engineService: set controllMode=" + controllMode + ";with engine packet broadcast");
+		logger.debug(TAG, "engineService: set controlMode=" + controlMode + ";with engine packet broadcast");
 		broadcastEngineIntent(pack);
 	}
 
@@ -547,19 +514,19 @@ public class EnginesControllerService extends IOIOService {
 	}
 
 	public static double getSpeed() {
-		return SPEED;
+		return currentSpeed;
 	}
 
 	public void setSpeed(double speed) {
 		if (speed > 1 || speed < MIN_SPEED) {
 			logger.debug(TAG, "EnginesControllerService: niedopuszczalna nowa wartość prędkości silników: " + speed
 					+ ". Zmiana nie została dokonana!.");
-			if (SPEED < MIN_SPEED) {
-				SPEED = MIN_SPEED;
+			if (currentSpeed < MIN_SPEED) {
+				currentSpeed = MIN_SPEED;
 			}
 		} else {
 			logger.debug(TAG, "EnginesControllerService: zmiana prędkości silników na: " + speed);
-			EnginesControllerService.SPEED = speed;
+			EnginesControllerService.currentSpeed = speed;
 		}
 	}
 
@@ -586,6 +553,14 @@ public class EnginesControllerService extends IOIOService {
 	public void setSendStepExecutedPacket(boolean sendStepExecutedPacket) {
 		logger.debug(TAG, "EnginesControllerService: set sendStepExecutedPacket. New value: " + sendStepExecutedPacket);
 		this.sendStepExecutedPacket = sendStepExecutedPacket;
+	}
+
+	public static int getMaxStepDuration() {
+		return MAX_STEP_DURATION;
+	}
+
+	public static double getMinSpeed() {
+		return MIN_SPEED;
 	}
 
 }

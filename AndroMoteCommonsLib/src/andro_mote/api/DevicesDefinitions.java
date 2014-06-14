@@ -13,7 +13,7 @@ public class DevicesDefinitions {
 	 * @author Maciej Gzik
 	 * 
 	 */
-	public enum Devices {
+	public enum MobilePlatforms {
 		/**
 		 * Identyfikator platformy mobilnej wykorzystanej w pierwszej wersji
 		 * projektu AndroMote: New Bright Model: http://www.newbright.com/product/view/id/16
@@ -24,5 +24,15 @@ public class DevicesDefinitions {
 		 * Niezaimplementowany sprzętowo model robota własnej produkcji złożeonego z części Pololu: http://www.pololu.com/.
 		 */
 		PololuTwoEngines,
+		
+		/**
+		 * Platforma Rover5 produkcji DAGU
+		 */
+		ROVER5TwoEngines;
+	}
+	
+	public enum MotorDrivers {
+		PololuTwoEngines,
+		RNVN2;
 	}
 }

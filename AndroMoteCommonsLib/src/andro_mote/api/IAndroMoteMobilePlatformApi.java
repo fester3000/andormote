@@ -1,6 +1,7 @@
 package andro_mote.api;
 
 import andro_mote.api.exceptions.MobilePlatformException;
+import andro_mote.commons.MotionModes;
 
 /**
  * Interfejs opisujący przyjęte funkcjonalności jakie powinna posiadać
@@ -11,10 +12,10 @@ import andro_mote.api.exceptions.MobilePlatformException;
  * 
  */
 public interface IAndroMoteMobilePlatformApi {
-
+	
 	public boolean setPlatformSpeed(double speed) throws MobilePlatformException, UnsupportedOperationException;
 
-	public boolean setMotionMode(String motionMode) throws MobilePlatformException, UnsupportedOperationException;
+	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException, UnsupportedOperationException;
 
 	public boolean setStepDuration(int stepDuration) throws MobilePlatformException, UnsupportedOperationException;
 

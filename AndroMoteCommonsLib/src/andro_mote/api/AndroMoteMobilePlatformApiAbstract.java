@@ -3,6 +3,7 @@ package andro_mote.api;
 import andro_mote.api.exceptions.BroadcastReceiverClientNotSetException;
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.api.exceptions.UnknownDeviceException;
+import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import android.app.Application;
 
@@ -59,7 +60,7 @@ public abstract class AndroMoteMobilePlatformApiAbstract implements IAndroMoteAp
 	}
 
 	@Override
-	public boolean setMotionMode(String motionMode) throws MobilePlatformException {
+	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
 		throw new UnsupportedOperationException();
 	}
 
