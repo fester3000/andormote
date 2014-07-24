@@ -1,0 +1,42 @@
+use math.and;
+
+begin
+int function(int test, String r) {
+	int i;
+	for (i = 0 ; i < 9 ; i++) {
+		b = 12 * b;
+	}
+	
+	i = 12;
+	while(i <= 32) {
+		i++;
+	}
+	
+	return b;
+}
+
+int main() {
+	int a;
+	function(a, "test");
+	check();
+	a = 12;
+	int r = 5;
+	
+	return  1;
+}
+
+void check() {
+	int a;
+	a = "15";
+	int b;
+	b = 234;
+
+	if (a < b) {
+		dev camera;
+		camera.getDevice("CAMERA");
+		camera.setParam("FOCUS", "AUTO");
+		camera.setParam("EXPOSURE", r);
+		camera.setParam("RECORD", "TRUE");
+	}
+}
+end
