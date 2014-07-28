@@ -39,7 +39,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 	public DefinePhase() {
 		super();
 		System.out.println(DELIMITER + "Starting define phase");
-		scopes = new ParseTreeProperty<>();
+		scopes = new ParseTreeProperty<Scope>();
 	}
 
 	@Override
