@@ -4,7 +4,7 @@ begin
 int function(int test, String r) {
 	int i;
 	for (i = 0 ; i < 9 ; i++) {
-		b = 12 * b;
+		test = 12 * test;
 	}
 	
 	i = 12;
@@ -12,7 +12,7 @@ int function(int test, String r) {
 		i++;
 	}
 	
-	return b;
+	return r;
 }
 
 int main() {
@@ -22,7 +22,7 @@ int main() {
 	a = 12;
 	int r = 5;
 	
-	return  1;
+	return  a;
 }
 
 void check() {
@@ -32,11 +32,22 @@ void check() {
 	b = 234;
 
 	if (a < b) {
-		dev camera;
+		device camera;
 		camera.getDevice("CAMERA");
 		camera.setParam("FOCUS", "AUTO");
-		camera.setParam("EXPOSURE", r);
-		camera.setParam("RECORD", "TRUE");
+		camera.setParam("EXPOSURE", a);
+		camera.setParam("RECORD", true);
+	}
+	if (a < b) {
+		device camera2;
+		camera2.getDevice("CAMERA");
+		camera2.setParam("FOCUS", "AUTO");
+		camera2.setParam("EXPOSURE", b);
+		camera2.setParam("RECORD", "TRUE");
+	} elseif(b > a) {
+		a = 13;
+	} else {
+		return 5;
 	}
 }
 end

@@ -1,0 +1,53 @@
+use math.and;
+
+begin
+int function(int test, String r) {
+	int i;
+	for (i = 0 ; i < 9 ; k++) { //k bad symbol
+		b = 12 * b;    //b bad symbol *2
+	}
+	
+	i = 12;
+	while(i <= 32) {
+		i++;
+	}
+	
+	return b; //bad symbol
+}
+
+int main() {
+	int a;
+	function(a, "test");
+	check();
+	a = 12;
+	int r = 5;
+	a = z + r; //z bad symbol
+	return  1;
+}
+
+void check() {
+	int a;
+	a = "15";
+	int b;
+	b = 234;
+
+	if (a < b) {
+		device camera;
+		camera.getDevice("CAMERA");
+		camera.setParam("FOCUS", "AUTO");
+		camera.setParam("EXPOSURE", r); //r bad symbol
+		camera.setParam("RECORD", "TRUE");
+	}
+	if (a < b) {
+		device camera;
+		camera.getDevice("CAMERA");
+		camera.setParam("FOCUS", "AUTO");
+		camera3.setParam("EXPOSURE", g); //camera3 bad symbol; r bad symbol
+		camera.setParam("RECORD", "TRUE");
+	} elseif(b > c) { 	//c bad symbol
+		a = 13;
+	} else {
+		return abecadlo;
+	}
+}
+end
