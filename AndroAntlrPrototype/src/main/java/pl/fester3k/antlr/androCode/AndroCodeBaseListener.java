@@ -1,6 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
+	import pl.fester3k.antlr.semanticAnalysis.Type;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -19,19 +20,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_for_loop(@NotNull AndroCodeParser.Stat_for_loopContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStat_for_loop(@NotNull AndroCodeParser.Stat_for_loopContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBody(@NotNull AndroCodeParser.BodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -45,13 +33,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_block(@NotNull AndroCodeParser.Stat_blockContext ctx) { }
+	@Override public void enterExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat_block(@NotNull AndroCodeParser.Stat_blockContext ctx) { }
+	@Override public void exitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -84,6 +72,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBlock(@NotNull AndroCodeParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -97,13 +98,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(@NotNull AndroCodeParser.ExprContext ctx) { }
+	@Override public void enterExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(@NotNull AndroCodeParser.ExprContext ctx) { }
+	@Override public void exitExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -136,6 +137,32 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParameter(@NotNull AndroCodeParser.ParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -162,13 +189,26 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_while_loop(@NotNull AndroCodeParser.Stat_while_loopContext ctx) { }
+	@Override public void enterExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat_while_loop(@NotNull AndroCodeParser.Stat_while_loopContext ctx) { }
+	@Override public void exitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpr_incr(@NotNull AndroCodeParser.Expr_incrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_incr(@NotNull AndroCodeParser.Expr_incrContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -182,19 +222,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValue(@NotNull AndroCodeParser.ValueContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStat_return(@NotNull AndroCodeParser.Stat_returnContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStat_return(@NotNull AndroCodeParser.Stat_returnContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -240,6 +267,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVar_declaration(@NotNull AndroCodeParser.Var_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -266,13 +306,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_if_condition(@NotNull AndroCodeParser.Stat_if_conditionContext ctx) { }
+	@Override public void enterExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat_if_condition(@NotNull AndroCodeParser.Stat_if_conditionContext ctx) { }
+	@Override public void exitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -286,6 +326,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitScript(@NotNull AndroCodeParser.ScriptContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(@NotNull AndroCodeParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(@NotNull AndroCodeParser.StatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -318,13 +371,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_expr(@NotNull AndroCodeParser.Stat_exprContext ctx) { }
+	@Override public void enterExpr_decr(@NotNull AndroCodeParser.Expr_decrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat_expr(@NotNull AndroCodeParser.Stat_exprContext ctx) { }
+	@Override public void exitExpr_decr(@NotNull AndroCodeParser.Expr_decrContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -344,19 +397,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_var_declaration(@NotNull AndroCodeParser.Stat_var_declarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStat_var_declaration(@NotNull AndroCodeParser.Stat_var_declarationContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -370,13 +410,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat_assignment(@NotNull AndroCodeParser.Stat_assignmentContext ctx) { }
+	@Override public void enterExpr_uminus(@NotNull AndroCodeParser.Expr_uminusContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat_assignment(@NotNull AndroCodeParser.Stat_assignmentContext ctx) { }
+	@Override public void exitExpr_uminus(@NotNull AndroCodeParser.Expr_uminusContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

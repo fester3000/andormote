@@ -1,4 +1,4 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.

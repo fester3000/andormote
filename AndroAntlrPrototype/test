@@ -18,16 +18,25 @@ int function(int test, String r) {
 int main() {
 	int a;
 	function(a, "test");
+	char c = 'a';
+	c = 'z';
 	check();
 	a = 12;
-	int r = 5;
+	int r = -12;
 	
 	return  a;
 }
 
 void check() {
+	float z;
+	z = 12.54;
+	z = .12;
+	z = 0.01;
+	z = 12.0;
+	
 	int a;
-	a = "15";
+	a = 15;
+	a = 'a' + 3 + 4.2;
 	int b;
 	b = 234;
 
@@ -36,7 +45,7 @@ void check() {
 		camera.getDevice("CAMERA");
 		camera.setParam("FOCUS", "AUTO");
 		camera.setParam("EXPOSURE", a);
-		camera.setParam("RECORD", true);
+		camera.setParam("RECORD", TRUE);
 	}
 	if (a < b) {
 		device camera2;

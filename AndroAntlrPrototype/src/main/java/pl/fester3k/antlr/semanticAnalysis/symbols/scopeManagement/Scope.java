@@ -1,4 +1,4 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -7,7 +7,15 @@ package pl.fester3k.antlr.scopeManagement;
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
-/** Represents a variable definition (name,type) in symbol table */
-public class VariableSymbol extends Symbol {
-	public VariableSymbol(String name, Type type) { super(name, type); }
+public interface Scope {
+    public String getScopeName();
+
+    /** Where to look next for symbols */
+    public Scope getEnclosingScope();
+
+    /** Define a symbol in the current scope */
+    public void define(Symbol sym);
+
+    /** Look up name in this scope or in enclosing scope if not here */
+    public Symbol resolve(String name);
 }

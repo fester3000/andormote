@@ -1,4 +1,4 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -9,6 +9,8 @@ package pl.fester3k.antlr.scopeManagement;
 ***/
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import pl.fester3k.antlr.semanticAnalysis.Type;
 
 public class FunctionSymbol extends Symbol implements Scope {
 	Map<String, Symbol> orderedArgs = new LinkedHashMap<String, Symbol>();

@@ -1,4 +1,4 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -7,7 +7,7 @@ package pl.fester3k.antlr.scopeManagement;
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
-public class GlobalScope extends BaseScope {
-    public GlobalScope() { super(null); }
-    public String getScopeName() { return "global"; }
+public class LocalScope extends BaseScope {
+    public LocalScope(Scope parent) { super(parent); }
+    public String getScopeName() { return "local"; }    
 }

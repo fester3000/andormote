@@ -1,5 +1,6 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 
+import pl.fester3k.antlr.semanticAnalysis.Type;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,7 @@ import lombok.Setter;
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
-public class Symbol { // A generic programming language symbol
-	public enum Type {
-		tVOID, tINT, tFLOAT, tBOOLEAN, tSTRING, tDEVICE, tINVALID;
-	}
-	
+public class Symbol { // A generic programming language symbol	
 	@Getter
 	protected String name;      // All symbols at least have a name
 	

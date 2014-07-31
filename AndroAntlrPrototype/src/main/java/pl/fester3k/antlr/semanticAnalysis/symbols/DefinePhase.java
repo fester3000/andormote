@@ -1,7 +1,6 @@
-package pl.fester3k.prot;
+package pl.fester3k.antlr.semanticAnalysis.symbols;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -15,26 +14,24 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ParameterContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
-import pl.fester3k.antlr.scopeManagement.FunctionSymbol;
-import pl.fester3k.antlr.scopeManagement.GlobalScope;
-import pl.fester3k.antlr.scopeManagement.LocalScope;
-import pl.fester3k.antlr.scopeManagement.Scope;
-import pl.fester3k.antlr.scopeManagement.Symbol;
-import pl.fester3k.antlr.scopeManagement.VariableSymbol;
+import pl.fester3k.antlr.semanticAnalysis.Type;
+import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.FunctionSymbol;
+import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
+import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.LocalScope;
+import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
+import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
 
 public class DefinePhase extends AndroCodeBaseListener {	
 	private static final String DELIMITER = "++++++++++++\n";
 
-	@Getter	@Setter
+	@Getter	
 	private ParseTreeProperty<Scope> scopes;
 	
-	@Getter	@Setter
+	@Getter	
 	private GlobalScope globals;
 
-	@Getter	@Setter
-	private Scope currentScope;
-
-	
+	@Getter	
+	private Scope currentScope;	
 
 	public DefinePhase() {
 		super();
@@ -69,7 +66,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 	public void enterFunction(FunctionContext ctx) {
 		String name = ctx.ID().getText();
 		int typeTokenType = ctx.type().start.getType();
-		Symbol.Type type = CheckSymbols.getType(typeTokenType);
+		Type type = Type.getType(typeTokenType);
 		
 		FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
 		currentScope.define(function);
@@ -81,7 +78,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 	@Override
 	public void enterMain_function(Main_functionContext ctx) {
 		String name = "main";		
-		FunctionSymbol function = new FunctionSymbol(name, Symbol.Type.tINT, currentScope);
+		FunctionSymbol function = new FunctionSymbol(name, Type.INT, currentScope);
 		currentScope.define(function);
 		saveScope(ctx, function);
 		currentScope = function;
@@ -111,7 +108,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	private void defineVar(AndroCodeParser.TypeContext typeCtx, Token nameToken) {
         int typeTokenType = typeCtx.start.getType();
-        Symbol.Type type = CheckSymbols.getType(typeTokenType);
+        Type type = Type.getType(typeTokenType);
         VariableSymbol var = new VariableSymbol(nameToken.getText(), type);
         currentScope.define(var); // Define symbol in current scope
     }

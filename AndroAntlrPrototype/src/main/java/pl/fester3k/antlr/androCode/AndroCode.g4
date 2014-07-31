@@ -2,85 +2,105 @@ grammar AndroCode;
 
 @header {
     package pl.fester3k.antlr.androCode;
+	import pl.fester3k.antlr.semanticAnalysis.Type;
 }
 
+script          // overal script structure constists of optional header (with library declaration etc) and body (instructions for platform)     
+    : lib_includes* body EOF;         
+lib_includes    // library declaration is followed by "use" keyword
+    : 'use' LIBNAME ';';        
+body            // expression list has to contain at least main function and has to be enclosed between "begin" and "end" keywords
+    : 'begin' function* main_function function* 'end';  
 
-script      : lib_includes* body EOF;         // overal script structure constists of optional header (with library declaration etc) and body (instructions for platform)
-lib_includes: 'use' LIBNAME ';';        // library declaration is followed by "use" keyword
-body        : 'begin' function* main_function function* 'end';  // expression list has to contain at least main function and has to be enclosed between "begin" and "end" keywords
+main_function   // main script function with no parameters. "int" type and "main" name are obligatory
+    : K_INT_TYPE 'main' LP RP block; 
+function        // typical function of desired type with opional parameters
+    : type ID LP parameters? RP block;
+parameters      //at least one parameter
+    : parameter (',' parameter)*; 
+parameter       //pair of type and ID
+    : type ID ; 
 
-main_function: K_INT_TYPE 'main' LP RP block; // main script function with no parameters. "int" type and "main" name are obligatory
-function    : type ID LP parameters? RP block;
-parameters  : parameter (',' parameter)*;
-parameter   : type ID ;
+block           // list of statements
+    : '{' statement* '}' ; 
 
-block       : '{' statement* '}' ;
+statement       // statement
+    : block                 
+    | expr ';'              
+    | var_declaration ';'   
+    | assignment ';'        
+    | for_loop              
+    | while_loop            
+    | if_condition          
+    | 'return' expr? ';'    
+    ;
 
-statement   : block                 # stat_block
-            | expr ';'              # stat_expr
-            | var_declaration ';'   # stat_var_declaration
-            | assignment ';'        # stat_assignment
-            | for_loop              # stat_for_loop
-            | while_loop            # stat_while_loop
-            | if_condition          # stat_if_condition
-            | 'return' expr? ';'    # stat_return
-            ;
+expr returns [Type evalType]			        //expression
+    : fcal=function_call  	#expr_fcall			// returns: function type    
+    | '(' subExpr=expr ')'  #expr_parenthesis 	// returns: type of expr
+    | '-' subExpr=expr      #expr_uminus		// returns: type of expr
+    | '!' subExpr=expr      #expr_unot			// returns: boolean
+    | <assoc=right> subExpr=expr POWER_OP expr	#expr_pow 	// returns: type of Lexpr
+    | a=expr (MULT_OP | DEV_OP) b=expr			#expr_binop // returns: type of Lexpr
+    | a=expr (ADD_OP | SUBST_OP) b=expr 		#expr_binop // returns: type of Lexpr
+    | id=ID'++'            	#expr_incr	// returns: int
+    | id=ID'--'            	#expr_decr	// returns: int
+    | dev_operation        	#expr_dev	// returns: boolean
+    | v=value              	#expr_value	// returns: value type
+    | ID                   	#expr_var	// returns: type of var ID
+    ;
 
-expr        : function_call
-            | '(' expr ')' 
-            | '-' expr
-            | '!' expr 
-            |<assoc=right> expr POWER_OP expr 
-            | expr (MULT_OP | DEV_OP) expr
-            | expr (ADD_OP | SUBST_OP) expr
-            | ID'++'
-            | ID'--'
-            | dev_operation
-            | ID
-            | value
-            ;
+var_declaration returns [Type evalType]// declaration of variable 'ID' of type 'type' with optional assignment
+    : type ID ('=' expr)?;
+assignment returns [Type evalType]     // assignment
+    : a=expr '=' b=expr;
+function_call // call of function 'ID' with optional arguments
+    : ID LP arguments? RP  
+    ;
+condition returns [Type evalType]      // logical condition
+    : a=expr (EQ_OP | NOT_EQ_OP | GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr;
 
-var_declaration: type ID ('=' expr)?;
-assignment: expr '=' expr;
-function_call: ID LP arguments? RP ;
-condition   : expr (EQ_OP | NOT_EQ_OP | GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) expr;
+arguments   
+    : expr (',' expr)* ;
+for_loop    
+    : 'for' LP assignment ';' condition ';' expr RP block ;
+while_loop  
+    : 'while' LP condition RP block ;
+if_condition
+    : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' block)?;
 
-arguments   : expr (',' expr)* ;
-for_loop    : 'for' LP assignment ';' condition ';' expr RP block ;
-while_loop  : 'while' LP condition RP block ;
-if_condition: 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' block)?;
+dev_operation
+    : ID'.'( 'setParam' LP STRING ',' expr RP
+           | 'getDevice' LP STRING RP)
+    ;
 
-dev_operation: ID'.'( 'setParam' LP STRING ',' expr RP
-                    | 'getDevice' LP STRING RP
-                    )
-             ;
+value returns [Type evalType]       
+    : CHAR     //{$returnType = Type.tCHAR; }      
+    | INT       //{$returnType = Type.tINT; }      
+    | FLOAT    //{$returnType = Type.tFLOAT; }      
+    | STRING    //{$returnType = Type.tSTRING; }      
+    | BOOLEAN   //{$returnType = Type.tBOOLEAN; }      
+    | NULL      //{$returnType = Type.tNULL; }      
+    ;
 
-value       : INT       
-           // FLOAT
-           // CHAR
-            | STRING  
-            | BOOLEAN
-            | NULL
-            ;
+type        
+    : K_INT_TYPE     
+    | K_VOID_TYPE    
+    | K_FLOAT_TYPE   
+    | K_CHAR_TYPE
+    | K_STRING_TYPE  
+    | K_BOOLEAN_TYPE 
+    | K_DEV_TYPE     
+    ;
 
-//K_CHAR 
 K_INT_TYPE  : 'int' ;
-//K_FLOAT_TYPE: 'float' ;
-//K_CHAR_TYPE: 'char' ;
-K_STRING_TYPE: 'String' ;
 K_VOID_TYPE : 'void' ;
+K_FLOAT_TYPE: 'float' ;
+K_CHAR_TYPE: 'char' ;
+K_STRING_TYPE: 'String' ;
 K_BOOLEAN_TYPE: 'bool';
 K_DEV_TYPE  : 'device' ;
 
-
-type        : K_INT_TYPE     
-            | K_VOID_TYPE    
-            //| K_FLOAT_TYPE   
-            //| K_CHAR_TYPE
-            | K_STRING_TYPE  
-            | K_BOOLEAN_TYPE 
-            | K_DEV_TYPE     
-            ;
 
 LIBNAME     : (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')*'.and' ;
 ID          : LOWERCASE_LETTER+ (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')* ;
@@ -100,11 +120,17 @@ LT_OP       : '<' ;
 GTEQ_OP     : '>=' ;
 LTEQ_OP     : '<=' ;
 
+CHAR        :   '\'' . '\'' ;
 INT         : '0' | [1-9] DIGIT* ;
-STRING      : '"' (ESC | . )*? '"' ;
-BOOLEAN     : 'true'
-            | 'false'
+FLOAT
+            :   DIGIT* '.' DIGIT*
+            |   '.' DIGIT+
             ;
+
+STRING      : '"' (ESC | . )*? '"' ;
+BOOLEAN     : 'TRUE'
+            | 'FALSE' ;
+
 NULL        : 'null' ;
 
 fragment 
@@ -119,4 +145,4 @@ DIGIT       : [0-9];
 
 LINE_COMMENT: '//' .*? '\n' -> skip ; //single line comments marked by "//" prefix
 COMMENT     : '/*' .*? '*/' -> skip ; //multi line comments enclosed between "/*" and "*/" tags
-WS          : [ \t\n\r]+ -> skip ; //whitespaces that should be ignored in parsing process
+WS          : [ \t\r\n]+ -> skip ; //whitespaces that should be ignored in parsing process

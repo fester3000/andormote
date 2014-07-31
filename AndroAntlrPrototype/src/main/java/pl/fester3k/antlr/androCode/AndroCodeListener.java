@@ -1,6 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
+	import pl.fester3k.antlr.semanticAnalysis.Type;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -10,17 +11,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link AndroCodeParser}.
  */
 public interface AndroCodeListener extends ParseTreeListener {
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_for_loop}.
-	 * @param ctx the parse tree
-	 */
-	void enterStat_for_loop(@NotNull AndroCodeParser.Stat_for_loopContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_for_loop}.
-	 * @param ctx the parse tree
-	 */
-	void exitStat_for_loop(@NotNull AndroCodeParser.Stat_for_loopContext ctx);
-
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#body}.
 	 * @param ctx the parse tree
@@ -33,15 +23,15 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitBody(@NotNull AndroCodeParser.BodyContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_block}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_dev}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat_block(@NotNull AndroCodeParser.Stat_blockContext ctx);
+	void enterExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_block}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_dev}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat_block(@NotNull AndroCodeParser.Stat_blockContext ctx);
+	void exitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#dev_operation}.
@@ -66,6 +56,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitFor_loop(@NotNull AndroCodeParser.For_loopContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_binop}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_binop}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#block}.
 	 * @param ctx the parse tree
 	 */
@@ -77,15 +78,15 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitBlock(@NotNull AndroCodeParser.BlockContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#expr}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_value}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(@NotNull AndroCodeParser.ExprContext ctx);
+	void enterExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#expr}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_value}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(@NotNull AndroCodeParser.ExprContext ctx);
+	void exitExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#type}.
@@ -110,6 +111,28 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitFunction(@NotNull AndroCodeParser.FunctionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_parenthesis}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_parenthesis}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_pow}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_pow}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#parameter}.
 	 * @param ctx the parse tree
 	 */
@@ -132,15 +155,26 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitIf_condition(@NotNull AndroCodeParser.If_conditionContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_while_loop}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_unot}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat_while_loop(@NotNull AndroCodeParser.Stat_while_loopContext ctx);
+	void enterExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_while_loop}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_unot}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat_while_loop(@NotNull AndroCodeParser.Stat_while_loopContext ctx);
+	void exitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_incr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_incr(@NotNull AndroCodeParser.Expr_incrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_incr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_incr(@NotNull AndroCodeParser.Expr_incrContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#value}.
@@ -152,17 +186,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(@NotNull AndroCodeParser.ValueContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_return}.
-	 * @param ctx the parse tree
-	 */
-	void enterStat_return(@NotNull AndroCodeParser.Stat_returnContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_return}.
-	 * @param ctx the parse tree
-	 */
-	void exitStat_return(@NotNull AndroCodeParser.Stat_returnContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#parameters}.
@@ -198,6 +221,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitWhile_loop(@NotNull AndroCodeParser.While_loopContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_fcall}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_fcall}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#var_declaration}.
 	 * @param ctx the parse tree
 	 */
@@ -220,15 +254,15 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitCondition(@NotNull AndroCodeParser.ConditionContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_if_condition}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_var}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat_if_condition(@NotNull AndroCodeParser.Stat_if_conditionContext ctx);
+	void enterExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_if_condition}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_var}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat_if_condition(@NotNull AndroCodeParser.Stat_if_conditionContext ctx);
+	void exitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#script}.
@@ -240,6 +274,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitScript(@NotNull AndroCodeParser.ScriptContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(@NotNull AndroCodeParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(@NotNull AndroCodeParser.StatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#assignment}.
@@ -264,15 +309,15 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitArguments(@NotNull AndroCodeParser.ArgumentsContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_expr}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_decr}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat_expr(@NotNull AndroCodeParser.Stat_exprContext ctx);
+	void enterExpr_decr(@NotNull AndroCodeParser.Expr_decrContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_expr}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_decr}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat_expr(@NotNull AndroCodeParser.Stat_exprContext ctx);
+	void exitExpr_decr(@NotNull AndroCodeParser.Expr_decrContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#function_call}.
@@ -286,17 +331,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitFunction_call(@NotNull AndroCodeParser.Function_callContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_var_declaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterStat_var_declaration(@NotNull AndroCodeParser.Stat_var_declarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_var_declaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitStat_var_declaration(@NotNull AndroCodeParser.Stat_var_declarationContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#lib_includes}.
 	 * @param ctx the parse tree
 	 */
@@ -308,13 +342,13 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#stat_assignment}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_uminus}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat_assignment(@NotNull AndroCodeParser.Stat_assignmentContext ctx);
+	void enterExpr_uminus(@NotNull AndroCodeParser.Expr_uminusContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#stat_assignment}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_uminus}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat_assignment(@NotNull AndroCodeParser.Stat_assignmentContext ctx);
+	void exitExpr_uminus(@NotNull AndroCodeParser.Expr_uminusContext ctx);
 }

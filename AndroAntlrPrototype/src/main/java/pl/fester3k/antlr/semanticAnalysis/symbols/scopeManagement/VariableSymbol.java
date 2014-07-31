@@ -1,4 +1,7 @@
-package pl.fester3k.antlr.scopeManagement;
+package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
+
+import pl.fester3k.antlr.semanticAnalysis.Type;
+
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -7,7 +10,7 @@ package pl.fester3k.antlr.scopeManagement;
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
 ***/
-/** A "tag" to indicate which symbols are types */
-public interface Type {
-    public String getName();
+/** Represents a variable definition (name,type) in symbol table */
+public class VariableSymbol extends Symbol {
+	public VariableSymbol(String name, Type type) { super(name, type); }
 }
