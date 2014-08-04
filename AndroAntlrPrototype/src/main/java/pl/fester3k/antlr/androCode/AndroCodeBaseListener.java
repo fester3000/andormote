@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
-	import pl.fester3k.antlr.semanticAnalysis.Type;
+    import pl.fester3k.antlr.semanticAnalysis.Type;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -98,6 +98,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -144,19 +157,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -293,13 +293,26 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCondition(@NotNull AndroCodeParser.ConditionContext ctx) { }
+	@Override public void enterReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCondition(@NotNull AndroCodeParser.ConditionContext ctx) { }
+	@Override public void exitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -2,7 +2,7 @@ grammar AndroCode;
 
 @header {
     package pl.fester3k.antlr.androCode;
-	import pl.fester3k.antlr.semanticAnalysis.Type;
+    import pl.fester3k.antlr.semanticAnalysis.Type;
 }
 
 script          // overal script structure constists of optional header (with library declaration etc) and body (instructions for platform)     
@@ -32,7 +32,7 @@ statement       // statement
     | for_loop              
     | while_loop            
     | if_condition          
-    | 'return' expr? ';'    
+    | return_statement    
     ;
 
 expr returns [Type evalType]			        //expression
@@ -40,14 +40,17 @@ expr returns [Type evalType]			        //expression
     | '(' subExpr=expr ')'  #expr_parenthesis 	// returns: type of expr
     | '-' subExpr=expr      #expr_uminus		// returns: type of expr
     | '!' subExpr=expr      #expr_unot			// returns: boolean
-    | <assoc=right> subExpr=expr POWER_OP expr	#expr_pow 	// returns: type of Lexpr
-    | a=expr (MULT_OP | DEV_OP) b=expr			#expr_binop // returns: type of Lexpr
-    | a=expr (ADD_OP | SUBST_OP) b=expr 		#expr_binop // returns: type of Lexpr
+    | a=expr op=(MULT_OP | DEV_OP) b=expr			#expr_binop // returns: type of Lexpr
+    | a=expr op=(ADD_OP | SUBST_OP) b=expr 		#expr_binop // returns: type of Lexpr
     | id=ID'++'            	#expr_incr	// returns: int
     | id=ID'--'            	#expr_decr	// returns: int
     | dev_operation        	#expr_dev	// returns: boolean
     | v=value              	#expr_value	// returns: value type
     | ID                   	#expr_var	// returns: type of var ID
+    ;
+
+return_statement 
+    : 'return' expr? ';' 
     ;
 
 var_declaration returns [Type evalType]// declaration of variable 'ID' of type 'type' with optional assignment
@@ -58,7 +61,9 @@ function_call // call of function 'ID' with optional arguments
     : ID LP arguments? RP  
     ;
 condition returns [Type evalType]      // logical condition
-    : a=expr (EQ_OP | NOT_EQ_OP | GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr;
+    : a=expr op=( EQ_OP | NOT_EQ_OP ) b=expr                #condition_equality
+    | a=expr op=( GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr #condition_relational
+    ;
 
 arguments   
     : expr (',' expr)* ;
@@ -111,7 +116,6 @@ ADD_OP      : '+' ;
 SUBST_OP    : '-' ;
 MULT_OP     : '*' ;
 DEV_OP      : '/' ;
-POWER_OP     : '^' ;
 
 EQ_OP       : '==' ;
 NOT_EQ_OP   : '!=' ;

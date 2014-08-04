@@ -10,9 +10,12 @@ package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import lombok.Getter;
+
 import pl.fester3k.antlr.semanticAnalysis.Type;
 
 public class FunctionSymbol extends Symbol implements Scope {
+	@Getter
 	Map<String, Symbol> orderedArgs = new LinkedHashMap<String, Symbol>();
     Scope enclosingScope;
 

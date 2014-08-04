@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
-	import pl.fester3k.antlr.semanticAnalysis.Type;
+    import pl.fester3k.antlr.semanticAnalysis.Type;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -57,6 +57,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBlock(@NotNull AndroCodeParser.BlockContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_relational}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -83,13 +90,6 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_pow}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#parameter}.
@@ -162,11 +162,18 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVar_declaration(@NotNull AndroCodeParser.Var_declarationContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#condition}.
+	 * Visit a parse tree produced by {@link AndroCodeParser#return_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCondition(@NotNull AndroCodeParser.ConditionContext ctx);
+	T visitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_equality}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_var}.

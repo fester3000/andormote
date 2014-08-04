@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
-	import pl.fester3k.antlr.semanticAnalysis.Type;
+    import pl.fester3k.antlr.semanticAnalysis.Type;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -69,6 +69,14 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitExpr_value(@NotNull AndroCodeParser.Expr_valueContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -94,14 +102,6 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -189,7 +189,15 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCondition(@NotNull AndroCodeParser.ConditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

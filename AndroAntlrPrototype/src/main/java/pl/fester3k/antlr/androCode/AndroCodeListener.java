@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.antlr.androCode;
-	import pl.fester3k.antlr.semanticAnalysis.Type;
+    import pl.fester3k.antlr.semanticAnalysis.Type;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -78,6 +78,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitBlock(@NotNull AndroCodeParser.BlockContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_relational}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_relational}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_relational(@NotNull AndroCodeParser.Condition_relationalContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_value}.
 	 * @param ctx the parse tree
 	 */
@@ -120,17 +131,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr_parenthesis(@NotNull AndroCodeParser.Expr_parenthesisContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#expr_pow}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#expr_pow}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr_pow(@NotNull AndroCodeParser.Expr_powContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#parameter}.
@@ -243,15 +243,26 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitVar_declaration(@NotNull AndroCodeParser.Var_declarationContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#condition}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#return_statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterCondition(@NotNull AndroCodeParser.ConditionContext ctx);
+	void enterReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#condition}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#return_statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitCondition(@NotNull AndroCodeParser.ConditionContext ctx);
+	void exitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_equality}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_equality}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_var}.

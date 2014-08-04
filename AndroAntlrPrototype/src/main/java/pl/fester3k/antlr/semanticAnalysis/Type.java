@@ -1,9 +1,58 @@
 package pl.fester3k.antlr.semanticAnalysis;
 
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import pl.fester3k.antlr.androCode.AndroCodeParser;
 
 public enum Type {
-	VOID, INT, FLOAT, CHAR, BOOLEAN, STRING, DEVICE, NULL, INVALID;
+	USER(0), BOOLEAN(1), CHAR(2), INT(3), FLOAT(4), VOID(5), STRING(0), DEVICE(0), NULL(-1), INVALID(0);
+	
+	public int priority;
+	
+	public static final Type[][] arithmeticResultType = new Type[][] {
+		/*				otherTypes	boolean	char	int		float	void */
+		/*otherTypes*/	{VOID,		VOID,	VOID,	VOID,	VOID,	VOID},
+		/*boolean	*/	{VOID,		VOID,	VOID,	VOID,	VOID,	VOID},
+		/*char		*/	{VOID,		VOID,	CHAR, 	INT,	FLOAT,	VOID},
+		/*int		*/	{VOID,		VOID,	INT,	INT,	FLOAT,	VOID},
+		/*float		*/	{VOID,		VOID,	FLOAT,	FLOAT,	FLOAT,  VOID},
+		/*void		*/	{VOID,		VOID,	VOID,	VOID,	VOID, 	VOID}
+	};
+	
+	public static final Type[][] equalityResultType = new Type[][] {
+		/*				otherTypes	boolean	char	int		float	void */
+		/*otherTypes*/	{VOID,		VOID,	VOID,	VOID,	VOID,	VOID},
+		/*boolean	*/	{VOID,		BOOLEAN,VOID,	VOID,	VOID,	VOID},
+		/*char		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*int		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*float		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*void		*/	{VOID,		VOID,	VOID,	VOID,	VOID, 	VOID}
+	};
+	
+	public static final Type[][] relationalResultType = new Type[][] {
+		/*				otherTypes	boolean	char	int		float	void */
+		/*otherTypes*/	{VOID,		VOID,	VOID,	VOID,	VOID,	VOID},
+		/*boolean	*/	{VOID,		VOID,	VOID,	VOID,	VOID,	VOID},
+		/*char		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*int		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*float		*/	{VOID,		VOID,	BOOLEAN,BOOLEAN,BOOLEAN,VOID},
+		/*void		*/	{VOID,		VOID,	VOID,	VOID,	VOID, 	VOID}
+	};
+	
+	
+	public static final Type[][] promoteFromTo = new Type[][] {
+		/*				otherTypes	boolean	char	int		float	void */
+		/*otherTypes*/	{NULL,		NULL,	NULL,	NULL,	NULL,	NULL},
+		/*boolean	*/	{NULL,		NULL,	NULL,	NULL,	NULL,	NULL},
+		/*char		*/	{NULL,		NULL,	NULL, 	INT,	FLOAT,	NULL},
+		/*int		*/	{NULL,		NULL,	NULL,	NULL,	FLOAT,	NULL},
+		/*float		*/	{NULL,		NULL,	NULL,	NULL,	NULL, 	NULL},
+		/*void		*/	{NULL,		NULL,	NULL,	NULL,	NULL, 	NULL}
+	};
+	
+	private Type(int priority) {
+		this.priority = priority;
+	}
 	
 	public static Type getType(int tokenType) {
 		Type result;

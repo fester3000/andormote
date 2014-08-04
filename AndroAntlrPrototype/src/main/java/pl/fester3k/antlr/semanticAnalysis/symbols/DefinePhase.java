@@ -1,5 +1,7 @@
 package pl.fester3k.antlr.semanticAnalysis.symbols;
 
+import java.util.List;
+
 import lombok.Getter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -12,6 +14,7 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.BlockContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ParameterContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.ParametersContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.antlr.semanticAnalysis.Type;
@@ -65,13 +68,20 @@ public class DefinePhase extends AndroCodeBaseListener {
 	@Override
 	public void enterFunction(FunctionContext ctx) {
 		String name = ctx.ID().getText();
-		int typeTokenType = ctx.type().start.getType();
-		Type type = Type.getType(typeTokenType);
+		Type type = Type.getType(ctx.type().start.getType());
 		
 		FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
 		currentScope.define(function);
 		saveScope(ctx, function);
 		currentScope = function;
+		
+//		List<ParameterContext> parameters = ctx.parameters().parameter();		
+//		for (ParameterContext parameter : parameters) {
+//			String paramName = parameter.stop.getText();
+//			Type paramType = Type.getType(parameter.start.getType());
+//			VariableSymbol paramSymbol = new VariableSymbol(paramName, paramType);
+//			function.define(paramSymbol);
+//		}		
 	}
 	
 

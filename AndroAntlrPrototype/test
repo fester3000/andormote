@@ -8,6 +8,7 @@ int function(int test, String r) {
 	}
 	
 	i = 12;
+	i = 'r';
 	while(i <= 32) {
 		i++;
 	}
