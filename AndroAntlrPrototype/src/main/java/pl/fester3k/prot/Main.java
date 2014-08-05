@@ -15,13 +15,10 @@ import pl.fester3k.antlr.semanticAnalysis.symbols.SemanticAnalyser;
 public class Main {
 	
 	public static void main(String[] args) throws Exception {
-		ParseTree tree = initParser(args);	// I. parsing
-		new SemanticAnalyser().process(tree);	// II. Semantic analysis:
-											// III. Interpreting
-											//1. tree-based interpreter
+		process(args);	// I. parsing
 	}
 	
-	private static ParseTree initParser(String[] args) throws IOException {
+	private static void process(String[] args) throws IOException {
 		String inputFile = null;
         if ( args.length>0 ) inputFile = args[0];
         InputStream is = System.in;
@@ -35,6 +32,8 @@ public class Main {
 		parser.setBuildParseTree(true);
 		ParseTree tree = parser.script();
 		
-		return tree;
+		new SemanticAnalyser().process(tree, tokens);	// II. Semantic analysis:
+		// III. Interpreting
+		//1. tree-based interpreter
 	}
 }

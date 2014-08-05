@@ -353,6 +353,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_cast}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr_cast(@NotNull AndroCodeParser.Expr_castContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_cast}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr_cast(@NotNull AndroCodeParser.Expr_castContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_uminus}.
 	 * @param ctx the parse tree
 	 */

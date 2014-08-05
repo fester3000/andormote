@@ -68,7 +68,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 	@Override
 	public void enterFunction(FunctionContext ctx) {
 		String name = ctx.ID().getText();
-		Type type = Type.getType(ctx.type().start.getType());
+		Type type = Type.getTypeByTokenID(ctx.type().start.getType());
 		
 		FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
 		currentScope.define(function);
@@ -118,7 +118,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	private void defineVar(AndroCodeParser.TypeContext typeCtx, Token nameToken) {
         int typeTokenType = typeCtx.start.getType();
-        Type type = Type.getType(typeTokenType);
+        Type type = Type.getTypeByTokenID(typeTokenType);
         VariableSymbol var = new VariableSymbol(nameToken.getText(), type);
         currentScope.define(var); // Define symbol in current scope
     }

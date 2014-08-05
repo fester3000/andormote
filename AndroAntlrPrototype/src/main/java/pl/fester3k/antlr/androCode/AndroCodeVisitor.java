@@ -232,6 +232,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#expr_cast}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpr_cast(@NotNull AndroCodeParser.Expr_castContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_uminus}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

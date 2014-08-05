@@ -10,6 +10,10 @@ package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import pl.fester3k.antlr.semanticAnalysis.Type;
+
+import com.google.common.base.Strings;
+
 public abstract class BaseScope implements Scope {
 	Scope enclosingScope; // null if global (outermost) scope
 	Map<String, Symbol> symbols = new LinkedHashMap<String, Symbol>();
@@ -27,6 +31,30 @@ public abstract class BaseScope implements Scope {
 			return enclosingScope.resolve(name);
 		return null; // not found
 	}
+//    
+//	public void resolveByIdIfNotNull(String name) {
+//		if(!Strings.isNullOrEmpty(name)) {
+//			Symbol s = resolve(name);
+//			if(s != null) {
+//				System.out.println("++ Symbol " + s.getType() + " " + s.getName() +" ok");
+//			} else {
+//				System.err.println("----- !Symbol " + name + " not declared!");
+//			}
+//		}
+//	}
+//    
+//	public Type getTypeFromSymbol(String id) {
+//		if(!Strings.isNullOrEmpty(id)) {
+//			Symbol s = resolve(id);
+//			if(s != null) {
+//				System.out.println("@@ Symbol " + s.getType() + " " + s.getName());
+//				return s.getType();
+//			} else {
+//				System.err.println("----- !Symbol " + id + " not declared!");
+//			}
+//		}
+//		return Type.INVALID;
+//	}
 
 	public void define(Symbol sym) {
 		symbols.put(sym.name, sym);

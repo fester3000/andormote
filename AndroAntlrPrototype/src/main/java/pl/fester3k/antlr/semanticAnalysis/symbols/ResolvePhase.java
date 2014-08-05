@@ -117,7 +117,7 @@ public class ResolvePhase extends AndroCodeBaseListener {
 			if(s != null) {
 				System.out.println("++ Symbol " + s.getType() + " " + s.getName() +" ok");
 			} else {
-				System.out.println("----- !Symbol " + id + " not declared!");
+				System.err.println("----- !Symbol " + id + " not declared!");
 			}
 		}
 	}

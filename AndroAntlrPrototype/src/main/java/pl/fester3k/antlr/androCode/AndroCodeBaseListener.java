@@ -423,6 +423,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpr_cast(@NotNull AndroCodeParser.Expr_castContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr_cast(@NotNull AndroCodeParser.Expr_castContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr_uminus(@NotNull AndroCodeParser.Expr_uminusContext ctx) { }
 	/**
 	 * {@inheritDoc}

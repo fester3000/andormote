@@ -40,8 +40,9 @@ expr returns [Type evalType]			        //expression
     | '(' subExpr=expr ')'  #expr_parenthesis 	// returns: type of expr
     | '-' subExpr=expr      #expr_uminus		// returns: type of expr
     | '!' subExpr=expr      #expr_unot			// returns: boolean
-    | a=expr op=(MULT_OP | DEV_OP) b=expr			#expr_binop // returns: type of Lexpr
-    | a=expr op=(ADD_OP | SUBST_OP) b=expr 		#expr_binop // returns: type of Lexpr
+    | a=expr op=(MULT_OP | DEV_OP) b=expr   #expr_binop // returns: type of Lexpr
+    | a=expr op=(ADD_OP | SUBST_OP) b=expr  #expr_binop // returns: type of Lexpr
+    | LP type RP expr           #expr_cast
     | id=ID'++'            	#expr_incr	// returns: int
     | id=ID'--'            	#expr_decr	// returns: int
     | dev_operation        	#expr_dev	// returns: boolean

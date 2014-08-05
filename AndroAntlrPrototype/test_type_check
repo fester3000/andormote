@@ -6,7 +6,7 @@ float logiczna(int parametr, float test, String nazwa) {
 	int i;
 	i = TRUE; //blad
 	bool czy = TRUE;
-	int wynik = "foo";
+	int wynik = (int)"foo"; //blad
 	
 	float zmiennop = 3;
 	zmiennop = '1';

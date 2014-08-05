@@ -1,13 +1,15 @@
 package pl.fester3k.antlr.semanticAnalysis;
 
-import org.antlr.v4.runtime.tree.ParseTree;
-
 import pl.fester3k.antlr.androCode.AndroCodeParser;
 
 public enum Type {
-	USER(0), BOOLEAN(1), CHAR(2), INT(3), FLOAT(4), VOID(5), STRING(0), DEVICE(0), NULL(-1), INVALID(0);
+	USER(0, "userDef"), BOOLEAN(1, "bool"), CHAR(2, "char"), INT(3, "int"), 
+	FLOAT(4, "float"), VOID(5, "void"), STRING(0, "String"), DEVICE(0, "device"), 
+	NULL(-1, "null"), INVALID(0, "INVALID");
 	
 	public int priority;
+
+	private String typename;
 	
 	public static final Type[][] arithmeticResultType = new Type[][] {
 		/*				otherTypes	boolean	char	int		float	void */
@@ -42,19 +44,20 @@ public enum Type {
 	
 	public static final Type[][] promoteFromTo = new Type[][] {
 		/*				otherTypes	boolean	char	int		float	void */
-		/*otherTypes*/	{NULL,		NULL,	NULL,	NULL,	NULL,	NULL},
-		/*boolean	*/	{NULL,		NULL,	NULL,	NULL,	NULL,	NULL},
-		/*char		*/	{NULL,		NULL,	NULL, 	INT,	FLOAT,	NULL},
-		/*int		*/	{NULL,		NULL,	NULL,	NULL,	FLOAT,	NULL},
-		/*float		*/	{NULL,		NULL,	NULL,	NULL,	NULL, 	NULL},
-		/*void		*/	{NULL,		NULL,	NULL,	NULL,	NULL, 	NULL}
+		/*otherTypes*/	{null,		null,	null,	null,	null,	null},
+		/*boolean	*/	{null,		null,	null,	null,	null,	null},
+		/*char		*/	{null,		null,	null, 	INT,	FLOAT,	null},
+		/*int		*/	{null,		null,	null,	null,	FLOAT,	null},
+		/*float		*/	{null,		null,	null,	null,	null, 	null},
+		/*void		*/	{null,		null,	null,	null,	null, 	null}
 	};
 	
-	private Type(int priority) {
+	private Type(int priority, String typeName) {
 		this.priority = priority;
+		this.typename = typeName;
 	}
 	
-	public static Type getType(int tokenType) {
+	public static Type getTypeByTokenID(int tokenType) {
 		Type result;
 		switch(tokenType) {
 		case AndroCodeParser.K_INT_TYPE: 
@@ -97,5 +100,10 @@ public enum Type {
 			result = INVALID;
 		}
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return typename;
 	}
 }

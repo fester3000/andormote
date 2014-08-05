@@ -1,4 +1,7 @@
 package pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement;
+
+import pl.fester3k.antlr.semanticAnalysis.Type;
+
 /***
  * Excerpted from "Language Implementation Patterns",
  * published by The Pragmatic Bookshelf.
@@ -18,4 +21,8 @@ public interface Scope {
 
     /** Look up name in this scope or in enclosing scope if not here */
     public Symbol resolve(String name);
+//    
+//    public void resolveByIdIfNotNull(String id);
+//    
+//    public Type getTypeFromSymbol(String id);
 }
