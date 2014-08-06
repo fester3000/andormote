@@ -23,23 +23,22 @@ import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.LocalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
+import pl.fester3k.prot.utils.PrintUtils;
 
 public class DefinePhase extends AndroCodeBaseListener {	
+	private static final String PREFIX = ">>";
 	private static final String DELIMITER = "++++++++++++\n";
+	private final PrintUtils printer;
 
-	@Getter	
-	private ParseTreeProperty<Scope> scopes;
-	
-	@Getter	
-	private GlobalScope globals;
-
-	@Getter	
-	private Scope currentScope;	
+	@Getter	private ParseTreeProperty<Scope> scopes;
+	@Getter	private GlobalScope globals;
+	@Getter	private Scope currentScope;	
 
 	public DefinePhase() {
 		super();
 		System.out.println(DELIMITER + "Starting define phase");
 		scopes = new ParseTreeProperty<Scope>();
+		printer = new PrintUtils(PREFIX);
 	}
 
 	@Override
@@ -50,7 +49,8 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	@Override
 	public void exitScript(ScriptContext ctx) {
-		System.out.println(DELIMITER + globals);
+		printer.print(DELIMITER + globals, ctx);
+		
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	@Override
 	public void exitBlock(BlockContext ctx) {
-		System.out.println(DELIMITER + currentScope);
+		printer.print(DELIMITER + currentScope, ctx);
 		currentScope = currentScope.getEnclosingScope();
 	}
 
@@ -96,13 +96,13 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	@Override
 	public void exitFunction(FunctionContext ctx) {
-		System.out.println(DELIMITER + currentScope);
+		printer.print(DELIMITER + currentScope, ctx);
 		currentScope = currentScope.getEnclosingScope();
 	}
 
 	@Override
 	public void exitMain_function(Main_functionContext ctx) {
-		System.out.println(DELIMITER + currentScope);
+		printer.print(DELIMITER + currentScope, ctx);
 		currentScope = currentScope.getEnclosingScope();
 	}
 	

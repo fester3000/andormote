@@ -4,9 +4,9 @@ begin
 
 float logiczna(int parametr, float test, String nazwa) {
 	int i;
-	i = TRUE; //blad
+	i = 1; 
 	bool czy = TRUE;
-	int wynik = (int)"foo"; //blad
+	int wynik = 2; 
 	
 	float zmiennop = 3;
 	zmiennop = '1';
@@ -19,7 +19,7 @@ int main() {
 	r = logiczna('3', 12.1, "logika");
 	
 	{
-		return 1;
+		return 5;
 	}
 }
 end

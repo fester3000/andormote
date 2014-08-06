@@ -6,7 +6,6 @@ import java.util.Map;
 import lombok.Getter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -15,13 +14,19 @@ import pl.fester3k.antlr.androCode.AndroCodeBaseListener;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.AssignmentContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.BlockContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.ConditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ExprContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_castContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_decrContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_fcallContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incrContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_uminusContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_unotContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.If_conditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Return_statementContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
@@ -31,15 +36,16 @@ import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.FunctionSymbol
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Symbol;
+import pl.fester3k.prot.utils.PrintUtils;
 import pl.fester3k.prot.utils.Utils;
 
-import com.google.common.base.Strings;
-
 public class TypeCheckingPhase extends AndroCodeBaseListener {	
+	private static final String PREFIX = "@@";
+	private final PrintUtils printer;
 	private GlobalScope globals;
 	private ParseTreeProperty<Scope> scopes;
 	private Scope currentScope;
-	private ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
+	private ParseTreeProperty<Type> types;
 	
 	@Getter private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
 	@Getter private TokenStreamRewriter rewriter;
@@ -51,9 +57,11 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 
 
 	public TypeCheckingPhase(GlobalScope globals,
-			ParseTreeProperty<Scope> scopes, TokenStream tokens) {
+			ParseTreeProperty<Scope> scopes, ParseTreeProperty<Type> types, TokenStream tokens) {
+		printer = new PrintUtils(PREFIX);
 		this.globals = globals;
 		this.scopes = scopes;
+		this.types = types;
 		rewriter = new TokenStreamRewriter(tokens);
 	}
 	
@@ -97,29 +105,55 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 		currentScope = currentScope.getEnclosingScope();
 	}
 	
+
+	@Override
+	public void exitExpr_unot(Expr_unotContext ctx) {
+		Type type = types.get(ctx.subExpr);
+		if(!(type.equals(Type.BOOLEAN))) {
+			printer.printError(ctx.subExpr.getText() + " must have boolean type", ctx);
+		}
+	}
+
+	@Override
+	public void exitExpr_incr(Expr_incrContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitExpr_incr(ctx);
+	}
+
+	@Override
+	public void exitExpr_decr(Expr_decrContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitExpr_decr(ctx);
+	}
+
+	@Override
+	public void exitExpr_uminus(Expr_uminusContext ctx) {
+		Type type = types.get(ctx);
+		if(!(type.equals(Type.INT) || (type.equals(Type.FLOAT)))) {
+			printer.printError(ctx.getText() + " must have int/float type", ctx);
+		}
+	}
+	
 	@Override
 	public void exitExpr_cast(Expr_castContext ctx) {
 		Type type = Type.getTypeByTokenID(ctx.type().start.getType());
 		types.put(ctx, type);
-		Utils.printTypeWithContext(type, ctx);
+		printer.printTypeWithContext(type, ctx);
 		
 		processAssignmentTypePromotion(type, ctx.expr());
 		//FIXME sprawdzać czy cast jest legalny
 	}
-
 	
 	/**
 	 * Catches all function calls "id(arguments)"
+	 * Promotes and checks types of function arguments (if they exist)
 	 */
 	@Override
 	public void exitExpr_fcall(Expr_fcallContext ctx) {
 		String name = ctx.fcal.ID().getText();
-		//FIXME trzeba sprawdzić typ, bo co jeśli ktoś źle zadeklarował?!
 		FunctionSymbol function = (FunctionSymbol)currentScope.resolve(name); 
 		Map<String, Symbol> declaredParameters = function.getOrderedArgs();
-		
 		ArgumentsContext argumentsDefinedInFunctionCall = ctx.fcal.arguments();
-		
 		if(argumentsDefinedInFunctionCall == null) {
 			return;
 		}
@@ -127,7 +161,6 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 		int i = 0;
 		for (Symbol parameter : declaredParameters.values()) {
 			Type parameterType = parameter.getType();
-			//FIXME Sprawdzać sekwencję
 			ExprContext expressionToPromote = arguments.get(i);
 			processAssignmentTypePromotion(parameterType, expressionToPromote);
 			i++;
@@ -136,13 +169,14 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 
 	/**
 	 * Catches all variable declarations
+	 * Promotes and checks type of assignment if it exists
 	 */
 	@Override
 	public void exitVar_declaration(Var_declarationContext ctx) {
-		Type type = Type.getTypeByTokenID(ctx.type().start.getType());
 		ExprContext expr = ctx.expr();
 		boolean declarationWithAssignment = expr != null;
 		if(declarationWithAssignment) {
+			Type type = Type.getTypeByTokenID(ctx.type().start.getType());
 			processAssignmentTypePromotion(type, expr);
 		} 
 	}
@@ -205,48 +239,57 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 		return !(currentCtx instanceof FunctionContext);
 	}	
 	
-	private void processAssignmentTypePromotion(Type variableType, ExprContext expressionToPromote) {
-		Type assignmentExpressionType = types.get(expressionToPromote);
-		if(assignmentExpressionType == null) return; //FIXME błąd!!
+	private void processAssignmentTypePromotion(Type destinationType, ExprContext expressionToPromote) {
+		Type expressionType = types.get(expressionToPromote);
+		if(expressionType == null) {
+			printer.printError("Unable to process automatic type promotion for " + destinationType + " and " + expressionToPromote.getText() + ". Assigned value has unknown type", expressionToPromote);
+			return; //FIXME throw!!
+		}
+		Type expressionPromotionType = Type.promoteFromTo[expressionType.priority][destinationType.priority];
+		printer.printPromotedTypeWithContext(expressionPromotionType, expressionToPromote);
 		
-		Type assignmentPromotionType = Type.promoteFromTo[assignmentExpressionType.priority][variableType.priority];
-		Utils.printPromotedTypeWithContext(assignmentPromotionType, expressionToPromote);
-		
-		tryToPromote(expressionToPromote, assignmentPromotionType);
+		if(canAssignTo(expressionType, expressionPromotionType, destinationType)) {
+			tryToPromote(expressionToPromote, expressionPromotionType);
+		} else {
+			printer.printError("Expression's type is incompatible with its destination", expressionToPromote);
+		}
 	}
-
+	
+	private boolean canAssignTo(Type valueType, Type promotionType, Type destinationType) {
+		return valueType == destinationType || promotionType == destinationType;
+	}
+	
 	private <T extends ParserRuleContext> void processAutomaticTypePromotion(Type[][] typeTable, T argA, T argB, ParserRuleContext ctx) {
-		Token startToken = ctx.start;
-		String messagePrefix = "@@ [" + startToken.getLine() +","+ startToken.getCharPositionInLine() + "] ";
 		Type typeA = types.get(argA);
 		Type typeB = types.get(argB);
 		if(typeA == null  || typeB == null) {
-			System.err.println(messagePrefix + "Unable to process automatic type promotion for " + argA.getText() + " and " + argB.getText() + ". Expressions has incompatible types in " + ctx.getText());
-			return;
+			printer.printError("Unable to process automatic type promotion for " + argA.getText() + " and " + argB.getText() + ". Expressions has incompatible types ", ctx);
+			return; //FIXME throw!!
 		}
 		
 		int typePriorityA = typeA.priority;
 		int typePriorityB = typeB.priority;
 		Type resultType = typeTable[typePriorityA][typePriorityB];
 		if (resultType == Type.VOID) {
-			System.err.println(messagePrefix + "Arguments " + argA.getText() + " and " + argB.getText() + " has incompatible types in " + ctx.getText());
+			printer.printError("Arguments " + argA.getText() + " and " + argB.getText() + " has incompatible types in " + ctx.getText(), ctx);
+			return; //FIXME throw!!
 		} else {
-			performPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
+			performArgumentPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
+			printer.printTypeWithContext(resultType, ctx);
+			tryToPromote(ctx, resultType);
 		}
 	}
 
-	private <T extends ParserRuleContext> void performPromotion(T argA, T argB, ParserRuleContext ctx,
+	private <T extends ParserRuleContext> void performArgumentPromotion(T argA, T argB, ParserRuleContext ctx,
 			int typePriorityA, int typePriorityB, Type resultType) {
 		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.priority];
 		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.priority];
 		
-		Utils.printTypeWithContext(promoteTypeA, argA);
-		Utils.printTypeWithContext(promoteTypeB, argB);
-		Utils.printPromotedTypeWithContext(resultType, ctx);
+		printer.printPromotedTypeWithContext(promoteTypeA, argA);
+		printer.printPromotedTypeWithContext(promoteTypeB, argB);
 		
 		tryToPromote(argA, promoteTypeA);
 		tryToPromote(argB, promoteTypeB);
-		tryToPromote(ctx, resultType);
 	}
 
 	private void tryToPromote(ParserRuleContext ctx, Type typeToCast) {
@@ -257,7 +300,9 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 	private void insertCast(ParserRuleContext ctx, Type typeToCast) {
 		if(typeToCast != null) {
 			String textToInsert = "(" + typeToCast + ")";
+			printer.print("Inserting cast to " + textToInsert, ctx);
 			rewriter.insertBefore(ctx.start, textToInsert);
 		} 
 	}
+
 }

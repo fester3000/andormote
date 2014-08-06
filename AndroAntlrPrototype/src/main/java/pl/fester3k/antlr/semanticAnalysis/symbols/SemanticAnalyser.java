@@ -19,7 +19,7 @@ public class SemanticAnalyser {
 		StaticTypeComputingPhase typeComputingPhase = new StaticTypeComputingPhase(definePhase.getGlobals(), definePhase.getScopes(), tokens);
 		walker.walk(typeComputingPhase, tree);
 		
-		TypeCheckingPhase typeChecking = new TypeCheckingPhase(definePhase.getGlobals(), definePhase.getScopes(), tokens);
+		TypeCheckingPhase typeChecking = new TypeCheckingPhase(definePhase.getGlobals(), definePhase.getScopes(), typeComputingPhase.getTypes(), tokens);
 		walker.walk(typeChecking, tree);
 		
 

@@ -1,5 +1,6 @@
 package pl.fester3k.antlr.semanticAnalysis.symbols;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -18,18 +19,23 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Symbol;
+import pl.fester3k.prot.utils.PrintUtils;
+import pl.fester3k.prot.utils.Utils;
 
 import com.google.common.base.Strings;
 
 
 public class ResolvePhase extends AndroCodeBaseListener {
+	private static final String PREFIX = "<<";
 	private static final String DELIMITER = "************\n";
+	private final PrintUtils printer;
 	private GlobalScope globals;
 	private ParseTreeProperty<Scope> scopes;
 	private Scope currentScope;
 
 	public ResolvePhase(GlobalScope globals, ParseTreeProperty<Scope> scopes) {
 		System.out.println(DELIMITER + "Starting resolve phase");
+		printer = new PrintUtils(PREFIX);
 		this.globals = globals;
 		this.scopes = scopes;
 	}
@@ -37,12 +43,13 @@ public class ResolvePhase extends AndroCodeBaseListener {
 	@Override
 	public void enterScript(ScriptContext ctx) {
 		currentScope = globals;
+		printer.print(globals.toString(), ctx);
 		System.out.println(globals);
 	}
-	
+
 	@Override
 	public void enterBlock(BlockContext ctx) {
-		System.out.println(currentScope);
+		printer.print(currentScope.toString(), ctx);
 		currentScope = scopes.get(ctx);
 	}
 
@@ -50,10 +57,10 @@ public class ResolvePhase extends AndroCodeBaseListener {
 	public void exitBlock(BlockContext ctx) {
 		currentScope = currentScope.getEnclosingScope();
 	}
-	
+
 	@Override
 	public void enterMain_function(Main_functionContext ctx) {
-		System.out.println(DELIMITER + currentScope);
+		printer.print(DELIMITER + currentScope, ctx);
 		currentScope = scopes.get(ctx);
 	}
 
@@ -61,10 +68,10 @@ public class ResolvePhase extends AndroCodeBaseListener {
 	public void exitMain_function(Main_functionContext ctx) {
 		currentScope = currentScope.getEnclosingScope();
 	}
-	
+
 	@Override
 	public void enterFunction(FunctionContext ctx) {
-		System.out.println(DELIMITER + currentScope);
+		printer.print(DELIMITER + currentScope, ctx);
 		currentScope = scopes.get(ctx);
 	}
 
@@ -72,53 +79,51 @@ public class ResolvePhase extends AndroCodeBaseListener {
 	public void exitFunction(FunctionContext ctx) {
 		currentScope = currentScope.getEnclosingScope();
 	}
-	
+
 	@Override
 	public void enterFunction_call(Function_callContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);
+		resolveByIdIfNotNull(id, ctx);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void enterExpr_incr(Expr_incrContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);
+		resolveByIdIfNotNull(id, ctx);
 	}
 
 	@Override
 	public void enterExpr_var(Expr_varContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);
+		resolveByIdIfNotNull(id, ctx);
 	}
 
 	@Override
 	public void enterExpr_decr(Expr_decrContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);
+		resolveByIdIfNotNull(id, ctx);
 	}
 
 	@Override
 	public void enterDev_operation(Dev_operationContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);	
+		resolveByIdIfNotNull(id, ctx);	
 	}
 
 	@Override
 	public void enterVar_declaration(Var_declarationContext ctx) {
 		String id = ctx.ID().getText();
-		resolveByIdIfNotNull(id);
+		resolveByIdIfNotNull(id, ctx);
 	}
 
-	private void resolveByIdIfNotNull(String id) {
-		if(!Strings.isNullOrEmpty(id)) {
-			Symbol s = currentScope.resolve(id);
-			if(s != null) {
-				System.out.println("++ Symbol " + s.getType() + " " + s.getName() +" ok");
-			} else {
-				System.err.println("----- !Symbol " + id + " not declared!");
-			}
+	private <T extends ParserRuleContext> void resolveByIdIfNotNull(String id, T ctx) {
+		Symbol symbol = Utils.getSymbolById(id, currentScope);
+		if(symbol != null) {
+			printer.print("Symbol " + symbol.getType() + " " + symbol.getName() +" ok", ctx);
+		} else {
+			printer.printError("!Symbol " + id + " not declared!", ctx);
 		}
 	}
 }
