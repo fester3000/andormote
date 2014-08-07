@@ -57,7 +57,7 @@ public enum Type {
 		this.typename = typeName;
 	}
 	
-	public static Type getTypeByTokenID(int tokenType) {
+	public static Type getTypeByTokenType(int tokenType) {
 		Type result;
 		switch(tokenType) {
 		case AndroCodeParser.K_INT_TYPE: 

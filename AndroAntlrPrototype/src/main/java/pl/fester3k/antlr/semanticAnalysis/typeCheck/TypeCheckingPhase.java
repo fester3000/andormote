@@ -10,42 +10,33 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import pl.fester3k.antlr.androCode.AndroCodeBaseListener;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.AssignmentContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.BlockContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.ConditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ExprContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_castContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_decrContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_fcallContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incrContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_unotContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.If_conditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Return_statementContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
+import pl.fester3k.antlr.androCode.listeners.AndroCodeListenerWithScopes;
 import pl.fester3k.antlr.semanticAnalysis.Type;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.FunctionSymbol;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Symbol;
-import pl.fester3k.prot.utils.PrintUtils;
 import pl.fester3k.prot.utils.Utils;
 
-public class TypeCheckingPhase extends AndroCodeBaseListener {	
+public class TypeCheckingPhase extends AndroCodeListenerWithScopes {	
 	private static final String PREFIX = "@@";
-	private final PrintUtils printer;
-	private GlobalScope globals;
-	private ParseTreeProperty<Scope> scopes;
-	private Scope currentScope;
-	private ParseTreeProperty<Type> types;
+	private final ParseTreeProperty<Type> types;
 	
 	@Getter private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
 	@Getter private TokenStreamRewriter rewriter;
@@ -58,53 +49,15 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 
 	public TypeCheckingPhase(GlobalScope globals,
 			ParseTreeProperty<Scope> scopes, ParseTreeProperty<Type> types, TokenStream tokens) {
-		printer = new PrintUtils(PREFIX);
-		this.globals = globals;
-		this.scopes = scopes;
+		super(globals,scopes,PREFIX);
 		this.types = types;
 		rewriter = new TokenStreamRewriter(tokens);
 	}
-	
-	@Override
-	public void enterScript(ScriptContext ctx) {
-		currentScope = globals;
-	}
-	
+		
 	@Override
 	public void exitScript(ScriptContext ctx) {
 		System.out.println(rewriter.getText());
 	}
-
-	@Override
-	public void enterBlock(BlockContext ctx) {
-		currentScope = scopes.get(ctx);
-	}
-	
-	@Override
-	public void exitBlock(BlockContext ctx) {
-		currentScope = currentScope.getEnclosingScope();
-	}
-	
-	@Override
-	public void enterMain_function(Main_functionContext ctx) {
-		currentScope = scopes.get(ctx);
-	}
-
-	@Override
-	public void exitMain_function(Main_functionContext ctx) {
-		currentScope = currentScope.getEnclosingScope();
-	}
-	
-	@Override
-	public void enterFunction(FunctionContext ctx) {
-		currentScope = scopes.get(ctx);
-	}
-
-	@Override
-	public void exitFunction(FunctionContext ctx) {
-		currentScope = currentScope.getEnclosingScope();
-	}
-	
 
 	@Override
 	public void exitExpr_unot(Expr_unotContext ctx) {
@@ -115,15 +68,9 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 	}
 
 	@Override
-	public void exitExpr_incr(Expr_incrContext ctx) {
+	public void exitExpr_incr_decr(Expr_incr_decrContext ctx) {
 		// TODO Auto-generated method stub
-		super.exitExpr_incr(ctx);
-	}
-
-	@Override
-	public void exitExpr_decr(Expr_decrContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitExpr_decr(ctx);
+		super.exitExpr_incr_decr(ctx);
 	}
 
 	@Override
@@ -136,7 +83,7 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 	
 	@Override
 	public void exitExpr_cast(Expr_castContext ctx) {
-		Type type = Type.getTypeByTokenID(ctx.type().start.getType());
+		Type type = Type.getTypeByTokenType(ctx.type().start.getType());
 		types.put(ctx, type);
 		printer.printTypeWithContext(type, ctx);
 		
@@ -176,7 +123,7 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 		ExprContext expr = ctx.expr();
 		boolean declarationWithAssignment = expr != null;
 		if(declarationWithAssignment) {
-			Type type = Type.getTypeByTokenID(ctx.type().start.getType());
+			Type type = Type.getTypeByTokenType(ctx.type().start.getType());
 			processAssignmentTypePromotion(type, expr);
 		} 
 	}
@@ -186,7 +133,7 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 	 */
 	@Override
 	public void exitAssignment(AssignmentContext ctx) {
-		Type type = types.get(ctx.a);
+		Type type = types.get(ctx);
 		processAssignmentTypePromotion(type, ctx.b);
 	}
 	
@@ -276,6 +223,7 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 		} else {
 			performArgumentPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
 			printer.printTypeWithContext(resultType, ctx);
+			
 			tryToPromote(ctx, resultType);
 		}
 	}
@@ -293,8 +241,11 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 	}
 
 	private void tryToPromote(ParserRuleContext ctx, Type typeToCast) {
-		promotedTypes.put(ctx, typeToCast);
-		insertCast(ctx, typeToCast);
+		Type type = types.get(ctx);
+		if(typeToCast != type) {
+			promotedTypes.put(ctx, typeToCast);
+			insertCast(ctx, typeToCast);
+		}
 	}
 
 	private void insertCast(ParserRuleContext ctx, Type typeToCast) {
@@ -302,6 +253,7 @@ public class TypeCheckingPhase extends AndroCodeBaseListener {
 			String textToInsert = "(" + typeToCast + ")";
 			printer.print("Inserting cast to " + textToInsert, ctx);
 			rewriter.insertBefore(ctx.start, textToInsert);
+			types.put(ctx, typeToCast);
 		} 
 	}
 

@@ -35,7 +35,7 @@ statement       // statement
     | return_statement    
     ;
 
-expr returns [Type evalType]			        //expression
+expr 			        //expression
     : fcal=function_call  	#expr_fcall			// returns: function type    
     | '(' subExpr=expr ')'  #expr_parenthesis 	// returns: type of expr
     | '-' subExpr=expr      #expr_uminus		// returns: type of expr
@@ -43,8 +43,7 @@ expr returns [Type evalType]			        //expression
     | a=expr op=(MULT_OP | DEV_OP) b=expr   #expr_binop // returns: type of Lexpr
     | a=expr op=(ADD_OP | SUBST_OP) b=expr  #expr_binop // returns: type of Lexpr
     | LP type RP expr           #expr_cast
-    | id=ID'++'            	#expr_incr	// returns: int
-    | id=ID'--'            	#expr_decr	// returns: int
+    | id=ID op=(INCR_OP | DECR_OP)            	#expr_incr_decr	// returns: int
     | dev_operation        	#expr_dev	// returns: boolean
     | v=value              	#expr_value	// returns: value type
     | ID                   	#expr_var	// returns: type of var ID
@@ -54,14 +53,14 @@ return_statement
     : 'return' expr? ';' 
     ;
 
-var_declaration returns [Type evalType]// declaration of variable 'ID' of type 'type' with optional assignment
+var_declaration // declaration of variable 'ID' of type 'type' with optional assignment
     : type ID ('=' expr)?;
-assignment returns [Type evalType]     // assignment
-    : a=expr '=' b=expr;
+assignment // assignment
+    : a=ID '=' b=expr;
 function_call // call of function 'ID' with optional arguments
     : ID LP arguments? RP  
     ;
-condition returns [Type evalType]      // logical condition
+condition  // logical condition
     : a=expr op=( EQ_OP | NOT_EQ_OP ) b=expr                #condition_equality
     | a=expr op=( GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr #condition_relational
     ;
@@ -80,7 +79,7 @@ dev_operation
            | 'getDevice' LP STRING RP)
     ;
 
-value returns [Type evalType]       
+value     
     : CHAR     //{$returnType = Type.tCHAR; }      
     | INT       //{$returnType = Type.tINT; }      
     | FLOAT    //{$returnType = Type.tFLOAT; }      
@@ -117,6 +116,8 @@ ADD_OP      : '+' ;
 SUBST_OP    : '-' ;
 MULT_OP     : '*' ;
 DEV_OP      : '/' ;
+INCR_OP      : '++';
+DECR_OP      : '--';
 
 EQ_OP       : '==' ;
 NOT_EQ_OP   : '!=' ;
@@ -150,4 +151,4 @@ DIGIT       : [0-9];
 
 LINE_COMMENT: '//' .*? '\n' -> skip ; //single line comments marked by "//" prefix
 COMMENT     : '/*' .*? '*/' -> skip ; //multi line comments enclosed between "/*" and "*/" tags
-WS          : [ \t\r\n]+ -> skip ; //whitespaces that should be ignored in parsing process
+WS          : [ \t\r\n]+ -> channel(HIDDEN) ; //whitespaces that should be ignored in parsing process

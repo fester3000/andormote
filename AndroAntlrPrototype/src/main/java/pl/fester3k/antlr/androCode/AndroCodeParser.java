@@ -18,20 +18,20 @@ public class AndroCodeParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__20=1, T__19=2, T__18=3, T__17=4, T__16=5, T__15=6, T__14=7, T__13=8, 
-		T__12=9, T__11=10, T__10=11, T__9=12, T__8=13, T__7=14, T__6=15, T__5=16, 
-		T__4=17, T__3=18, T__2=19, T__1=20, T__0=21, K_INT_TYPE=22, K_VOID_TYPE=23, 
-		K_FLOAT_TYPE=24, K_CHAR_TYPE=25, K_STRING_TYPE=26, K_BOOLEAN_TYPE=27, 
-		K_DEV_TYPE=28, LIBNAME=29, ID=30, LP=31, RP=32, ADD_OP=33, SUBST_OP=34, 
-		MULT_OP=35, DEV_OP=36, EQ_OP=37, NOT_EQ_OP=38, GT_OP=39, LT_OP=40, GTEQ_OP=41, 
-		LTEQ_OP=42, CHAR=43, INT=44, FLOAT=45, STRING=46, BOOLEAN=47, NULL=48, 
-		LINE_COMMENT=49, COMMENT=50, WS=51;
+		T__18=1, T__17=2, T__16=3, T__15=4, T__14=5, T__13=6, T__12=7, T__11=8, 
+		T__10=9, T__9=10, T__8=11, T__7=12, T__6=13, T__5=14, T__4=15, T__3=16, 
+		T__2=17, T__1=18, T__0=19, K_INT_TYPE=20, K_VOID_TYPE=21, K_FLOAT_TYPE=22, 
+		K_CHAR_TYPE=23, K_STRING_TYPE=24, K_BOOLEAN_TYPE=25, K_DEV_TYPE=26, LIBNAME=27, 
+		ID=28, LP=29, RP=30, ADD_OP=31, SUBST_OP=32, MULT_OP=33, DEV_OP=34, INCR_OP=35, 
+		DECR_OP=36, EQ_OP=37, NOT_EQ_OP=38, GT_OP=39, LT_OP=40, GTEQ_OP=41, LTEQ_OP=42, 
+		CHAR=43, INT=44, FLOAT=45, STRING=46, BOOLEAN=47, NULL=48, LINE_COMMENT=49, 
+		COMMENT=50, WS=51;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'use'", "'getDevice'", "'.'", "','", "'setParam'", "'while'", 
-		"'for'", "'if'", "'--'", "'main'", "'return'", "'='", "';'", "'{'", "'begin'", 
-		"'else'", "'}'", "'end'", "'!'", "'++'", "'elseif'", "'int'", "'void'", 
-		"'float'", "'char'", "'String'", "'bool'", "'device'", "LIBNAME", "ID", 
-		"'('", "')'", "'+'", "'-'", "'*'", "'/'", "'=='", "'!='", "'>'", "'<'", 
+		"'for'", "'if'", "'main'", "'return'", "'='", "';'", "'{'", "'begin'", 
+		"'else'", "'}'", "'end'", "'!'", "'elseif'", "'int'", "'void'", "'float'", 
+		"'char'", "'String'", "'bool'", "'device'", "LIBNAME", "ID", "'('", "')'", 
+		"'+'", "'-'", "'*'", "'/'", "'++'", "'--'", "'=='", "'!='", "'>'", "'<'", 
 		"'>='", "'<='", "CHAR", "INT", "FLOAT", "STRING", "BOOLEAN", "'null'", 
 		"LINE_COMMENT", "COMMENT", "WS"
 	};
@@ -162,7 +162,7 @@ public class AndroCodeParser extends Parser {
 			{
 			setState(53); match(1);
 			setState(54); match(LIBNAME);
-			setState(55); match(13);
+			setState(55); match(12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -213,7 +213,7 @@ public class AndroCodeParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57); match(15);
+			setState(57); match(14);
 			setState(61);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
@@ -243,7 +243,7 @@ public class AndroCodeParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(71); match(18);
+			setState(71); match(17);
 			}
 		}
 		catch (RecognitionException re) {
@@ -290,7 +290,7 @@ public class AndroCodeParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(73); match(K_INT_TYPE);
-			setState(74); match(10);
+			setState(74); match(9);
 			setState(75); match(LP);
 			setState(76); match(RP);
 			setState(77); block();
@@ -511,11 +511,11 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99); match(14);
+			setState(99); match(13);
 			setState(103);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 7) | (1L << 8) | (1L << 11) | (1L << 14) | (1L << 19) | (1L << K_INT_TYPE) | (1L << K_VOID_TYPE) | (1L << K_FLOAT_TYPE) | (1L << K_CHAR_TYPE) | (1L << K_STRING_TYPE) | (1L << K_BOOLEAN_TYPE) | (1L << K_DEV_TYPE) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 7) | (1L << 8) | (1L << 10) | (1L << 13) | (1L << 18) | (1L << K_INT_TYPE) | (1L << K_VOID_TYPE) | (1L << K_FLOAT_TYPE) | (1L << K_CHAR_TYPE) | (1L << K_STRING_TYPE) | (1L << K_BOOLEAN_TYPE) | (1L << K_DEV_TYPE) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
 				{
 				{
 				setState(100); statement();
@@ -525,7 +525,7 @@ public class AndroCodeParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(106); match(17);
+			setState(106); match(16);
 			}
 		}
 		catch (RecognitionException re) {
@@ -600,7 +600,7 @@ public class AndroCodeParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(109); expr(0);
-				setState(110); match(13);
+				setState(110); match(12);
 				}
 				break;
 
@@ -608,7 +608,7 @@ public class AndroCodeParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(112); var_declaration();
-				setState(113); match(13);
+				setState(113); match(12);
 				}
 				break;
 
@@ -616,7 +616,7 @@ public class AndroCodeParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(115); assignment();
-				setState(116); match(13);
+				setState(116); match(12);
 				}
 				break;
 
@@ -661,7 +661,6 @@ public class AndroCodeParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public Type evalType;
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -670,7 +669,6 @@ public class AndroCodeParser extends Parser {
 		public ExprContext() { }
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
-			this.evalType = ctx.evalType;
 		}
 	}
 	public static class Expr_parenthesisContext extends ExprContext {
@@ -709,24 +707,6 @@ public class AndroCodeParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AndroCodeVisitor ) return ((AndroCodeVisitor<? extends T>)visitor).visitExpr_dev(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class Expr_decrContext extends ExprContext {
-		public Token id;
-		public TerminalNode ID() { return getToken(AndroCodeParser.ID, 0); }
-		public Expr_decrContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).enterExpr_decr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).exitExpr_decr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AndroCodeVisitor ) return ((AndroCodeVisitor<? extends T>)visitor).visitExpr_decr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -796,24 +776,6 @@ public class AndroCodeParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class Expr_incrContext extends ExprContext {
-		public Token id;
-		public TerminalNode ID() { return getToken(AndroCodeParser.ID, 0); }
-		public Expr_incrContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).enterExpr_incr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).exitExpr_incr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AndroCodeVisitor ) return ((AndroCodeVisitor<? extends T>)visitor).visitExpr_incr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class Expr_valueContext extends ExprContext {
 		public ValueContext v;
 		public ValueContext value() {
@@ -831,6 +793,27 @@ public class AndroCodeParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AndroCodeVisitor ) return ((AndroCodeVisitor<? extends T>)visitor).visitExpr_value(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Expr_incr_decrContext extends ExprContext {
+		public Token id;
+		public Token op;
+		public TerminalNode INCR_OP() { return getToken(AndroCodeParser.INCR_OP, 0); }
+		public TerminalNode DECR_OP() { return getToken(AndroCodeParser.DECR_OP, 0); }
+		public TerminalNode ID() { return getToken(AndroCodeParser.ID, 0); }
+		public Expr_incr_decrContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).enterExpr_incr_decr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AndroCodeListener ) ((AndroCodeListener)listener).exitExpr_incr_decr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AndroCodeVisitor ) return ((AndroCodeVisitor<? extends T>)visitor).visitExpr_incr_decr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -915,7 +898,7 @@ public class AndroCodeParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(146);
+			setState(144);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				{
@@ -924,7 +907,7 @@ public class AndroCodeParser extends Parser {
 				_prevctx = _localctx;
 
 				setState(125); match(SUBST_OP);
-				setState(126); ((Expr_uminusContext)_localctx).subExpr = expr(10);
+				setState(126); ((Expr_uminusContext)_localctx).subExpr = expr(9);
 				}
 				break;
 
@@ -933,8 +916,8 @@ public class AndroCodeParser extends Parser {
 				_localctx = new Expr_unotContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(127); match(19);
-				setState(128); ((Expr_unotContext)_localctx).subExpr = expr(9);
+				setState(127); match(18);
+				setState(128); ((Expr_unotContext)_localctx).subExpr = expr(8);
 				}
 				break;
 
@@ -946,7 +929,7 @@ public class AndroCodeParser extends Parser {
 				setState(129); match(LP);
 				setState(130); type();
 				setState(131); match(RP);
-				setState(132); expr(6);
+				setState(132); expr(5);
 				}
 				break;
 
@@ -972,53 +955,49 @@ public class AndroCodeParser extends Parser {
 
 			case 6:
 				{
-				_localctx = new Expr_incrContext(_localctx);
+				_localctx = new Expr_incr_decrContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(139); ((Expr_incrContext)_localctx).id = match(ID);
-				setState(140); match(20);
+				setState(139); ((Expr_incr_decrContext)_localctx).id = match(ID);
+				setState(140);
+				((Expr_incr_decrContext)_localctx).op = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !(_la==INCR_OP || _la==DECR_OP) ) {
+					((Expr_incr_decrContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
 				}
 				break;
 
 			case 7:
 				{
-				_localctx = new Expr_decrContext(_localctx);
+				_localctx = new Expr_devContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(141); ((Expr_decrContext)_localctx).id = match(ID);
-				setState(142); match(9);
+				setState(141); dev_operation();
 				}
 				break;
 
 			case 8:
 				{
-				_localctx = new Expr_devContext(_localctx);
+				_localctx = new Expr_valueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(143); dev_operation();
+				setState(142); ((Expr_valueContext)_localctx).v = value();
 				}
 				break;
 
 			case 9:
 				{
-				_localctx = new Expr_valueContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(144); ((Expr_valueContext)_localctx).v = value();
-				}
-				break;
-
-			case 10:
-				{
 				_localctx = new Expr_varContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(145); match(ID);
+				setState(143); match(ID);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(156);
+			setState(154);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
@@ -1026,23 +1005,23 @@ public class AndroCodeParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(154);
+					setState(152);
 					switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Expr_binopContext(new ExprContext(_parentctx, _parentState));
 						((Expr_binopContext)_localctx).a = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(148);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(149);
+						setState(146);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(147);
 						((Expr_binopContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==MULT_OP || _la==DEV_OP) ) {
 							((Expr_binopContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(150); ((Expr_binopContext)_localctx).b = expr(9);
+						setState(148); ((Expr_binopContext)_localctx).b = expr(8);
 						}
 						break;
 
@@ -1051,22 +1030,22 @@ public class AndroCodeParser extends Parser {
 						_localctx = new Expr_binopContext(new ExprContext(_parentctx, _parentState));
 						((Expr_binopContext)_localctx).a = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(151);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(152);
+						setState(149);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(150);
 						((Expr_binopContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD_OP || _la==SUBST_OP) ) {
 							((Expr_binopContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(153); ((Expr_binopContext)_localctx).b = expr(8);
+						setState(151); ((Expr_binopContext)_localctx).b = expr(7);
 						}
 						break;
 					}
 					} 
 				}
-				setState(158);
+				setState(156);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
@@ -1113,16 +1092,16 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159); match(11);
-			setState(161);
+			setState(157); match(10);
+			setState(159);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 19) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 18) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
 				{
-				setState(160); expr(0);
+				setState(158); expr(0);
 				}
 			}
 
-			setState(163); match(13);
+			setState(161); match(12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1137,7 +1116,6 @@ public class AndroCodeParser extends Parser {
 	}
 
 	public static class Var_declarationContext extends ParserRuleContext {
-		public Type evalType;
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -1171,14 +1149,14 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(165); type();
-			setState(166); match(ID);
-			setState(169);
+			setState(163); type();
+			setState(164); match(ID);
+			setState(167);
 			_la = _input.LA(1);
-			if (_la==12) {
+			if (_la==11) {
 				{
-				setState(167); match(12);
-				setState(168); expr(0);
+				setState(165); match(11);
+				setState(166); expr(0);
 				}
 			}
 
@@ -1196,15 +1174,12 @@ public class AndroCodeParser extends Parser {
 	}
 
 	public static class AssignmentContext extends ParserRuleContext {
-		public Type evalType;
-		public ExprContext a;
+		public Token a;
 		public ExprContext b;
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
+		public TerminalNode ID() { return getToken(AndroCodeParser.ID, 0); }
 		public AssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1230,9 +1205,9 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(171); ((AssignmentContext)_localctx).a = expr(0);
-			setState(172); match(12);
-			setState(173); ((AssignmentContext)_localctx).b = expr(0);
+			setState(169); ((AssignmentContext)_localctx).a = match(ID);
+			setState(170); match(11);
+			setState(171); ((AssignmentContext)_localctx).b = expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1279,17 +1254,17 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(175); match(ID);
-			setState(176); match(LP);
-			setState(178);
+			setState(173); match(ID);
+			setState(174); match(LP);
+			setState(176);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 19) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 18) | (1L << ID) | (1L << LP) | (1L << SUBST_OP) | (1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) {
 				{
-				setState(177); arguments();
+				setState(175); arguments();
 				}
 			}
 
-			setState(180); match(RP);
+			setState(178); match(RP);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1304,7 +1279,6 @@ public class AndroCodeParser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
-		public Type evalType;
 		public ConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1313,7 +1287,6 @@ public class AndroCodeParser extends Parser {
 		public ConditionContext() { }
 		public void copyFrom(ConditionContext ctx) {
 			super.copyFrom(ctx);
-			this.evalType = ctx.evalType;
 		}
 	}
 	public static class Condition_equalityContext extends ConditionContext {
@@ -1378,21 +1351,21 @@ public class AndroCodeParser extends Parser {
 		enterRule(_localctx, 28, RULE_condition);
 		int _la;
 		try {
-			setState(190);
+			setState(188);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				_localctx = new Condition_equalityContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(182); ((Condition_equalityContext)_localctx).a = expr(0);
-				setState(183);
+				setState(180); ((Condition_equalityContext)_localctx).a = expr(0);
+				setState(181);
 				((Condition_equalityContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==EQ_OP || _la==NOT_EQ_OP) ) {
 					((Condition_equalityContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(184); ((Condition_equalityContext)_localctx).b = expr(0);
+				setState(182); ((Condition_equalityContext)_localctx).b = expr(0);
 				}
 				break;
 
@@ -1400,15 +1373,15 @@ public class AndroCodeParser extends Parser {
 				_localctx = new Condition_relationalContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(186); ((Condition_relationalContext)_localctx).a = expr(0);
-				setState(187);
+				setState(184); ((Condition_relationalContext)_localctx).a = expr(0);
+				setState(185);
 				((Condition_relationalContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GT_OP) | (1L << LT_OP) | (1L << GTEQ_OP) | (1L << LTEQ_OP))) != 0)) ) {
 					((Condition_relationalContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(188); ((Condition_relationalContext)_localctx).b = expr(0);
+				setState(186); ((Condition_relationalContext)_localctx).b = expr(0);
 				}
 				break;
 			}
@@ -1457,18 +1430,18 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192); expr(0);
-			setState(197);
+			setState(190); expr(0);
+			setState(195);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==4) {
 				{
 				{
-				setState(193); match(4);
-				setState(194); expr(0);
+				setState(191); match(4);
+				setState(192); expr(0);
 				}
 				}
-				setState(199);
+				setState(197);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1525,15 +1498,15 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(200); match(7);
-			setState(201); match(LP);
-			setState(202); assignment();
-			setState(203); match(13);
-			setState(204); condition();
-			setState(205); match(13);
-			setState(206); expr(0);
-			setState(207); match(RP);
-			setState(208); block();
+			setState(198); match(7);
+			setState(199); match(LP);
+			setState(200); assignment();
+			setState(201); match(12);
+			setState(202); condition();
+			setState(203); match(12);
+			setState(204); expr(0);
+			setState(205); match(RP);
+			setState(206); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1581,11 +1554,11 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(210); match(6);
-			setState(211); match(LP);
-			setState(212); condition();
-			setState(213); match(RP);
-			setState(214); block();
+			setState(208); match(6);
+			setState(209); match(LP);
+			setState(210); condition();
+			setState(211); match(RP);
+			setState(212); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1646,34 +1619,34 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(216); match(8);
-			setState(217); match(LP);
-			setState(218); condition();
-			setState(219); match(RP);
-			setState(220); block();
-			setState(229);
+			setState(214); match(8);
+			setState(215); match(LP);
+			setState(216); condition();
+			setState(217); match(RP);
+			setState(218); block();
+			setState(227);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==21) {
+			while (_la==19) {
 				{
 				{
-				setState(221); match(21);
-				setState(222); match(LP);
-				setState(223); condition();
-				setState(224); match(RP);
-				setState(225); block();
+				setState(219); match(19);
+				setState(220); match(LP);
+				setState(221); condition();
+				setState(222); match(RP);
+				setState(223); block();
 				}
 				}
-				setState(231);
+				setState(229);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(234);
+			setState(232);
 			_la = _input.LA(1);
-			if (_la==16) {
+			if (_la==15) {
 				{
-				setState(232); match(16);
-				setState(233); block();
+				setState(230); match(15);
+				setState(231); block();
 				}
 			}
 
@@ -1723,26 +1696,26 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(236); match(ID);
-			setState(237); match(3);
-			setState(249);
+			setState(234); match(ID);
+			setState(235); match(3);
+			setState(247);
 			switch (_input.LA(1)) {
 			case 5:
 				{
-				setState(238); match(5);
-				setState(239); match(LP);
-				setState(240); match(STRING);
-				setState(241); match(4);
-				setState(242); expr(0);
-				setState(243); match(RP);
+				setState(236); match(5);
+				setState(237); match(LP);
+				setState(238); match(STRING);
+				setState(239); match(4);
+				setState(240); expr(0);
+				setState(241); match(RP);
 				}
 				break;
 			case 2:
 				{
-				setState(245); match(2);
-				setState(246); match(LP);
-				setState(247); match(STRING);
-				setState(248); match(RP);
+				setState(243); match(2);
+				setState(244); match(LP);
+				setState(245); match(STRING);
+				setState(246); match(RP);
 				}
 				break;
 			default:
@@ -1762,7 +1735,6 @@ public class AndroCodeParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
-		public Type evalType;
 		public TerminalNode BOOLEAN() { return getToken(AndroCodeParser.BOOLEAN, 0); }
 		public TerminalNode FLOAT() { return getToken(AndroCodeParser.FLOAT, 0); }
 		public TerminalNode INT() { return getToken(AndroCodeParser.INT, 0); }
@@ -1795,7 +1767,7 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(251);
+			setState(249);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << BOOLEAN) | (1L << NULL))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1848,7 +1820,7 @@ public class AndroCodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(253);
+			setState(251);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << K_INT_TYPE) | (1L << K_VOID_TYPE) | (1L << K_FLOAT_TYPE) | (1L << K_CHAR_TYPE) | (1L << K_STRING_TYPE) | (1L << K_BOOLEAN_TYPE) | (1L << K_DEV_TYPE))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1875,15 +1847,15 @@ public class AndroCodeParser extends Parser {
 	}
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return precpred(_ctx, 8);
+		case 0: return precpred(_ctx, 7);
 
-		case 1: return precpred(_ctx, 7);
+		case 1: return precpred(_ctx, 6);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\65\u0102\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\65\u0100\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\3\2\7\2\60\n\2\f\2"+
@@ -1893,79 +1865,78 @@ public class AndroCodeParser extends Parser {
 		"\3\b\3\b\3\b\3\t\3\t\7\th\n\t\f\t\16\tk\13\t\3\t\3\t\3\n\3\n\3\n\3\n\3"+
 		"\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n}\n\n\3\13\3\13\3\13\3\13\3"+
 		"\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3"+
-		"\13\3\13\3\13\3\13\5\13\u0095\n\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13"+
-		"\u009d\n\13\f\13\16\13\u00a0\13\13\3\f\3\f\5\f\u00a4\n\f\3\f\3\f\3\r\3"+
-		"\r\3\r\3\r\5\r\u00ac\n\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17\5\17\u00b5"+
-		"\n\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u00c1\n\20"+
-		"\3\21\3\21\3\21\7\21\u00c6\n\21\f\21\16\21\u00c9\13\21\3\22\3\22\3\22"+
-		"\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24"+
-		"\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u00e6\n\24\f\24"+
-		"\16\24\u00e9\13\24\3\24\3\24\5\24\u00ed\n\24\3\25\3\25\3\25\3\25\3\25"+
-		"\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\5\25\u00fc\n\25\3\26\3\26\3\27"+
-		"\3\27\3\27\2\3\24\30\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,\2"+
-		"\b\3\2%&\3\2#$\3\2\'(\3\2),\3\2-\62\3\2\30\36\u010b\2\61\3\2\2\2\4\67"+
-		"\3\2\2\2\6;\3\2\2\2\bK\3\2\2\2\nQ\3\2\2\2\fZ\3\2\2\2\16b\3\2\2\2\20e\3"+
-		"\2\2\2\22|\3\2\2\2\24\u0094\3\2\2\2\26\u00a1\3\2\2\2\30\u00a7\3\2\2\2"+
-		"\32\u00ad\3\2\2\2\34\u00b1\3\2\2\2\36\u00c0\3\2\2\2 \u00c2\3\2\2\2\"\u00ca"+
-		"\3\2\2\2$\u00d4\3\2\2\2&\u00da\3\2\2\2(\u00ee\3\2\2\2*\u00fd\3\2\2\2,"+
-		"\u00ff\3\2\2\2.\60\5\4\3\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3"+
-		"\2\2\2\62\64\3\2\2\2\63\61\3\2\2\2\64\65\5\6\4\2\65\66\7\2\2\3\66\3\3"+
-		"\2\2\2\678\7\3\2\289\7\37\2\29:\7\17\2\2:\5\3\2\2\2;?\7\21\2\2<>\5\n\6"+
-		"\2=<\3\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3\2\2\2@B\3\2\2\2A?\3\2\2\2BF\5\b\5"+
-		"\2CE\5\n\6\2DC\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2\2\2GI\3\2\2\2HF\3\2\2"+
-		"\2IJ\7\24\2\2J\7\3\2\2\2KL\7\30\2\2LM\7\f\2\2MN\7!\2\2NO\7\"\2\2OP\5\20"+
-		"\t\2P\t\3\2\2\2QR\5,\27\2RS\7 \2\2SU\7!\2\2TV\5\f\7\2UT\3\2\2\2UV\3\2"+
-		"\2\2VW\3\2\2\2WX\7\"\2\2XY\5\20\t\2Y\13\3\2\2\2Z_\5\16\b\2[\\\7\6\2\2"+
+		"\13\3\13\5\13\u0093\n\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13\u009b\n\13"+
+		"\f\13\16\13\u009e\13\13\3\f\3\f\5\f\u00a2\n\f\3\f\3\f\3\r\3\r\3\r\3\r"+
+		"\5\r\u00aa\n\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17\5\17\u00b3\n\17\3\17"+
+		"\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u00bf\n\20\3\21\3\21"+
+		"\3\21\7\21\u00c4\n\21\f\21\16\21\u00c7\13\21\3\22\3\22\3\22\3\22\3\22"+
+		"\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24"+
+		"\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\7\24\u00e4\n\24\f\24\16\24\u00e7"+
+		"\13\24\3\24\3\24\5\24\u00eb\n\24\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\3\25\5\25\u00fa\n\25\3\26\3\26\3\27\3\27\3\27"+
+		"\2\3\24\30\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,\2\t\3\2%&\3"+
+		"\2#$\3\2!\"\3\2\'(\3\2),\3\2-\62\3\2\26\34\u0108\2\61\3\2\2\2\4\67\3\2"+
+		"\2\2\6;\3\2\2\2\bK\3\2\2\2\nQ\3\2\2\2\fZ\3\2\2\2\16b\3\2\2\2\20e\3\2\2"+
+		"\2\22|\3\2\2\2\24\u0092\3\2\2\2\26\u009f\3\2\2\2\30\u00a5\3\2\2\2\32\u00ab"+
+		"\3\2\2\2\34\u00af\3\2\2\2\36\u00be\3\2\2\2 \u00c0\3\2\2\2\"\u00c8\3\2"+
+		"\2\2$\u00d2\3\2\2\2&\u00d8\3\2\2\2(\u00ec\3\2\2\2*\u00fb\3\2\2\2,\u00fd"+
+		"\3\2\2\2.\60\5\4\3\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2"+
+		"\62\64\3\2\2\2\63\61\3\2\2\2\64\65\5\6\4\2\65\66\7\2\2\3\66\3\3\2\2\2"+
+		"\678\7\3\2\289\7\35\2\29:\7\16\2\2:\5\3\2\2\2;?\7\20\2\2<>\5\n\6\2=<\3"+
+		"\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3\2\2\2@B\3\2\2\2A?\3\2\2\2BF\5\b\5\2CE\5"+
+		"\n\6\2DC\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2\2\2GI\3\2\2\2HF\3\2\2\2IJ\7"+
+		"\23\2\2J\7\3\2\2\2KL\7\26\2\2LM\7\13\2\2MN\7\37\2\2NO\7 \2\2OP\5\20\t"+
+		"\2P\t\3\2\2\2QR\5,\27\2RS\7\36\2\2SU\7\37\2\2TV\5\f\7\2UT\3\2\2\2UV\3"+
+		"\2\2\2VW\3\2\2\2WX\7 \2\2XY\5\20\t\2Y\13\3\2\2\2Z_\5\16\b\2[\\\7\6\2\2"+
 		"\\^\5\16\b\2][\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`\r\3\2\2\2a_\3\2"+
-		"\2\2bc\5,\27\2cd\7 \2\2d\17\3\2\2\2ei\7\20\2\2fh\5\22\n\2gf\3\2\2\2hk"+
-		"\3\2\2\2ig\3\2\2\2ij\3\2\2\2jl\3\2\2\2ki\3\2\2\2lm\7\23\2\2m\21\3\2\2"+
-		"\2n}\5\20\t\2op\5\24\13\2pq\7\17\2\2q}\3\2\2\2rs\5\30\r\2st\7\17\2\2t"+
-		"}\3\2\2\2uv\5\32\16\2vw\7\17\2\2w}\3\2\2\2x}\5\"\22\2y}\5$\23\2z}\5&\24"+
-		"\2{}\5\26\f\2|n\3\2\2\2|o\3\2\2\2|r\3\2\2\2|u\3\2\2\2|x\3\2\2\2|y\3\2"+
-		"\2\2|z\3\2\2\2|{\3\2\2\2}\23\3\2\2\2~\177\b\13\1\2\177\u0080\7$\2\2\u0080"+
-		"\u0095\5\24\13\f\u0081\u0082\7\25\2\2\u0082\u0095\5\24\13\13\u0083\u0084"+
-		"\7!\2\2\u0084\u0085\5,\27\2\u0085\u0086\7\"\2\2\u0086\u0087\5\24\13\b"+
-		"\u0087\u0095\3\2\2\2\u0088\u0095\5\34\17\2\u0089\u008a\7!\2\2\u008a\u008b"+
-		"\5\24\13\2\u008b\u008c\7\"\2\2\u008c\u0095\3\2\2\2\u008d\u008e\7 \2\2"+
-		"\u008e\u0095\7\26\2\2\u008f\u0090\7 \2\2\u0090\u0095\7\13\2\2\u0091\u0095"+
-		"\5(\25\2\u0092\u0095\5*\26\2\u0093\u0095\7 \2\2\u0094~\3\2\2\2\u0094\u0081"+
-		"\3\2\2\2\u0094\u0083\3\2\2\2\u0094\u0088\3\2\2\2\u0094\u0089\3\2\2\2\u0094"+
-		"\u008d\3\2\2\2\u0094\u008f\3\2\2\2\u0094\u0091\3\2\2\2\u0094\u0092\3\2"+
-		"\2\2\u0094\u0093\3\2\2\2\u0095\u009e\3\2\2\2\u0096\u0097\f\n\2\2\u0097"+
-		"\u0098\t\2\2\2\u0098\u009d\5\24\13\13\u0099\u009a\f\t\2\2\u009a\u009b"+
-		"\t\3\2\2\u009b\u009d\5\24\13\n\u009c\u0096\3\2\2\2\u009c\u0099\3\2\2\2"+
-		"\u009d\u00a0\3\2\2\2\u009e\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f\25"+
-		"\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\u00a3\7\r\2\2\u00a2\u00a4\5\24\13\2"+
-		"\u00a3\u00a2\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6"+
-		"\7\17\2\2\u00a6\27\3\2\2\2\u00a7\u00a8\5,\27\2\u00a8\u00ab\7 \2\2\u00a9"+
-		"\u00aa\7\16\2\2\u00aa\u00ac\5\24\13\2\u00ab\u00a9\3\2\2\2\u00ab\u00ac"+
-		"\3\2\2\2\u00ac\31\3\2\2\2\u00ad\u00ae\5\24\13\2\u00ae\u00af\7\16\2\2\u00af"+
-		"\u00b0\5\24\13\2\u00b0\33\3\2\2\2\u00b1\u00b2\7 \2\2\u00b2\u00b4\7!\2"+
-		"\2\u00b3\u00b5\5 \21\2\u00b4\u00b3\3\2\2\2\u00b4\u00b5\3\2\2\2\u00b5\u00b6"+
-		"\3\2\2\2\u00b6\u00b7\7\"\2\2\u00b7\35\3\2\2\2\u00b8\u00b9\5\24\13\2\u00b9"+
-		"\u00ba\t\4\2\2\u00ba\u00bb\5\24\13\2\u00bb\u00c1\3\2\2\2\u00bc\u00bd\5"+
-		"\24\13\2\u00bd\u00be\t\5\2\2\u00be\u00bf\5\24\13\2\u00bf\u00c1\3\2\2\2"+
-		"\u00c0\u00b8\3\2\2\2\u00c0\u00bc\3\2\2\2\u00c1\37\3\2\2\2\u00c2\u00c7"+
-		"\5\24\13\2\u00c3\u00c4\7\6\2\2\u00c4\u00c6\5\24\13\2\u00c5\u00c3\3\2\2"+
-		"\2\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8!"+
-		"\3\2\2\2\u00c9\u00c7\3\2\2\2\u00ca\u00cb\7\t\2\2\u00cb\u00cc\7!\2\2\u00cc"+
-		"\u00cd\5\32\16\2\u00cd\u00ce\7\17\2\2\u00ce\u00cf\5\36\20\2\u00cf\u00d0"+
-		"\7\17\2\2\u00d0\u00d1\5\24\13\2\u00d1\u00d2\7\"\2\2\u00d2\u00d3\5\20\t"+
-		"\2\u00d3#\3\2\2\2\u00d4\u00d5\7\b\2\2\u00d5\u00d6\7!\2\2\u00d6\u00d7\5"+
-		"\36\20\2\u00d7\u00d8\7\"\2\2\u00d8\u00d9\5\20\t\2\u00d9%\3\2\2\2\u00da"+
-		"\u00db\7\n\2\2\u00db\u00dc\7!\2\2\u00dc\u00dd\5\36\20\2\u00dd\u00de\7"+
-		"\"\2\2\u00de\u00e7\5\20\t\2\u00df\u00e0\7\27\2\2\u00e0\u00e1\7!\2\2\u00e1"+
-		"\u00e2\5\36\20\2\u00e2\u00e3\7\"\2\2\u00e3\u00e4\5\20\t\2\u00e4\u00e6"+
-		"\3\2\2\2\u00e5\u00df\3\2\2\2\u00e6\u00e9\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e7"+
-		"\u00e8\3\2\2\2\u00e8\u00ec\3\2\2\2\u00e9\u00e7\3\2\2\2\u00ea\u00eb\7\22"+
-		"\2\2\u00eb\u00ed\5\20\t\2\u00ec\u00ea\3\2\2\2\u00ec\u00ed\3\2\2\2\u00ed"+
-		"\'\3\2\2\2\u00ee\u00ef\7 \2\2\u00ef\u00fb\7\5\2\2\u00f0\u00f1\7\7\2\2"+
-		"\u00f1\u00f2\7!\2\2\u00f2\u00f3\7\60\2\2\u00f3\u00f4\7\6\2\2\u00f4\u00f5"+
-		"\5\24\13\2\u00f5\u00f6\7\"\2\2\u00f6\u00fc\3\2\2\2\u00f7\u00f8\7\4\2\2"+
-		"\u00f8\u00f9\7!\2\2\u00f9\u00fa\7\60\2\2\u00fa\u00fc\7\"\2\2\u00fb\u00f0"+
-		"\3\2\2\2\u00fb\u00f7\3\2\2\2\u00fc)\3\2\2\2\u00fd\u00fe\t\6\2\2\u00fe"+
-		"+\3\2\2\2\u00ff\u0100\t\7\2\2\u0100-\3\2\2\2\24\61?FU_i|\u0094\u009c\u009e"+
-		"\u00a3\u00ab\u00b4\u00c0\u00c7\u00e7\u00ec\u00fb";
+		"\2\2bc\5,\27\2cd\7\36\2\2d\17\3\2\2\2ei\7\17\2\2fh\5\22\n\2gf\3\2\2\2"+
+		"hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2jl\3\2\2\2ki\3\2\2\2lm\7\22\2\2m\21\3\2"+
+		"\2\2n}\5\20\t\2op\5\24\13\2pq\7\16\2\2q}\3\2\2\2rs\5\30\r\2st\7\16\2\2"+
+		"t}\3\2\2\2uv\5\32\16\2vw\7\16\2\2w}\3\2\2\2x}\5\"\22\2y}\5$\23\2z}\5&"+
+		"\24\2{}\5\26\f\2|n\3\2\2\2|o\3\2\2\2|r\3\2\2\2|u\3\2\2\2|x\3\2\2\2|y\3"+
+		"\2\2\2|z\3\2\2\2|{\3\2\2\2}\23\3\2\2\2~\177\b\13\1\2\177\u0080\7\"\2\2"+
+		"\u0080\u0093\5\24\13\13\u0081\u0082\7\24\2\2\u0082\u0093\5\24\13\n\u0083"+
+		"\u0084\7\37\2\2\u0084\u0085\5,\27\2\u0085\u0086\7 \2\2\u0086\u0087\5\24"+
+		"\13\7\u0087\u0093\3\2\2\2\u0088\u0093\5\34\17\2\u0089\u008a\7\37\2\2\u008a"+
+		"\u008b\5\24\13\2\u008b\u008c\7 \2\2\u008c\u0093\3\2\2\2\u008d\u008e\7"+
+		"\36\2\2\u008e\u0093\t\2\2\2\u008f\u0093\5(\25\2\u0090\u0093\5*\26\2\u0091"+
+		"\u0093\7\36\2\2\u0092~\3\2\2\2\u0092\u0081\3\2\2\2\u0092\u0083\3\2\2\2"+
+		"\u0092\u0088\3\2\2\2\u0092\u0089\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u008f"+
+		"\3\2\2\2\u0092\u0090\3\2\2\2\u0092\u0091\3\2\2\2\u0093\u009c\3\2\2\2\u0094"+
+		"\u0095\f\t\2\2\u0095\u0096\t\3\2\2\u0096\u009b\5\24\13\n\u0097\u0098\f"+
+		"\b\2\2\u0098\u0099\t\4\2\2\u0099\u009b\5\24\13\t\u009a\u0094\3\2\2\2\u009a"+
+		"\u0097\3\2\2\2\u009b\u009e\3\2\2\2\u009c\u009a\3\2\2\2\u009c\u009d\3\2"+
+		"\2\2\u009d\25\3\2\2\2\u009e\u009c\3\2\2\2\u009f\u00a1\7\f\2\2\u00a0\u00a2"+
+		"\5\24\13\2\u00a1\u00a0\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a3\3\2\2\2"+
+		"\u00a3\u00a4\7\16\2\2\u00a4\27\3\2\2\2\u00a5\u00a6\5,\27\2\u00a6\u00a9"+
+		"\7\36\2\2\u00a7\u00a8\7\r\2\2\u00a8\u00aa\5\24\13\2\u00a9\u00a7\3\2\2"+
+		"\2\u00a9\u00aa\3\2\2\2\u00aa\31\3\2\2\2\u00ab\u00ac\7\36\2\2\u00ac\u00ad"+
+		"\7\r\2\2\u00ad\u00ae\5\24\13\2\u00ae\33\3\2\2\2\u00af\u00b0\7\36\2\2\u00b0"+
+		"\u00b2\7\37\2\2\u00b1\u00b3\5 \21\2\u00b2\u00b1\3\2\2\2\u00b2\u00b3\3"+
+		"\2\2\2\u00b3\u00b4\3\2\2\2\u00b4\u00b5\7 \2\2\u00b5\35\3\2\2\2\u00b6\u00b7"+
+		"\5\24\13\2\u00b7\u00b8\t\5\2\2\u00b8\u00b9\5\24\13\2\u00b9\u00bf\3\2\2"+
+		"\2\u00ba\u00bb\5\24\13\2\u00bb\u00bc\t\6\2\2\u00bc\u00bd\5\24\13\2\u00bd"+
+		"\u00bf\3\2\2\2\u00be\u00b6\3\2\2\2\u00be\u00ba\3\2\2\2\u00bf\37\3\2\2"+
+		"\2\u00c0\u00c5\5\24\13\2\u00c1\u00c2\7\6\2\2\u00c2\u00c4\5\24\13\2\u00c3"+
+		"\u00c1\3\2\2\2\u00c4\u00c7\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c5\u00c6\3\2"+
+		"\2\2\u00c6!\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c8\u00c9\7\t\2\2\u00c9\u00ca"+
+		"\7\37\2\2\u00ca\u00cb\5\32\16\2\u00cb\u00cc\7\16\2\2\u00cc\u00cd\5\36"+
+		"\20\2\u00cd\u00ce\7\16\2\2\u00ce\u00cf\5\24\13\2\u00cf\u00d0\7 \2\2\u00d0"+
+		"\u00d1\5\20\t\2\u00d1#\3\2\2\2\u00d2\u00d3\7\b\2\2\u00d3\u00d4\7\37\2"+
+		"\2\u00d4\u00d5\5\36\20\2\u00d5\u00d6\7 \2\2\u00d6\u00d7\5\20\t\2\u00d7"+
+		"%\3\2\2\2\u00d8\u00d9\7\n\2\2\u00d9\u00da\7\37\2\2\u00da\u00db\5\36\20"+
+		"\2\u00db\u00dc\7 \2\2\u00dc\u00e5\5\20\t\2\u00dd\u00de\7\25\2\2\u00de"+
+		"\u00df\7\37\2\2\u00df\u00e0\5\36\20\2\u00e0\u00e1\7 \2\2\u00e1\u00e2\5"+
+		"\20\t\2\u00e2\u00e4\3\2\2\2\u00e3\u00dd\3\2\2\2\u00e4\u00e7\3\2\2\2\u00e5"+
+		"\u00e3\3\2\2\2\u00e5\u00e6\3\2\2\2\u00e6\u00ea\3\2\2\2\u00e7\u00e5\3\2"+
+		"\2\2\u00e8\u00e9\7\21\2\2\u00e9\u00eb\5\20\t\2\u00ea\u00e8\3\2\2\2\u00ea"+
+		"\u00eb\3\2\2\2\u00eb\'\3\2\2\2\u00ec\u00ed\7\36\2\2\u00ed\u00f9\7\5\2"+
+		"\2\u00ee\u00ef\7\7\2\2\u00ef\u00f0\7\37\2\2\u00f0\u00f1\7\60\2\2\u00f1"+
+		"\u00f2\7\6\2\2\u00f2\u00f3\5\24\13\2\u00f3\u00f4\7 \2\2\u00f4\u00fa\3"+
+		"\2\2\2\u00f5\u00f6\7\4\2\2\u00f6\u00f7\7\37\2\2\u00f7\u00f8\7\60\2\2\u00f8"+
+		"\u00fa\7 \2\2\u00f9\u00ee\3\2\2\2\u00f9\u00f5\3\2\2\2\u00fa)\3\2\2\2\u00fb"+
+		"\u00fc\t\7\2\2\u00fc+\3\2\2\2\u00fd\u00fe\t\b\2\2\u00fe-\3\2\2\2\24\61"+
+		"?FU_i|\u0092\u009a\u009c\u00a1\u00a9\u00b2\u00be\u00c5\u00e5\u00ea\u00f9";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

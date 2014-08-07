@@ -113,13 +113,6 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_incr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr_incr(@NotNull AndroCodeParser.Expr_incrContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -146,6 +139,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhile_loop(@NotNull AndroCodeParser.While_loopContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#expr_incr_decr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_fcall}.
@@ -209,13 +209,6 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArguments(@NotNull AndroCodeParser.ArgumentsContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_decr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr_decr(@NotNull AndroCodeParser.Expr_decrContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#function_call}.
