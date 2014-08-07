@@ -1,0 +1,17 @@
+begin
+
+int main() {
+	int i;
+	i = '1';
+	i++;
+	i--;
+	if(15 != 13) {
+		i++;
+	} elseif(12>3) {
+		i--;
+	} else {
+		i--;
+		i--;
+	}
+}
+end
