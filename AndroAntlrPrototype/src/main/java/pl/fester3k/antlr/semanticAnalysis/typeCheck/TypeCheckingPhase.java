@@ -151,7 +151,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	@Override
 	public void exitCondition_relational(Condition_relationalContext ctx) {	
 		processAutomaticTypePromotion(Type.relationalResultType, ctx.a, ctx.b, ctx);
-		tryToPromote(ctx, Type.BOOLEAN);
+		//tryToPromote(ctx, Type.BOOLEAN);
 	}
 		
 	/**
@@ -160,7 +160,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	@Override
 	public void exitCondition_equality(Condition_equalityContext ctx) {
 		processAutomaticTypePromotion(Type.equalityResultType, ctx.a, ctx.b, ctx);
-		tryToPromote(ctx, Type.BOOLEAN);
+		//tryToPromote(ctx, Type.BOOLEAN);
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		printer.printPromotedTypeWithContext(expressionPromotionType, expressionToPromote);
 		
 		if(canAssignTo(expressionType, expressionPromotionType, destinationType)) {
-			tryToPromote(expressionToPromote, expressionPromotionType);
+			//tryToPromote(expressionToPromote, expressionPromotionType);
 		} else {
 			printer.printError("Expression's type is incompatible with its destination", expressionToPromote);
 		}
@@ -210,7 +210,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		Type typeA = types.get(argA);
 		Type typeB = types.get(argB);
 		if(typeA == null  || typeB == null) {
-			printer.printError("Unable to process automatic type promotion for " + argA.getText() + " and " + argB.getText() + ". Expressions has incompatible types ", ctx);
+			printer.printError("Unable to process automatic type promotion for " + argA.getText() + " and " + argB.getText() + ". expression types was unrecognized", ctx);
 			return; //FIXME throw!!
 		}
 		
@@ -221,10 +221,10 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			printer.printError("Arguments " + argA.getText() + " and " + argB.getText() + " has incompatible types in " + ctx.getText(), ctx);
 			return; //FIXME throw!!
 		} else {
-			performArgumentPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
+			//performArgumentPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
 			printer.printTypeWithContext(resultType, ctx);
 			
-			tryToPromote(ctx, resultType);
+			//tryToPromote(ctx, resultType);
 		}
 	}
 

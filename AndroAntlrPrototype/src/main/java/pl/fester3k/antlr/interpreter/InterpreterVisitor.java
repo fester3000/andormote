@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import pl.fester3k.antlr.androCode.AndroCodeBaseVisitor;
@@ -15,9 +14,14 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.ConditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ExprContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_castContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incr_decrContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_parenthesisContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_uminusContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_unotContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_valueContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_varContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.If_conditionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
@@ -31,6 +35,7 @@ import pl.fester3k.antlr.semanticAnalysis.Type;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.prot.utils.PrintUtils;
+import pl.fester3k.prot.utils.Utils;
 
 public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private static final String PREFIX = "*>";
@@ -80,6 +85,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return null;
 	}
 
+	@Override
+	public Object visitExpr_parenthesis(Expr_parenthesisContext ctx) {
+		return visit(ctx.expr());
+	}
 
 
 	@Override
@@ -101,12 +110,33 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		currentScope = currentScope.getEnclosingScope();
 		return null;
 	}
+	
+	//TODO Check
+	@Override
+	public Object visitExpr_unot(Expr_unotContext ctx) {
+		ExprContext expr = ctx.expr();
+		Object result = visit(expr);
+		return result;
+	}
+
+	//TODO Complete
+	@Override
+	public Object visitExpr_uminus(Expr_uminusContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitExpr_uminus(ctx);
+	}
+
 
 	@Override
 	public Object visitExpr_cast(Expr_castContext ctx) {
 		Type type = Type.getTypeByTokenType(ctx.type().start.getType());
-		ExprContext expr = ctx.expr();
-		Object value = visit(expr);
+		Object value = visit(ctx.expr());
+		value = castValueToType(value, type);
+		return value;
+	}
+
+
+	private Object castValueToType(Object value, Type type) {
 		switch(type) {
 		case BOOLEAN:
 			//TODO illegal!
@@ -117,6 +147,8 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		case INT:
 			if(value instanceof Character) {
 				value = Integer.valueOf(((Character)value).toString());
+			} else if(value instanceof Number) {
+				value = ((Number)value).intValue();
 			} else {
 				//TODO illegal!
 			}
@@ -124,8 +156,8 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		case FLOAT:
 			if(value instanceof Character) {
 				value = Float.valueOf(((Character)value).toString());
-			} else if(value instanceof Integer) {
-				value = Float.valueOf(((Integer)value));
+			} else if(value instanceof Number) {
+				value = ((Number)value).floatValue();
 			} else {
 				//TODO illegal!
 			}
@@ -142,10 +174,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 
 	@Override
 	public Object visitAssignment(AssignmentContext ctx) {
-		Token id = ctx.a;
+		String id = ctx.a.getText();
 		ExprContext expr = ctx.b;
 		Object value = visit(expr);
-		MemorySpace space = getSpaceWithSymbol(id.getText());
+		MemorySpace space = getSpaceWithSymbol(id);
 		if(value == null) {
 			printer.printError("Value has not been yet computed", expr);
 			//TODO Throw
@@ -154,8 +186,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			space = currentMemory;
 			//TODO Throw
 		}
-		space.put(id.getText(), value);
-		printer.print(id.getText() + " = " + value, ctx);
+		Type destinationType = Utils.getTypeFromSymbol(id, currentScope);
+		value = castValueToType(value, destinationType);
+		space.put(id, value);
+		printer.print(id + " = " + value, ctx);
 		return value;
 	}
 
@@ -185,37 +219,65 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return evaluatedValue;
 	}
 
-
 	@Override
-	public Object visitExpr_incr_decr(Expr_incr_decrContext ctx) {
-		Token id = ctx.id;
-		int operatorTokenType = ctx.op.getType();
-		Operator operator = Operator.getOperatorByTokenType(operatorTokenType);
-		MemorySpace memorySpace = getSpaceWithSymbol(id.getText());
+	public Object visitExpr_binop(Expr_binopContext ctx) {
+		printer.print("visit binop", ctx);
+		//Utrzymac zwracany typ
+		Number result = 0;
+		Number resultExprA = (Number)visit(ctx.a);
+		Number resultExprB = (Number)visit(ctx.b);
+		Operator operator = Operator.getOperatorByTokenType((ctx.op.getType()));
+		switch(operator) {
+			case ADD_OP:
+				result = resultExprA.floatValue() + resultExprB.floatValue();
+				break;
+			case SUBST_OP:
+				result = resultExprA.floatValue() - resultExprB.floatValue();
+				break;
+			case MULT_OP:
+				result = resultExprA.floatValue() * resultExprB.floatValue();
+				break;
+			case DEV_OP:
+				if(resultExprB.floatValue() != 0) {
+					result = resultExprA.floatValue() / resultExprB.floatValue();
+				} else {
+					printer.printError("Division by zero!!", ctx);
+					//TODO Throw
+				}
+				break;
+			default:
+				break;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Object visitExpr_var(Expr_varContext ctx) {
+		String id = ctx.ID().getText();
+		Object value = null;
+		MemorySpace memorySpace = getSpaceWithSymbol(id);
 		if(memorySpace == null ) {
 			memorySpace = currentMemory;
 		}
-		int value = (Integer)memorySpace.get(id.getText());
-		value = calculateIncrDecrValue(ctx, operator, value);
-		memorySpace.put(id.getText(), value);
-		printer.print(id.getText() + " = " + value, ctx);
+		value = memorySpace.get(id);
+		printer.print("Found " + id + " = " + value, ctx);
 		return value;
 	}
-	
-	private int calculateIncrDecrValue(Expr_incr_decrContext ctx,
-			Operator operator, int value) {
-		switch(operator) {
-			case INCR_OP: 
-				value++;
-			break;
-			case DECR_OP: 
-				value--;
-			break;
-			default:
-				printer.printError("Something gone wrong", ctx);
-				//TODO Throw
-				break;
+
+	@Override
+	public Object visitExpr_incr_decr(Expr_incr_decrContext ctx) {
+		String id = ctx.id.getText();
+		int operatorTokenType = ctx.op.getType();
+		Operator operator = Operator.getOperatorByTokenType(operatorTokenType);
+		MemorySpace memorySpace = getSpaceWithSymbol(id);
+		if(memorySpace == null ) {
+			memorySpace = currentMemory;
 		}
+		int value = (Integer)memorySpace.get(id);
+		value = calculateIncrDecrValue(ctx, operator, value);
+		memorySpace.put(id, value);
+		printer.print(id + " = " + value, ctx);
 		return value;
 	}
 	
@@ -227,7 +289,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		boolean isConditionMet = false;
 		for (ConditionContext condition : conditions) {
 			if((Boolean)visit(condition)) {
-				printer.print("if No" + i + " condition met", ctx);
+				printer.print("if No. " + i + " condition met", ctx);
 				BlockContext ifBlock = blocks.get(i);
 				visit(ifBlock);
 				isConditionMet = true;
@@ -250,6 +312,43 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		ExprContext exprA = ctx.a;
 		ExprContext exprB = ctx.b;
 		int operatorTokenType = ctx.op.getType();
+		result = computeRelationalCondition(ctx, result, exprA, exprB, operatorTokenType);
+		
+		return result;
+	}
+
+	@Override
+	public Object visitCondition_equality(Condition_equalityContext ctx) {
+		Boolean result = false;
+		ExprContext exprA = ctx.a;
+		ExprContext exprB = ctx.b;
+		int operatorTokenType = ctx.op.getType();
+		result = computeEqualityCondition(ctx, result, exprA, exprB,
+				operatorTokenType);
+		return result;
+	}
+	
+	
+	private int calculateIncrDecrValue(Expr_incr_decrContext ctx,
+			Operator operator, int value) {
+		switch(operator) {
+			case INCR_OP: 
+				value++;
+			break;
+			case DECR_OP: 
+				value--;
+			break;
+			default:
+				printer.printError("Something gone wrong", ctx);
+				//TODO Throw
+				break;
+		}
+		return value;
+	}
+	
+	private Boolean computeRelationalCondition(Condition_relationalContext ctx,
+			Boolean result, ExprContext exprA, ExprContext exprB,
+			int operatorTokenType) {
 		Number valueExprA = (Number)visit(exprA);
 		Number valueExprB = (Number)visit(exprB);
 		Operator operator = Operator.getOperatorByTokenType(operatorTokenType);
@@ -279,17 +378,12 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			//TODO Throw
 			break;
 		}
-		
 		return result;
 	}
 
-	@Override
-	public Object visitCondition_equality(Condition_equalityContext ctx) {
-		Boolean result = false;
-		ExprContext exprA = ctx.a;
-		ExprContext exprB = ctx.b;
-		int operatorTokenType = ctx.op.getType();
-		//TODO -> wartosci moga byc liczbowe!!
+	private Boolean computeEqualityCondition(Condition_equalityContext ctx,
+			Boolean result, ExprContext exprA, ExprContext exprB,
+			int operatorTokenType) {
 		Object valueExprA = visit(exprA);
 		Object valueExprB = visit(exprB);
 		Operator operator = Operator.getOperatorByTokenType(operatorTokenType);
@@ -311,8 +405,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		}
 		return result;
 	}
-
-	
 	
 	
 	
