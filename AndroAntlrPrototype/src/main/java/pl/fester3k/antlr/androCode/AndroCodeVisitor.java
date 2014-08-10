@@ -43,11 +43,25 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFor_loop(@NotNull AndroCodeParser.For_loopContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_negated}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_negated(@NotNull AndroCodeParser.Condition_negatedContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_binop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_var_negated}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_var_negated(@NotNull AndroCodeParser.Condition_var_negatedContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#block}.
@@ -104,13 +118,6 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIf_condition(@NotNull AndroCodeParser.If_conditionContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_unot}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#value}.
@@ -188,6 +195,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitScript(@NotNull AndroCodeParser.ScriptContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#var_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVar_call(@NotNull AndroCodeParser.Var_callContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#statement}.

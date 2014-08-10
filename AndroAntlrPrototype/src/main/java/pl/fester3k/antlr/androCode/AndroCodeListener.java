@@ -56,6 +56,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitFor_loop(@NotNull AndroCodeParser.For_loopContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_negated}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_negated(@NotNull AndroCodeParser.Condition_negatedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_negated}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_negated(@NotNull AndroCodeParser.Condition_negatedContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_binop}.
 	 * @param ctx the parse tree
 	 */
@@ -65,6 +76,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_var_negated}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_var_negated(@NotNull AndroCodeParser.Condition_var_negatedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_var_negated}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_var_negated(@NotNull AndroCodeParser.Condition_var_negatedContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#block}.
@@ -153,17 +175,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIf_condition(@NotNull AndroCodeParser.If_conditionContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#expr_unot}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#expr_unot}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#value}.
@@ -285,6 +296,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitScript(@NotNull AndroCodeParser.ScriptContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#var_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterVar_call(@NotNull AndroCodeParser.Var_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#var_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitVar_call(@NotNull AndroCodeParser.Var_callContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#statement}.

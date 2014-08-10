@@ -3,16 +3,22 @@ package pl.fester3k.antlr.semanticAnalysis.typeCheck;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.standard.PrinterResolution;
+
 import lombok.Getter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import pl.fester3k.antlr.androCode.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.AssignmentContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.ConditionContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_equalityContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ExprContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_binopContext;
@@ -20,7 +26,6 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_castContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_uminusContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_unotContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Return_statementContext;
@@ -37,7 +42,7 @@ import pl.fester3k.prot.utils.Utils;
 public class TypeCheckingPhase extends AndroCodeListenerWithScopes {	
 	private static final String PREFIX = "@@";
 	private final ParseTreeProperty<Type> types;
-	
+
 	@Getter private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
 	@Getter private TokenStreamRewriter rewriter;
 
@@ -53,24 +58,42 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		this.types = types;
 		rewriter = new TokenStreamRewriter(tokens);
 	}
-		
+
 	@Override
 	public void exitScript(ScriptContext ctx) {
 		System.out.println(rewriter.getText());
 	}
 
 	@Override
-	public void exitExpr_unot(Expr_unotContext ctx) {
-		Type type = types.get(ctx.subExpr);
+	public void exitCondition_negated(Condition_negatedContext ctx) {
+		ConditionContext condition = ctx.condition();
+		Type type = types.get(condition);
+
 		if(!(type.equals(Type.BOOLEAN))) {
-			printer.printError(ctx.subExpr.getText() + " must have boolean type", ctx);
+			printer.printError(condition.getText() + " must have boolean type", ctx);
 		}
+		types.put(ctx, type);
 	}
 
 	@Override
+	public void exitCondition_var_negated(
+			Condition_var_negatedContext ctx) {
+		String id = ctx.var_call().getText();
+		Type type = Utils.getTypeFromSymbol(id, currentScope);
+		if(!(type.equals(Type.BOOLEAN))) {
+			printer.printError(id + " must have boolean type", ctx);
+		}
+		types.put(ctx, type);
+	}
+
+
+	@Override
 	public void exitExpr_incr_decr(Expr_incr_decrContext ctx) {
-		// TODO Auto-generated method stub
-		super.exitExpr_incr_decr(ctx);
+		Type type = Utils.getTypeFromSymbol(ctx.ID().getText(), currentScope);
+		if(!(type.equals(Type.INT))) {
+			printer.printError(ctx.ID().getText() + " must have boolean type", ctx);
+		}
+		types.put(ctx, type);
 	}
 
 	@Override
@@ -79,18 +102,19 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		if(!(type.equals(Type.INT) || (type.equals(Type.FLOAT)))) {
 			printer.printError(ctx.getText() + " must have int/float type", ctx);
 		}
+		types.put(ctx, type);
 	}
-	
+
 	@Override
 	public void exitExpr_cast(Expr_castContext ctx) {
 		Type type = Type.getTypeByTokenType(ctx.type().start.getType());
 		types.put(ctx, type);
 		printer.printTypeWithContext(type, ctx);
-		
+
 		processAssignmentTypePromotion(type, ctx.expr());
 		//FIXME sprawdzać czy cast jest legalny
 	}
-	
+
 	/**
 	 * Catches all function calls "id(arguments)"
 	 * Promotes and checks types of function arguments (if they exist)
@@ -106,6 +130,11 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		}
 		List<ExprContext> arguments = argumentsDefinedInFunctionCall.expr();
 		int i = 0;
+		if(declaredParameters.size() != arguments.size()) {
+			printer.printError("number of parameters mismatch!", ctx);
+			return;
+			//TODO Throw
+		}
 		for (Symbol parameter : declaredParameters.values()) {
 			Type parameterType = parameter.getType();
 			ExprContext expressionToPromote = arguments.get(i);
@@ -136,7 +165,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		Type type = types.get(ctx);
 		processAssignmentTypePromotion(type, ctx.b);
 	}
-	
+
 	/**
 	 * Catches all binary arithmetic operations (+,-,*,/)
 	 */
@@ -144,7 +173,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	public void exitExpr_binop(Expr_binopContext ctx) {
 		processAutomaticTypePromotion(Type.arithmeticResultType, ctx.a, ctx.b, ctx);
 	}
-	
+
 	/**
 	 * Catches all relational conditions
 	 */
@@ -153,7 +182,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		processAutomaticTypePromotion(Type.relationalResultType, ctx.a, ctx.b, ctx);
 		//tryToPromote(ctx, Type.BOOLEAN);
 	}
-		
+
 	/**
 	 * Catches all equality conditions
 	 */
@@ -162,7 +191,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		processAutomaticTypePromotion(Type.equalityResultType, ctx.a, ctx.b, ctx);
 		//tryToPromote(ctx, Type.BOOLEAN);
 	}
-	
+
 	/**
 	 * Catches all return statements
 	 */	
@@ -172,7 +201,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		while(isNotFunction(currentCtx) && isNotMainFunction(currentCtx)) {
 			currentCtx = currentCtx.getParent();
 		}
-		
+
 		String functionName = currentCtx.getChild(1).getText();
 		Type type = Utils.getTypeFromSymbol(functionName, currentScope);
 		processAssignmentTypePromotion(type, ctx.expr());
@@ -185,7 +214,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	private boolean isNotFunction(ParserRuleContext currentCtx) {
 		return !(currentCtx instanceof FunctionContext);
 	}	
-	
+
 	private void processAssignmentTypePromotion(Type destinationType, ExprContext expressionToPromote) {
 		Type expressionType = types.get(expressionToPromote);
 		if(expressionType == null) {
@@ -194,18 +223,18 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		}
 		Type expressionPromotionType = Type.promoteFromTo[expressionType.priority][destinationType.priority];
 		printer.printPromotedTypeWithContext(expressionPromotionType, expressionToPromote);
-		
+
 		if(canAssignTo(expressionType, expressionPromotionType, destinationType)) {
 			//tryToPromote(expressionToPromote, expressionPromotionType);
 		} else {
 			printer.printError("Expression's type is incompatible with its destination", expressionToPromote);
 		}
 	}
-	
+
 	private boolean canAssignTo(Type valueType, Type promotionType, Type destinationType) {
 		return valueType == destinationType || promotionType == destinationType;
 	}
-	
+
 	private <T extends ParserRuleContext> void processAutomaticTypePromotion(Type[][] typeTable, T argA, T argB, ParserRuleContext ctx) {
 		Type typeA = types.get(argA);
 		Type typeB = types.get(argB);
@@ -213,7 +242,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			printer.printError("Unable to process automatic type promotion for " + argA.getText() + " and " + argB.getText() + ". expression types was unrecognized", ctx);
 			return; //FIXME throw!!
 		}
-		
+
 		int typePriorityA = typeA.priority;
 		int typePriorityB = typeB.priority;
 		Type resultType = typeTable[typePriorityA][typePriorityB];
@@ -223,7 +252,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		} else {
 			//performArgumentPromotion(argA, argB, ctx, typePriorityA, typePriorityB,	resultType);
 			printer.printTypeWithContext(resultType, ctx);
-			
+
 			//tryToPromote(ctx, resultType);
 		}
 	}
@@ -232,10 +261,10 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			int typePriorityA, int typePriorityB, Type resultType) {
 		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.priority];
 		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.priority];
-		
+
 		printer.printPromotedTypeWithContext(promoteTypeA, argA);
 		printer.printPromotedTypeWithContext(promoteTypeB, argB);
-		
+
 		tryToPromote(argA, promoteTypeA);
 		tryToPromote(argB, promoteTypeB);
 	}
@@ -256,5 +285,4 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			types.put(ctx, typeToCast);
 		} 
 	}
-
 }

@@ -25,6 +25,11 @@ import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
 import pl.fester3k.prot.utils.PrintUtils;
 
+/**
+ * TODO Kontrola unikalności identyfikatorów w ramach scope'ów (i w górę hierarchii)
+ * @author Sebastian
+ *
+ */
 public class DefinePhase extends AndroCodeBaseListener {	
 	private static final String PREFIX = ">>";
 	private static final String DELIMITER = "++++++++++++\n";
@@ -75,6 +80,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 		saveScope(ctx, function);
 		currentScope = function;
 		
+		//TODO Parametry
 //		List<ParameterContext> parameters = ctx.parameters().parameter();		
 //		for (ParameterContext parameter : parameters) {
 //			String paramName = parameter.stop.getText();

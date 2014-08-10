@@ -11,6 +11,8 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.AssignmentContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.BlockContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.BodyContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_equalityContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_negatedContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Dev_operationContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_binopContext;
@@ -20,7 +22,6 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_uminusContext;
-import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_unotContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_valueContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Expr_varContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.For_loopContext;
@@ -36,6 +37,7 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.StatementContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.TypeContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ValueContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Var_callContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.While_loopContext;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
@@ -247,19 +249,30 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 		super.exitIf_condition(ctx);
 	}
 
+	@Override
+	public void enterCondition_negated(Condition_negatedContext ctx) {
+		super.enterCondition_negated(ctx);
+	}
 
 	@Override
-	public void enterExpr_unot(Expr_unotContext ctx) {
-		
-		super.enterExpr_unot(ctx);
+	public void enterCondition_var_negated(
+			Condition_var_negatedContext ctx) {
+		super.enterCondition_var_negated(ctx);
 	}
 
 
 	@Override
-	public void exitExpr_unot(Expr_unotContext ctx) {
-		
-		super.exitExpr_unot(ctx);
+	public void exitCondition_var_negated(
+			Condition_var_negatedContext ctx) {
+		super.exitCondition_var_negated(ctx);
 	}
+
+
+	@Override
+	public void exitCondition_negated(Condition_negatedContext ctx) {
+		super.exitCondition_negated(ctx);
+	}
+
 
 	@Override
 	public void enterValue(ValueContext ctx) {
@@ -423,15 +436,26 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 
 	@Override
 	public void enterExpr_incr_decr(Expr_incr_decrContext ctx) {
-		// TODO Auto-generated method stub
 		super.enterExpr_incr_decr(ctx);
 	}
 
 
 	@Override
 	public void exitExpr_incr_decr(Expr_incr_decrContext ctx) {
-		// TODO Auto-generated method stub
 		super.exitExpr_incr_decr(ctx);
+	}
+	
+	@Override
+	public void enterVar_call(Var_callContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterVar_call(ctx);
+	}
+
+
+	@Override
+	public void exitVar_call(Var_callContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitVar_call(ctx);
 	}
 
 

@@ -72,6 +72,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCondition_negated(@NotNull AndroCodeParser.Condition_negatedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_negated(@NotNull AndroCodeParser.Condition_negatedContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -79,6 +92,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_binop(@NotNull AndroCodeParser.Expr_binopContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition_var_negated(@NotNull AndroCodeParser.Condition_var_negatedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_var_negated(@NotNull AndroCodeParser.Condition_var_negatedContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -183,19 +209,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIf_condition(@NotNull AndroCodeParser.If_conditionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpr_unot(@NotNull AndroCodeParser.Expr_unotContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -339,6 +352,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitScript(@NotNull AndroCodeParser.ScriptContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVar_call(@NotNull AndroCodeParser.Var_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVar_call(@NotNull AndroCodeParser.Var_callContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

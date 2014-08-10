@@ -25,7 +25,7 @@ block           // list of statements
     : '{' statement* '}' ; 
 
 statement       // statement
-    : block                 
+    : block                                       
     | expr ';'              
     | var_declaration ';'   
     | assignment ';'        
@@ -36,17 +36,16 @@ statement       // statement
     ;
 
 expr 			        //expression
-    : fcal=function_call  	#expr_fcall			// returns: function type    
-    | '(' subExpr=expr ')'  #expr_parenthesis 	// returns: type of expr
-    | '-' subExpr=expr      #expr_uminus		// returns: type of expr
-    | '!' subExpr=expr      #expr_unot			// returns: boolean
+    : fcal=function_call                    #expr_fcall		// returns: function type    
+    | '(' subExpr=expr ')'                  #expr_parenthesis 	// returns: type of expr
+    | '-' subExpr=expr                      #expr_uminus	// returns: type of expr
     | a=expr op=(MULT_OP | DEV_OP) b=expr   #expr_binop // returns: type of Lexpr
     | a=expr op=(ADD_OP | SUBST_OP) b=expr  #expr_binop // returns: type of Lexpr
-    | LP type RP expr           #expr_cast
-    | id=ID op=(INCR_OP | DECR_OP)            	#expr_incr_decr	// returns: int
-    | dev_operation        	#expr_dev	// returns: boolean
-    | v=value              	#expr_value	// returns: value type
-    | ID                   	#expr_var	// returns: type of var ID
+    | LP type RP expr                       #expr_cast // returns: type of "type"
+    | id=ID op=(INCR_OP | DECR_OP)          #expr_incr_decr	// returns: int
+    | dev_operation                         #expr_dev	// returns: boolean
+    | v=value                               #expr_value	// returns: value type
+    | var_call                              #expr_var	// returns: type of var ID
     ;
 
 return_statement 
@@ -55,24 +54,29 @@ return_statement
 
 var_declaration // declaration of variable 'ID' of type 'type' with optional assignment
     : type ID ('=' expr)?;
+var_call
+    : ID ;
 assignment // assignment
     : a=ID '=' b=expr;
 function_call // call of function 'ID' with optional arguments
     : ID LP arguments? RP  
     ;
 condition  // logical condition
-    : a=expr op=( EQ_OP | NOT_EQ_OP ) b=expr                #condition_equality
+    : '!' LP var_call RP                                    #condition_var_negated
+    | '!' var_call                                          #condition_var_negated
+    | '!' LP condition RP                                   #condition_negated
+    | a=expr op=( EQ_OP | NOT_EQ_OP ) b=expr                #condition_equality
     | a=expr op=( GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr #condition_relational
     ;
 
 arguments   
     : expr (',' expr)* ;
 for_loop    
-    : 'for' LP assignment ';' condition ';' expr RP block ;
+    : 'for' LP assignment ';' condition ';' (newValExpr=expr | newValAssign=assignment) RP block ;
 while_loop  
     : 'while' LP condition RP block ;
 if_condition
-    : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' block)?;
+    : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
 
 dev_operation
     : ID'.'( 'setParam' LP STRING ',' expr RP

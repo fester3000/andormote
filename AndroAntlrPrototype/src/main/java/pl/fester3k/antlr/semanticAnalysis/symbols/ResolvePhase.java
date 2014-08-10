@@ -11,6 +11,7 @@ import pl.fester3k.antlr.androCode.AndroCodeParser.FunctionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Function_callContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Main_functionContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.ScriptContext;
+import pl.fester3k.antlr.androCode.AndroCodeParser.Var_callContext;
 import pl.fester3k.antlr.androCode.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.antlr.androCode.listeners.AndroCodeListenerWithScopes;
 import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.GlobalScope;
@@ -66,7 +67,7 @@ public class ResolvePhase extends AndroCodeListenerWithScopes {
 	}
 
 	@Override
-	public void enterExpr_var(Expr_varContext ctx) {
+	public void enterVar_call(Var_callContext ctx) {
 		String id = ctx.ID().getText();
 		resolveByIdIfNotNull(id, ctx);
 	}

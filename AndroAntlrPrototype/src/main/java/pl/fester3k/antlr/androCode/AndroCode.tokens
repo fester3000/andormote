@@ -60,7 +60,7 @@ STRING=46
 ';'=12
 'String'=24
 '='=11
-'return'=10
+'return'=9
 'for'=7
 '+'=31
 'setParam'=5
@@ -80,7 +80,7 @@ STRING=46
 '<='=42
 '!='=38
 'device'=26
-'main'=9
+'main'=10
 '<'=40
 '--'=36
 'int'=20
