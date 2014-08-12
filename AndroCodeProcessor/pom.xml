@@ -33,11 +33,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.14.4</version>
-		</dependency>
-		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.3</version>
@@ -52,6 +47,13 @@
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeParser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok-api</artifactId>
+			<scope>system</scope>
+			<version>1.14.4</version>
+			<systemPath>${basedir}\libs\lombok-api.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
