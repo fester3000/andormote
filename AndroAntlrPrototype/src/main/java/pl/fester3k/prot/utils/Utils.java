@@ -2,10 +2,10 @@ package pl.fester3k.prot.utils;
 
 import java.util.Stack;
 
-import pl.fester3k.antlr.interpreter.memory.MemorySpace;
-import pl.fester3k.antlr.semanticAnalysis.Type;
-import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Scope;
-import pl.fester3k.antlr.semanticAnalysis.symbols.scopeManagement.Symbol;
+import pl.fester3k.androcode.interpreter.memory.MemorySpace;
+import pl.fester3k.androcode.semanticAnalysis.Type;
+import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
+import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
 
 import com.google.common.base.Strings;
 

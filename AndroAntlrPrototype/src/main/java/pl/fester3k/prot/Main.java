@@ -1,6 +1,6 @@
 package pl.fester3k.prot;
 
-import pl.fester3k.antlr.AndroCodeProcessor;
+import pl.fester3k.androcode.AndroCodeProcessor;
 
 public class Main {
 	
