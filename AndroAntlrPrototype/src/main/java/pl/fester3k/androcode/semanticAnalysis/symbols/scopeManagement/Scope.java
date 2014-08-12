@@ -1,6 +1,6 @@
 package pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement;
 
-import pl.fester3k.androcode.semanticAnalysis.Type;
+import pl.fester3k.androcode.antlr.enums.Type;
 
 /***
  * Excerpted from "Language Implementation Patterns",

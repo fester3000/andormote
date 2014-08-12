@@ -1,8 +1,6 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
-    package pl.fester3k.androcode.antlr;
-    import pl.fester3k.androcode.semanticAnalysis.Type;
-
+package pl.fester3k.androcode.antlr;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

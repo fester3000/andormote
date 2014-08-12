@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.fester3k</groupId>
-	<artifactId>AndroAntlrPrototype</artifactId>
-	<packaging>jar</packaging>
+	<groupId>pl.fester3k.andomote.androcode</groupId>
+	<artifactId>AndroCodeParser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AndromoteANTLR_Prototype</name>
-	<description>Prototype of ANTLR interpreter for Androcode DSL</description>
+	<packaging>jar</packaging>
+	<name>AndroCodeParser</name>
+	<description>AndroCode parser based on ANTLR4 tool</description>
 	<build>
 		<plugins>
 			<plugin>
@@ -33,30 +33,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.14.4</version>
-		</dependency>
-		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.3</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>pl.fester3k.andomote.androcode</groupId>
-			<artifactId>AndroCodeParser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>pl.fester3k.andromote.androcode.logger</groupId>
-			<artifactId>AndroCodeLogger</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>pl.fester3k.andromote.validator.logger</groupId>
-			<artifactId>AndroValidatorLogger</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

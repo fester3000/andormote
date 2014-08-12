@@ -12,7 +12,7 @@ import java.util.Map;
 
 import lombok.Getter;
 
-import pl.fester3k.androcode.semanticAnalysis.Type;
+import pl.fester3k.androcode.antlr.enums.Type;
 
 public class FunctionSymbol extends Symbol implements Scope {
 	@Getter

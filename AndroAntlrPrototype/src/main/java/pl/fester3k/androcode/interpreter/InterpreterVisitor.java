@@ -38,17 +38,17 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.StatementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
+import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
+import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
-import pl.fester3k.androcode.semanticAnalysis.Type;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.FunctionSymbol;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
-import pl.fester3k.prot.utils.AndroLog;
 import pl.fester3k.prot.utils.Utils;
 
 public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {

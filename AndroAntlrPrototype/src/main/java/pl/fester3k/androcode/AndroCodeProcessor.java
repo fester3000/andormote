@@ -6,25 +6,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.print.attribute.standard.PrinterResolution;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 import pl.fester3k.androcode.antlr.AndroCodeLexer;
 import pl.fester3k.androcode.antlr.AndroCodeParser;
 import pl.fester3k.androcode.interpreter.Interpreter;
+import pl.fester3k.androcode.logger.AndroCodeLogger;
+import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SemanticAnalyser;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
 import pl.fester3k.prot.exceptions.SemanticAnalysisException;
-import pl.fester3k.prot.utils.AndroLog;
 
 public class AndroCodeProcessor {
-	private static final AndroLog log = new AndroLog(AndroCodeProcessor.class.getSimpleName());
+	private static final AndroCodeLogger log = new AndroLog(AndroCodeProcessor.class.getSimpleName());
 	SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 	Interpreter interpreter = new Interpreter();
 	ParseTree tree;
@@ -45,21 +41,21 @@ public class AndroCodeProcessor {
 			log.warn(ex.getMessage());
 			log.info("Usage: androcode [filename]");
 			log.info("where filename is the path to androcode script file to process");
+			logProcessingFailed();
 		} catch (FileNotFoundException e) {
 			log.error(e.getMessage());
+			logProcessingFailed();
 		} catch (SemanticAnalysisException e) {
 			log.error(e.getMessage());
 			log.debug(e.getStackTrace().toString());
+			logProcessingFailed();
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			log.debug(e.getStackTrace().toString());
-		} finally {
-			log.info("##############!!!!!!!!!!#############");
-			log.info("!!!  AndroCode processing failed  !!!");
-			log.info("##############!!!!!!!!!!#############");
-		}
+			logProcessingFailed();
+		} 
 	}
-	
+
 	private InputStream processProgramArguments(String[] args)
 			throws FileNotFoundException, IllegalArgumentException {
 		String filename = null;
@@ -126,4 +122,11 @@ public class AndroCodeProcessor {
 		inputStream = new ByteArrayInputStream(bArray);
 		return inputStream;
 	}
+	
+	private void logProcessingFailed() {
+		log.info("##############!!!!!!!!!!#############");
+		log.info("!!!  AndroCode processing failed  !!!");
+		log.info("##############!!!!!!!!!!#############");
+	}
+	
 }

@@ -1,4 +1,4 @@
-package pl.fester3k.androcode.semanticAnalysis;
+package pl.fester3k.androcode.antlr.enums;
 
 import pl.fester3k.androcode.antlr.AndroCodeParser;
 
