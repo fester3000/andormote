@@ -12,18 +12,22 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import pl.fester3k.androcode.antlr.AndroCodeLexer;
 import pl.fester3k.androcode.antlr.AndroCodeParser;
+import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
 import pl.fester3k.androcode.interpreter.Interpreter;
-import pl.fester3k.androcode.logger.AndroCodeLogger;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SemanticAnalyser;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
-import pl.fester3k.prot.exceptions.SemanticAnalysisException;
 
 public class AndroCodeProcessor {
-	private static final AndroCodeLogger log = new AndroLog(AndroCodeProcessor.class.getSimpleName());
+	private final AndroLog log;
 	SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 	Interpreter interpreter = new Interpreter();
 	ParseTree tree;
+	
+	public AndroCodeProcessor() {
+		this.log = new AndroLog(AndroCodeProcessor.class.getSimpleName()); 
+	}
+
 
 	public void process(String[] args) throws IOException {
 		log.info("####################################");

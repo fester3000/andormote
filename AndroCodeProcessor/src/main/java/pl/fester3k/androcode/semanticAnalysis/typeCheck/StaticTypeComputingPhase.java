@@ -22,7 +22,7 @@ import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.antlr.listeners.AndroCodeListenerWithScopes;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
-import pl.fester3k.prot.utils.Utils;
+import pl.fester3k.androcode.utils.Utils;
 
 /**
  * 	3. type checking

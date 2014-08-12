@@ -2,7 +2,6 @@ package pl.fester3k.androcode.interpreter;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
 
 public class Interpreter {

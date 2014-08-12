@@ -1,4 +1,4 @@
-package pl.fester3k.prot.exceptions;
+package pl.fester3k.androcode.exceptions;
 
 
 public class SemanticAnalysisException extends Exception {

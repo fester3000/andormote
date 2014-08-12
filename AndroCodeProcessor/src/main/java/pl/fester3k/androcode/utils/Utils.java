@@ -1,4 +1,4 @@
-package pl.fester3k.prot.utils;
+package pl.fester3k.androcode.utils;
 
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;

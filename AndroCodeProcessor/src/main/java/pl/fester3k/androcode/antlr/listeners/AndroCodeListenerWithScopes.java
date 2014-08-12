@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.apache.logging.log4j.Marker;
 
 import pl.fester3k.androcode.antlr.AndroCodeBaseListener;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ArgumentsContext;
@@ -13,8 +12,8 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BodyContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_operationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
@@ -41,21 +40,22 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.ValueContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
-import pl.fester3k.androcode.logger.AndroCodeLogger;
 import pl.fester3k.androcode.logger.AndroLog;
+import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 
 
 public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
-	protected final AndroCodeLogger log;
+	protected final AndroLog log;
 	protected GlobalScope globals;
 	protected ParseTreeProperty<Scope> scopes;
 	protected Scope currentScope;
 	
-	public AndroCodeListenerWithScopes(GlobalScope globals,	ParseTreeProperty<Scope> scopes, String className) {
+	public AndroCodeListenerWithScopes(
+			GlobalScope globals, ParseTreeProperty<Scope> scopes, String className) {
 		super();
-		this.log = new AndroLog(className);
+		this.log = new AndroLog(DefinePhase.class.getSimpleName());   
 		this.globals = globals;
 		this.scopes = scopes;
 	}

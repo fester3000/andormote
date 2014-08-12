@@ -3,25 +3,20 @@ package pl.fester3k.androcode.semanticAnalysis.typeCheck;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.standard.PrinterResolution;
-
 import lombok.Getter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.antlr.v4.runtime.tree.TerminalNode;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 import pl.fester3k.androcode.antlr.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ConditionContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ExprContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
@@ -39,8 +34,7 @@ import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.FunctionSy
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
-import pl.fester3k.prot.utils.Utils;
-import pl.fester3k.prot.exceptions.SemanticAnalysisException;
+import pl.fester3k.androcode.utils.Utils;
 
 /**
  * 	3. type checking

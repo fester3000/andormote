@@ -1,14 +1,10 @@
 package pl.fester3k.androcode.semanticAnalysis.symbols;
 
-import java.util.List;
-
 import lombok.Getter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 import pl.fester3k.androcode.antlr.AndroCodeBaseListener;
 import pl.fester3k.androcode.antlr.AndroCodeParser;
@@ -16,7 +12,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParameterContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.ParametersContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.enums.Type;
@@ -33,7 +28,7 @@ import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.VariableSy
  *
  */
 public class DefinePhase extends AndroCodeBaseListener {	
-	private static final AndroLog log = new AndroLog(DefinePhase.class.getSimpleName());
+	private final AndroLog log;
 
 	@Getter	private ParseTreeProperty<Scope> scopes;
 	@Getter	private GlobalScope globals;
@@ -41,6 +36,7 @@ public class DefinePhase extends AndroCodeBaseListener {
 
 	public DefinePhase() {
 		super();
+		this.log = new AndroLog(DefinePhase.class.getSimpleName()); 
 		log.info("Starting define phase");
 		scopes = new ParseTreeProperty<Scope>();
 	}

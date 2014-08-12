@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.fester3k</groupId>
-	<artifactId>AndroAntlrPrototype</artifactId>
+	<groupId>pl.fester3k.andromote.androcode</groupId>
+	<artifactId>AndroCodeProcessor</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AndromoteANTLR_Prototype</name>
-	<description>Prototype of ANTLR interpreter for Androcode DSL</description>
+	<name>AndroCode Processor</name>
+	<description>ANTLR based AndroCode DSL processor</description>
 	<build>
 		<plugins>
 			<plugin>
@@ -33,30 +33,25 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>pl.fester3k.andomote.androcode</groupId>
-			<artifactId>AndroCodeParser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.14.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
-			<artifactId>AndroCodeProcessor</artifactId>
+			<artifactId>AndroCodeParser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.0.1</version>
 		</dependency>
 	</dependencies>
 </project>

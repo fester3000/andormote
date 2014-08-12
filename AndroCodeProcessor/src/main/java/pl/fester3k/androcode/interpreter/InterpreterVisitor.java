@@ -6,8 +6,6 @@ import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 import pl.fester3k.androcode.antlr.AndroCodeBaseVisitor;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ArgumentsContext;
@@ -44,12 +42,13 @@ import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
+import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.FunctionSymbol;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
-import pl.fester3k.prot.utils.Utils;
+import pl.fester3k.androcode.utils.Utils;
 
 public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private MemorySpace globalMemory = new MemorySpace("Global");
@@ -59,9 +58,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private final GlobalScope globals;
 	private Scope currentScope;
 	private final ParseTreeProperty<Scope> scopes;
-	private static final AndroLog log = new AndroLog(InterpreterVisitor.class.getSimpleName());
+	private final AndroLog log;
 
 	public InterpreterVisitor(SymbolTable semanticAnalysisResult) {
+		this.log = new AndroLog(DefinePhase.class.getSimpleName()); 
 		log.info("Starting interpreter");
 		this.globals = semanticAnalysisResult.getGlobals();
 		this.scopes = semanticAnalysisResult.getScopes();
