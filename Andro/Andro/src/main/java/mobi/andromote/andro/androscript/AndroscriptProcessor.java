@@ -1,15 +1,14 @@
 package mobi.andromote.andro.androscript;
 
-import org.apache.log4j.Logger;
-
-import android.content.Context;
-import android.util.Log;
-import mobi.andromote.andro.androscript.datatypes.ScriptProcessStatus;
-import mobi.andromote.andro.androscript.datatypes.UnverifiedScript;
-import mobi.andromote.andro.androscript.datatypes.VerifiedScript;
 import mobi.andromote.andro.androscript.processingTools.Parser;
 import mobi.andromote.andro.androscript.processingTools.Validator;
-import mobi.andromote.andro.webservice.Authenticator;
+
+import org.apache.log4j.Logger;
+
+import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
+import pl.fester3k.androcode.datatypes.UnverifiedScript;
+import pl.fester3k.androcode.datatypes.VerifiedScript;
+import android.content.Context;
 
 public enum AndroscriptProcessor {
 	INSTANCE;

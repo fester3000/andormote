@@ -9,6 +9,7 @@ import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
 import pl.fester3k.androcode.semanticAnalysis.symbols.ResolvePhase;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.StaticTypeComputingPhase;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.TypeCheckingPhase;
+import pl.fester3k.androcode.symbolManagement.SymbolTable;
 
 public class SemanticAnalyser {
 	private ParseTreeWalker walker;

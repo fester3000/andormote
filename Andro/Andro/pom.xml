@@ -24,7 +24,12 @@
 		</dependency>
 		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
-			<artifactId>AndroCodeProcessor</artifactId>
+			<artifactId>AndroCodePreprocessor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.fester3k.andromote.androcode</groupId>
+			<artifactId>AndroCodeInterpreter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -42,7 +47,6 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.7</version>
 		</dependency>
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

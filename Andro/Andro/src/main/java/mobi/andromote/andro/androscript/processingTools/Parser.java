@@ -1,20 +1,36 @@
 package mobi.andromote.andro.androscript.processingTools;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
-import android.util.Log;
-import mobi.andromote.andro.androscript.datatypes.Script;
-import mobi.andromote.andro.androscript.datatypes.ScriptProcessStatus;
-import mobi.andromote.andro.runtimeEnvironment.RuntimeEnvironmentFacade;
-import mobi.andromote.andro.webservice.Authenticator;
+import pl.fester3k.androcode.AndroCodePreprocessor;
+import pl.fester3k.androcode.dataholder.TreeWithSymbolTable;
+import pl.fester3k.androcode.datatypes.Script;
+import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
+import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
+import pl.fester3k.androcode.interpreter.AndroCodeInterpreter;
 
 public class Parser {
 	private final Logger log = Logger.getLogger(Parser.class);
-
-	public ScriptProcessStatus parse(Script scirpt) {
-		//TODO parse
+	AndroCodePreprocessor preprocess = new AndroCodePreprocessor(); 
+	AndroCodeInterpreter interpreter = new AndroCodeInterpreter();
+	
+	public ScriptProcessStatus parse(Script script) {
+		ScriptProcessStatus result;
 		log.debug("parsing");
-		RuntimeEnvironmentFacade.INSTANCE.run(scirpt);
-		return ScriptProcessStatus.OK;
+		TreeWithSymbolTable preprocessResult;
+		try {
+			preprocessResult = preprocess.analyseCode(script.getContent());
+			interpreter.interpret(preprocessResult.getTree(), preprocessResult.getSymbolTable());
+			result = ScriptProcessStatus.OK;
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			result = ScriptProcessStatus.RUN_FAILED;
+		} catch (SemanticAnalysisException e) {
+			log.error(e.getMessage());
+			result = ScriptProcessStatus.RUN_FAILED;
+		}
+		return result;
 	}
 }

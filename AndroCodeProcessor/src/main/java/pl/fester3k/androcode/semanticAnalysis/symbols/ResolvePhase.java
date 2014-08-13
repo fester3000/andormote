@@ -13,9 +13,9 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.listeners.AndroCodeListenerWithScopes;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
+import pl.fester3k.androcode.scopeManagement.GlobalScope;
+import pl.fester3k.androcode.scopeManagement.Scope;
+import pl.fester3k.androcode.symbolManagement.Symbol;
 import pl.fester3k.androcode.utils.Utils;
 
 

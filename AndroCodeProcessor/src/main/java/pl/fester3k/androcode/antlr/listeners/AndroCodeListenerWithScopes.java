@@ -41,9 +41,9 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.logger.AndroLog;
+import pl.fester3k.androcode.scopeManagement.GlobalScope;
+import pl.fester3k.androcode.scopeManagement.Scope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 
 
 public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {

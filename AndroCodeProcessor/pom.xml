@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.fester3k.andromote.androcode</groupId>
-	<artifactId>AndroCodeProcessor</artifactId>
+	<artifactId>AndroCodePreprocessor</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AndroCode Processor</name>
@@ -28,16 +28,14 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeParser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>pl.fester3k.andromote.androcode</groupId>
+			<artifactId>AndroCodeCommons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

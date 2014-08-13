@@ -2,7 +2,7 @@ package mobi.andromote.andro.androscript;
 
 import java.util.List;
 
-import mobi.andromote.andro.androscript.datatypes.Script;
+import pl.fester3k.androcode.datatypes.Script;
 
 public interface ScriptRepository {
 	public List<Script> getScriptList();

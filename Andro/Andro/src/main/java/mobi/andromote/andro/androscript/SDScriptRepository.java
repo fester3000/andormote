@@ -6,10 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import mobi.andromote.andro.androscript.datatypes.Script;
-
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.datatypes.Script;
 import android.content.Context;
 import android.os.Environment;
 

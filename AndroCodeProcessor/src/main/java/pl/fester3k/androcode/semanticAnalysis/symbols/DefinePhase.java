@@ -14,11 +14,11 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.logger.AndroLog;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.FunctionSymbol;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.GlobalScope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.LocalScope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.VariableSymbol;
+import pl.fester3k.androcode.scopeManagement.GlobalScope;
+import pl.fester3k.androcode.scopeManagement.LocalScope;
+import pl.fester3k.androcode.scopeManagement.Scope;
+import pl.fester3k.androcode.symbolManagement.FunctionSymbol;
+import pl.fester3k.androcode.symbolManagement.VariableSymbol;
 
 /**
  * TODO Kontrola unikalności identyfikatorów w ramach scope'ów (i w górę hierarchii)
