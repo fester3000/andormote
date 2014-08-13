@@ -21,15 +21,6 @@ public class SDScriptRepository implements ScriptRepository {
 		this.context = context;
 	}
 	
-	private boolean isExternalStorageWriteable() {
-		String state = Environment.getExternalStorageState();
-		if(Environment.MEDIA_MOUNTED.equals(state)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	@Override
 	public void save(Script script) {
 		FileOutputStream outputStream;
@@ -84,4 +75,14 @@ public class SDScriptRepository implements ScriptRepository {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private boolean isExternalStorageWriteable() {
+		String state = Environment.getExternalStorageState();
+		if(Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

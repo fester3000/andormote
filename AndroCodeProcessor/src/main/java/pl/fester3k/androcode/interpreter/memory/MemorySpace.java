@@ -3,10 +3,8 @@ package pl.fester3k.androcode.interpreter.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Getter;
-
 public class MemorySpace {
-	@Getter private final String name;
+	private final String name;
 	private Map<String, Object> members = new HashMap<String, Object>();
 	
 	public MemorySpace(String name) {
@@ -32,4 +30,10 @@ public class MemorySpace {
 	public String toString() {
 		return name + ":" + members;
 	}
+
+	public String getName() {
+		return name;
+	}
+	
+	
 }

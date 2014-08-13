@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import android.util.Log;
 import mobi.andromote.andro.androscript.datatypes.Script;
 import mobi.andromote.andro.androscript.datatypes.ScriptProcessStatus;
-import mobi.andromote.andro.runtimeEnv.RuntimeEnvironmentFacade;
+import mobi.andromote.andro.runtimeEnvironment.RuntimeEnvironmentFacade;
 import mobi.andromote.andro.webservice.Authenticator;
 
 public class Parser {

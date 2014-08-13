@@ -18,17 +18,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>pl.fester3k.prot.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -36,6 +25,7 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.3</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -47,13 +37,7 @@
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeParser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok-api</artifactId>
-			<scope>system</scope>
-			<version>1.14.4</version>
-			<systemPath>${basedir}\libs\lombok-api.jar</systemPath>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

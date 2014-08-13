@@ -30,7 +30,7 @@ public abstract class BaseScope implements Scope {
 
 	public void define(Symbol sym) {
 		symbols.put(sym.name, sym);
-		sym.scope = this; // track the scope in each symbol
+		sym.setScope(this); // track the scope in each symbol
 	}
 
     public Scope getEnclosingScope() { return enclosingScope; }

@@ -1,7 +1,5 @@
 package pl.fester3k.androcode.semanticAnalysis.symbols;
 
-import lombok.Getter;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -22,7 +20,7 @@ import pl.fester3k.androcode.utils.Utils;
 
 
 public class ResolvePhase extends AndroCodeListenerWithScopes {
-	@Getter private boolean error = false;
+	private boolean error = false;
 
 	public ResolvePhase(GlobalScope globals, ParseTreeProperty<Scope> scopes) {
 		super(globals, scopes, ResolvePhase.class.getSimpleName());
@@ -92,5 +90,9 @@ public class ResolvePhase extends AndroCodeListenerWithScopes {
 			log.error("!Symbol " + id + " not declared!", ctx);
 			error = true;
 		}
+	}
+
+	public boolean isError() {
+		return error;
 	}
 }

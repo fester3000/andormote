@@ -10,12 +10,9 @@ package pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import lombok.Getter;
-
 import pl.fester3k.androcode.antlr.enums.Type;
 
 public class FunctionSymbol extends Symbol implements Scope {
-	@Getter
 	Map<String, Symbol> orderedArgs = new LinkedHashMap<String, Symbol>();
     Scope enclosingScope;
 
@@ -50,4 +47,8 @@ public class FunctionSymbol extends Symbol implements Scope {
     public String toString() { 
     	return "function"+super.toString()+":"+orderedArgs.values(); 
     }
+
+	public Map<String, Symbol> getOrderedArgs() {
+		return orderedArgs;
+	}
 }

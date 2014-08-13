@@ -1,5 +1,8 @@
 package pl.fester3k.androcode.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Scope;
 import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.Symbol;
@@ -23,8 +26,15 @@ public class Utils {
 		}
 		return result;
 	}
+	
+	public static InputStream convertStringToStream(String androCode) {
+		InputStream inputStream;
+		byte[] bArray = androCode.getBytes();
+		inputStream = new ByteArrayInputStream(bArray);
+		return inputStream;
+	}
 
 	private static boolean isNullOrEmpty(String id) {
 		return id != null || id.isEmpty();
-	}
+	}	
 }

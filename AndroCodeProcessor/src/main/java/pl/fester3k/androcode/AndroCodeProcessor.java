@@ -17,30 +17,56 @@ import pl.fester3k.androcode.interpreter.Interpreter;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.semanticAnalysis.SemanticAnalyser;
 import pl.fester3k.androcode.semanticAnalysis.SymbolTable;
+import pl.fester3k.androcode.utils.Utils;
 
 public class AndroCodeProcessor {
 	private final AndroLog log;
 	SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 	Interpreter interpreter = new Interpreter();
 	ParseTree tree;
-	
+
 	public AndroCodeProcessor() {
 		this.log = new AndroLog(AndroCodeProcessor.class.getSimpleName()); 
 	}
 
+	public void processCode(String script) {
+		logProcessingStarted();
+		InputStream inputStream = Utils.convertStringToStream(script);
+		tryToProcess(inputStream);
+	}
 
-	public void process(String[] args) throws IOException {
-		log.info("####################################");
-		log.info("##  AndroCode processing started  ##");
-		log.info("####################################");
+	public void processFile(String filename) throws IOException {
+		logProcessingStarted();
 		try {
-		InputStream streamAfterAutoPromotion = processProgramArguments(args); 
-		streamAfterAutoPromotion = firstPass(streamAfterAutoPromotion);
-		SymbolTable secondPassResult = secondPass(streamAfterAutoPromotion);
-		interpret(secondPassResult);
-		log.info("####################################");
-		log.info("##  AndroCode processing is done  ##");
-		log.info("####################################");
+			InputStream inputStream = getStreamFromFile(filename);
+			tryToProcess(inputStream);
+		} catch (IllegalArgumentException ex) {
+			log.warn(ex.getMessage());
+			log.info("Usage: androcode [filename]");
+			log.info("where filename is the path to androcode script file to process");
+			logProcessingFailed();
+		} catch (FileNotFoundException e) {
+			log.error(e.getMessage());
+			logProcessingFailed();
+		}
+	}
+	
+	private InputStream getStreamFromFile(String filename)
+			throws FileNotFoundException, IllegalArgumentException {
+		if ( filename != null) {
+			log.info("Processing file " + filename);
+		} else {
+			throw new IllegalArgumentException("No file was specified to process!");
+		}
+		return new FileInputStream(filename);
+	}
+	
+	private void tryToProcess(InputStream inputStream) {
+		try {
+			InputStream streamAfterAutoPromotion = firstPass(inputStream);
+			SymbolTable secondPassResult = secondPass(streamAfterAutoPromotion);
+			interpret(secondPassResult);
+			logProcessingDone();
 		} catch (IllegalArgumentException ex) {
 			log.warn(ex.getMessage());
 			log.info("Usage: androcode [filename]");
@@ -57,25 +83,7 @@ public class AndroCodeProcessor {
 			log.error(e.getMessage());
 			log.debug(e.getStackTrace().toString());
 			logProcessingFailed();
-		} 
-	}
-
-	private InputStream processProgramArguments(String[] args)
-			throws FileNotFoundException, IllegalArgumentException {
-		String filename = null;
-		if ( args.length>0 ) {
-			filename = args[0];
-			log.info("Processing file " + args[0]);
-		} else {
-			throw new IllegalArgumentException("No file was specified to process!");
 		}
-		InputStream inputStream;
-		if ( filename!=null ) {
-			inputStream = new FileInputStream(filename);
-		} else {
-			throw new FileNotFoundException("File " + filename + " not found");
-		}
-		return inputStream;
 	}
 
 	private InputStream firstPass(InputStream inputStream) throws IOException, SemanticAnalysisException {
@@ -84,9 +92,9 @@ public class AndroCodeProcessor {
 		tree = buildParserTree(tokens); 														// I. parsing
 		String androCodeAfterAutoPromotion = semanticAnalyser.processFirstPass(tree, tokens);	// II. Semantic analysis:
 		log.info("First pass done.");
-		return convertStringToStream(androCodeAfterAutoPromotion);
+		return Utils.convertStringToStream(androCodeAfterAutoPromotion);
 	}
-	
+
 	private SymbolTable secondPass(InputStream streamAfterAutoPromotion) throws IOException, SemanticAnalysisException {
 		log.info("Processing second pass...");
 		CommonTokenStream tokens = createTokenStream(streamAfterAutoPromotion);
@@ -95,14 +103,14 @@ public class AndroCodeProcessor {
 		log.info("Second pass done.");
 		return symbolTable;
 	}
-	
+
 	private void interpret(SymbolTable symbolTable) {
 		log.info("Interpreting...");
 		interpreter.interpret(tree, symbolTable);								// III. Interpreting
 		log.info("Interpreting done.");
 	}
 
-	
+
 
 	private ParseTree buildParserTree(CommonTokenStream tokens) {
 		ParseTree tree;
@@ -120,17 +128,23 @@ public class AndroCodeProcessor {
 		return tokens;
 	}
 
-	private InputStream convertStringToStream(String androCode) {
-		InputStream inputStream;
-		byte[] bArray = androCode.getBytes();
-		inputStream = new ByteArrayInputStream(bArray);
-		return inputStream;
+	private void logProcessingDone() {
+		log.info("####################################");
+		log.info("##  AndroCode processing is done  ##");
+		log.info("####################################");
 	}
-	
+
+	private void logProcessingStarted() {
+		log.info("####################################");
+		log.info("##  AndroCode processing started  ##");
+		log.info("####################################");
+	}
+
+
 	private void logProcessingFailed() {
 		log.info("##############!!!!!!!!!!#############");
 		log.info("!!!  AndroCode processing failed  !!!");
 		log.info("##############!!!!!!!!!!#############");
 	}
-	
+
 }

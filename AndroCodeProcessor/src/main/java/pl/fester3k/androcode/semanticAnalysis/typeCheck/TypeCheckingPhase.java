@@ -3,8 +3,6 @@ package pl.fester3k.androcode.semanticAnalysis.typeCheck;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
@@ -45,10 +43,10 @@ import pl.fester3k.androcode.utils.Utils;
  *
  */
 public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
-	@Getter private boolean error = false;
+	private boolean error = false;
 	private final ParseTreeProperty<Type> types;
-	@Getter private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
-	@Getter private TokenStreamRewriter rewriter;
+	private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
+	private TokenStreamRewriter rewriter;
 
 	public TypeCheckingPhase(GlobalScope globals,
 			ParseTreeProperty<Scope> scopes, ParseTreeProperty<Type> types, TokenStream tokens) {
@@ -292,5 +290,17 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			rewriter.insertBefore(ctx.start, textToInsert);
 			types.put(ctx, typeToCast);
 		} 
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public ParseTreeProperty<Type> getPromotedTypes() {
+		return promotedTypes;
+	}
+
+	public TokenStreamRewriter getRewriter() {
+		return rewriter;
 	}
 }

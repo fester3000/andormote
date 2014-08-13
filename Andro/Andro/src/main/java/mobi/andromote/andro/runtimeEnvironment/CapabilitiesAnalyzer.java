@@ -1,4 +1,4 @@
-package mobi.andromote.andro.runtimeEnv;
+package mobi.andromote.andro.runtimeEnvironment;
 
 import mobi.andromote.andro.webservice.Authenticator;
 

@@ -1,7 +1,5 @@
 package pl.fester3k.androcode.semanticAnalysis.symbols;
 
-import lombok.Getter;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -30,9 +28,9 @@ import pl.fester3k.androcode.semanticAnalysis.symbols.scopeManagement.VariableSy
 public class DefinePhase extends AndroCodeBaseListener {	
 	private final AndroLog log;
 
-	@Getter	private ParseTreeProperty<Scope> scopes;
-	@Getter	private GlobalScope globals;
-	@Getter	private Scope currentScope;	
+	private ParseTreeProperty<Scope> scopes;
+	private GlobalScope globals;
+	private Scope currentScope;	
 
 	public DefinePhase() {
 		super();
@@ -116,5 +114,17 @@ public class DefinePhase extends AndroCodeBaseListener {
 	
 	private void saveScope(ParserRuleContext ctx, Scope s) { 
 		scopes.put(ctx, s); 
+	}
+
+	public ParseTreeProperty<Scope> getScopes() {
+		return scopes;
+	}
+
+	public GlobalScope getGlobals() {
+		return globals;
+	}
+
+	public Scope getCurrentScope() {
+		return currentScope;
 	}
 }

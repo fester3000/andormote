@@ -1,7 +1,5 @@
 package pl.fester3k.androcode.semanticAnalysis.typeCheck;
 
-import lombok.Getter;
-
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -36,7 +34,7 @@ import pl.fester3k.androcode.utils.Utils;
  */
 
 public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {	
-	@Getter private ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
+	private ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
 
 	public StaticTypeComputingPhase(GlobalScope globals,
 			ParseTreeProperty<Scope> scopes, TokenStream tokens) {
@@ -175,4 +173,10 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx,type);
 		log.printTypeWithContext(type, ctx);
 	}
+
+	public ParseTreeProperty<Type> getTypes() {
+		return types;
+	}
+	
+	
 }

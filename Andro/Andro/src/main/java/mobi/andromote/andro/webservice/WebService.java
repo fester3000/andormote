@@ -25,6 +25,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.AndroCodeProcessor;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
@@ -106,6 +107,8 @@ public class WebService {
 				toastMessage(content);
 				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
 				//TODO Test
+				AndroCodeProcessor processor = new AndroCodeProcessor();
+				processor.processCode(content);
 				unverifiedScript = new UnverifiedScript("Script1", content, new Date());
 				//TODO Test
 				connection.close();

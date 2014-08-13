@@ -1,10 +1,10 @@
-package mobi.andromote.andro.runtimeEnv;
+package mobi.andromote.andro.runtimeEnvironment;
 
 import org.apache.log4j.Logger;
 
 import mobi.andromote.andro.androscript.datatypes.Script;
-import mobi.andromote.andro.runtimeEnv.controllers.PhoneController;
-import mobi.andromote.andro.runtimeEnv.controllers.RideController;
+import mobi.andromote.andro.runtimeEnvironment.controllers.PhoneController;
+import mobi.andromote.andro.runtimeEnvironment.controllers.RideController;
 import mobi.andromote.andro.webservice.Authenticator;
 
 public enum RuntimeEnvironmentFacade {
