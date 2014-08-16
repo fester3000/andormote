@@ -11,11 +11,10 @@ public enum RuntimeEnvironmentFacade {
 	INSTANCE;
 	
 	private final Logger log = LoggerFactory.getLogger(RuntimeEnvironmentFacade.class);
-	CapabilitiesAnalyzer capabilitiesAnalyzer = CapabilitiesAnalyzer.INSTANCE;
 	PhoneController phoneController;
 	RideController rideController;
 	
-	public void run(Script script) {}
+	public void run() {}
 	public void resume() {}
 	public void pause() {}
 	public void stop() {}

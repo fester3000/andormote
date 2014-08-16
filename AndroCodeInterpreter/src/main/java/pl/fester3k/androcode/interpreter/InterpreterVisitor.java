@@ -37,6 +37,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
+import pl.fester3k.androcode.datatypes.Device;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
@@ -58,6 +59,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private Scope currentScope;
 	private final ParseTreeProperty<Scope> scopes;
 	private final AndroLog log;
+	private Map<String, Device> devices;
 
 	public InterpreterVisitor(SymbolTable symbolTable) {
 		this.log = new AndroLog(InterpreterVisitor.class.getSimpleName()); 

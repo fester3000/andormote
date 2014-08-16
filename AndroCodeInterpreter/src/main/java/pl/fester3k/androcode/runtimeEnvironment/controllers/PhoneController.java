@@ -1,5 +1,6 @@
 package pl.fester3k.androcode.runtimeEnvironment.controllers;
 
-public interface PhoneController extends GenericController {
+public class PhoneController extends BaseGenericController {
+
 
 }

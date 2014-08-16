@@ -8,3 +8,5 @@ AndroCodeCommons/.settings/org.eclipse.jdt.core.prefs
 AndroCodeCommons/.settings/org.eclipse.m2e.core.prefs
 AndroCodeInterpreter/.settings/org.eclipse.jdt.core.prefs
 AndroCodeInterpreter/.settings/org.eclipse.m2e.core.prefs
+AndroAntlrPrototype/log4j/all.log
+AndroAntlrPrototype/log4j/error.log

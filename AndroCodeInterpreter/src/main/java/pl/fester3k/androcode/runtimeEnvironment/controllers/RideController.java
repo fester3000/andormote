@@ -1,5 +1,6 @@
 package pl.fester3k.androcode.runtimeEnvironment.controllers;
 
-public interface RideController extends GenericController {
+public class RideController extends BaseGenericController {
+
 
 }
