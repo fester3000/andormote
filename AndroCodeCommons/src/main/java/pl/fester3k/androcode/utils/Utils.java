@@ -36,5 +36,12 @@ public class Utils {
 
 	private static boolean isNullOrEmpty(String id) {
 		return id != null || id.isEmpty();
+	}
+
+	public static String getStringOutOfQuotes(String text) {
+		if(text.endsWith("\"") && text.startsWith("\"")) {
+			text = text.substring(1, text.length() - 1);
+		}
+		return text;
 	}	
 }

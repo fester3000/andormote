@@ -1,8 +1,8 @@
 grammar AndroCode;
 
 @header {
-    package pl.fester3k.androcode.androCode;
-    import pl.fester3k.androcode.semanticAnalysis.Type;
+    package pl.fester3k.androcode.antlr;
+    import pl.fester3k.androcode.antlr.enums.Type;
 }
 
 script          // overal script structure constists of optional header (with library declaration etc) and body (instructions for platform)     
@@ -79,17 +79,18 @@ if_condition
     : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
 
 dev_operation
-    : ID'.'( 'setParam' LP STRING ',' expr RP
-           | 'getDevice' LP STRING RP)
+    : ID'.' 'setParam' LP STRING ',' expr RP		#dev_setParam
+    | ID'.' 'getDevice' LP STRING RP			#dev_get
+    | ID'.' 'execute' LP RP                             #dev_exec
     ;
-
+    
 value     
-    : CHAR     //{$returnType = Type.tCHAR; }      
-    | INT       //{$returnType = Type.tINT; }      
-    | FLOAT    //{$returnType = Type.tFLOAT; }      
-    | STRING    //{$returnType = Type.tSTRING; }      
-    | BOOLEAN   //{$returnType = Type.tBOOLEAN; }      
-    | NULL      //{$returnType = Type.tNULL; }      
+    : CHAR           
+    | INT            
+    | FLOAT          
+    | STRING         
+    | BOOLEAN        
+    | NULL           
     ;
 
 type        
@@ -145,7 +146,6 @@ NULL        : 'null' ;
 
 fragment 
 ESC         : '\\' [btnr"\\] ;
-
 fragment 
 LOWERCASE_LETTER : [a-z];
 fragment 

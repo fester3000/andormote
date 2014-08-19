@@ -1,6 +1,8 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
-package pl.fester3k.androcode.antlr;
+    package pl.fester3k.androcode.antlr;
+    import pl.fester3k.androcode.antlr.enums.Type;
+
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -21,6 +23,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitBody(@NotNull AndroCodeParser.BodyContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#dev_setParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#dev_setParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_dev}.
 	 * @param ctx the parse tree
 	 */
@@ -30,17 +43,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#dev_operation}.
-	 * @param ctx the parse tree
-	 */
-	void enterDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#dev_operation}.
-	 * @param ctx the parse tree
-	 */
-	void exitDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#for_loop}.
@@ -184,6 +186,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(@NotNull AndroCodeParser.ValueContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#dev_exec}.
+	 * @param ctx the parse tree
+	 */
+	void enterDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#dev_exec}.
+	 * @param ctx the parse tree
+	 */
+	void exitDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#parameters}.
@@ -360,6 +373,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#dev_get}.
+	 * @param ctx the parse tree
+	 */
+	void enterDev_get(@NotNull AndroCodeParser.Dev_getContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#dev_get}.
+	 * @param ctx the parse tree
+	 */
+	void exitDev_get(@NotNull AndroCodeParser.Dev_getContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_cast}.

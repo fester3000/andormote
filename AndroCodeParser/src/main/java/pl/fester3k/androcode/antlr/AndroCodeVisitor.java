@@ -1,7 +1,9 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
     package pl.fester3k.androcode.antlr;
-    import org.antlr.v4.runtime.misc.NotNull;
+    import pl.fester3k.androcode.antlr.enums.Type;
+
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -20,18 +22,18 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBody(@NotNull AndroCodeParser.BodyContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#dev_setParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_dev}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#dev_operation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#for_loop}.
@@ -123,6 +125,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValue(@NotNull AndroCodeParser.ValueContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#dev_exec}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#parameters}.
@@ -235,6 +244,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#dev_get}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDev_get(@NotNull AndroCodeParser.Dev_getContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_cast}.

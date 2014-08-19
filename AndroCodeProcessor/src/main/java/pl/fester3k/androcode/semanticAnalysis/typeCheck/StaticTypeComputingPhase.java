@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_devContext;
@@ -57,7 +59,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 	 */
 	@Override
 	public void exitExpr_dev(Expr_devContext ctx) {
-		Type type = Type.BOOLEAN;
+		Type type = types.get(ctx.dev_operation());
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
@@ -101,7 +103,16 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-		
+	
+	
+	
+	@Override
+	public void exitDev_get(Dev_getContext ctx) {
+		Type type = Type.DEVICE;
+		types.put(ctx,  type);
+		log.printTypeWithContext(type, ctx);
+	}
+
 	/**
 	 * Catches all variable calls "id"
 	 */
@@ -119,6 +130,16 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 	public void exitExpr_fcall(Expr_fcallContext ctx) {
 		String name = ctx.fcal.ID().getText();
 		Type type = Utils.getTypeFromSymbol(name, currentScope);
+		types.put(ctx, type);
+		log.printTypeWithContext(type, ctx);
+	}
+	
+	/**
+	 * Catches all device execs
+	 */
+	@Override
+	public void exitDev_exec(Dev_execContext ctx) {
+		Type type = Type.INT;
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}

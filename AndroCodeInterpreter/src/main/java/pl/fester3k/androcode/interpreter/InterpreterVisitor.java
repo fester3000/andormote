@@ -1,7 +1,9 @@
 package pl.fester3k.androcode.interpreter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -17,9 +19,13 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ExprContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_devContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
@@ -38,15 +44,18 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.datatypes.Device;
+import pl.fester3k.androcode.datatypes.Feature;
+import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
+import pl.fester3k.androcode.interpreter.device.DeviceManager;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.scopeManagement.Scope;
-import pl.fester3k.androcode.symbolManagement.SymbolTable;
 import pl.fester3k.androcode.symbolManagement.FunctionSymbol;
 import pl.fester3k.androcode.symbolManagement.Symbol;
+import pl.fester3k.androcode.symbolManagement.SymbolTable;
 import pl.fester3k.androcode.symbolManagement.VariableSymbol;
 import pl.fester3k.androcode.utils.Utils;
 
@@ -59,7 +68,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private Scope currentScope;
 	private final ParseTreeProperty<Scope> scopes;
 	private final AndroLog log;
-	private Map<String, Device> devices;
+	private Map<String, Device> devices = new HashMap<String, Device>();
 
 	public InterpreterVisitor(SymbolTable symbolTable) {
 		this.log = new AndroLog(InterpreterVisitor.class.getSimpleName()); 
@@ -378,7 +387,65 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		result = computeEqualityCondition(ctx, result, exprA, exprB,
 				operatorTokenType);
 		return result;
+	}	
+
+	@Override
+	public Object visitDev_setParam(Dev_setParamContext ctx) {
+		String varId = ctx.ID().getText();
+		String propertyName = ctx.STRING().getText();
+		Object value = visit(ctx.expr());
+		boolean result = false; 
+		if(devices.containsKey(varId)) {
+			Device device = devices.get(varId);
+			Properties params = device.getParams();
+			params.put(propertyName, value);
+			device.setParams(params);
+			devices.put(varId, device);
+			result = true;
+		} else {
+			log.error("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
+			result = false;
+		}
+		return result;
 	}
+	
+	
+
+	@Override
+	public Object visitExpr_dev(Expr_devContext ctx) {
+		return visit(ctx.dev_operation());
+	}
+
+
+
+	@Override
+	public Object visitDev_exec(Dev_execContext ctx) {
+		String varId = ctx.ID().getText();
+		Object result = null;
+		if(devices.containsKey(varId)) {
+			Device device = devices.get(varId);
+			result = DeviceManager.INSTANCE.execute(device);
+		} else {
+			log.error("Device from variable "+ varId + " not found!", ctx);
+		}
+		return result;
+	}
+
+	@Override
+	public Object visitDev_get(Dev_getContext ctx) {
+		String varId = ctx.ID().getText();
+		String featureName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
+		boolean hasFeature = CapabilitiesAnalyzer.INSTANCE.hasFeature(Feature.valueOf(featureName));
+		if(hasFeature) {
+			Device device = new Device(featureName);
+			devices.put(varId, device);
+		} else {
+			log.warn("Device doesn't have " + featureName);
+		}
+		return featureName;
+	}
+
+
 
 	private Object castValueToType(Object value, Type type) {
 		switch(type) {

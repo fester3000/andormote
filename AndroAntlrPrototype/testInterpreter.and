@@ -29,6 +29,9 @@ int main() {
 
 int testowa(int add) {
 	int b = 50 + add;
+	device camera; 
+	camera.getDevice("CAMERA");
+	camera.execute();
 	return b;
 }
 

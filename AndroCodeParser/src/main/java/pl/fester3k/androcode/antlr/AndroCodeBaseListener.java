@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
-package pl.fester3k.androcode.antlr;
-import pl.fester3k.androcode.antlr.enums.Type;
+    package pl.fester3k.androcode.antlr;
+    import pl.fester3k.androcode.antlr.enums.Type;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -33,6 +33,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -40,19 +53,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -222,6 +222,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValue(@NotNull AndroCodeParser.ValueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -430,6 +443,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDev_get(@NotNull AndroCodeParser.Dev_getContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDev_get(@NotNull AndroCodeParser.Dev_getContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

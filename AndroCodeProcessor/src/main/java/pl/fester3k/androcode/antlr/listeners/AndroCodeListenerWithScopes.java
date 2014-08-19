@@ -14,7 +14,10 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_operationContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_devContext;
@@ -43,7 +46,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.scopeManagement.Scope;
-import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
+import pl.fester3k.androcode.semanticAnalysis.DefinePhase;
 
 
 public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
@@ -55,7 +58,7 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	public AndroCodeListenerWithScopes(
 			GlobalScope globals, ParseTreeProperty<Scope> scopes, String className) {
 		super();
-		this.log = new AndroLog(DefinePhase.class.getSimpleName());   
+		this.log = new AndroLog(className);   
 		this.globals = globals;
 		this.scopes = scopes;
 	}
@@ -126,18 +129,39 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 		super.exitExpr_dev(ctx);
 	}
 
-
 	@Override
-	public void enterDev_operation(Dev_operationContext ctx) {
-		
-		super.enterDev_operation(ctx);
+	public void enterDev_setParam(Dev_setParamContext ctx) {
+		super.enterDev_setParam(ctx);
 	}
 
 
 	@Override
-	public void exitDev_operation(Dev_operationContext ctx) {
-		
-		super.exitDev_operation(ctx);
+	public void exitDev_setParam(Dev_setParamContext ctx) {
+		super.exitDev_setParam(ctx);
+	}
+
+
+	@Override
+	public void enterDev_exec(Dev_execContext ctx) {
+		super.enterDev_exec(ctx);
+	}
+
+
+	@Override
+	public void exitDev_exec(Dev_execContext ctx) {
+		super.exitDev_exec(ctx);
+	}
+
+
+	@Override
+	public void enterDev_get(Dev_getContext ctx) {
+		super.enterDev_get(ctx);
+	}
+
+
+	@Override
+	public void exitDev_get(Dev_getContext ctx) {
+		super.exitDev_get(ctx);
 	}
 
 

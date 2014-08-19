@@ -5,8 +5,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
-import pl.fester3k.androcode.semanticAnalysis.symbols.DefinePhase;
-import pl.fester3k.androcode.semanticAnalysis.symbols.ResolvePhase;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.StaticTypeComputingPhase;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.TypeCheckingPhase;
 import pl.fester3k.androcode.symbolManagement.SymbolTable;

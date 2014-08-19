@@ -80,22 +80,6 @@ public class AndroCodePreprocessor {
 		}
 		return treeWithSymbolTable;
 	}
-	//
-	//	public void processFile(String filename) throws IOException {
-	//		logProcessingStarted();
-	//		try {
-	//			InputStream inputStream = getStreamFromFile(filename);
-	//			tryToProcess(inputStream);
-	//		} catch (IllegalArgumentException ex) {
-	//			log.warn(ex.getMessage());
-	//			log.info("Usage: androcode [filename]");
-	//			log.info("where filename is the path to androcode script file to process");
-	//			logProcessingFailed();
-	//		} catch (FileNotFoundException e) {
-	//			log.error(e.getMessage());
-	//			logProcessingFailed();
-	//		}
-	//	}
 
 	private InputStream getStreamFromFile(String filename)
 			throws FileNotFoundException, IllegalArgumentException {
@@ -156,14 +140,6 @@ public class AndroCodePreprocessor {
 		log.info("Second pass done.");
 		return symbolTable;
 	}
-
-	//	private void interpret(SymbolTable symbolTable) {
-	//		log.info("Interpreting...");
-	//		interpreter.interpret(tree, symbolTable);								// III. Interpreting
-	//		log.info("Interpreting done.");
-	//	}
-
-
 
 	private ParseTree buildParserTree(CommonTokenStream tokens) {
 		ParseTree tree;

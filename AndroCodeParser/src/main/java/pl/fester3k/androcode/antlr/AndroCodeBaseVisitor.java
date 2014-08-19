@@ -1,7 +1,7 @@
 // Generated from AndroCode.g4 by ANTLR 4.2.2
 
-package pl.fester3k.androcode.antlr;
-import pl.fester3k.androcode.antlr.enums.Type;
+    package pl.fester3k.androcode.antlr;
+    import pl.fester3k.androcode.antlr.enums.Type;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -29,7 +29,7 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDev_setParam(@NotNull AndroCodeParser.Dev_setParamContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -37,7 +37,7 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDev_operation(@NotNull AndroCodeParser.Dev_operationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpr_dev(@NotNull AndroCodeParser.Expr_devContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -142,6 +142,14 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitValue(@NotNull AndroCodeParser.ValueContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDev_exec(@NotNull AndroCodeParser.Dev_execContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -270,6 +278,14 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitLib_includes(@NotNull AndroCodeParser.Lib_includesContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDev_get(@NotNull AndroCodeParser.Dev_getContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

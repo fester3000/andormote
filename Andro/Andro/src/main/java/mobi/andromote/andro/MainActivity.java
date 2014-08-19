@@ -2,7 +2,8 @@ package mobi.andromote.andro;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.runtimeEnvironment.CapabilitiesAnalyzer;
+import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
+import pl.fester3k.androcode.interpreter.device.DeviceManager;
 import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.util.SystemUiHider;
 import mobi.andromote.andro.webservice.WebService;
@@ -57,6 +58,7 @@ public class MainActivity extends Activity {
         ConfigureLog4J.configure();
         CapabilitiesAnalyzer.INSTANCE.init(this);
         log.debug(CapabilitiesAnalyzer.INSTANCE.toString());
+        DeviceManager.INSTANCE.init(this);
         webService = new WebService(this);
 		webService.start();
 
