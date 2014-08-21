@@ -18,6 +18,11 @@ import pl.fester3k.androcode.semanticAnalysis.SemanticAnalyser;
 import pl.fester3k.androcode.symbolManagement.SymbolTable;
 import pl.fester3k.androcode.utils.Utils;
 
+/**
+ * 
+ * @author Sebastian
+ *
+ */
 public class AndroCodePreprocessor {
 	private static final AndroLog log = new AndroLog(AndroCodePreprocessor.class.getSimpleName());
 	SemanticAnalyser semanticAnalyser = new SemanticAnalyser();

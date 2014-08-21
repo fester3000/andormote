@@ -371,6 +371,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSleep(@NotNull AndroCodeParser.SleepContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSleep(@NotNull AndroCodeParser.SleepContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVar_call(@NotNull AndroCodeParser.Var_callContext ctx) { }
 	/**
 	 * {@inheritDoc}

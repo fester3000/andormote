@@ -16,7 +16,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_operationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
@@ -46,7 +45,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.scopeManagement.Scope;
-import pl.fester3k.androcode.semanticAnalysis.DefinePhase;
 
 
 public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
@@ -532,8 +530,8 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	public void exitExpr_uminus(Expr_uminusContext ctx) {
 		super.exitExpr_uminus(ctx);
 	}
-
-
+	
+	
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		super.enterEveryRule(ctx);

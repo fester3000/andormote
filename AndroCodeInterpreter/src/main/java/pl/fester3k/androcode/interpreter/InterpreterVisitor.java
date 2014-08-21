@@ -38,6 +38,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.SleepContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.StatementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
@@ -388,47 +389,62 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 				operatorTokenType);
 		return result;
 	}	
-
-	@Override
-	public Object visitDev_setParam(Dev_setParamContext ctx) {
-		String varId = ctx.ID().getText();
-		String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
-		String value = String.valueOf(visit(ctx.expr()));
-		value = Utils.getStringOutOfQuotes(value);
+	
 		
-		boolean result = false; 
-		if(devices.containsKey(varId)) {
-			Device device = devices.get(varId);
-			Properties params = device.getParams();
-			params.put(propertyName, value);
-			device.setParams(params);
-			devices.put(varId, device);
-			result = true;
-		} else {
-			log.error("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
-			result = false;
-		}
-		return result;
+	@Override
+	public Object visitSleep(SleepContext ctx) {
+		int sleepTime = Integer.valueOf(ctx.INT().getText());
+		tryToSleepInAndrocode(sleepTime);
+		return null;
 	}
-	
-	
+
+
+
+	private void tryToSleepInAndrocode(int sleepTime) {
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	@Override
 	public Object visitExpr_dev(Expr_devContext ctx) {
 		return visit(ctx.dev_operation());
 	}
+	
+	@Override
+	public Object visitDev_setParam(Dev_setParamContext ctx) {
+		boolean result = false; 
+		String varId = ctx.ID().getText();
+		String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
+		String value = String.valueOf(visit(ctx.expr()));
+		value = Utils.getStringOutOfQuotes(value);
 
-
-
+		result = setDeviceParam(ctx, varId, propertyName, value);
+		return result;
+	}
+	
 	@Override
 	public Object visitDev_exec(Dev_execContext ctx) {
 		String varId = ctx.ID().getText();
 		Object result = null;
+		if(ctx.STRING() != null && ctx.expr() != null) {
+			String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
+			String value = String.valueOf(visit(ctx.expr()));
+			value = Utils.getStringOutOfQuotes(value);
+			setDeviceParam(ctx, varId, propertyName, value);
+		}
 		if(devices.containsKey(varId)) {
 			Device device = devices.get(varId);
 			result = DeviceManager.INSTANCE.execute(device);
 		} else {
 			log.error("Device from variable "+ varId + " not found!", ctx);
+		}
+		if(ctx.INT() != null) {
+			int sleepTime = Integer.valueOf(ctx.INT().getText());
+			tryToSleepInAndrocode(sleepTime);
 		}
 		return result;
 	}
@@ -447,7 +463,22 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return featureName;
 	}
 
-
+	private boolean setDeviceParam(ParserRuleContext ctx, String varId,
+			String propertyName, String value) {
+		boolean result;
+		if(devices.containsKey(varId)) {
+			Device device = devices.get(varId);
+			Properties params = device.getParams();
+			params.put(propertyName, value);
+			device.setParams(params);
+			devices.put(varId, device);
+			result = true;
+		} else {
+			log.error("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
+			result = false;
+		}
+		return result;
+	}
 
 	private Object castValueToType(Object value, Type type) {
 		switch(type) {

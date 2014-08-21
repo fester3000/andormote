@@ -15,7 +15,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ExprContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
@@ -96,7 +95,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		}
 		types.put(ctx, type);
 	}
-
+	
 	@Override
 	public void exitExpr_uminus(Expr_uminusContext ctx) {
 		Type type = types.get(ctx);

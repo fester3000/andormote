@@ -204,6 +204,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitScript(@NotNull AndroCodeParser.ScriptContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#sleep}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSleep(@NotNull AndroCodeParser.SleepContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#var_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

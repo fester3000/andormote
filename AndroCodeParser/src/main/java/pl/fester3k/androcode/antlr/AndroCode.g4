@@ -33,6 +33,7 @@ statement       // statement
     | while_loop            
     | if_condition          
     | return_statement    
+    | sleep
     ;
 
 expr 			        //expression
@@ -46,6 +47,10 @@ expr 			        //expression
     | dev_operation                         #expr_dev	// returns: boolean
     | v=value                               #expr_value	// returns: value type
     | var_call                              #expr_var	// returns: type of var ID
+    ;
+
+sleep
+    : 'sleep' LP INT RP ';'
     ;
 
 return_statement 
@@ -81,7 +86,7 @@ if_condition
 dev_operation
     : ID'.' 'setParam' LP STRING ',' expr RP		#dev_setParam
     | ID'.' 'getDevice' LP STRING RP			#dev_get
-    | ID'.' 'execute' LP RP                             #dev_exec
+    | ID'.' 'execute' LP (STRING ',' expr (',' INT)?)? RP          #dev_exec
     ;
     
 value     

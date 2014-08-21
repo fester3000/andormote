@@ -76,8 +76,7 @@ public enum RideController {
 	}
 
 	/**
-	 * Wstępna konfiguracja ustawień sterownika silników. Tryb ruchu - krokowy.
-	 * Czas trwania jednego kroku - 500 ms. Prędkość tylnego silnika - 0,8.
+	 * Wstępna konfiguracja ustawień sterownika silników. 
 	 */
 	private void initEngineService() {
 		// zmiana czasu trwaniajednego węzła

@@ -15,6 +15,7 @@ import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
+import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
@@ -42,7 +43,7 @@ public class EnginesControllerService extends IOIOService {
 	private AndroMoteLogger logger = new AndroMoteLogger(EnginesControllerBroadcastReceiver.class);
 	EngineControllerLooper looper = null;
 
-//	private Compass compass = null;
+	//	private Compass compass = null;
 
 	/**
 	 * Aktualna prędkość silnika.
@@ -76,12 +77,12 @@ public class EnginesControllerService extends IOIOService {
 	 */
 	private MotionModes motionMode = MotionModes.MOTION_MODE_CONTINUOUS;
 
-//	/**
-//	 * Flaga informująca o tym czy wykonywana jest operacja np. skrętu o
-//	 * określony kąt, zawracania. Gdy flaga jest aktywna komendy sterujące
-//	 * odbierane przez serwis są ignorowane do momentu zakończenia wykoywanaego
-//	 * zadania - na każde zapytanie jest wysyłana intencja zwrotna.
-//	 */
+	//	/**
+	//	 * Flaga informująca o tym czy wykonywana jest operacja np. skrętu o
+	//	 * określony kąt, zawracania. Gdy flaga jest aktywna komendy sterujące
+	//	 * odbierane przez serwis są ignorowane do momentu zakończenia wykoywanaego
+	//	 * zadania - na każde zapytanie jest wysyłana intencja zwrotna.
+	//	 */
 	public static boolean isOperationExecuted = false;
 
 	/**
@@ -101,7 +102,7 @@ public class EnginesControllerService extends IOIOService {
 		logger.debug(TAG, "engineService; onStart(); startId=" + startId);
 		trySetupDevicesWithExtrasFrom(intent); 
 		super.onStart(intent, startId);
-		this.initStepsList();
+		initStepsList();
 	}
 
 	@Override
@@ -112,8 +113,9 @@ public class EnginesControllerService extends IOIOService {
 		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
 		logger.debug(TAG, "onStartCommand engine service");
 		trySetupDevicesWithExtrasFrom(intent); 
-//		this.isOperationExecuted = false;
+		//		this.isOperationExecuted = false;
 		initReceiver();
+		initStepsList();
 		super.onStartCommand(intent, flags, startId);
 
 		return startId;
@@ -126,10 +128,10 @@ public class EnginesControllerService extends IOIOService {
 				logger.debug(TAG, "Engines Service: setting model name: " + pack.getPlatformName());
 				this.platformName = pack.getPlatformName();
 				this.driverName = pack.getDriverName();
-//				if (this.compass == null) {
-//					this.compass = new Compass(this.getApplicationContext());
-//					this.compass.unregisterListeners();
-//				}
+				//				if (this.compass == null) {
+				//					this.compass = new Compass(this.getApplicationContext());
+				//					this.compass.unregisterListeners();
+				//				}
 			} else {
 				logger.debug(TAG, "Engines Service: input packet has no device info;");
 				//TODO zabezpieczyć przed sytuacją niedookreśloną			
@@ -141,7 +143,7 @@ public class EnginesControllerService extends IOIOService {
 
 	@Override
 	public void onDestroy() {
-//		this.compass.unregisterListeners();
+		//		this.compass.unregisterListeners();
 		this.unregisterEngineMessagesReceiver();
 		super.onDestroy();
 	}
@@ -205,40 +207,41 @@ public class EnginesControllerService extends IOIOService {
 		}
 		looper.executePacket(inputPacket);
 		logger.debug(TAG, "engine service received: " + inputPacket.getPacketType());
-		
+
 	}
 
 	private void interpretMotionPacketStepper(Packet inputPacket) {
-		logger.debug(TAG, "EnginesControllerService; add packet to stepsList: " + inputPacket.getPacketType());
+		IPacketType packetType = inputPacket.getPacketType();
+		logger.debug(TAG, "EnginesControllerService; add packet to stepsList: " + packetType);
 		if (looper != null) {
-			if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_FORWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_FORWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.STOP_REQUEST) {
+			if (packetType == PacketType.Motion.MOVE_LEFT_FORWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.STOP_REQUEST) {
 				logger.debug(TAG, "PacketType.STOP w trybie steppera nie jest dodawany do kolejki!!!");
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_90_DEGREES_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_90_DEGREES_REQUEST) {
-				stepsQueue.addLast(new Step(inputPacket.getPacketType()));
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_LEFT_DEGREES_REQUEST) {
-				Step step = new Step(inputPacket.getPacketType());
+			} else if (packetType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_LEFT_90_DEGREES_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_RIGHT_90_DEGREES_REQUEST) {
+				stepsQueue.addLast(new Step(packetType));
+			} else if (packetType == PacketType.Motion.MOVE_LEFT_DEGREES_REQUEST) {
+				Step step = new Step(packetType);
 				step.setDegrees(inputPacket.getBearing());
 				stepsQueue.addLast(step);
-			} else if (inputPacket.getPacketType() == PacketType.Motion.MOVE_RIGHT_DEGREES_REQUEST) {
-				Step step = new Step(inputPacket.getPacketType());
+			} else if (packetType == PacketType.Motion.MOVE_RIGHT_DEGREES_REQUEST) {
+				Step step = new Step(packetType);
 				step.setDegrees(inputPacket.getBearing());
 				stepsQueue.addLast(step);
 			}
@@ -256,7 +259,7 @@ public class EnginesControllerService extends IOIOService {
 
 		@Override
 		public synchronized void onReceive(Context context, Intent intent) {
-
+			logger.debug(TAG, "engine service broadcast : " + intent);
 			Packet inputPacket = (Packet) intent.getSerializableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
 
 			logger.debug(TAG, "engine service broadcast received: " + inputPacket.getPacketType());
@@ -274,7 +277,14 @@ public class EnginesControllerService extends IOIOService {
 			}
 
 			// zmiany ustawień dotyczących ruchu
-			if (inputPacket.getPacketType() == PacketType.Engine.SET_STEPPER_MODE) {
+			// pakiety ruchu
+			if (inputPacket.getPacketType() instanceof PacketType.Motion) {
+				if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
+					interpretMotionPacketContinuous(inputPacket);
+				} else if (motionMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
+					interpretMotionPacketStepper(inputPacket);
+				}
+			} else if (inputPacket.getPacketType() == PacketType.Engine.SET_STEPPER_MODE) {
 				if (EnginesControllerService.this.motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
 					logger.debug(TAG, "zmiana trybu ruchu na krokowy");
 					EnginesControllerService.this.setControlMode(MotionModes.MOTION_MODE_STEPPER);
@@ -316,14 +326,6 @@ public class EnginesControllerService extends IOIOService {
 				}
 				setSendStepExecutedPacket(newState);
 				logger.debug(TAG, "set step execution confirmation: " + newState);
-			}
-			// pakiety ruchu
-			else if (inputPacket.getPacketType() instanceof PacketType.Motion) {
-				if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
-					interpretMotionPacketContinuous(inputPacket);
-				} else if (motionMode.equals(MotionModes.MOTION_MODE_STEPPER)) {
-					interpretMotionPacketStepper(inputPacket);
-				}
 			}
 		}
 	}
@@ -463,13 +465,13 @@ public class EnginesControllerService extends IOIOService {
 		this.isOperationExecuted = isOperationExecuted;
 	}
 
-//	public Compass getCompass() {
-//		return compass;
-//	}
-//
-//	public void setCompass(Compass compass) {
-//		this.compass = compass;
-//	}
+	//	public Compass getCompass() {
+	//		return compass;
+	//	}
+	//
+	//	public void setCompass(Compass compass) {
+	//		this.compass = compass;
+	//	}
 
 	public boolean isSendStepExecutedPacket() {
 		return sendStepExecutedPacket;
