@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Ytai Ben-Tsvi. All rights reserved.
+ * Copyright 2011 Ytai Ben-Tsvi. All rights reserved.
  *  
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -26,36 +26,19 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied.
  */
-package ioio.lib.impl;
+package ioio.lib.util.android;
 
-import ioio.lib.impl.ResourceManager.Resource;
+import android.content.ContextWrapper;
 
-class SpecificResourceAllocator implements ResourceManager.ResourceAllocator {
-	private final boolean[] claimed_;
-	private final int offset_;
-
-	public SpecificResourceAllocator(int offset, int count) {
-		offset_ = offset;
-		claimed_ = new boolean[count];
-	}
-
-	@Override
-	public synchronized void alloc(Resource r) {
-		try {
-			if (claimed_[r.id - offset_]) {
-				throw new IllegalArgumentException("Resource already claimed: " + r);
-			}
-			claimed_[r.id - offset_] = true;
-		} catch (IndexOutOfBoundsException e) {
-			throw new IllegalArgumentException("Resource doesn't exist: " + r);
-		}
-	}
-
-	@Override
-	public synchronized void free(Resource r) {
-		if (!claimed_[r.id - offset_]) {
-			throw new IllegalArgumentException("Resource not claimed: " + r);
-		}
-		claimed_[r.id - offset_] = false;
-	}
+/**
+ * An interface for an entity that depends on Android context and requires notifications
+ * on Android life-cycle-related events.<br>
+ * <i>Not intended for direct usage by end-users.</i>
+ */
+public interface ContextWrapperDependent {
+	public void onCreate(ContextWrapper wrapper);
+	public void onDestroy();
+	public void open();
+	public void reopen();
+	public void close();
 }

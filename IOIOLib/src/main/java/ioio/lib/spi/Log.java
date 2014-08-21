@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Ytai Ben-Tsvi. All rights reserved.
+ * Copyright 2011 Ytai Ben-Tsvi. All rights reserved.
  *  
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -26,53 +26,38 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied.
  */
-package ioio.lib.impl;
 
-import ioio.lib.api.exception.OutOfResourceException;
-import ioio.lib.impl.ResourceManager.Resource;
+package ioio.lib.spi;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-class GenericResourceAllocator implements ResourceManager.ResourceAllocator {
-	private final List<Integer> available_;
-	private final Set<Integer> allocated_;
-
-	public GenericResourceAllocator(int offset, int count) {
-		available_ = new ArrayList<Integer>(count);
-		allocated_ = new HashSet<Integer>(count);
-		for (int i = 0; i < count; i++) {
-			available_.add(i + offset);
-		}
+public class Log {
+	public static int println(int priority, String tag, String msg)  {
+		return android.util.Log.println(priority, tag, msg);
+	}
+	
+	public static void e(String tag, String message) {
+		android.util.Log.e(tag, message);
 	}
 
-	public GenericResourceAllocator(int ids[]) {
-		available_ = new ArrayList<Integer>(ids.length);
-		allocated_ = new HashSet<Integer>(ids.length);
-		for (int i = 0; i < ids.length; i++) {
-			available_.add(ids[i]);
-		}
+	public static void e(String tag, String message, Throwable tr) {
+		android.util.Log.e(tag, message, tr);
 	}
 
-	@Override
-	public synchronized void alloc(Resource r) {
-		if (available_.isEmpty()) {
-			throw new OutOfResourceException(
-					"No more resources of the requested type: " + r.type);
-		}
-		r.id = available_.remove(available_.size() - 1);
-		allocated_.add(r.id);
+	public static void w(String tag, String message) {
+		android.util.Log.w(tag, message);
 	}
 
-	@Override
-	public synchronized void free(Resource r) {
-		if (!allocated_.contains(r.id)) {
-			throw new IllegalArgumentException("Resource " + r
-					+ " not yet allocated");
-		}
-		available_.add(r.id);
-		allocated_.remove(r.id);
+	public static void w(String tag, String message, Throwable tr) {
+		android.util.Log.w(tag, message);
+	}
+	public static void i(String tag, String message) {
+		android.util.Log.i(tag, message);
+	}
+
+	public static void d(String tag, String message) {
+		android.util.Log.d(tag, message);
+	}
+
+	public static void v(String tag, String message) {
+		android.util.Log.v(tag, message);
 	}
 }
