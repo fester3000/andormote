@@ -22,7 +22,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
@@ -200,17 +199,13 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	@Override
 	public void exitReturn_statement(Return_statementContext ctx) {
 		ParserRuleContext currentCtx = ctx;
-		while(isNotFunction(currentCtx) && isNotMainFunction(currentCtx)) {
+		while(isNotFunction(currentCtx) ) {
 			currentCtx = currentCtx.getParent();
 		}
 
 		String functionName = currentCtx.getChild(1).getText();
 		Type type = Utils.getTypeFromSymbol(functionName, currentScope);
 		processAssignmentTypePromotion(type, ctx.expr());
-	}
-
-	private boolean isNotMainFunction(ParserRuleContext currentCtx) {
-		return !(currentCtx instanceof Main_functionContext);
 	}
 
 	private boolean isNotFunction(ParserRuleContext currentCtx) {

@@ -35,7 +35,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.For_loopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.SleepContext;
@@ -95,7 +94,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 
 	@Override
 	public Object visitBody(BodyContext ctx) {
-		visit(ctx.main_function());
+		List<StatementContext> statements = ctx.statement();
+		for (StatementContext statement : statements) {
+			visit(statement);
+		}
 		return null;
 	}
 
@@ -137,16 +139,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			result = visit(expr);
 		}
 		return result;
-	}
-
-	@Override
-	public Object visitMain_function(Main_functionContext ctx) {
-		currentScope = scopes.get(ctx);
-		
-		visit(ctx.block());
-		
-		currentScope = globals;
-		return null;
 	}
 
 	@Override

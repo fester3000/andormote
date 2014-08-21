@@ -254,19 +254,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMain_function(@NotNull AndroCodeParser.Main_functionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMain_function(@NotNull AndroCodeParser.Main_functionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWhile_loop(@NotNull AndroCodeParser.While_loopContext ctx) { }
 	/**
 	 * {@inheritDoc}

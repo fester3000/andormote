@@ -6,12 +6,10 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_operationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
@@ -40,12 +38,6 @@ public class ResolvePhase extends AndroCodeListenerWithScopes {
 	public void enterBlock(BlockContext ctx) {
 		super.enterBlock(ctx);
 		log.debug("exitBlock " + currentScope, ctx);
-	}
-
-	@Override
-	public void enterMain_function(Main_functionContext ctx) {
-		super.enterMain_function(ctx);
-		log.debug("exitMainFunction " + currentScope, ctx);
 	}
 
 	@Override

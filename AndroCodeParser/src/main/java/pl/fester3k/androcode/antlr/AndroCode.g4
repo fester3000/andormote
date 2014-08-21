@@ -10,10 +10,8 @@ script          // overal script structure constists of optional header (with li
 lib_includes    // library declaration is followed by "use" keyword
     : 'use' LIBNAME ';';        
 body            // expression list has to contain at least main function and has to be enclosed between "begin" and "end" keywords
-    : 'begin' function* main_function function* 'end';  
+    : 'begin' function* statement* function* 'end';  
 
-main_function   // main script function with no parameters. "int" type and "main" name are obligatory
-    : K_INT_TYPE 'main' LP RP block; 
 function        // typical function of desired type with opional parameters
     : type ID LP parameters? RP block;
 parameters      //at least one parameter

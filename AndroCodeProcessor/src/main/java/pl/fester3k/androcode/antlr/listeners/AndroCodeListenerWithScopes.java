@@ -31,7 +31,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Lib_includesContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParameterContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParametersContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
@@ -88,17 +87,6 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	public void exitFunction(FunctionContext ctx) {
 		currentScope = currentScope.getEnclosingScope();
 	}
-
-	@Override
-	public void enterMain_function(Main_functionContext ctx) {
-		currentScope = scopes.get(ctx);
-	}
-
-	@Override
-	public void exitMain_function(Main_functionContext ctx) {
-		currentScope = currentScope.getEnclosingScope();
-	}
-
 
 	@Override
 	public void enterBody(BodyContext ctx) {

@@ -8,7 +8,6 @@ import pl.fester3k.androcode.antlr.AndroCodeBaseListener;
 import pl.fester3k.androcode.antlr.AndroCodeParser;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Main_functionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParameterContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
@@ -79,21 +78,6 @@ public class DefinePhase extends AndroCodeBaseListener {
 		log.debug("exitFunction " + currentScope, ctx);
 		currentScope = currentScope.getEnclosingScope();
 	}	
-
-	@Override
-	public void enterMain_function(Main_functionContext ctx) {
-		String name = "main";		
-		FunctionSymbol function = new FunctionSymbol(name, Type.INT, currentScope);
-		currentScope.define(function);
-		saveScope(ctx, function);
-		currentScope = function;
-	}
-
-	@Override
-	public void exitMain_function(Main_functionContext ctx) {
-		log.debug("exitMainFunction " + currentScope, ctx);
-		currentScope = currentScope.getEnclosingScope();
-	}
 	
 	@Override
 	public void exitParameter(ParameterContext ctx) {

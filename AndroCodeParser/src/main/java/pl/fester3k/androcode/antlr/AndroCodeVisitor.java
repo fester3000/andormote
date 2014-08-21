@@ -141,13 +141,6 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParameters(@NotNull AndroCodeParser.ParametersContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#main_function}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMain_function(@NotNull AndroCodeParser.Main_functionContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#while_loop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

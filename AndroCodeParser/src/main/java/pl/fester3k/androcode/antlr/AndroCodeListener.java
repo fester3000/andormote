@@ -210,17 +210,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitParameters(@NotNull AndroCodeParser.ParametersContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#main_function}.
-	 * @param ctx the parse tree
-	 */
-	void enterMain_function(@NotNull AndroCodeParser.Main_functionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#main_function}.
-	 * @param ctx the parse tree
-	 */
-	void exitMain_function(@NotNull AndroCodeParser.Main_functionContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#while_loop}.
 	 * @param ctx the parse tree
 	 */
