@@ -1,0 +1,319 @@
+10:35:23.337 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:35:23.337 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+10:35:23.338 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+10:35:23.338 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+10:35:23.339 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+10:35:23.340 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:35:23.340 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+10:35:23.340 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+10:35:23.340 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+10:35:23.342 ERROR StaticTypeComputingPhase -  [7,11] : -> b has invalid type in 12*b
+10:35:23.342 ERROR StaticTypeComputingPhase -  [7,2] : -> b=12*b has invalid type in b=12*b;
+10:35:23.342 ERROR StaticTypeComputingPhase -  [15,8] : -> b has invalid type in returnb;
+10:35:23.343 ERROR StaticTypeComputingPhase -  [24,5] : -> z has invalid type in z+r
+10:35:23.343 ERROR StaticTypeComputingPhase -  [24,5] : -> z+r has invalid type in a=z+r
+10:35:23.344 ERROR StaticTypeComputingPhase -  [38,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:35:23.345 ERROR StaticTypeComputingPhase -  [45,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:35:23.346 ERROR StaticTypeComputingPhase -  [47,14] : -> c has invalid type in b>c
+10:35:23.346 ERROR StaticTypeComputingPhase -  [50,9] : -> abecadlo has invalid type in returnabecadlo;
+10:35:23.348 ERROR TypeCheckingPhase -  [6,22] : k must have boolean typein for(i=0;i<9;k++){b=12*b;}
+10:35:23.349 ERROR TypeCheckingPhase -  [7,6] : Arguments 12 and b has incompatible types in 12*bin b=12*b
+10:35:23.349 ERROR TypeCheckingPhase -  [7,6] : Expression's type is incompatible with its destinationin b=12*b
+10:35:23.349 ERROR TypeCheckingPhase -  [15,8] : Expression's type is incompatible with its destinationin returnb;
+10:35:23.350 ERROR TypeCheckingPhase -  [24,5] : Arguments z and r has incompatible types in z+rin a=z+r
+10:35:23.350 ERROR TypeCheckingPhase -  [24,5] : Expression's type is incompatible with its destinationin a=z+r
+10:35:23.350 ERROR TypeCheckingPhase -  [30,5] : Expression's type is incompatible with its destinationin a="15"
+10:35:23.351 ERROR TypeCheckingPhase -  [47,10] : Arguments b and c has incompatible types in b>cin if(a<b){devicecamera;camera.getDevice("CAMERA");camera.setParam("FOCUS","AUTO");camera3.setParam("EXPOSURE",g);camera.setParam("RECORD","TRUE");}elseif(b>c){a=13;}else{returnabecadlo;}
+10:35:23.351 ERROR TypeCheckingPhase -  [50,9] : Expression's type is incompatible with its destinationin returnabecadlo;
+10:35:23.357 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:35:23.357 ERROR ResolvePhase -  [6,40] : !Symbol b not declared!in b
+10:35:23.357 ERROR ResolvePhase -  [13,8] : !Symbol b not declared!in b
+10:35:23.358 ERROR ResolvePhase -  [21,5] : !Symbol z not declared!in z
+10:35:23.359 ERROR ResolvePhase -  [34,30] : !Symbol r not declared!in r
+10:35:23.359 ERROR ResolvePhase -  [40,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:35:23.359 ERROR ResolvePhase -  [40,31] : !Symbol g not declared!in g
+10:35:23.359 ERROR ResolvePhase -  [41,14] : !Symbol c not declared!in c
+10:35:23.360 ERROR ResolvePhase -  [43,9] : !Symbol abecadlo not declared!in abecadlo
+10:35:23.360 ERROR StaticTypeComputingPhase -  [6,40] : -> b has invalid type in 12*b
+10:35:23.361 ERROR StaticTypeComputingPhase -  [6,31] : -> b=12*b has invalid type in b=12*b;
+10:35:23.361 ERROR StaticTypeComputingPhase -  [13,8] : -> b has invalid type in returnb;
+10:35:23.362 ERROR StaticTypeComputingPhase -  [21,5] : -> z has invalid type in z+r
+10:35:23.362 ERROR StaticTypeComputingPhase -  [21,5] : -> z+r has invalid type in a=z+r
+10:35:23.363 ERROR StaticTypeComputingPhase -  [34,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:35:23.364 ERROR StaticTypeComputingPhase -  [40,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:35:23.364 ERROR StaticTypeComputingPhase -  [41,14] : -> c has invalid type in b>c
+10:35:23.365 ERROR StaticTypeComputingPhase -  [43,9] : -> abecadlo has invalid type in returnabecadlo;
+10:42:16.725 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:42:16.726 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+10:42:16.726 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+10:42:16.727 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+10:42:16.728 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+10:42:16.728 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:42:16.728 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+10:42:16.729 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+10:42:16.729 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+10:42:16.731 ERROR StaticTypeComputingPhase -  [7,11] : -> b has invalid type in 12*b
+10:42:16.731 ERROR StaticTypeComputingPhase -  [7,2] : -> b=12*b has invalid type in b=12*b;
+10:42:16.731 ERROR StaticTypeComputingPhase -  [15,8] : -> b has invalid type in returnb;
+10:42:16.732 ERROR StaticTypeComputingPhase -  [24,5] : -> z has invalid type in z+r
+10:42:16.732 ERROR StaticTypeComputingPhase -  [24,5] : -> z+r has invalid type in a=z+r
+10:42:16.733 ERROR StaticTypeComputingPhase -  [38,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:42:16.734 ERROR StaticTypeComputingPhase -  [45,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:42:16.735 ERROR StaticTypeComputingPhase -  [47,14] : -> c has invalid type in b>c
+10:42:16.735 ERROR StaticTypeComputingPhase -  [50,9] : -> abecadlo has invalid type in returnabecadlo;
+10:42:16.738 ERROR TypeCheckingPhase -  [6,22] : k must have boolean typein for(i=0;i<9;k++){b=12*b;}
+10:42:16.738 ERROR TypeCheckingPhase -  [7,6] : Arguments 12 and b has incompatible types in 12*bin b=12*b
+10:42:16.738 ERROR TypeCheckingPhase -  [7,6] : Expression's type is incompatible with its destinationin b=12*b
+10:42:16.739 ERROR TypeCheckingPhase -  [15,8] : Expression's type is incompatible with its destinationin returnb;
+10:42:16.739 ERROR TypeCheckingPhase -  [24,5] : Arguments z and r has incompatible types in z+rin a=z+r
+10:42:16.739 ERROR TypeCheckingPhase -  [24,5] : Expression's type is incompatible with its destinationin a=z+r
+10:42:16.740 ERROR TypeCheckingPhase -  [30,5] : Expression's type is incompatible with its destinationin a="15"
+10:42:16.740 ERROR TypeCheckingPhase -  [47,10] : Arguments b and c has incompatible types in b>cin if(a<b){devicecamera;camera.getDevice("CAMERA");camera.setParam("FOCUS","AUTO");camera3.setParam("EXPOSURE",g);camera.setParam("RECORD","TRUE");}elseif(b>c){a=13;}else{returnabecadlo;}
+10:42:16.741 ERROR TypeCheckingPhase -  [50,9] : Expression's type is incompatible with its destinationin returnabecadlo;
+10:42:16.746 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:42:16.747 ERROR ResolvePhase -  [6,40] : !Symbol b not declared!in b
+10:42:16.747 ERROR ResolvePhase -  [13,8] : !Symbol b not declared!in b
+10:42:16.748 ERROR ResolvePhase -  [21,5] : !Symbol z not declared!in z
+10:42:16.748 ERROR ResolvePhase -  [34,30] : !Symbol r not declared!in r
+10:42:16.749 ERROR ResolvePhase -  [40,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:42:16.749 ERROR ResolvePhase -  [40,31] : !Symbol g not declared!in g
+10:42:16.749 ERROR ResolvePhase -  [41,14] : !Symbol c not declared!in c
+10:42:16.750 ERROR ResolvePhase -  [43,9] : !Symbol abecadlo not declared!in abecadlo
+10:42:16.750 ERROR StaticTypeComputingPhase -  [6,40] : -> b has invalid type in 12*b
+10:42:16.751 ERROR StaticTypeComputingPhase -  [6,31] : -> b=12*b has invalid type in b=12*b;
+10:42:16.751 ERROR StaticTypeComputingPhase -  [13,8] : -> b has invalid type in returnb;
+10:42:16.752 ERROR StaticTypeComputingPhase -  [21,5] : -> z has invalid type in z+r
+10:42:16.752 ERROR StaticTypeComputingPhase -  [21,5] : -> z+r has invalid type in a=z+r
+10:42:16.753 ERROR StaticTypeComputingPhase -  [34,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:42:16.754 ERROR StaticTypeComputingPhase -  [40,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:42:16.754 ERROR StaticTypeComputingPhase -  [41,14] : -> c has invalid type in b>c
+10:42:16.755 ERROR StaticTypeComputingPhase -  [43,9] : -> abecadlo has invalid type in returnabecadlo;
+10:42:52.995 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:42:52.996 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+10:42:52.996 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+10:42:52.997 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+10:42:52.998 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+10:42:52.999 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:42:52.999 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+10:42:52.999 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+10:42:52.999 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+10:42:53.001 ERROR StaticTypeComputingPhase -  [7,11] : -> b has invalid type in 12*b
+10:42:53.001 ERROR StaticTypeComputingPhase -  [7,2] : -> b=12*b has invalid type in b=12*b;
+10:42:53.002 ERROR StaticTypeComputingPhase -  [15,8] : -> b has invalid type in returnb;
+10:42:53.002 ERROR StaticTypeComputingPhase -  [24,5] : -> z has invalid type in z+r
+10:42:53.003 ERROR StaticTypeComputingPhase -  [24,5] : -> z+r has invalid type in a=z+r
+10:42:53.004 ERROR StaticTypeComputingPhase -  [38,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:42:53.004 ERROR StaticTypeComputingPhase -  [45,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:42:53.005 ERROR StaticTypeComputingPhase -  [47,14] : -> c has invalid type in b>c
+10:42:53.005 ERROR StaticTypeComputingPhase -  [50,9] : -> abecadlo has invalid type in returnabecadlo;
+10:42:53.008 ERROR TypeCheckingPhase -  [6,22] : k must have boolean typein for(i=0;i<9;k++){b=12*b;}
+10:42:53.008 ERROR TypeCheckingPhase -  [7,6] : Arguments 12 and b has incompatible types in 12*bin b=12*b
+10:42:53.008 ERROR TypeCheckingPhase -  [7,6] : Expression's type is incompatible with its destinationin b=12*b
+10:42:53.009 ERROR TypeCheckingPhase -  [15,8] : Expression's type is incompatible with its destinationin returnb;
+10:42:53.009 ERROR TypeCheckingPhase -  [24,5] : Arguments z and r has incompatible types in z+rin a=z+r
+10:42:53.010 ERROR TypeCheckingPhase -  [24,5] : Expression's type is incompatible with its destinationin a=z+r
+10:42:53.010 ERROR TypeCheckingPhase -  [30,5] : Expression's type is incompatible with its destinationin a="15"
+10:42:53.010 ERROR TypeCheckingPhase -  [47,10] : Arguments b and c has incompatible types in b>cin if(a<b){devicecamera;camera.getDevice("CAMERA");camera.setParam("FOCUS","AUTO");camera3.setParam("EXPOSURE",g);camera.setParam("RECORD","TRUE");}elseif(b>c){a=13;}else{returnabecadlo;}
+10:42:53.011 ERROR TypeCheckingPhase -  [50,9] : Expression's type is incompatible with its destinationin returnabecadlo;
+10:42:53.017 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:42:53.017 ERROR ResolvePhase -  [6,40] : !Symbol b not declared!in b
+10:42:53.017 ERROR ResolvePhase -  [13,8] : !Symbol b not declared!in b
+10:42:53.018 ERROR ResolvePhase -  [21,5] : !Symbol z not declared!in z
+10:42:53.018 ERROR ResolvePhase -  [34,30] : !Symbol r not declared!in r
+10:42:53.019 ERROR ResolvePhase -  [40,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:42:53.019 ERROR ResolvePhase -  [40,31] : !Symbol g not declared!in g
+10:42:53.019 ERROR ResolvePhase -  [41,14] : !Symbol c not declared!in c
+10:42:53.020 ERROR ResolvePhase -  [43,9] : !Symbol abecadlo not declared!in abecadlo
+10:42:53.020 ERROR StaticTypeComputingPhase -  [6,40] : -> b has invalid type in 12*b
+10:42:53.021 ERROR StaticTypeComputingPhase -  [6,31] : -> b=12*b has invalid type in b=12*b;
+10:42:53.021 ERROR StaticTypeComputingPhase -  [13,8] : -> b has invalid type in returnb;
+10:42:53.022 ERROR StaticTypeComputingPhase -  [21,5] : -> z has invalid type in z+r
+10:42:53.022 ERROR StaticTypeComputingPhase -  [21,5] : -> z+r has invalid type in a=z+r
+10:42:53.023 ERROR StaticTypeComputingPhase -  [34,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:42:53.024 ERROR StaticTypeComputingPhase -  [40,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:42:53.024 ERROR StaticTypeComputingPhase -  [41,14] : -> c has invalid type in b>c
+10:42:53.025 ERROR StaticTypeComputingPhase -  [43,9] : -> abecadlo has invalid type in returnabecadlo;
+10:43:04.835 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:43:04.835 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+10:43:04.836 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+10:43:04.836 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+10:43:04.837 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+10:43:04.838 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:43:04.838 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+10:43:04.838 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+10:43:04.838 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+10:43:04.840 ERROR StaticTypeComputingPhase -  [7,11] : -> b has invalid type in 12*b
+10:43:04.840 ERROR StaticTypeComputingPhase -  [7,2] : -> b=12*b has invalid type in b=12*b;
+10:43:04.841 ERROR StaticTypeComputingPhase -  [15,8] : -> b has invalid type in returnb;
+10:43:04.841 ERROR StaticTypeComputingPhase -  [24,5] : -> z has invalid type in z+r
+10:43:04.842 ERROR StaticTypeComputingPhase -  [24,5] : -> z+r has invalid type in a=z+r
+10:43:04.843 ERROR StaticTypeComputingPhase -  [38,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:43:04.843 ERROR StaticTypeComputingPhase -  [45,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:43:04.844 ERROR StaticTypeComputingPhase -  [47,14] : -> c has invalid type in b>c
+10:43:04.844 ERROR StaticTypeComputingPhase -  [50,9] : -> abecadlo has invalid type in returnabecadlo;
+10:43:04.847 ERROR TypeCheckingPhase -  [6,22] : k must have boolean typein for(i=0;i<9;k++){b=12*b;}
+10:43:04.847 ERROR TypeCheckingPhase -  [7,6] : Arguments 12 and b has incompatible types in 12*bin b=12*b
+10:43:04.847 ERROR TypeCheckingPhase -  [7,6] : Expression's type is incompatible with its destinationin b=12*b
+10:43:04.848 ERROR TypeCheckingPhase -  [15,8] : Expression's type is incompatible with its destinationin returnb;
+10:43:04.848 ERROR TypeCheckingPhase -  [24,5] : Arguments z and r has incompatible types in z+rin a=z+r
+10:43:04.848 ERROR TypeCheckingPhase -  [24,5] : Expression's type is incompatible with its destinationin a=z+r
+10:43:04.850 ERROR TypeCheckingPhase -  [30,5] : Expression's type is incompatible with its destinationin a="15"
+10:43:04.850 ERROR TypeCheckingPhase -  [47,10] : Arguments b and c has incompatible types in b>cin if(a<b){devicecamera;camera.getDevice("CAMERA");camera.setParam("FOCUS","AUTO");camera3.setParam("EXPOSURE",g);camera.setParam("RECORD","TRUE");}elseif(b>c){a=13;}else{returnabecadlo;}
+10:43:04.851 ERROR TypeCheckingPhase -  [50,9] : Expression's type is incompatible with its destinationin returnabecadlo;
+10:43:04.857 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:43:04.857 ERROR ResolvePhase -  [6,40] : !Symbol b not declared!in b
+10:43:04.857 ERROR ResolvePhase -  [13,8] : !Symbol b not declared!in b
+10:43:04.858 ERROR ResolvePhase -  [21,5] : !Symbol z not declared!in z
+10:43:04.859 ERROR ResolvePhase -  [34,30] : !Symbol r not declared!in r
+10:43:04.859 ERROR ResolvePhase -  [40,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:43:04.860 ERROR ResolvePhase -  [40,31] : !Symbol g not declared!in g
+10:43:04.860 ERROR ResolvePhase -  [41,14] : !Symbol c not declared!in c
+10:43:04.860 ERROR ResolvePhase -  [43,9] : !Symbol abecadlo not declared!in abecadlo
+10:43:04.861 ERROR StaticTypeComputingPhase -  [6,40] : -> b has invalid type in 12*b
+10:43:04.861 ERROR StaticTypeComputingPhase -  [6,31] : -> b=12*b has invalid type in b=12*b;
+10:43:04.862 ERROR StaticTypeComputingPhase -  [13,8] : -> b has invalid type in returnb;
+10:43:04.862 ERROR StaticTypeComputingPhase -  [21,5] : -> z has invalid type in z+r
+10:43:04.863 ERROR StaticTypeComputingPhase -  [21,5] : -> z+r has invalid type in a=z+r
+10:43:04.864 ERROR StaticTypeComputingPhase -  [34,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:43:04.864 ERROR StaticTypeComputingPhase -  [40,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:43:04.865 ERROR StaticTypeComputingPhase -  [41,14] : -> c has invalid type in b>c
+10:43:04.865 ERROR StaticTypeComputingPhase -  [43,9] : -> abecadlo has invalid type in returnabecadlo;
+10:47:54.532 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:47:54.533 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+10:47:54.533 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+10:47:54.534 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+10:47:54.535 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+10:47:54.535 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:47:54.535 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+10:47:54.536 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+10:47:54.536 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+10:47:54.537 ERROR StaticTypeComputingPhase -  [7,11] : -> b has invalid type in 12*b
+10:47:54.537 ERROR StaticTypeComputingPhase -  [7,2] : -> b=12*b has invalid type in b=12*b;
+10:47:54.538 ERROR StaticTypeComputingPhase -  [15,8] : -> b has invalid type in returnb;
+10:47:54.539 ERROR StaticTypeComputingPhase -  [24,5] : -> z has invalid type in z+r
+10:47:54.539 ERROR StaticTypeComputingPhase -  [24,5] : -> z+r has invalid type in a=z+r
+10:47:54.540 ERROR StaticTypeComputingPhase -  [38,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:47:54.541 ERROR StaticTypeComputingPhase -  [45,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:47:54.541 ERROR StaticTypeComputingPhase -  [47,14] : -> c has invalid type in b>c
+10:47:54.541 ERROR StaticTypeComputingPhase -  [50,9] : -> abecadlo has invalid type in returnabecadlo;
+10:47:54.544 ERROR TypeCheckingPhase -  [6,22] : k must have boolean typein for(i=0;i<9;k++){b=12*b;}
+10:47:54.544 ERROR TypeCheckingPhase -  [7,6] : Arguments 12 and b has incompatible types in 12*bin b=12*b
+10:47:54.545 ERROR TypeCheckingPhase -  [7,6] : Expression's type is incompatible with its destinationin b=12*b
+10:47:54.545 ERROR TypeCheckingPhase -  [15,8] : Expression's type is incompatible with its destinationin returnb;
+10:47:54.545 ERROR TypeCheckingPhase -  [24,5] : Arguments z and r has incompatible types in z+rin a=z+r
+10:47:54.546 ERROR TypeCheckingPhase -  [24,5] : Expression's type is incompatible with its destinationin a=z+r
+10:47:54.546 ERROR TypeCheckingPhase -  [30,5] : Expression's type is incompatible with its destinationin a="15"
+10:47:54.546 ERROR TypeCheckingPhase -  [47,10] : Arguments b and c has incompatible types in b>cin if(a<b){devicecamera;camera.getDevice("CAMERA");camera.setParam("FOCUS","AUTO");camera3.setParam("EXPOSURE",g);camera.setParam("RECORD","TRUE");}elseif(b>c){a=13;}else{returnabecadlo;}
+10:47:54.547 ERROR TypeCheckingPhase -  [50,9] : Expression's type is incompatible with its destinationin returnabecadlo;
+10:47:54.553 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+10:47:54.553 ERROR ResolvePhase -  [6,40] : !Symbol b not declared!in b
+10:47:54.553 ERROR ResolvePhase -  [13,8] : !Symbol b not declared!in b
+10:47:54.554 ERROR ResolvePhase -  [21,5] : !Symbol z not declared!in z
+10:47:54.555 ERROR ResolvePhase -  [34,30] : !Symbol r not declared!in r
+10:47:54.555 ERROR ResolvePhase -  [40,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+10:47:54.555 ERROR ResolvePhase -  [40,31] : !Symbol g not declared!in g
+10:47:54.555 ERROR ResolvePhase -  [41,14] : !Symbol c not declared!in c
+10:47:54.556 ERROR ResolvePhase -  [43,9] : !Symbol abecadlo not declared!in abecadlo
+10:47:54.556 ERROR StaticTypeComputingPhase -  [6,40] : -> b has invalid type in 12*b
+10:47:54.557 ERROR StaticTypeComputingPhase -  [6,31] : -> b=12*b has invalid type in b=12*b;
+10:47:54.557 ERROR StaticTypeComputingPhase -  [13,8] : -> b has invalid type in returnb;
+10:47:54.558 ERROR StaticTypeComputingPhase -  [21,5] : -> z has invalid type in z+r
+10:47:54.558 ERROR StaticTypeComputingPhase -  [21,5] : -> z+r has invalid type in a=z+r
+10:47:54.559 ERROR StaticTypeComputingPhase -  [34,30] : -> r has invalid type in camera.setParam("EXPOSURE",r)
+10:47:54.560 ERROR StaticTypeComputingPhase -  [40,31] : -> g has invalid type in camera3.setParam("EXPOSURE",g)
+10:47:54.560 ERROR StaticTypeComputingPhase -  [41,14] : -> c has invalid type in b>c
+10:47:54.561 ERROR StaticTypeComputingPhase -  [43,9] : -> abecadlo has invalid type in returnabecadlo;
+10:58:24.812 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destinationin returnr;
+10:58:24.813 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destinationin return5;
+10:58:52.509 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destinationin returnr;
+10:58:52.511 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destinationin return5;
+11:01:44.411 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destinationin returnr;
+11:01:44.413 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destinationin return5;
+11:01:54.475 ERROR AndroCodeProcessor - asdasdasd (Nie można odnaleźć określonego pliku)
+11:25:09.693 ERROR AndroCodeProcessor - asdasdasd (Nie można odnaleźć określonego pliku)
+11:25:12.604 ERROR ResolvePhase -  [6,22] : !Symbol k not declared!in for(i=0;i<9;k++){b=12*b;}
+11:25:12.604 ERROR ResolvePhase -  [7,11] : !Symbol b not declared!in b
+11:25:12.604 ERROR ResolvePhase -  [15,8] : !Symbol b not declared!in b
+11:25:12.605 ERROR ResolvePhase -  [24,5] : !Symbol z not declared!in z
+11:25:12.606 ERROR ResolvePhase -  [38,30] : !Symbol r not declared!in r
+11:25:12.606 ERROR ResolvePhase -  [45,2] : !Symbol camera3 not declared!in camera3.setParam("EXPOSURE",g)
+11:25:12.606 ERROR ResolvePhase -  [45,31] : !Symbol g not declared!in g
+11:25:12.607 ERROR ResolvePhase -  [47,14] : !Symbol c not declared!in c
+11:25:12.607 ERROR ResolvePhase -  [50,9] : !Symbol abecadlo not declared!in abecadlo
+11:25:12.607 ERROR AndroCodeProcessor - Errors found during resolve phase
+11:25:25.907 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destinationin returnr;
+11:25:25.909 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destinationin return5;
+11:25:25.909 ERROR AndroCodeProcessor - Errors found during resolve phase
+11:26:05.386 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destination in returnr;
+11:26:05.388 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destination in return5;
+11:26:05.388 ERROR AndroCodeProcessor - Errors found during resolve phase
+12:45:57.185 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destination in returnr;
+12:45:57.187 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destination in return5;
+12:45:57.187 ERROR AndroCodeProcessor - Errors found during resolve phase
+15:07:01.400 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destination in returnr;
+15:07:01.402 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destination in return5;
+15:07:01.403 ERROR AndroCodeProcessor - Errors found during resolve phase
+15:17:41.786 ERROR TypeCheckingPhase -  [16,8] : Expression's type is incompatible with its destination in returnr;
+15:17:41.788 ERROR TypeCheckingPhase -  [60,9] : Expression's type is incompatible with its destination in return5;
+15:17:41.788 ERROR AndroCodeProcessor - Errors found during resolve phase
+17:15:41.283 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+17:15:41.283 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+17:15:41.283 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+17:15:41.284 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+17:15:41.284 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+17:15:41.285 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+17:15:41.285 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+17:15:41.285 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+17:15:41.286 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+17:15:41.286 ERROR AndroCodeProcessor - Errors found during resolve phase
+23:36:57.013 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+23:36:57.013 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+23:36:57.013 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+23:36:57.014 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+23:36:57.015 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+23:36:57.015 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+23:36:57.015 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+23:36:57.015 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+23:36:57.016 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+23:36:57.016 ERROR AndroCodeProcessor - Errors found during resolve phase
+20:08:46.061 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+20:08:46.075 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+20:08:46.075 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+20:08:46.075 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+20:08:46.076 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+20:08:46.076 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+20:08:46.076 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+20:08:46.077 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+20:08:46.077 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+20:08:46.077 ERROR AndroCodeProcessor - Errors found during resolve phase
+20:09:25.330 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+20:09:25.330 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+20:09:25.331 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+20:09:25.331 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+20:09:25.332 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+20:09:25.332 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+20:09:25.332 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+20:09:25.333 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+20:09:25.333 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+20:09:25.333 ERROR AndroCodeProcessor - Errors found during resolve phase
+20:11:49.478 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+20:11:49.478 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+20:11:49.479 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+20:11:49.479 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+20:11:49.480 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+20:11:49.480 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+20:11:49.480 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+20:11:49.481 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+20:11:49.481 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+20:11:49.481 ERROR AndroCodeProcessor - Errors found during resolve phase
+20:17:10.492 ERROR DefinePhase -  [6,22] : !Symbol k not declared! in for(i=0;i<9;k++){b=12*b;}
+20:17:10.493 ERROR DefinePhase -  [7,11] : !Symbol b not declared! in b
+20:17:10.493 ERROR DefinePhase -  [15,8] : !Symbol b not declared! in b
+20:17:10.493 ERROR DefinePhase -  [24,5] : !Symbol z not declared! in z
+20:17:10.494 ERROR DefinePhase -  [38,30] : !Symbol r not declared! in r
+20:17:10.494 ERROR DefinePhase -  [45,2] : !Symbol camera3 not declared! in camera3.setParam("EXPOSURE",g)
+20:17:10.495 ERROR DefinePhase -  [45,31] : !Symbol g not declared! in g
+20:17:10.495 ERROR DefinePhase -  [47,14] : !Symbol c not declared! in c
+20:17:10.495 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
+20:17:10.495 ERROR AndroCodeProcessor - Errors found during resolve phase
+20:17:10.495 ERROR Main - Semantic analysis failed

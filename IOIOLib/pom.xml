@@ -9,8 +9,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<platform.version>4.1.1.4</platform.version>
 	</properties>
+	<parent>
+		<groupId>pl.fester3k.andromote</groupId>
+		<artifactId>AndroMasterProject</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../AndroMasterProject</relativePath>
+	</parent>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

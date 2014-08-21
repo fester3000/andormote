@@ -88,8 +88,7 @@ public enum CapabilitiesAnalyzer {
 
 
 	private void checkRideCapabilities() {
-		// TODO Auto-generated method stub
-
+		availableFeatures.add(Feature.RIDE);
 	}
 
 	private void checkApplicationLaunchCapability() {

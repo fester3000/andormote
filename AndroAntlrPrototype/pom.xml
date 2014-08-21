@@ -7,6 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AndromoteANTLR_Prototype</name>
 	<description>Prototype of ANTLR interpreter for Androcode DSL</description>
+
 	<build>
 		<plugins>
 			<plugin>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +16,8 @@ import pl.fester3k.androcode.interpreter.device.action.BaseAction;
 import pl.fester3k.androcode.interpreter.device.action.BaseDeviceAction;
 
 public class WiFiConnectAction extends BaseDeviceAction {
-	public WiFiConnectAction(Context context, Properties params) {
-		super(context, params);
+	public WiFiConnectAction(Activity activity, Properties params) {
+		super(activity, params);
 	}
 
 	@Override

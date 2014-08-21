@@ -392,8 +392,10 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	@Override
 	public Object visitDev_setParam(Dev_setParamContext ctx) {
 		String varId = ctx.ID().getText();
-		String propertyName = ctx.STRING().getText();
-		Object value = visit(ctx.expr());
+		String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
+		String value = String.valueOf(visit(ctx.expr()));
+		value = Utils.getStringOutOfQuotes(value);
+		
 		boolean result = false; 
 		if(devices.containsKey(varId)) {
 			Device device = devices.get(varId);

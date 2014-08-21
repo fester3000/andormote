@@ -7,6 +7,7 @@ import pl.fester3k.androcode.datatypes.Device;
 import pl.fester3k.androcode.interpreter.device.action.Action;
 import pl.fester3k.androcode.interpreter.device.action.ActionFactory;
 import pl.fester3k.androcode.interpreter.device.action.BaseSensorAction;
+import android.app.Activity;
 import android.content.Context;
 
 public enum DeviceManager {
@@ -14,8 +15,8 @@ public enum DeviceManager {
 	private final Logger log = LoggerFactory.getLogger(DeviceManager.class);
 	private ActionFactory actionFactory;
 	
-	public void init(Context context) {
-		actionFactory = new ActionFactory(context);
+	public void init(Activity activity) {
+		actionFactory = new ActionFactory(activity);
 	}
 	
 	public Object execute(Device device) {

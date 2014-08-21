@@ -12,9 +12,16 @@
 		</platform.version>
 	</properties>
 	
+	<parent>
+		<groupId>pl.fester3k.andromote</groupId>
+		<artifactId>AndroMasterProject</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../AndroMasterProject</relativePath>
+	</parent>
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
@@ -46,6 +53,12 @@
 		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeCommons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>andro_mote</groupId>
+			<artifactId>AndroMoteMobilePlatformController</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>

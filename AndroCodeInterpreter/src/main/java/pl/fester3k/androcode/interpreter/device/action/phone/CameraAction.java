@@ -1,43 +1,24 @@
 package pl.fester3k.androcode.interpreter.device.action.phone;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
 import java.util.Properties;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import pl.fester3k.androcode.interpreter.device.action.ActionResult;
-import pl.fester3k.androcode.interpreter.device.action.BaseAction;
 import pl.fester3k.androcode.interpreter.device.action.BaseDeviceAction;
+import pl.fester3k.androcode.interpreter.device.helpers.camera.PhotoActivity;
+import android.app.Activity;
+import android.content.Intent;
 
 public class CameraAction extends BaseDeviceAction {
-	public CameraAction(Context context, Properties params) {
-		super(context, params);
+	public CameraAction(Activity activity, Properties params) {
+		super(activity, params);
+
 	}
 
 	@Override
 	public ActionResult run() {
-		final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/"; 
-		File newdir = new File(dir); 
-		newdir.mkdirs();
-
-		Date date = new Date();
-		String file = dir+date.getTime()+".jpg";
-		File newfile = new File(file);
-		try {
-			newfile.createNewFile();
-		} catch (IOException e) {}       
-
-		Uri outputFileUri = Uri.fromFile(newfile);
-
-		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); 
-		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
-		return ActionResult.COMPLETED;
+		Intent intent = new Intent(activity, PhotoActivity.class);
+		activity.startActivity(intent);
+		return ActionResult.FAILED;
 	}
 
 }
