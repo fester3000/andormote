@@ -7,6 +7,7 @@ package andro_mote.commons;
  * @author Maciej Gzik
  * 
  */
+
 public class Utils {
 	/**
 	 * Zaokrąglanie doubla do dwóch liczb po przecinku.

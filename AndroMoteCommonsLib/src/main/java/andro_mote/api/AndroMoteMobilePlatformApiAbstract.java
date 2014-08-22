@@ -5,6 +5,9 @@ import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
+import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 
 /**
@@ -13,34 +16,32 @@ import android.app.Application;
  * rozwinąć tę klasę w klasie implementującej. Klasa poza sterowaniem platformą
  * mobilną jest odpowiedzialna za odbieranie wiadomości wysyłanych przez
  * platformę mobilną poprzez imeplementację interfejsu
- * {@link IAndroMoteDeviceMessageReceiver}.
+ * {@link MessagesFromDeviceReceiver}.
  * 
  * @author Maciej Gzik
  * 
  */
 public abstract class AndroMoteMobilePlatformApiAbstract implements IAndroMoteApi, IAndroMoteMobilePlatformApi,
-		IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
+IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
+	private static final String ANDROMOTE_API = "ANDROMOTE_API";
+	protected AndroMoteLogger logger = new AndroMoteLogger(AndroMoteMobilePlatformApiAbstract.class);
 
-	protected boolean isConnectionActive = false;
-
-	protected Application application = null;
-	protected AndroMoteDeviceMessageReceiverImpl mobilePlatformMessageReceiver = null;
+	protected final Application application;
+	protected MessagesFromAndromoteReceiver mobilePlatformMessageReceiver = null;
 
 	public AndroMoteMobilePlatformApiAbstract(Application application) {
-		if (application != null) {
-			this.application = application;
-		}
-		mobilePlatformMessageReceiver = new AndroMoteDeviceMessageReceiverImpl(this, application);
+		this.application = application;
+		mobilePlatformMessageReceiver = new MessagesFromAndromoteReceiver(this, application);
 		try {
-			mobilePlatformMessageReceiver.startListeningMessages();
+			mobilePlatformMessageReceiver.startMessagesListener();
 		} catch (BroadcastReceiverClientNotSetException e) {
-
+			logger.error(ANDROMOTE_API, e);
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public boolean startCommunicationWithDevice(String deviceName) throws MobilePlatformException,
-			UnknownDeviceException {
+	public boolean startCommunicationWithDevice(MobilePlatformType platformName, MotorDriverType driverName) throws MobilePlatformException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -69,25 +70,25 @@ public abstract class AndroMoteMobilePlatformApiAbstract implements IAndroMoteAp
 		throw new UnsupportedOperationException();
 	}
 
-//	@Override
-//	public boolean turn90RightDegrees() throws MobilePlatformException {
-//		throw new UnsupportedOperationException();
-//	}
-//
-//	@Override
-//	public boolean turn90LeftDegrees() throws MobilePlatformException {
-//		throw new UnsupportedOperationException();
-//	}
-//
-//	@Override
-//	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
-//		throw new UnsupportedOperationException();
-//	}
-//
-//	@Override
-//	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
-//		throw new UnsupportedOperationException();
-//	}
+	//	@Override
+	//	public boolean turn90RightDegrees() throws MobilePlatformException {
+	//		throw new UnsupportedOperationException();
+	//	}
+	//
+	//	@Override
+	//	public boolean turn90LeftDegrees() throws MobilePlatformException {
+	//		throw new UnsupportedOperationException();
+	//	}
+	//
+	//	@Override
+	//	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
+	//		throw new UnsupportedOperationException();
+	//	}
+	//
+	//	@Override
+	//	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
+	//		throw new UnsupportedOperationException();
+	//	}
 
 	public Application getApplication() {
 		return application;
@@ -107,5 +108,4 @@ public abstract class AndroMoteMobilePlatformApiAbstract implements IAndroMoteAp
 	public IPacket getData(IPacket dataDescriptorPacket) {
 		throw new UnsupportedOperationException();
 	}
-
 }

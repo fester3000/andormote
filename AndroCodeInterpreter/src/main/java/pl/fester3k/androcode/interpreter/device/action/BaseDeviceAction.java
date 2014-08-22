@@ -7,8 +7,8 @@ import android.content.Context;
 
 public abstract class BaseDeviceAction extends BaseAction {
 	protected Properties params;
-	public BaseDeviceAction(Activity activity, Properties params) {
-		super(activity);
+	public BaseDeviceAction(Context context, Properties params) {
+		super(context);
 		this.params = params;
 	}
 }

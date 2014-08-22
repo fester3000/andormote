@@ -48,7 +48,7 @@ public class IntentsIdentifiers {
 	 * Identyfikator intencji broadcastowych odbieranych przez sterownik
 	 * urządzenia zawnętrznego.. Intencja zaiwiera pole z przesyłanym pakietem.
 	 */
-	public static String ACTION_MESSAGE_TO_DEVICE_CONTROLLER = "andro_mote.message_to_device_controller";
+	public static String ACTION_MESSAGE_TO_CONTROLLER = "andro_mote.message_to_controller";
 
 	/**
 	 * Identyfikator intencji wykonanego przez platformę mobilną kroku. Intencja

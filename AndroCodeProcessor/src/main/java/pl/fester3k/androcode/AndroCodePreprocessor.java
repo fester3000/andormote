@@ -121,8 +121,7 @@ public class AndroCodePreprocessor {
 		return symbolTable;
 	}
 
-	private SymbolTable validate(InputStream inputStream) throws IOException,
-	SemanticAnalysisException {
+	private SymbolTable validate(InputStream inputStream) throws IOException, SemanticAnalysisException {
 		InputStream streamAfterAutoPromotion = firstPass(inputStream);
 		SymbolTable secondPassResult = secondPass(streamAfterAutoPromotion);
 		return secondPassResult;

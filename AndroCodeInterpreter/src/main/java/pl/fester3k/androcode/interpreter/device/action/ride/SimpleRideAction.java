@@ -13,8 +13,8 @@ import android.content.Context;
 
 public class SimpleRideAction extends BaseDeviceAction {
 	
-	public SimpleRideAction(Activity activity, Properties params) {
-		super(activity, params);
+	public SimpleRideAction(Context context, Properties params) {
+		super(context, params);
 
 	}
 

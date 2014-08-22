@@ -13,7 +13,7 @@ public class DeviceDefinitions {
 	 * @author Maciej Gzik
 	 * 
 	 */
-	public enum MobilePlatforms {
+	public enum MobilePlatformType {
 		/**
 		 * Identyfikator platformy mobilnej wykorzystanej w pierwszej wersji
 		 * projektu AndroMote: New Bright Model: http://www.newbright.com/product/view/id/16
@@ -25,7 +25,7 @@ public class DeviceDefinitions {
 		ROVER5TwoEngines;
 	}
 	
-	public enum MotorDrivers {
+	public enum MotorDriverType {
 		PololuTwoEngines,
 		RNVN2;
 	}

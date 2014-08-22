@@ -65,4 +65,17 @@ public class AndroMoteLogger {
 		logger.error(e.getMessage(), e);
 		// Log.e(TAG, e.getMessage(), e);
 	}
+	
+	/**
+	 * log error
+	 * 
+	 * @param TAG
+	 *            tag (LogCat)
+	 * @param message
+	 *            wiadomość
+	 */
+	public void error(String TAG, String message) {
+		logger.error(message);
+		// Log.e(TAG, e.getMessage(), e);
+	}
 }

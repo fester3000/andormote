@@ -26,7 +26,7 @@ public enum CapabilitiesAnalyzer {
 		this.context = context;
 		packageManager = context.getPackageManager();
 		sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-		initAvailableFeatures();
+		checkCurrentCapabilities();
 	}
 	
 	public boolean hasFeature(Feature feature) {
@@ -37,8 +37,9 @@ public enum CapabilitiesAnalyzer {
 		return result;
 	}
 
-	private void initAvailableFeatures() {
+	public void checkCurrentCapabilities() {
 		if(context != null) {
+			availableFeatures = new HashSet<Feature>();
 			checkRideCapabilities();
 
 			checkSensorCapabilities();
@@ -88,7 +89,9 @@ public enum CapabilitiesAnalyzer {
 
 
 	private void checkRideCapabilities() {
-		availableFeatures.add(Feature.RIDE);
+		if(RideController.INSTANCE.isRideAvailable()) {
+			availableFeatures.add(Feature.RIDE);
+		}
 	}
 
 	private void checkApplicationLaunchCapability() {
@@ -97,7 +100,7 @@ public enum CapabilitiesAnalyzer {
 	}
 
 	private void checkTetheringCapabilities() {
-		if(hasFeature(PackageManager.FEATURE_WIFI)) {
+		if(deviceHasFeature(PackageManager.FEATURE_WIFI)) {
 			availableFeatures.add(Feature.TETHERING);
 		}
 	}
@@ -108,14 +111,14 @@ public enum CapabilitiesAnalyzer {
 	}
 
 	private void checkBluetoothConnection() {
-		if(hasFeature(PackageManager.FEATURE_BLUETOOTH)) {
+		if(deviceHasFeature(PackageManager.FEATURE_BLUETOOTH)) {
 			availableFeatures.add(Feature.BLUETOOTH_CONNECTION);
 		}
 
 	}
 
 	private void checkWIFIConnection() {
-		if(hasFeature(PackageManager.FEATURE_WIFI)) {
+		if(deviceHasFeature(PackageManager.FEATURE_WIFI)) {
 			availableFeatures.add(Feature.WIFI_CONNECTION);
 		}
 	}
@@ -126,14 +129,14 @@ public enum CapabilitiesAnalyzer {
 	}
 
 	private void checkTelephonyCapabiliy() {
-		if(hasFeature(PackageManager.FEATURE_TELEPHONY)) {
+		if(deviceHasFeature(PackageManager.FEATURE_TELEPHONY)) {
 			availableFeatures.add(Feature.TELEPHONY_CONNECTION);
 		}
 
 	}
 
 	private void checkRecordingCapabilities() {
-		if(hasFeature(PackageManager.FEATURE_MICROPHONE)) {
+		if(deviceHasFeature(PackageManager.FEATURE_MICROPHONE)) {
 			availableFeatures.add(Feature.AUDIO_IN);
 		}
 	}
@@ -143,101 +146,101 @@ public enum CapabilitiesAnalyzer {
 	}
 
 	private void checkFlashlightCapability() {
-		if(hasFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+		if(deviceHasFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
 			availableFeatures.add(Feature.FLASHLIGHT);
 		}
 	}
 
 	private void checkCameraCapability() {
-		if(hasFeature(PackageManager.FEATURE_CAMERA)) {
+		if(deviceHasFeature(PackageManager.FEATURE_CAMERA)) {
 			availableFeatures.add(Feature.CAMERA);
 		}
 
 	}
 
 	private void checkPressureCapability() {
-		if(hasSensor(Sensor.TYPE_PRESSURE)) {
+		if(deviceHasSensor(Sensor.TYPE_PRESSURE)) {
 			availableFeatures.add(Feature.PRESSURE_SENSOR);
 		}
 
 	}
 
 	private void checkAudioLevelSensorCapability() {
-		if(hasFeature(PackageManager.FEATURE_MICROPHONE)) {
+		if(deviceHasFeature(PackageManager.FEATURE_MICROPHONE)) {
 			availableFeatures.add(Feature.AUDIO_SENSOR);
 		}
 	}
 	
 	private void checkGravitySensorCapability() {
-		if(hasSensor(Sensor.TYPE_GRAVITY)) {
+		if(deviceHasSensor(Sensor.TYPE_GRAVITY)) {
 			availableFeatures.add(Feature.GRAVITY_SENSOR);
 		}
 	}
 	
 	private void checkLinearAccelerationSensorCapability() {
-		if(hasSensor(Sensor.TYPE_LINEAR_ACCELERATION)) {
+		if(deviceHasSensor(Sensor.TYPE_LINEAR_ACCELERATION)) {
 			availableFeatures.add(Feature.LINEAR_ACCELERATION_SENSOR);
 		}
 	}
 	
 	private void checkRelativeHumiditySensorCapability() {
-		if(hasSensor(Sensor.TYPE_RELATIVE_HUMIDITY)) {
+		if(deviceHasSensor(Sensor.TYPE_RELATIVE_HUMIDITY)) {
 			availableFeatures.add(Feature.HUMIDITY_SENSOR);
 		}
 	}
 
 	private void checkMagneticSensorCapability() {
-		if(hasSensor(Sensor.TYPE_MAGNETIC_FIELD)) {
+		if(deviceHasSensor(Sensor.TYPE_MAGNETIC_FIELD)) {
 			availableFeatures.add(Feature.MAGNETIC_FIELD_SENSOR);
 		}
 	}
 
 	private void checkAccelerometerSensorCapability() {
-		if(hasSensor(Sensor.TYPE_ACCELEROMETER)) {
+		if(deviceHasSensor(Sensor.TYPE_ACCELEROMETER)) {
 			availableFeatures.add(Feature.ACCELEROMETER_SENSOR);
 		}
 	}
 
 	private void checkProximitySensorCapability() {
-		if(hasSensor(Sensor.TYPE_PROXIMITY)) {
+		if(deviceHasSensor(Sensor.TYPE_PROXIMITY)) {
 			availableFeatures.add(Feature.PROXIMITY_SENSOR);
 		}
 	}
 
 	private void checkTemperatureSensorCapability() {
-		if(hasSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)) {
+		if(deviceHasSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)) {
 			availableFeatures.add(Feature.TEMPERATURE_SENSOR);
 		}
 	}
 
 	private void checkGyroscopeSensorCapability() {
-		if(hasSensor(Sensor.TYPE_GYROSCOPE)) {
+		if(deviceHasSensor(Sensor.TYPE_GYROSCOPE)) {
 			availableFeatures.add(Feature.GYROSCOPE_SENSOR);
 		}
 
 	}
 
 	private void checkLightSensorCapability() {
-		if(hasSensor(Sensor.TYPE_LIGHT)) {
+		if(deviceHasSensor(Sensor.TYPE_LIGHT)) {
 			availableFeatures.add(Feature.LIGHT_SENSOR);
 		}
 	}
 
 	private void checkPreciseLocationProvider() {
-		if(hasFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+		if(deviceHasFeature(PackageManager.FEATURE_LOCATION_GPS)) {
 			availableFeatures.add(Feature.LOCATION_GPS);
 		}
 
 	}
 
 	private void checkLocationProvider() {
-		if(hasFeature(PackageManager.FEATURE_LOCATION)) {
+		if(deviceHasFeature(PackageManager.FEATURE_LOCATION)) {
 			availableFeatures.add(Feature.LOCATION);
 		}
 		
 	}
 
-	private boolean hasSensor(int sensorId) {
+	private boolean deviceHasSensor(int sensorId) {
 		boolean hasSensor = false;
 		Sensor defaultSensor = sensorManager.getDefaultSensor(sensorId);
 		if(defaultSensor != null) {
@@ -247,7 +250,7 @@ public enum CapabilitiesAnalyzer {
 		return hasSensor;
 	}
 	
-	private boolean hasFeature(String feature) {
+	private boolean deviceHasFeature(String feature) {
 		boolean hasSystemFeature = packageManager.hasSystemFeature(feature);
 		if(hasSystemFeature) {
 			log.info(feature + " exists");
@@ -265,7 +268,7 @@ public enum CapabilitiesAnalyzer {
 	private String printAvailable() {
 		String availableFeaturesString = "";
 		for (Feature feature : availableFeatures) {
-			availableFeaturesString = availableFeaturesString + " , " + feature; 
+			availableFeaturesString = availableFeaturesString + " " + feature + ",\n"; 
 		}
 		return availableFeaturesString;
 	}

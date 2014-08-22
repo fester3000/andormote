@@ -76,16 +76,12 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		this.globals = symbolTable.getGlobals();
 		this.scopes = symbolTable.getScopes();
 	}
-
 	
-
 	@Override
 	public Object visitStatement(StatementContext ctx) {
 		return super.visitStatement(ctx);
 	}
-
-
-
+ 
 	@Override
 	public Object visitScript(ScriptContext ctx) {
 		currentScope = globals;
@@ -432,7 +428,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			Device device = devices.get(varId);
 			result = DeviceManager.INSTANCE.execute(device);
 		} else {
-			log.error("Device from variable "+ varId + " not found!", ctx);
+			log.warn("Device from variable "+ varId + " not found!", ctx);
 		}
 		if(ctx.INT() != null) {
 			int sleepTime = Integer.valueOf(ctx.INT().getText());
@@ -466,7 +462,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			devices.put(varId, device);
 			result = true;
 		} else {
-			log.error("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
+			log.warn("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
 			result = false;
 		}
 		return result;

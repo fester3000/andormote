@@ -20,89 +20,89 @@ import pl.fester3k.androcode.interpreter.device.action.phone.sensors.Temperature
 import pl.fester3k.androcode.interpreter.device.action.ride.SimpleRideAction;
 
 public class ActionFactory {
-	private Activity activity;
+	private Context context;
 
-	public ActionFactory(Activity activity) {
-		this.activity = activity;
+	public ActionFactory(Context context) {
+		this.context = context;
 	}
 
 	public Action createAction(Feature feature, Properties params) {
 		Action action = null;
 		switch (feature) {
 		case ACCELEROMETER_SENSOR:
-			action = new AccelerometerSensorAction(activity);
+			action = new AccelerometerSensorAction(context);
 			break;
 		case AUDIO_SENSOR:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case GRAVITY_SENSOR:
-			action = new GravitySensorAction(activity);
+			action = new GravitySensorAction(context);
 			break;
 		case GYROSCOPE_SENSOR:
-			action = new GyroscopeSensorAction(activity);
+			action = new GyroscopeSensorAction(context);
 			break;
 		case HUMIDITY_SENSOR:
-			action = new HumidityAction(activity);
+			action = new HumidityAction(context);
 			break;
 		case LIGHT_SENSOR:
-			action = new LightSensorAction(activity);
+			action = new LightSensorAction(context);
 			break;
 		case LINEAR_ACCELERATION_SENSOR:
-			action = new LinearAccelerationSensorAction(activity);
+			action = new LinearAccelerationSensorAction(context);
 			break;
 		case MAGNETIC_FIELD_SENSOR:
-			action = new MagneticFieldSensorAction(activity);
+			action = new MagneticFieldSensorAction(context);
 			break;
 		case PRESSURE_SENSOR:
-			action = new PressureSensorAction(activity);
+			action = new PressureSensorAction(context);
 			break;
 		case PROXIMITY_SENSOR:
-			action = new ProximitySensorAction(activity);
+			action = new ProximitySensorAction(context);
 			break;
 		case TEMPERATURE_SENSOR:
-			action = new TemperatureSensorAction(activity);
+			action = new TemperatureSensorAction(context);
 			break;
 		case AUDIO_IN:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case AUDIO_OUT:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case BLUETOOTH_CONNECTION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case CAMERA:
-			action = new CameraAction(activity, params);
+			action = new CameraAction(context, params);
 			break;
 		case DATA_TRANSFER_CONNECTION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case FLASHLIGHT:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case INTERNET_CONNECTION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case LOCATION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case LOCATION_GPS:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case RIDE:
-			action = new SimpleRideAction(activity, params);
+			action = new SimpleRideAction(context, params);
 			break;
 		case TELEPHONY_CONNECTION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case TETHERING:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		case WIFI_CONNECTION:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		default:
-			action = new DummyAction(activity, params);
+			action = new DummyAction(context, params);
 			break;
 		}
 		return action;

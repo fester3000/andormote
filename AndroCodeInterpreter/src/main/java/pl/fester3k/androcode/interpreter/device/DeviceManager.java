@@ -15,8 +15,8 @@ public enum DeviceManager {
 	private final Logger log = LoggerFactory.getLogger(DeviceManager.class);
 	private ActionFactory actionFactory;
 	
-	public void init(Activity activity) {
-		actionFactory = new ActionFactory(activity);
+	public void init(Context context) {
+		actionFactory = new ActionFactory(context);
 	}
 	
 	public Object execute(Device device) {

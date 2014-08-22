@@ -4,20 +4,18 @@ import java.util.Properties;
 
 import pl.fester3k.androcode.interpreter.device.action.ActionResult;
 import pl.fester3k.androcode.interpreter.device.action.BaseDeviceAction;
-import pl.fester3k.androcode.interpreter.device.helpers.camera.PhotoActivity;
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 
 public class CameraAction extends BaseDeviceAction {
-	public CameraAction(Activity activity, Properties params) {
-		super(activity, params);
+	public CameraAction(Context context, Properties params) {
+		super(context, params);
 
 	}
 
 	@Override
 	public ActionResult run() {
-		Intent intent = new Intent(activity, PhotoActivity.class);
-		activity.startActivity(intent);
+//FIXME		Intent intent = new Intent(activity, PhotoActivity.class);
+//		activity.startActivity(intent);
 		return ActionResult.FAILED;
 	}
 

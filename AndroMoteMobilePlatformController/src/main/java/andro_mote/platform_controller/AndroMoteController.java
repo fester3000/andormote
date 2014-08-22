@@ -5,8 +5,8 @@ import java.io.Serializable;
 import andro_mote.api.AndroMoteMobilePlatformApiAbstract;
 import andro_mote.api.IPacket;
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
-import andro_mote.commons.DeviceDefinitions.MotorDrivers;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionModes;
@@ -14,10 +14,15 @@ import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.ioio_service.EnginesService;
+import andro_mote.ioio_service.EnginesService.LocalBinder;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 
 /**
  * Implementacja API sterowania dla platformy mobilnej AndroMote. API obsługi
@@ -30,10 +35,12 @@ import android.content.Intent;
  * @author Sebastian Łuczak
  * 
  */
-public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformApiAbstract {
+public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 
-	private static final String TAG = AndroMoteMobilePlatformController.class.toString();
-	private static AndroMoteLogger logger = new AndroMoteLogger(AndroMoteMobilePlatformController.class);
+	private static final String TAG = AndroMoteController.class.toString();
+	private static AndroMoteLogger logger = new AndroMoteLogger(AndroMoteController.class);
+	boolean isBound = false;
+	private EnginesService enginesService;
 
 	/**
 	 * Konstruktor obiektu API.
@@ -43,8 +50,7 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *            sterowania silnikami oraz rejestrowania obiektów
 	 *            rejestrujących zdarzenia sterownika silników.
 	 */
-	//FIXME OK
-	public AndroMoteMobilePlatformController(Application application) {
+	public AndroMoteController(Application application) {
 		super(application);
 	}
 
@@ -59,23 +65,37 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *         uruchomiony.
 	 * @throws MobilePlatformException
 	 */
-	//FIXME OK
-	public boolean startCommunicationWithDevice(MobilePlatforms platformName, MotorDrivers driverName) throws MobilePlatformException {
+	@Override
+	public boolean startCommunicationWithDevice(MobilePlatformType platformName, MotorDriverType driverName) throws MobilePlatformException {
 		checkIfServiceIsStopped();
 		checkIfApplicationIsNull();
 
-		//FIXME Przemianować na uniwersalną nazwę
-		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
+		Intent startEngineServiceIntent = new Intent(application, EnginesService.class);
 		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
 		pack.setPlatformName(platformName);
 		pack.setDriverName(driverName);
 		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		ComponentName name = application.startService(startEngineServiceIntent);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: startEngineService: component name: " + name);
+		application.bindService(startEngineServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
-		isConnectionActive = true;
+		logger.debug(TAG, "AndroMoteEngineControllerApi: startEngineService: " + name);
 		return true;
 	}
+
+	private ServiceConnection connection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName className,
+				IBinder service) {
+			LocalBinder binder = (LocalBinder) service;
+			enginesService = binder.getService();
+			isBound = true;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {
+			isBound = false;
+		}
+	};
 
 	/**
 	 * Zatrzymanie serwisu silników odpowiadające zerwaniu połączenia z
@@ -90,11 +110,13 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 */
 	//FIXME OK
 	public boolean stopCommunicationWithDevice() throws MobilePlatformException {
-		checkExecutionPreconditions();
-
-		Intent closeService = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
-		application.stopService(closeService);
-		isConnectionActive = false;
+		checkIfApplicationIsNull();
+		if(isBound) {
+			application.unbindService(connection);
+			isBound = false;
+			Intent closeService = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
+			application.stopService(closeService);
+		}
 		logger.debug(TAG, "AndroMoteEngineControllerApi: stopEngineService: engine service stopped");
 
 		return true;
@@ -112,20 +134,20 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	//FIXME OK
+	@Override
 	public boolean setPlatformSpeed(double speed) throws MobilePlatformException {
-		checkExecutionPreconditions();
-		
+		checkIfApplicationIsNull();
+
 		Packet setSpeedPacket = new Packet(Engine.SET_SPEED);
 		setSpeedPacket.setSpeed(speed);
-		createAndSendIntentWithExtra(setSpeedPacket);
+		executeActionOnAndromote(setSpeedPacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setSpeed: speed set to: " + speed);
 
 		return true;
 	}
 
 	/**
-	 * Zmiana trybu ruchu modelu.
+	 * Zmiana trybu ruchu pojazdu.
 	 * 
 	 * @param motionMode
 	 *            Przyjmowane wartości:
@@ -137,11 +159,11 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-//
-//	
+	//
+	//	
 	@Override
 	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
-		checkExecutionPreconditions();
+		checkIfApplicationIsNull();
 
 		Packet setMotionModePacket = null;
 		if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
@@ -149,7 +171,7 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 		} else {
 			setMotionModePacket = new Packet(Engine.SET_STEPPER_MODE);
 		}
-		createAndSendIntentWithExtra(setMotionModePacket);
+		executeActionOnAndromote(setMotionModePacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setMotionMode: motionMode set to: " + motionMode);
 
 		return true;
@@ -167,14 +189,13 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	//FIXME OK
 	@Override
 	public boolean setStepDuration(int stepDuration) throws MobilePlatformException {
-		checkExecutionPreconditions();
+		checkIfApplicationIsNull();
 
 		Packet setStepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
 		setStepDurationPacket.setStepDuration(stepDuration);
-		createAndSendIntentWithExtra(setStepDurationPacket);
+		executeActionOnAndromote(setStepDurationPacket);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: setStepDuration: step duration set to: " + stepDuration);
 
 		return true;
@@ -192,13 +213,12 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 */
 	@Override
 	public boolean sendMessageToDevice(IPacket packet) throws MobilePlatformException, UnsupportedOperationException {
-		checkExecutionPreconditions();
-		createAndSendIntentWithExtra(packet);
+		checkIfApplicationIsNull();
+		executeActionOnAndromote((Packet)packet);
 		logger.debug(TAG,
 				"AndroMoteApi: sending message to servicedevice;PacketType: " + ((Packet) packet).getPacketType());
 		return true;
 	}
-
 
 	/**
 	 * Zlecenie zatrzymania węzła.
@@ -211,48 +231,48 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 	 */
 	@Override
 	public boolean stopMobilePlatform() throws MobilePlatformException {
-		checkExecutionPreconditions();
-
-		Intent moveIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		moveIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) new Packet(Motion.STOP_REQUEST));
-		application.sendBroadcast(moveIntent);
+		checkIfApplicationIsNull();
+		Packet packet = new Packet(Motion.STOP_REQUEST);
+		executeActionOnAndromote(packet);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: stop");
 
 		return true;
 	}
-
-	//FIXME Czy to jest potrzebne?
+	
 	@Override
-	public boolean checkIfConnectionIsActive() throws MobilePlatformException, UnsupportedOperationException {
-		try {
-			this.checkIfServiceIsStarted();
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
+		logger.debug(TAG,
+				"AndroMoteMobilePlatformController: packet from mobile platform received: " + pack.getPacketType());
+	}
+
+	@Override
+	public boolean checkIfConnectionIsActive() {
+		return isEnginesServiceConnectedToIOIO();
 	}
 
 	// PRIVATE
-	private void createAndSendIntentWithExtra(IPacket pack) {
-		Intent sendInfoIntent = new Intent(IntentsIdentifiers.ACTION_MESSAGE_TO_DEVICE_CONTROLLER);
-		sendInfoIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
-		application.sendBroadcast(sendInfoIntent);
+	private void executeActionOnAndromote(Packet pack) {
+		if(enginesService != null) {
+			enginesService.interpretPacket(pack);
+		}
 	}
 
-	private void checkExecutionPreconditions() throws MobilePlatformException {
-		checkIfServiceIsStarted();
-		checkIfApplicationIsNull();
+	private boolean isEnginesServiceConnectedToIOIO() {
+		if(enginesService != null) {
+			return enginesService.isConnectedToIOIO();
+		} 
+		return false;
 	}
 
 	private void checkIfServiceIsStarted() throws MobilePlatformException {
-		if (!isConnectionActive) {
+		if (!isEnginesServiceConnectedToIOIO()) {
 			throw new MobilePlatformException(
 					"Engine service is stopped. Start service using startEngineService method");
 		}
 	}
 
 	private void checkIfServiceIsStopped() throws MobilePlatformException {
-		if (isConnectionActive) {
+		if (isEnginesServiceConnectedToIOIO()) {
 			throw new MobilePlatformException("Engine service already started.");
 		}
 	}
@@ -262,25 +282,5 @@ public class AndroMoteMobilePlatformController extends AndroMoteMobilePlatformAp
 			throw new MobilePlatformException(
 					"Application object is null. Set application object using setApplication() method!");
 		}
-	}
-
-	private void onEngineServiceClosed() {
-		logger.debug(TAG, "AndroMoteEngineController: engine service closed on error");
-		this.isConnectionActive = false;
-	}
-
-	// GETERS && SETTERS
-	public Application getApplication() {
-		return application;
-	}
-
-	public void setApplication(Application application) {
-		this.application = application;
-	}
-
-	@Override
-	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
-		logger.debug(TAG,
-				"AndroMoteMobilePlatformController: packet from mobile platform received: " + pack.getPacketType());
 	}
 }

@@ -19,7 +19,7 @@ public class PlatformFactory {
 
 	private static AndroMoteLogger logger = new AndroMoteLogger(PlatformFactory.class);
 
-	public static Platform getModel(DeviceDefinitions.MobilePlatforms name, MotorDriver driver) throws UnknownDeviceException {
+	public static Platform getModel(DeviceDefinitions.MobilePlatformType name, MotorDriver driver) throws UnknownDeviceException {
 		Platform result;
 		logger.debug(TAG, "testing: platform name given: " + name);
 		switch(name) {

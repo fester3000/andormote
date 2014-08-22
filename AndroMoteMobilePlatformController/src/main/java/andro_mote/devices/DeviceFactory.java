@@ -21,7 +21,7 @@ public class DeviceFactory {
 
 	private static AndroMoteLogger logger = new AndroMoteLogger(DeviceFactory.class);
 
-	public static Device getDevice(DeviceDefinitions.MobilePlatforms platformName, DeviceDefinitions.MotorDrivers driverName, IOIO ioio) throws UnknownDeviceException {
+	public static Device getDevice(DeviceDefinitions.MobilePlatformType platformName, DeviceDefinitions.MotorDriverType driverName, IOIO ioio) throws UnknownDeviceException {
 		logger.debug(TAG, "testing: platformName: " + platformName);
 		logger.debug(TAG, "testing: driverName: " + driverName);
 		MotorDriver driver = MotorDriverFactory.getMotorDriver(driverName, ioio);

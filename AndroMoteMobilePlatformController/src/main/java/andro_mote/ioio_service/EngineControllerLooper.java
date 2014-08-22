@@ -3,8 +3,8 @@ package andro_mote.ioio_service;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
-import andro_mote.commons.DeviceDefinitions.MotorDrivers;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.MotionModes;
 import andro_mote.commons.Packet;
 import andro_mote.devices.Device;
@@ -16,17 +16,17 @@ import andro_mote.stepper.Step;
 //wystawić parametry o wysokim poziomie abstrakcji - prędkość itp wyżej 
 public class EngineControllerLooper extends BaseIOIOLooper {
 	private static final String TAG = EngineControllerLooper.class.getName();
-
-	// obiekt serwisu kontrolera
-	private EnginesControllerService parentControllerService;
+	// obiekt usługi kontrolera
+	private EnginesService parentControllerService;
 	
 	private AndroMoteLogger logger = null;
 	private Device device;
 	private Step currentStep = null;	
-	private MobilePlatforms platformName;
-	private MotorDrivers driverName;
+	private MobilePlatformType platformName;
+	private MotorDriverType driverName;
+	private boolean isDeviceConnected = false;
 
-	public EngineControllerLooper(EnginesControllerService enginesControllerService, MobilePlatforms platformName, MotorDrivers driverName) throws ConnectionLostException,
+	public EngineControllerLooper(EnginesService enginesControllerService, MobilePlatformType platformName, MotorDriverType driverName) throws ConnectionLostException,
 	InterruptedException, UnknownDeviceException {
 		super();
 		logger = new AndroMoteLogger(EngineControllerLooper.class);
@@ -34,6 +34,8 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 		this.parentControllerService = enginesControllerService;
 		this.platformName = platformName;
 		this.driverName = driverName;
+		logger.debug(TAG, "setting platform... " + platformName );
+		logger.debug(TAG, "setting engine driver... " + driverName);
 		logger.debug(TAG, "setup ioio engine controller");
 	}
 
@@ -43,18 +45,19 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 		try {
 			device = DeviceFactory.getDevice(platformName, driverName, ioio_);
 			device.initIOIOPins();
+			isDeviceConnected = true;
 		} catch (ConnectionLostException e) {
 			logger.error(TAG, e);
 		} catch (UnknownDeviceException e) {
-			// TODO Auto-generated catch block
+			logger.error(TAG, e);
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void loop() throws ConnectionLostException, InterruptedException {
-		if (this.parentControllerService.getControlMode().equals(MotionModes.MOTION_MODE_STEPPER)) {
-			// logger.debug(TAG, "stepper mode loop start");
+		if (this.parentControllerService.getMotionMode().equals(MotionModes.MOTION_MODE_STEPPER)) {
+			 logger.debug(TAG, "stepper mode loop start");
 
 			// blokada przed pobieraniem kolejnych kroków w trakcie wykonywanej akcji
 			if (!this.parentControllerService.isOperationExecuted()) {
@@ -70,7 +73,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 			Thread.sleep(50);
 			device.writeNewIoioPinValues();
 
-		} else if (this.parentControllerService.getControlMode().equals(
+		} else if (this.parentControllerService.getMotionMode().equals(
 				MotionModes.MOTION_MODE_CONTINUOUS)) {
 			// logger.debug(TAG, "continuous looper");
 			device.writeNewIoioPinValues();
@@ -91,26 +94,28 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 
 	@Override
 	public void disconnected() {
-		if (logger != null)
 			logger.debug(TAG, "ioio disconnected");
+			isDeviceConnected = false;
 	}
 
 	@Override
 	public void incompatible() {
 		logger.debug(TAG, "ioio incompatibile");
 	}
-	
-	
-	
-	public EnginesControllerService getParentControllerService() {
+		
+	public EnginesService getParentControllerService() {
 		return parentControllerService;
 	}
 
-	public void setParentControllerService(EnginesControllerService parentControllerService) {
+	public void setParentControllerService(EnginesService parentControllerService) {
 		this.parentControllerService = parentControllerService;
 	}
 
 	public void executePacket(Packet inputPacket) {
 		device.interpretMotionPacket(inputPacket);
+	}
+	
+	public boolean isDeviceConnected() {
+		return isDeviceConnected;
 	}
 }

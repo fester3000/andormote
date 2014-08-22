@@ -2,7 +2,7 @@ package andro_mote.devices.motor_drivers;
 
 import ioio.lib.api.IOIO;
 import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.commons.DeviceDefinitions.MotorDrivers;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.logger.AndroMoteLogger;
 
 /**
@@ -17,7 +17,7 @@ public class MotorDriverFactory {
 
 	private static AndroMoteLogger logger = new AndroMoteLogger(MotorDriverFactory.class);
 
-	public static MotorDriver getMotorDriver(MotorDrivers name, IOIO ioio) throws UnknownDeviceException {
+	public static MotorDriver getMotorDriver(MotorDriverType name, IOIO ioio) throws UnknownDeviceException {
 		MotorDriver result;
 		logger.debug(TAG, "testing: driver name given: " + name);
 		switch(name) {

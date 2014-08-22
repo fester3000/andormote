@@ -1,35 +1,54 @@
 package mobi.andromote.andro.androscript;
 
-import mobi.andromote.andro.androscript.processingTools.Parser;
-import mobi.andromote.andro.androscript.processingTools.Validator;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.AndroCodePreprocessor;
+import pl.fester3k.androcode.dataholder.TreeWithSymbolTable;
+import pl.fester3k.androcode.datatypes.Script;
 import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
-import pl.fester3k.androcode.datatypes.UnverifiedScript;
-import pl.fester3k.androcode.datatypes.VerifiedScript;
+import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
+import pl.fester3k.androcode.interpreter.AndroCodeInterpreter;
+import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
 import android.content.Context;
 
 public enum AndroscriptProcessor {
 	INSTANCE;
-	
-	private final Logger log = Logger.getLogger(AndroscriptProcessor.class);
-			
-	public ScriptProcessStatus process(UnverifiedScript unverifiedScript, Context context) {
-		Validator validator = new Validator();
-		Parser parser = new Parser();
-		SDScriptRepository scriptRepository = new SDScriptRepository(context);
 
-		log.debug("processing");
-		
+	private final Logger log = Logger.getLogger(AndroscriptProcessor.class);
+	AndroCodePreprocessor preprocessor = new AndroCodePreprocessor(); 
+	AndroCodeInterpreter interpreter = new AndroCodeInterpreter();
+
+	public ScriptProcessStatus process(Script script, Context context) {
 		ScriptProcessStatus result;
-		ScriptProcessStatus validationResult = validator.validate(unverifiedScript);
-		if(validationResult.equals(ScriptProcessStatus.OK)) {
-			VerifiedScript verifiedScript = new VerifiedScript(unverifiedScript);
-			scriptRepository.saveExternally(verifiedScript);
-			result = parser.parse(verifiedScript);
-		} else {
+		SDScriptRepository scriptRepository = new SDScriptRepository(context);
+		CapabilitiesAnalyzer.INSTANCE.checkCurrentCapabilities();
+		log.info(CapabilitiesAnalyzer.INSTANCE.toString());
+		log.debug("processing script " + script.getName());
+		result = parse(script);
+		scriptRepository.saveExternally(script);
+		return result;
+	}
+
+	private ScriptProcessStatus parse(Script script) {
+		ScriptProcessStatus result;
+		log.debug("parsing");
+		TreeWithSymbolTable preprocessResult;
+		try {
+			preprocessResult = preprocessor.analyseCode(script.getContent());
+			interpreter.interpret(preprocessResult.getTree(), preprocessResult.getSymbolTable());
+			result = ScriptProcessStatus.OK;
+		} catch (SemanticAnalysisException e) {
+			log.error(e.getMessage());
 			result = ScriptProcessStatus.VALIDATION_FAILED;
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			result = ScriptProcessStatus.RUN_FAILED;
+		} catch(Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			result = ScriptProcessStatus.RUN_FAILED;
 		}
 		return result;
 	}

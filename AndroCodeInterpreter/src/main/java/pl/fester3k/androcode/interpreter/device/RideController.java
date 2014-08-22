@@ -5,25 +5,24 @@ import org.slf4j.LoggerFactory;
 
 import pl.fester3k.androcode.interpreter.device.action.ActionResult;
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
-import andro_mote.commons.DeviceDefinitions.MotorDrivers;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
-import andro_mote.platform_controller.AndroMoteMobilePlatformController;
+import andro_mote.platform_controller.AndroMoteController;
 import android.app.Application;
 import android.util.Log;
 
 public enum RideController {
 	INSTANCE;
 	private final Logger log = LoggerFactory.getLogger(RideController.class);
-	private MotorDrivers motorDriver = MotorDrivers.RNVN2;
-	private MobilePlatforms mobilePlatform = MobilePlatforms.ROVER5TwoEngines;
-	private AndroMoteMobilePlatformController api = null;
-	private Application application;
-	
+	private MotorDriverType motorDriver = MotorDriverType.RNVN2;
+	private MobilePlatformType mobilePlatform = MobilePlatformType.ROVER5TwoEngines;
+	private AndroMoteController api = null;
+
+
 	public void onCreate(Application application) {
-		this.application = application;
-		this.api = new AndroMoteMobilePlatformController(application);		
+		this.api = new AndroMoteController(application);		
 		try {
 			api.startCommunicationWithDevice(mobilePlatform, motorDriver);
 		} catch (MobilePlatformException e) {
@@ -32,7 +31,7 @@ public enum RideController {
 		}
 		startEngineService();
 	}
-	
+
 	public void destroy() {
 		try {
 			this.api.stopCommunicationWithDevice();
@@ -41,7 +40,7 @@ public enum RideController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ActionResult execute(Packet packet) {
 		ActionResult result;
 		try {	
@@ -53,7 +52,7 @@ public enum RideController {
 		}
 		return result;
 	}
-	
+
 
 	/**
 	 * Start i ustawienia początkowe steronika silników.
@@ -68,7 +67,7 @@ public enum RideController {
 
 					initEngineService();
 				} catch (InterruptedException e) {
-					Log.e("HelloIOIO", e.getMessage(), e);
+					log.error( e.getMessage());
 				}
 			}
 		};
@@ -96,5 +95,9 @@ public enum RideController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isRideAvailable() {
+		return api.checkIfConnectionIsActive();
 	}
 }

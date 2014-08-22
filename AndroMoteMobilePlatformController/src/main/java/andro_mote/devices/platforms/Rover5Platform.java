@@ -5,7 +5,7 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.devices.motor_drivers.MotorDriverRover5Compatible;
-import andro_mote.ioio_service.EnginesControllerService;
+import andro_mote.ioio_service.EnginesService;
 import andro_mote.logger.AndroMoteLogger;
 
 public class Rover5Platform extends PlatformAbstract implements Platform {
@@ -126,31 +126,31 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 	@Override
 	protected void setValuesForSimpleStep(IPacketType packetType) {
 		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			steerLeft(EnginesControllerService.getSpeed());
-			moveForward(EnginesControllerService.getSpeed());
+			steerLeft(EnginesService.getSpeed());
+			moveForward(EnginesService.getSpeed());
 		} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
 //			steerCenter();
-			moveForward(EnginesControllerService.getSpeed());
+			moveForward(EnginesService.getSpeed());
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-			steerRight(EnginesControllerService.getSpeed());
-			moveForward(EnginesControllerService.getSpeed());
+			steerRight(EnginesService.getSpeed());
+			moveForward(EnginesService.getSpeed());
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
-			steerLeft(EnginesControllerService.getSpeed());
+			steerLeft(EnginesService.getSpeed());
 			moveForward(0.0);
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
-			steerRight(EnginesControllerService.getSpeed());
+			steerRight(EnginesService.getSpeed());
 			moveForward(0.0);
 		} else if (packetType == PacketType.Motion.STOP_REQUEST) {
 			stop();
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			steerLeft(EnginesControllerService.getSpeed());
-			moveBackward(EnginesControllerService.getSpeed());
+			steerLeft(EnginesService.getSpeed());
+			moveBackward(EnginesService.getSpeed());
 		} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
 //			steerCenter();
-			moveBackward(EnginesControllerService.getSpeed());
+			moveBackward(EnginesService.getSpeed());
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-			steerRight(EnginesControllerService.getSpeed());
-			moveBackward(EnginesControllerService.getSpeed());
+			steerRight(EnginesService.getSpeed());
+			moveBackward(EnginesService.getSpeed());
 		}
 	}
 }

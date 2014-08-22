@@ -7,11 +7,11 @@ import android.app.Activity;
 import android.content.Context;
 
 public abstract class BaseAction implements Action {
-	protected Activity activity;
+	protected Context context;
 	protected Logger logger;
 
-	public BaseAction(Activity context) {
-		this.activity = context;
+	public BaseAction(Context context) {
+		this.context = context;
 		this.logger = LoggerFactory.getLogger(BaseAction.class);
 	}
 }

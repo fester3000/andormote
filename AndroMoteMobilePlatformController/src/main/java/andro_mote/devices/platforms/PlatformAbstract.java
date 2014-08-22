@@ -2,7 +2,7 @@ package andro_mote.devices.platforms;
 
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.ioio_service.EnginesControllerService;
+import andro_mote.ioio_service.EnginesService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.text.format.Time;
@@ -68,7 +68,7 @@ public abstract class PlatformAbstract implements Platform {
 			long stepStopTime = 0;
 			try {
 				//TODO wydzielić do odrebnej struktury/singletonu 
-				EnginesControllerService.isOperationExecuted = true;
+				EnginesService.isOperationExecuted = true;
 				stepStartTime = System.currentTimeMillis();
 
 				// zmiana stanu silników
@@ -76,7 +76,7 @@ public abstract class PlatformAbstract implements Platform {
 
 				// początek kroku
 				//TODO wydzielić do odrebnej struktury/singletonu 
-				Thread.sleep(EnginesControllerService.stepDuration);
+				Thread.sleep(EnginesService.stepDuration);
 				stepStopTime = System.currentTimeMillis();
 				// koniec kroku
 
@@ -84,13 +84,13 @@ public abstract class PlatformAbstract implements Platform {
 				stop();
 
 				// przerwa pomiędzy kolejnymi krokami
-				Thread.sleep(EnginesControllerService.getPauseTimeBetweenSteps());
-				EnginesControllerService.isOperationExecuted = false;
+				Thread.sleep(EnginesService.getPauseTimeBetweenSteps());
+				EnginesService.isOperationExecuted = false;
 			} catch (InterruptedException e) {
 				logger.error(TAG, e);
 			} finally {
 				//TODO wydzielić do odrebnej struktury/singletonu 
-				EnginesControllerService.isOperationExecuted = false;
+				EnginesService.isOperationExecuted = false;
 			}
 
 			// wysyłanie pakietu z informacją o wykonanym kroku

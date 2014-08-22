@@ -37,8 +37,8 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	private double speed = 0.0;
 	private PacketType.IPacketType stepDirection = null;
 	private long stepDuration = 600;
-	private DeviceDefinitions.MobilePlatforms platformName = null;
-	private DeviceDefinitions.MotorDrivers driverName = null;
+	private DeviceDefinitions.MobilePlatformType platformName = null;
+	private DeviceDefinitions.MotorDriverType driverName = null;
 	private Packet packet = null;
 //	private ArrayList<String> devicesList = null;
 	private int nodeStatus = 0;
@@ -56,8 +56,8 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.speed = pc.readDouble();
 		this.stepDirection = (IPacketType) pc.readSerializable();
 		this.stepDuration = pc.readLong();
-		this.platformName = (DeviceDefinitions.MobilePlatforms) pc.readSerializable();
-		this.driverName = (DeviceDefinitions.MotorDrivers) pc.readSerializable();
+		this.platformName = (DeviceDefinitions.MobilePlatformType) pc.readSerializable();
+		this.driverName = (DeviceDefinitions.MotorDriverType) pc.readSerializable();
 		this.packet = (Packet) pc.readSerializable();
 //		this.devicesList = (ArrayList<String>) pc.readArrayList(null);
 		this.nodeStatus = pc.readInt();
@@ -188,11 +188,11 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.stepDuration = stepDuration;
 	}
 
-	public DeviceDefinitions.MobilePlatforms getPlatformName() {
+	public DeviceDefinitions.MobilePlatformType getPlatformName() {
 		return platformName;
 	}
 
-	public void setPlatformName(DeviceDefinitions.MobilePlatforms platformName) {
+	public void setPlatformName(DeviceDefinitions.MobilePlatformType platformName) {
 		this.platformName = platformName;
 	}
 
@@ -212,11 +212,11 @@ public class Packet implements Serializable, Parcelable, IPacket {
 		this.bearing = bearing;
 	}
 
-	public DeviceDefinitions.MotorDrivers getDriverName() {
+	public DeviceDefinitions.MotorDriverType getDriverName() {
 		return driverName;
 	}
 
-	public void setDriverName(DeviceDefinitions.MotorDrivers driverName) {
+	public void setDriverName(DeviceDefinitions.MotorDriverType driverName) {
 		this.driverName = driverName;
 	}
 

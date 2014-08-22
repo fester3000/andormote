@@ -22,26 +22,31 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+    
+        <service 
+            android:name=".AndroCodeService"
+            android:enabled="true" >
+        </service>
+
+        <service
+            android:name="andro_mote.ioio_service.EnginesService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="andro_mote.ioio_service.EnginesControllerService" />
+            </intent-filter>
+        </service>
+
         <activity
-            android:name="mobi.andromote.andro.AndroMainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme" 
-            android:screenOrientation="landscape">
+            android:name=".AndroMainActivity"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_andro"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
-		    android:name="pl.fester3k.androcode.interpreter.device.helpers.camera.PhotoActivity"></activity>
-        <service
-            android:name="andro_mote.ioio_service.EnginesControllerService"
-            android:enabled="true" >
-            <intent-filter>
-                <action android:name="andro_mote.ioio_service.EnginesControllerService" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

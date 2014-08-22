@@ -23,63 +23,73 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.datatypes.UnverifiedScript;
-import android.app.Activity;
-import android.widget.Toast;
+import pl.fester3k.androcode.datatypes.Script;
+import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
+import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 public class WebService {
 	private final Logger log = Logger.getLogger(WebService.class);
-	Activity mainActivity; 
+	Context context; 
 	String message = "";
 	ServerSocket serverSocket;
+	SocketServerThread socketServerThread;
 
-	public WebService(Activity activity) {
-		mainActivity = activity;
+	public WebService(Context context) {
+		this.context = context;
 	}
 
 	public void start() {
-		Thread socketServerThread = new Thread(new SocketServerThread());
+		socketServerThread = new SocketServerThread();
 		socketServerThread.start();
 	}
 
 	public void destroy() {
 		if (serverSocket != null) {
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			socketServerThread.tryToStopMe();
 		}
 	}
 
 	private class SocketServerThread extends Thread {
 		static final int SocketServerPORT = 8080;
 		int count = 0;
+		private boolean isFinished = false;
 
 		@Override
 		public void run() {
 			try {
 				serverSocket = new ServerSocket(SocketServerPORT);
-				toastMessage("I'm waiting here: " + serverSocket.getLocalPort());
+				toastMessage("I'm waiting here: " + getIpAddress() + ":" + serverSocket.getLocalPort());
 
-				while (true) {
+				while (!isFinished) {
 					Socket socket = serverSocket.accept();
 					count++;
-					message += "#" + count + " from " + socket.getInetAddress()
-							+ ":" + socket.getPort() + "\n";
+					message += "#" + count + " from " + socket.getInetAddress()	+ ":" + socket.getPort() + "\n";
 					toastMessage(message);
-
-					SocketServerReplyThread socketServerReplyThread = new SocketServerReplyThread(
-							socket, count);
+					SocketServerReplyThread socketServerReplyThread = new SocketServerReplyThread(socket, count);
 					socketServerReplyThread.run();
 
 				}
+			} catch(SocketException e) {
+				log.debug(e.getMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		public void tryToStopMe() {
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			isFinished = true;
+		}
 	}
+
 	private class SocketServerReplyThread extends Thread {
 
 		private Socket hostThreadSocket;
@@ -93,19 +103,23 @@ public class WebService {
 		@Override
 		public void run() {
 			Authenticator authenticator = new Authenticator(); 
-			UnverifiedScript unverifiedScript = UnverifiedScript.nullValue();
+			Script unverifiedScript = Script.nullValue();
 			DefaultHttpServerConnection connection = new DefaultHttpServerConnection();
 			try {
 				connection.bind(hostThreadSocket, new BasicHttpParams());
-				HttpRequest request = connection.receiveRequestHeader();
-				connection.receiveRequestEntity((HttpEntityEnclosingRequest)request);
-				HttpEntity entity = ((HttpEntityEnclosingRequest)request).getEntity();
-				String content = EntityUtils.toString(entity);
+				String content = getContentFromHttpRequest(connection);
 				toastMessage(content);
-				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
-				//TODO Test
-				unverifiedScript = new UnverifiedScript("Script1", content, new Date());
-				//TODO Test
+				if(authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
+					unverifiedScript = new Script(Script.generateScriptName(), content, new Date());
+					ScriptProcessStatus processingStatus = AndroscriptProcessor.INSTANCE.process(unverifiedScript, context);
+					if(processingStatus.equals(ScriptProcessStatus.OK)) {
+					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
+					} else {
+						connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 415, "Unsupported Media Type")));	
+					}
+				} else {
+					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 403, "Forbidden")));
+				}
 				connection.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -114,9 +128,16 @@ public class WebService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if(authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
-				AndroscriptProcessor.INSTANCE.process(unverifiedScript, mainActivity);
-			}
+		}
+
+		private String getContentFromHttpRequest(
+				DefaultHttpServerConnection connection) throws HttpException,
+				IOException {
+			HttpRequest request = connection.receiveRequestHeader();
+			connection.receiveRequestEntity((HttpEntityEnclosingRequest)request);
+			HttpEntity entity = ((HttpEntityEnclosingRequest)request).getEntity();
+			String content = EntityUtils.toString(entity);
+			return content;
 		}
 
 	}
@@ -127,37 +148,29 @@ public class WebService {
 			Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface
 					.getNetworkInterfaces();
 			while (enumNetworkInterfaces.hasMoreElements()) {
-				NetworkInterface networkInterface = enumNetworkInterfaces
-						.nextElement();
-				Enumeration<InetAddress> enumInetAddress = networkInterface
-						.getInetAddresses();
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				Enumeration<InetAddress> enumInetAddress = networkInterface.getInetAddresses();
 				while (enumInetAddress.hasMoreElements()) {
 					InetAddress inetAddress = enumInetAddress.nextElement();
-
 					if (inetAddress.isSiteLocalAddress()) {
-						ip += "SiteLocalAddress: " 
-								+ inetAddress.getHostAddress() + "\n";
+						ip += inetAddress.getHostAddress();
+						break;
 					}
 
 				}
-
 			}
 
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			ip += "Something Wrong! " + e.toString() + "\n";
+			log.error(e.getMessage());
 		}
-
 		return ip;
 	}
 
 	private void toastMessage(final String text) {
-		mainActivity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(mainActivity, text, Toast.LENGTH_SHORT).show();
-			}
-		});
+		log.info(text);
+		Intent intent = new Intent("message-event");
+		intent.putExtra("message", text);
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
 }

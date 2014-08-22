@@ -5,8 +5,8 @@ import java.io.Serializable;
 import org.apache.log4j.BasicConfigurator;
 
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatforms;
-import andro_mote.commons.DeviceDefinitions.MotorDrivers;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionModes;
@@ -15,7 +15,7 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.logger.AndroMoteLogger;
-import andro_mote.platform_controller.AndroMoteMobilePlatformController;
+import andro_mote.platform_controller.AndroMoteController;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,8 +34,8 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 
 	public static final String TAG = AndroMoteHelloWorldActivity.class.toString();
 
-	private MotorDrivers motorDriver = MotorDrivers.RNVN2;
-	private MobilePlatforms mobilePlatform = MobilePlatforms.ROVER5TwoEngines;
+	private MotorDriverType motorDriver = MotorDriverType.RNVN2;
+	private MobilePlatformType mobilePlatform = MobilePlatformType.ROVER5TwoEngines;
 
 	private Button mLFButton = null;
 	private Button mFButton = null;
@@ -52,7 +52,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	private Button stepperButton = null;
 	private Button continousButton = null;
 
-	private AndroMoteMobilePlatformController api = null;
+	private AndroMoteController api = null;
 
 	AndroMoteLogger logger = new AndroMoteLogger(AndroMoteHelloWorldActivity.class);
 
@@ -62,7 +62,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		setContentView(R.layout.activity_main);
 		this.initComponents();
 		BasicConfigurator.configure();
-		this.api = new AndroMoteMobilePlatformController(this.getApplication());
+		this.api = new AndroMoteController(this.getApplication());
 		startEngineService();
 	}
 

@@ -48,6 +48,10 @@ public class AndroLog {
 		log.debug(messagePrefix + message);
 	}
 	
+	public <T extends ParserRuleContext> void warn(String message, T ctx) {
+		String messagePrefix = computeMessagePrefix(ctx);
+		log.warn(messagePrefix + message);
+	}
 	
 	public <T extends ParserRuleContext> void error(String errorMessage, T ctx) {
 		String messagePrefix = computeMessagePrefix(ctx);

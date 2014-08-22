@@ -17,17 +17,7 @@ import andro_mote.commons.Packet;
  * @author Maciej Gzik
  * 
  */
-public interface IAndroMoteDeviceMessageReceiver {
-
-	/**
-	 * Ustawienie klienta, któremu będą przekazywane odebrane wiadomości.
-	 * 
-	 * @param client
-	 *            Klient odbierajacy wiadomości odebrane z urządzenia
-	 *            zewnętrznego.
-	 */
-	public void setClient(IAndroMoteDeviceReceiverClient client);
-
+public interface MessagesFromDeviceReceiver {
 	/**
 	 * Rozpoczęcie odbierania wiadomości z podłączonego urządzenia. Wiadomości
 	 * są generowane przez obsługujące połączenia klasy i wysyłane w postaci
@@ -48,7 +38,7 @@ public interface IAndroMoteDeviceMessageReceiver {
 	 * @return flaga informująca o tym czy udało się zainicjować receiver dla
 	 *         wiadomości z podłączonego urządzenia.
 	 */
-	public boolean startListeningMessages() throws BroadcastReceiverClientNotSetException;
+	public boolean startMessagesListener() throws BroadcastReceiverClientNotSetException;
 
 	/**
 	 * Zakończenie odbierani informacji z podłączonego urzadzenia zewnętrznego.
@@ -57,7 +47,7 @@ public interface IAndroMoteDeviceMessageReceiver {
 	 * @return flaga informująca o tym czy udało się wyłączyć nasłuchiwanie
 	 *         wiadomości.
 	 */
-	public boolean stopListeningMessages() throws BroadcastReceiverClientNotSetException;
+	public boolean stopMessagesListener() throws BroadcastReceiverClientNotSetException;
 
 	/**
 	 * Funkcja powinna zostać wywołana po odebraniu wiadomości z platformy
