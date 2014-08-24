@@ -1,11 +1,19 @@
 package andro_mote.devices.andromote_v1;
 
+import andro_mote.devices.Vehicle;
 import andro_mote.devices.generics.MotorDriverAbstract;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 
+/**
+ * Dwukanałowy sterownik max 1A
+ * MAX_STEP_DURATION = 2000
+ * MIN_SPEED = 0.6
+ * @author Sebastian
+ *
+ */
 public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriverNewBrightCompatible {
 	private static final int AIN1_PIN = 44;
 	private static final int AIN2_PIN = 45;
@@ -34,12 +42,13 @@ public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriver
 	private double engineFreq = 0;
 	private boolean stby = true;
 
-	public PololuTwoEngines(IOIO ioio) {
-		super(ioio);
+	
+	public PololuTwoEngines(Vehicle parentDevice) {
+		super(parentDevice);
 	}
 
 	@Override
-	public void initIOIOPins() throws ConnectionLostException {
+	public void initIOIOPins(final IOIO ioio) throws ConnectionLostException {
 		ain1_ = ioio.openDigitalOutput(AIN1_PIN);
 		ain2_ = ioio.openDigitalOutput(AIN2_PIN);
 
@@ -51,11 +60,11 @@ public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriver
 
 		stby_ = ioio.openDigitalOutput(STBY_PIN);
 		stby_.write(true);
-		super.initIOIOPins();
+		super.initIOIOPins(ioio);
 	}
 
 	@Override
-	public void writeNewIoioPinValues() throws ConnectionLostException {
+	public void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException {
 		ioio.beginBatch();
 		try {
 			pwmb_.setDutyCycle((float) servoVoltage);
@@ -72,68 +81,29 @@ public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriver
 		}
 	}
 
-	@Override
-	public void hardStop() throws ConnectionLostException {
-		pwma_.setDutyCycle((float) 0);
-		ain1_.write(false);
-		ain2_.write(false);
-
-		pwmb_.setDutyCycle((float) 0);
-		bin1_.write(false);
-		bin2_.write(false);
-	}
-//
-//	public boolean getServoLeft() {
-//		return servoLeft;
-//	}
-
 	public void setServoLeft(boolean servoLeft) {
 		this.servoLeft = servoLeft;
 	}
-//
-//	public boolean getServoRight() {
-//		return servoRight;
-//	}
 
 	public void setServoRight(boolean servoRight) {
 		this.servoRight = servoRight;
 	}
-//
-//	public int getServoVoltage() {
-//		return servoVoltage;
-//	}
 
 	public void setServoVoltage(int servoVoltage) {
 		this.servoVoltage = servoVoltage;
 	}
-//
-//	public boolean getEngineGearForward() {
-//		return engineGearForward;
-//	}
 
 	public void setEngineGearForward(boolean engineGearForward) {
 		this.engineGearForward = engineGearForward;
 	}
-//
-//	public boolean getEngineGearBackward() {
-//		return engineGearBackward;
-//	}
 
 	public void setEngineGearBackward(boolean engineGearBackward) {
 		this.engineGearBackward = engineGearBackward;
 	}
-//
-//	public double getEngineFreq() {
-//		return engineFreq;
-//	}
 
 	public void setEngineFreq(double engineFreq) {
 		this.engineFreq = engineFreq;
 	}
-//
-//	public boolean isStby() {
-//		return stby;
-//	}
 
 	public void setStby(boolean stby) {
 		this.stby = stby;

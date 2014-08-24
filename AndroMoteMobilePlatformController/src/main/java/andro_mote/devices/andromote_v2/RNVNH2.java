@@ -11,6 +11,7 @@ import andro_mote.api.LocalBroadcastDispatcher;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
+import andro_mote.devices.Vehicle;
 import andro_mote.devices.generics.MotorDriverAbstract;
 import andro_mote.logger.AndroMoteLogger;
 
@@ -62,12 +63,12 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 	private double m1_PWM_DutyCycle_value = 0;
 	private double m2_PWM_DutyCycle_value = 0;
 	
-	public RNVNH2(IOIO ioio) {
-		super(ioio);
+	public RNVNH2(Vehicle parentDevice) {
+		super(parentDevice);
 	}
 
 	@Override
-	public void initIOIOPins() {
+	public void initIOIOPins(final IOIO ioio) {
 		try {
 			m1_InA_Output = ioio.openDigitalOutput(M1_INA_PIN);
 			m1_InB_Output = ioio.openDigitalOutput(M1_INB_PIN);
@@ -87,14 +88,14 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 			m2_Encoder_A_Input = ioio.openDigitalInput(M2_ENCODER_A_PIN, Mode.PULL_DOWN);
 			m2_Encoder_B_Input = ioio.openDigitalInput(M2_ENCODER_B_PIN, Mode.PULL_DOWN);
 
-			super.initIOIOPins();
+			super.initIOIOPins(ioio);
 		} catch (ConnectionLostException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void writeNewIoioPinValues() throws ConnectionLostException {
+	public void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException {
 		ioio.beginBatch();
 		try {
 			m1_Pwm_Output.setDutyCycle((float) m1_PWM_DutyCycle_value);
@@ -134,22 +135,6 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 		if(rnvn2_temperature_value > 0.7) {
 			Packet pack = new Packet(AdditionalPacketTypes.RNVN2Alerts.CHIP_TEMPERATURE_ALERT);
 			LocalBroadcastDispatcher.INSTANCE.sendPacketViaLocalBroadcast(pack, IntentsIdentifiers.ACTION_MESSAGE_TO_CONTROLLER);
-		}
-	}
-
-	@Override
-	public void hardStop() throws ConnectionLostException {
-		ioio.beginBatch();
-		try {
-			m1_Pwm_Output.setDutyCycle((float) 0);
-			m1_InA_Output.write(true);
-			m1_InB_Output.write(true);
-
-			m2_Pwm_Output.setDutyCycle((float) 0);
-			m2_InA_Output.write(true);
-			m2_InB_Output.write(true);
-		} finally {
-			ioio.endBatch();
 		}
 	}
 

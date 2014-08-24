@@ -254,7 +254,7 @@ public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 
 	// PRIVATE
 	private void executeActionOnAndromote(Packet pack) {
-		if(enginesService != null) {
+		if(enginesService != null && isEnginesServiceConnectedToIOIO()) {
 			enginesService.interpretPacket(pack);
 		}
 	}

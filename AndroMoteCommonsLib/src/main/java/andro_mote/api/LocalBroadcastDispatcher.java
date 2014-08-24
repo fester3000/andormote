@@ -1,7 +1,10 @@
 package andro_mote.api;
 
 import andro_mote.commons.IntentsFieldsIdentifiers;
+import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
+import andro_mote.commons.PacketType;
+import andro_mote.commons.PacketType.Engine;
 import andro_mote.logger.AndroMoteLogger;
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +17,11 @@ public enum LocalBroadcastDispatcher {
 	private Context context;
 	private String TAG = LocalBroadcastDispatcher.class.getSimpleName();
 	private AndroMoteLogger log = new AndroMoteLogger(getClass());
-	
+
 	public void init(Context context) {
 		this.context = context;
 	}
-	
+
 	/**
 	 * Pozwala na przesłanie pakietu zawierającego wiadomość do kontrolera
 	 * @param pack
@@ -32,5 +35,26 @@ public enum LocalBroadcastDispatcher {
 			LocalBroadcastManager.getInstance(context).sendBroadcast(intentBroadcast);
 		}
 	}
+
+//	/**
+//	 * Broadcast pakietu zawierającego informacje o błędzie w trakcie wykonywania kroku.
+//	 * 
+//	 * @param responsePacket
+//	 *            pakiet z informacjami o wykonanym kroku
+//	 */
+//	private void sendStepExecutionErrorBroadcast(Motion takenStep) {
+//		log.debug(TAG, "engineController looper: broadcast informacji o błędzie w trakcie wykonywania kroku: " + takenStep);
+//		Packet responsePacket = new Packet(Engine.MOTION_COMMAND_REFUSED_SENSOR_ERROR);
+//		responsePacket.setStepDirection(takenStep);
+//		sendPacketToController(responsePacket, IntentsIdentifiers.ACTION_ENGINE_STEP);
+//	}
+//	private void setSendStepExecutedPacket(boolean sendStepExecutedPacket) {
+//		log.debug(TAG, "EnginesControllerService: set sendStepExecutedPacket. New value: " + sendStepExecutedPacket);
+//		this.sendStepExecutedPacket = sendStepExecutedPacket;
+//	}
+//	private boolean isSendStepExecutedPacket() {
+//		return sendStepExecutedPacket;
+//	}
+
 }
 

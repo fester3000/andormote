@@ -2,19 +2,28 @@ package andro_mote.devices.andromote_v2;
 
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
-import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.Vehicle;
 import andro_mote.devices.generics.Platform;
 import andro_mote.devices.generics.PlatformAbstract;
 import andro_mote.logger.AndroMoteLogger;
 
+/**
+ * Dwukanałowy sterownik max 4A
+ * MAX_STEP_DURATION = 2000
+ * MIN_SPEED = 0.3
+ * @author Sebastian
+ *
+ */
 public class Rover5Platform extends PlatformAbstract implements Platform {
 	private static final String TAG = Rover5Platform.class.toString();
 	private AndroMoteLogger logger = new AndroMoteLogger(Rover5Platform.class);
+	
 
-	private MotorDriverRover5Compatible driver;
+	private final MotorDriverRover5Compatible driver;
 
-	public Rover5Platform(MotorDriverRover5Compatible driver) {
+	public Rover5Platform(MotorDriverRover5Compatible driver, Vehicle parentDevice) {
+		super(parentDevice);
 		this.driver = driver;
 	}
 
@@ -142,36 +151,46 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		}
 	}
 	
-	//TODO Do przepisania
 	@Override
-	protected void setValuesForSimpleStep(IPacketType packetType) {
-		double speed = AndroV2Settings.INSTANCE.getSpeed();
-		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			steerLeft(speed);
+	protected void setValuesForSimpleStep(Motion packetType) {
+		double speed = parentDevice.getSettings().getSpeed();
+		double speedB = parentDevice.getSettings().getSpeed_B();
+		switch(packetType) {
+		case MOVE_LEFT_FORWARD_REQUEST : 
+			moveForwardDifferSpeed(speed * 0.3, speed);
+			break;
+		case MOVE_FORWARD_REQUEST : 
 			moveForward(speed);
-		} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
-//			steerCenter();
-			moveForward(speed);
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-//			steerRight(speed);
-//			moveForward(speed);
-		} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
+			break;
+		case MOVE_FORWARD_DIFFER_SPEED_REQUEST : 
+			moveForwardDifferSpeed(speed, speedB);
+			break;
+		case MOVE_RIGHT_FORWARD_REQUEST : 
+			moveForwardDifferSpeed(speed, speed * 0.3);
+			break;
+		case MOVE_LEFT_REQUEST : 
 			steerLeft(speed);
-			moveForward(0.0);
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
-			steerRight(speed);
-			moveForward(0.0);
-		} else if (packetType == PacketType.Motion.STOP_REQUEST) {
+			break;
+		case STOP_REQUEST : 
 			stop();
-		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			steerLeft(speed);
-			moveBackward(speed);
-		} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
-//			steerCenter();
-			moveBackward(speed);
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
+			break;
+		case MOVE_RIGHT_REQUEST : 
 			steerRight(speed);
+			break;
+		case MOVE_LEFT_BACKWARD_REQUEST : 
+			moveBackwardDifferSpeed(speed * 0.3, speed);
+			break;
+		case MOVE_BACKWARD_REQUEST : 
 			moveBackward(speed);
+			break;
+		case MOVE_BACKWARD_DIFFER_SPEED_REQUEST : 
+			moveBackwardDifferSpeed(speed, speedB);
+			break;
+		case MOVE_RIGHT_BACKWARD_REQUEST : 
+			moveBackwardDifferSpeed(speed, speed * 0.3);
+			break;
+		default:
+			break;
 		}
 	}
 }

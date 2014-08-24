@@ -1,6 +1,5 @@
 package andro_mote.stepper;
 
-import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
 
 public class Step implements IStep {
@@ -12,16 +11,16 @@ public class Step implements IStep {
 
 	private int degrees;
 
-	private IPacketType stepType;
+	private Motion stepType;
 
 	public Step() {
 	}
 
-	public Step(IPacketType stepType) {
+	public Step(Motion stepType) {
 		this.stepType = stepType;
 	}
 
-	public IPacketType getReverseDirection() {
+	public Motion getReverseDirection() {
 		if (this.stepType == Motion.MOVE_FORWARD_REQUEST) {
 			return Motion.MOVE_BACKWARD_REQUEST;
 		} else if (this.stepType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
@@ -118,11 +117,11 @@ public class Step implements IStep {
 		this.degrees = degrees;
 	}
 
-	public IPacketType getStepType() {
+	public Motion getStepType() {
 		return stepType;
 	}
 
-	public void setStepType(IPacketType stepType) {
+	public void setStepType(Motion stepType) {
 		this.stepType = stepType;
 	}
 }

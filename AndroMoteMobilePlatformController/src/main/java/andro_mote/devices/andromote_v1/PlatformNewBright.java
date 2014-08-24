@@ -2,22 +2,19 @@ package andro_mote.devices.andromote_v1;
 
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
-import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.Vehicle;
 import andro_mote.devices.generics.PlatformAbstract;
 import andro_mote.logger.AndroMoteLogger;
 
 public class PlatformNewBright extends PlatformAbstract {
-
 	private static final String TAG = PlatformNewBright.class.getName();
 	private AndroMoteLogger logger = new AndroMoteLogger(PlatformNewBright.class);
-
 	private static final int STEPS_DELAY = 1000;
+	private final MotorDriverNewBrightCompatible driver;
 
-	private MotorDriverNewBrightCompatible driver;
-	// private double operationSpeed = 1;
-
-	public PlatformNewBright(MotorDriverNewBrightCompatible driver) {
+	public PlatformNewBright(MotorDriverNewBrightCompatible driver, Vehicle device) {
+		super(device);
 		this.driver = driver;
 	}
 
@@ -126,8 +123,8 @@ public class PlatformNewBright extends PlatformAbstract {
 	 * 
 	 * @param packetType
 	 */
-	protected void setValuesForSimpleStep(IPacketType packetType) {
-		double speed = AndroV1Settings.INSTANCE.getSpeed();
+	protected void setValuesForSimpleStep(Motion packetType) {
+		double speed = parentDevice.getSettings().getSpeed();
 		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
 			moveForward(speed);
 			steerLeft();
