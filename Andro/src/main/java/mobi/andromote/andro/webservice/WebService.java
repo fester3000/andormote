@@ -103,20 +103,16 @@ public class WebService {
 		@Override
 		public void run() {
 			Authenticator authenticator = new Authenticator(); 
-			Script unverifiedScript = Script.nullValue();
+			Script script = Script.nullValue();
 			DefaultHttpServerConnection connection = new DefaultHttpServerConnection();
 			try {
 				connection.bind(hostThreadSocket, new BasicHttpParams());
 				String content = getContentFromHttpRequest(connection);
 				toastMessage(content);
 				if(authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
-					unverifiedScript = new Script(Script.generateScriptName(), content, new Date());
-					ScriptProcessStatus processingStatus = AndroscriptProcessor.INSTANCE.process(unverifiedScript, context);
-					if(processingStatus.equals(ScriptProcessStatus.OK)) {
+					script = new Script(Script.generateScriptName(), content, new Date());
 					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
-					} else {
-						connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 415, "Unsupported Media Type")));	
-					}
+					AndroscriptProcessor.INSTANCE.process(script, context);
 				} else {
 					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 403, "Forbidden")));
 				}

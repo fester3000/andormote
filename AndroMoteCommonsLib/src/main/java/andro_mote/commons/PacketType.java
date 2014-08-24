@@ -141,7 +141,8 @@ public class PacketType {
 		STEPPER_MODE_RESPONSE,
 
 		/**
-		 * Zmiana prędkości silników.
+		 * Zmiana prędkości silników. 
+		 * Jeśli pojazd ma dwa silniki, to zmiana prędkości silnika lewej gąsienicy
 		 * 
 		 * Zawartość pakietu:
 		 * 
@@ -149,6 +150,15 @@ public class PacketType {
 		 */
 		SET_SPEED,
 
+		/**
+		 * Zmiana prędkości prawego silnika - opcjonalna
+		 * 
+		 * Zawartość pakietu:
+		 * 
+		 * speed - typ double - nowa prędkość samochodu (przedział 0-1);
+		 */
+		SET_SPEED_B,
+		
 		/**
 		 * pobranie statystyk dotyczących ruchu węzła
 		 */
@@ -231,9 +241,29 @@ public class PacketType {
 		MOVE_BACKWARD,
 
 		/**
-		 * Zlecenie wykonania ruchu w lewo do tyłu.
+		 * Zlecenie wykonania ruchu do tyłu.
 		 */
 		MOVE_BACKWARD_REQUEST,
+		
+		/**
+		 * Ruch do przodu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica) inicjowany przez AndroMote.
+		 */
+		MOVE_FORWARD_DIFFER_SPEED,
+
+		/**
+		 * Zlecenie wykonania ruchu do przodu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica).
+		 */
+		MOVE_FORWARD_DIFFER_SPEED_REQUEST,
+
+		/**
+		 * Ruch do tyłu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica) inicjowany przez AndroMote.
+		 */
+		MOVE_BACKWARD_DIFFER_SPEED,
+
+		/**
+		 * Zlecenie wykonania ruchu do tyłu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica).
+		 */
+		MOVE_BACKWARD_DIFFER_SPEED_REQUEST,
 
 		/**
 		 * Ruch w lewo inicjowany przez AndroMote.

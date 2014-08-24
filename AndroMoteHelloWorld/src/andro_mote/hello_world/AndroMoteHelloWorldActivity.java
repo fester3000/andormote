@@ -9,7 +9,7 @@ import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
-import andro_mote.commons.MotionModes;
+import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
@@ -218,7 +218,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 			break;
 		case R.id.setContinuousModeButton:
 			try {
-				this.api.setMotionMode(MotionModes.MOTION_MODE_CONTINUOUS);
+				this.api.setMotionMode(MotionMode.MOTION_MODE_CONTINUOUS);
 			} catch (MobilePlatformException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -226,7 +226,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 			break;
 		case R.id.setStepperModeButton:
 			try {
-				this.api.setMotionMode(MotionModes.MOTION_MODE_STEPPER);
+				this.api.setMotionMode(MotionMode.MOTION_MODE_STEPPER);
 			} catch (MobilePlatformException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

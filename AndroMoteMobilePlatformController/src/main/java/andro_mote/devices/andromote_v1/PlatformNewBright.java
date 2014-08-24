@@ -1,11 +1,10 @@
-package andro_mote.devices.platforms;
+package andro_mote.devices.andromote_v1;
 
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.motor_drivers.MotorDriverNewBrightCompatible;
-import andro_mote.ioio_service.EnginesService;
+import andro_mote.devices.generics.PlatformAbstract;
 import andro_mote.logger.AndroMoteLogger;
 
 public class PlatformNewBright extends PlatformAbstract {
@@ -128,14 +127,15 @@ public class PlatformNewBright extends PlatformAbstract {
 	 * @param packetType
 	 */
 	protected void setValuesForSimpleStep(IPacketType packetType) {
+		double speed = AndroV1Settings.INSTANCE.getSpeed();
 		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			moveForward(EnginesService.getSpeed());
+			moveForward(speed);
 			steerLeft();
 		} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
-			moveForward(EnginesService.getSpeed());
+			moveForward(speed);
 			steerCenter();
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-			moveForward(EnginesService.getSpeed());
+			moveForward(speed);
 			steerRight();
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
 			moveForward(0.0);
@@ -146,13 +146,13 @@ public class PlatformNewBright extends PlatformAbstract {
 		} else if (packetType == PacketType.Motion.STOP_REQUEST) {
 			stop();
 		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			moveBackward(EnginesService.getSpeed());
+			moveBackward(speed);
 			steerLeft();
 		} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
-			moveBackward(EnginesService.getSpeed());
+			moveBackward(speed);
 			steerCenter();
 		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-			moveBackward(EnginesService.getSpeed());
+			moveBackward(speed);
 			steerRight();
 		}
 	}		

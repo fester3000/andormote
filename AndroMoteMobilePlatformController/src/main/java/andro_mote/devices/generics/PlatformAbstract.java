@@ -1,7 +1,8 @@
-package andro_mote.devices.platforms;
+package andro_mote.devices.generics;
 
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.andromote_v2.AndroV2Settings;
 import andro_mote.ioio_service.EnginesService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
@@ -10,6 +11,7 @@ import android.text.format.Time;
 public abstract class PlatformAbstract implements Platform {
 	private static final String TAG = PlatformAbstract.class.toString();
 	private AndroMoteLogger logger = new AndroMoteLogger(PlatformAbstract.class);
+	protected DeviceSettings deviceSettings = AndroV2Settings.INSTANCE;
 
 	/**
 	 * Logowanie aktualnego czasu na podany logger.
@@ -75,8 +77,7 @@ public abstract class PlatformAbstract implements Platform {
 				setValuesForSimpleStep(step.getStepType());
 
 				// początek kroku
-				//TODO wydzielić do odrebnej struktury/singletonu 
-				Thread.sleep(EnginesService.stepDuration);
+				Thread.sleep(deviceSettings.getStepDuration());
 				stepStopTime = System.currentTimeMillis();
 				// koniec kroku
 
@@ -84,7 +85,7 @@ public abstract class PlatformAbstract implements Platform {
 				stop();
 
 				// przerwa pomiędzy kolejnymi krokami
-				Thread.sleep(EnginesService.getPauseTimeBetweenSteps());
+				Thread.sleep(deviceSettings.getPauseTimeBetweenSteps());
 				EnginesService.isOperationExecuted = false;
 			} catch (InterruptedException e) {
 				logger.error(TAG, e);

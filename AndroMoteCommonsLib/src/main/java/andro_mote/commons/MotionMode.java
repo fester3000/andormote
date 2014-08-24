@@ -6,6 +6,6 @@ package andro_mote.commons;
  * @author Sebastian
  *
  */
-public enum MotionModes {
+public enum MotionMode {
 	MOTION_MODE_CONTINUOUS, MOTION_MODE_STEPPER;
 }

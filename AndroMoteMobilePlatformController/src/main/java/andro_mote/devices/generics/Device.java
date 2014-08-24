@@ -1,10 +1,7 @@
-package andro_mote.devices;
+package andro_mote.devices.generics;
 
 import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.commons.Packet;
-import andro_mote.commons.PacketType.IPacketType;
-import andro_mote.devices.motor_drivers.MotorDriver;
-import andro_mote.devices.platforms.Platform;
 import andro_mote.stepper.Step;
 
 public final class Device implements Platform, MotorDriver {
@@ -29,13 +26,10 @@ public final class Device implements Platform, MotorDriver {
 	}
 
 
-
 	@Override
 	public void writeNewIoioPinValues() throws ConnectionLostException {
 		driver.writeNewIoioPinValues();
 	}
-
-
 
 	@Override
 	public void hardStop() throws ConnectionLostException {
@@ -55,5 +49,10 @@ public final class Device implements Platform, MotorDriver {
 	@Override
 	public void stop() {
 		platform.stop();
+	}
+
+	public void readCurrentValues() throws InterruptedException, ConnectionLostException {
+		driver.readCurrentValues();
+		
 	}
 }

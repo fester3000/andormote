@@ -32,6 +32,7 @@ statement       // statement
     | if_condition          
     | return_statement    
     | sleep
+    | print
     ;
 
 expr 			        //expression
@@ -49,6 +50,10 @@ expr 			        //expression
 
 sleep
     : 'sleep' LP INT RP ';'
+    ;
+
+print
+    : 'print' LP (ID | value) ('+' (ID | value) )? RP ';'
     ;
 
 return_statement 

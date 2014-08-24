@@ -5,19 +5,20 @@ import ioio.lib.util.BaseIOIOLooper;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.commons.MotionModes;
+import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.devices.Device;
-import andro_mote.devices.DeviceFactory;
+import andro_mote.devices.andromote_v2.AndroV2Settings;
+import andro_mote.devices.factories.DeviceFactory;
+import andro_mote.devices.generics.Device;
+import andro_mote.devices.generics.DeviceSettings;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 
 //Stworzyć interfejs controllerlooper'a i klasę abstrakcyjną -  stworzyć współzależność modelu i loopera
-//wystawić parametry o wysokim poziomie abstrakcji - prędkość itp wyżej 
 public class EngineControllerLooper extends BaseIOIOLooper {
 	private static final String TAG = EngineControllerLooper.class.getName();
-	// obiekt usługi kontrolera
-	private EnginesService parentControllerService;
+	private DeviceSettings deviceSettings = AndroV2Settings.INSTANCE;
+	private final EnginesService parentControllerService;
 	
 	private AndroMoteLogger logger = null;
 	private Device device;
@@ -56,13 +57,11 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 
 	@Override
 	public void loop() throws ConnectionLostException, InterruptedException {
-		if (this.parentControllerService.getMotionMode().equals(MotionModes.MOTION_MODE_STEPPER)) {
+		if (deviceSettings.getMotionMode().equals(MotionMode.MOTION_MODE_STEPPER)) {
 			 logger.debug(TAG, "stepper mode loop start");
-
 			// blokada przed pobieraniem kolejnych kroków w trakcie wykonywanej akcji
-			if (!this.parentControllerService.isOperationExecuted()) {
-				// logger.debug(TAG, "EngineControllerLooper; stepperMode: operationIsExecuted == false");
-				currentStep = this.parentControllerService.getNextStep();
+			if (!EnginesService.isOperationExecuted) {
+				currentStep = parentControllerService.getNextStep();
 				if (currentStep != null) {
 					logger.debug(TAG,
 							"EngineControllerLooper; stepperMode: step pobrany z kolejki: " + currentStep.getStepType());
@@ -72,11 +71,12 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 
 			Thread.sleep(50);
 			device.writeNewIoioPinValues();
+			device.readCurrentValues();
 
-		} else if (this.parentControllerService.getMotionMode().equals(
-				MotionModes.MOTION_MODE_CONTINUOUS)) {
-			// logger.debug(TAG, "continuous looper");
+		} else if (deviceSettings.getMotionMode().equals(
+				MotionMode.MOTION_MODE_CONTINUOUS)) {
 			device.writeNewIoioPinValues();
+			device.readCurrentValues();
 			Thread.sleep(50);
 		}
 
@@ -88,7 +88,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	 * 
 	 * @throws ConnectionLostException
 	 */
-	private void hardStop() throws ConnectionLostException {
+	public void hardStop() throws ConnectionLostException {
 		device.hardStop();
 	}
 
@@ -102,15 +102,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	public void incompatible() {
 		logger.debug(TAG, "ioio incompatibile");
 	}
-		
-	public EnginesService getParentControllerService() {
-		return parentControllerService;
-	}
-
-	public void setParentControllerService(EnginesService parentControllerService) {
-		this.parentControllerService = parentControllerService;
-	}
-
+	
 	public void executePacket(Packet inputPacket) {
 		device.interpretMotionPacket(inputPacket);
 	}

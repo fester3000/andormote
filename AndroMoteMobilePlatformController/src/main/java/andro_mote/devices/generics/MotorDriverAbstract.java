@@ -1,4 +1,4 @@
-package andro_mote.devices.motor_drivers;
+package andro_mote.devices.generics;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;

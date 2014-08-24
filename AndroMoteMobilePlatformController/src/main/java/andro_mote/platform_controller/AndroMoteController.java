@@ -9,11 +9,12 @@ import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
-import andro_mote.commons.MotionModes;
+import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.andromote_v2.AdditionalPacketTypes;
 import andro_mote.ioio_service.EnginesService;
 import andro_mote.ioio_service.EnginesService.LocalBinder;
 import andro_mote.logger.AndroMoteLogger;
@@ -108,7 +109,6 @@ public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	//FIXME OK
 	public boolean stopCommunicationWithDevice() throws MobilePlatformException {
 		checkIfApplicationIsNull();
 		if(isBound) {
@@ -134,39 +134,37 @@ public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	@Override
-	public boolean setPlatformSpeed(double speed) throws MobilePlatformException {
-		checkIfApplicationIsNull();
-
-		Packet setSpeedPacket = new Packet(Engine.SET_SPEED);
-		setSpeedPacket.setSpeed(speed);
-		executeActionOnAndromote(setSpeedPacket);
-		logger.debug(TAG, "AndroMoteEngineControllerApi: setSpeed: speed set to: " + speed);
-
-		return true;
-	}
+//	@Override
+//	public boolean setPlatformSpeed(double speed) throws MobilePlatformException {
+//		checkIfApplicationIsNull();
+//
+//		Packet setSpeedPacket = new Packet(Engine.SET_SPEED);
+//		setSpeedPacket.setSpeed(speed);
+//		executeActionOnAndromote(setSpeedPacket);
+//		logger.debug(TAG, "AndroMoteEngineControllerApi: setSpeed: speed set to: " + speed);
+//
+//		return true;
+//	}
 
 	/**
 	 * Zmiana trybu ruchu pojazdu.
 	 * 
 	 * @param motionMode
 	 *            Przyjmowane wartości:
-	 *            EnginesControllerService.MOTION_MODE_CONTINUOUS oraz
-	 *            EnginesControllerService.MOTION_MODE_STEPPER
+	 *            MotionMode.MOTION_MODE_CONTINUOUS oraz
+	 *            MotionMode.MOTION_MODE_STEPPER
 	 * @return Flaga informująca o tym czy obiekt Intent został prawidłowo
 	 *         wysłany.
 	 * @throws EngineServiceException
 	 *             Wyjątek rzucany w przypadku wykonania nieprawidłowego
 	 *             działania na serwisie silnków - szczegóły w obiekcie wyjątku.
 	 */
-	//
-	//	
 	@Override
-	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
+	public boolean setMotionMode(MotionMode motionMode) throws MobilePlatformException {
 		checkIfApplicationIsNull();
 
 		Packet setMotionModePacket = null;
-		if (motionMode.equals(MotionModes.MOTION_MODE_CONTINUOUS)) {
+		if (motionMode.equals(MotionMode.MOTION_MODE_CONTINUOUS)) {
 			setMotionModePacket = new Packet(Engine.SET_CONTINUOUS_MODE);
 		} else {
 			setMotionModePacket = new Packet(Engine.SET_STEPPER_MODE);
@@ -241,6 +239,10 @@ public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 	
 	@Override
 	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
+		if(pack.getPacketType() == AdditionalPacketTypes.RNVN2Alerts.CHIP_TEMPERATURE_ALERT) {
+			stopCommunicationWithDevice();
+			logger.error(TAG, "Chip temperature is near 60 Celsius degrees!!");
+		}
 		logger.debug(TAG,
 				"AndroMoteMobilePlatformController: packet from mobile platform received: " + pack.getPacketType());
 	}

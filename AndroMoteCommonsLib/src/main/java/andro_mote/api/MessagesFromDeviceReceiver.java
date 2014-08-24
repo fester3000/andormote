@@ -1,65 +1,85 @@
 package andro_mote.api;
 
 import andro_mote.api.exceptions.BroadcastReceiverClientNotSetException;
+import andro_mote.api.exceptions.MobilePlatformException;
+import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
+import andro_mote.logger.AndroMoteLogger;
+import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
- * Interfejs dla klasy odbierającej wiadomości od platformy mobilnej. Sposób
- * przekazania ich do opisywanej klasy może być różny w zależności od
- * zastosowanego rozwiązania, ale najczęściej stosowanym w projekcie AndroMote i
- * zalecanym przez autora w celu pełnej integracji z pozostałą częścią projektu
- * jest odbieranie obiektów Intent za pomocą klasy BroadcastReceivera
- * (rozszerzającego klase implementującą ten interfejs), w których umieszczone
- * są obiekty typu {@link Packet}. Z obiektu implementującego ten interfejs moga
- * korzystać klasy implementujące {@link IAndroMoteDeviceReceiverClient}
+ * Podstawowa implementacja interfejsu {@link IMessagesFromDeviceReceiver}
+ * pozwalająca na odbieranie wiadomości z urzadzenia zewnętrznego w projekcie
+ * AndroMote. W przypadku chęci dalszego rozwoju należy dodać kolejne
+ * identyfikatory akcji Intencji przy rejestracji filtrów BroadcastReceivera.
  * 
  * @author Maciej Gzik
  * 
  */
-public interface MessagesFromDeviceReceiver {
-	/**
-	 * Rozpoczęcie odbierania wiadomości z podłączonego urządzenia. Wiadomości
-	 * są generowane przez obsługujące połączenia klasy i wysyłane w postaci
-	 * obiektów Intent z pakeitami przechowującymi informacje. W tej metodzie
-	 * powinien zostać zaincijalizowany BroadcastReceiver z filtrami intencji,
-	 * które podłączone urządzenie może wysyłać. Programista implementujący API
-	 * powinie zadbać o wybór odpowiednich filtrów do przechwytywania wiadomości
-	 * w zależności od typu platformy podłączonej do telefonu. Lista
-	 * identyfikatorów actionType intencji zdefiniowanych dla projektu AndroMote
-	 * została zawarta w klasie: {@link IntentsIdentifiers}. Przykładem
-	 * implementacji odbiornika wiadomości jest abstrakcyjna klasa
-	 * {@link AndroMoteMobilePlatformApiAbstract}
-	 * 
-	 * @throws BroadcastReceiverClientNotSetException
-	 *             Wyjątek rzucany w przypadku braku ustawienia klienta
-	 *             dbierjącego wiadomości z receivera.
-	 * 
-	 * @return flaga informująca o tym czy udało się zainicjować receiver dla
-	 *         wiadomości z podłączonego urządzenia.
-	 */
-	public boolean startMessagesListener() throws BroadcastReceiverClientNotSetException;
+public class MessagesFromDeviceReceiver extends BroadcastReceiver implements IMessagesFromDeviceReceiver {
+	private static final String TAG = MessagesFromDeviceReceiver.class.getName().toString();
+	AndroMoteLogger logger = new AndroMoteLogger(MessagesFromDeviceReceiver.class);
+	private final IAndroMoteDeviceReceiverClient client;
+	private final Application application;
 
-	/**
-	 * Zakończenie odbierani informacji z podłączonego urzadzenia zewnętrznego.
-	 * Metoda powinna być wywoływana przed końcem pracy aplikacji lub wczesniej.
-	 * 
-	 * @return flaga informująca o tym czy udało się wyłączyć nasłuchiwanie
-	 *         wiadomości.
-	 */
-	public boolean stopMessagesListener() throws BroadcastReceiverClientNotSetException;
+	public MessagesFromDeviceReceiver(IAndroMoteDeviceReceiverClient client, Application application) {
+		this.application = application;
+		this.client = client;
+	}
 
-	/**
-	 * Funkcja powinna zostać wywołana po odebraniu wiadomości z platformy
-	 * mobilnej i należy zinterpretować w niej odebraną wiadomość.
-	 * 
-	 * @param pack
-	 *            Odebrany od platformy mobilnej pakiet {@link Packet}.
-	 * 
-	 * @throws BroadcastReceiverClientNotSetException
-	 *             Wyjątek rzucany w przypadku braku ustawienia klienta
-	 *             dbierjącego wiadomości z receivera.
-	 */
-	public void mobilePlatformMessageReceived(Packet pack) throws BroadcastReceiverClientNotSetException;
+	@Override
+	public boolean startMessagesListener() throws BroadcastReceiverClientNotSetException {
+		if (this.client == null || this.application == null)
+			throw new BroadcastReceiverClientNotSetException();
+		else {
+			IntentFilter filter = new IntentFilter(IntentsIdentifiers.ACTION_ENGINE_STEP);
+			filter.addAction(IntentsIdentifiers.ACTION_MESSAGE_FROM_DEVICE);
+			LocalBroadcastManager.getInstance(application).registerReceiver(this, filter);
+			return true;
+		}
+	}
 
+	@Override
+	public boolean stopMessagesListener() throws BroadcastReceiverClientNotSetException {
+		if (this.application == null)
+			throw new BroadcastReceiverClientNotSetException();
+		else {
+			LocalBroadcastManager.getInstance(application).unregisterReceiver(this);
+			return true;
+		}
+	}
+
+	@Override
+	public void mobilePlatformMessageReceived(Packet pack) throws BroadcastReceiverClientNotSetException {
+		if (client == null) {
+			throw new BroadcastReceiverClientNotSetException();
+		}
+		else {
+			try {
+				this.client.deviceMessageReceived(pack);
+			} catch (MobilePlatformException e) {
+				logger.error(TAG, e);
+			}
+		}
+	}
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		try {
+			if (this.client != null) {
+				Packet packet = (Packet) intent.getSerializableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
+				mobilePlatformMessageReceived(packet);
+			} else {
+				throw new BroadcastReceiverClientNotSetException();
+			}
+		} catch (BroadcastReceiverClientNotSetException e) {
+			logger.error(TAG, e);
+		}
+	}
 }

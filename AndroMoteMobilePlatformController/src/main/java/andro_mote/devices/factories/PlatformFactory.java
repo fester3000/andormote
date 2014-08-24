@@ -1,10 +1,13 @@
-package andro_mote.devices.platforms;
+package andro_mote.devices.factories;
 
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.DeviceDefinitions;
-import andro_mote.devices.motor_drivers.MotorDriver;
-import andro_mote.devices.motor_drivers.MotorDriverNewBrightCompatible;
-import andro_mote.devices.motor_drivers.MotorDriverRover5Compatible;
+import andro_mote.devices.andromote_v1.MotorDriverNewBrightCompatible;
+import andro_mote.devices.andromote_v1.PlatformNewBright;
+import andro_mote.devices.andromote_v2.MotorDriverRover5Compatible;
+import andro_mote.devices.andromote_v2.Rover5Platform;
+import andro_mote.devices.generics.MotorDriver;
+import andro_mote.devices.generics.Platform;
 import andro_mote.logger.AndroMoteLogger;
 
 /**

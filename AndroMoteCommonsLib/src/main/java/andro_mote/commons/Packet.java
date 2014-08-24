@@ -35,6 +35,7 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	 * Przyjmuje wartości od 0 do 1.
 	 */
 	private double speed = 0.0;
+	private double speedB = 0.0;
 	private PacketType.IPacketType stepDirection = null;
 	private long stepDuration = 600;
 	private DeviceDefinitions.MobilePlatformType platformName = null;
@@ -54,6 +55,7 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	public Packet(Parcel pc) {
 		this.packetType = (IPacketType) pc.readSerializable();
 		this.speed = pc.readDouble();
+		this.speedB = pc.readDouble();
 		this.stepDirection = (IPacketType) pc.readSerializable();
 		this.stepDuration = pc.readLong();
 		this.platformName = (DeviceDefinitions.MobilePlatformType) pc.readSerializable();
@@ -75,6 +77,7 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeSerializable((Serializable) packetType);
 		dest.writeDouble(speed);
+		dest.writeDouble(speedB);
 		dest.writeSerializable((Serializable) stepDirection);
 		dest.writeLong(stepDuration);
 		dest.writeSerializable((Serializable)platformName);
@@ -173,6 +176,14 @@ public class Packet implements Serializable, Parcelable, IPacket {
 	 */
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+
+	public double getSpeedB() {
+		return speedB;
+	}
+
+	public void setSpeedB(double speedB) {
+		this.speedB = speedB;
 	}
 
 	public long getStepDuration() {

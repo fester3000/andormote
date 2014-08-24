@@ -1,5 +1,6 @@
-package andro_mote.devices.motor_drivers;
+package andro_mote.devices.andromote_v1;
 
+import andro_mote.devices.generics.MotorDriverAbstract;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
@@ -136,5 +137,10 @@ public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriver
 
 	public void setStby(boolean stby) {
 		this.stby = stby;
+	}
+
+	@Override
+	public void readCurrentValues() {
+		//Nothing to read		
 	}
 }

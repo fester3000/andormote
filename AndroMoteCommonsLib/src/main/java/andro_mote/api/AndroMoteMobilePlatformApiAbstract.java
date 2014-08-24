@@ -2,11 +2,10 @@ package andro_mote.api;
 
 import andro_mote.api.exceptions.BroadcastReceiverClientNotSetException;
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.commons.MotionModes;
-import andro_mote.commons.Packet;
 import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
+import andro_mote.commons.MotionMode;
+import andro_mote.commons.Packet;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 
@@ -16,7 +15,7 @@ import android.app.Application;
  * rozwinąć tę klasę w klasie implementującej. Klasa poza sterowaniem platformą
  * mobilną jest odpowiedzialna za odbieranie wiadomości wysyłanych przez
  * platformę mobilną poprzez imeplementację interfejsu
- * {@link MessagesFromDeviceReceiver}.
+ * {@link IMessagesFromDeviceReceiver}.
  * 
  * @author Maciej Gzik
  * 
@@ -27,11 +26,11 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 	protected AndroMoteLogger logger = new AndroMoteLogger(AndroMoteMobilePlatformApiAbstract.class);
 
 	protected final Application application;
-	protected MessagesFromAndromoteReceiver mobilePlatformMessageReceiver = null;
+	protected MessagesFromDeviceReceiver mobilePlatformMessageReceiver = null;
 
 	public AndroMoteMobilePlatformApiAbstract(Application application) {
 		this.application = application;
-		mobilePlatformMessageReceiver = new MessagesFromAndromoteReceiver(this, application);
+		mobilePlatformMessageReceiver = new MessagesFromDeviceReceiver(this, application);
 		try {
 			mobilePlatformMessageReceiver.startMessagesListener();
 		} catch (BroadcastReceiverClientNotSetException e) {
@@ -61,7 +60,7 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 	}
 
 	@Override
-	public boolean setMotionMode(MotionModes motionMode) throws MobilePlatformException {
+	public boolean setMotionMode(MotionMode motionMode) throws MobilePlatformException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -70,6 +69,25 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 		throw new UnsupportedOperationException();
 	}
 
+	public Application getApplication() {
+		return application;
+	}
+
+	@Override
+	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean sendMessageToDevice(IPacket pack) throws MobilePlatformException, UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public IPacket getData(IPacket dataDescriptorPacket) {
+		throw new UnsupportedOperationException();
+	}
+	
 	//	@Override
 	//	public boolean turn90RightDegrees() throws MobilePlatformException {
 	//		throw new UnsupportedOperationException();
@@ -90,22 +108,4 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 	//		throw new UnsupportedOperationException();
 	//	}
 
-	public Application getApplication() {
-		return application;
-	}
-
-	@Override
-	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean sendMessageToDevice(IPacket pack) throws MobilePlatformException, UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public IPacket getData(IPacket dataDescriptorPacket) {
-		throw new UnsupportedOperationException();
-	}
 }

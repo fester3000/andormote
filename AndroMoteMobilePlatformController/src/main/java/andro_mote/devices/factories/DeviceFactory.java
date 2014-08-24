@@ -1,12 +1,11 @@
-package andro_mote.devices;
+package andro_mote.devices.factories;
 
 import ioio.lib.api.IOIO;
 import andro_mote.commons.DeviceDefinitions;
+import andro_mote.devices.generics.Device;
+import andro_mote.devices.generics.MotorDriver;
+import andro_mote.devices.generics.Platform;
 import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.devices.motor_drivers.MotorDriver;
-import andro_mote.devices.motor_drivers.MotorDriverFactory;
-import andro_mote.devices.platforms.Platform;
-import andro_mote.devices.platforms.PlatformFactory;
 import andro_mote.logger.AndroMoteLogger;
 
 /**

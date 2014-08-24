@@ -1,4 +1,4 @@
-package andro_mote.devices.platforms;
+package andro_mote.devices.generics;
 
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;

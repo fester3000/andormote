@@ -9,6 +9,7 @@ import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
+import andro_mote.commons.PacketType.Motion;
 import andro_mote.platform_controller.AndroMoteController;
 import android.app.Application;
 import android.util.Log;
@@ -33,12 +34,7 @@ public enum RideController {
 	}
 
 	public void destroy() {
-		try {
-			this.api.stopCommunicationWithDevice();
-		} catch (MobilePlatformException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		stopEngineService();
 	}
 
 	public ActionResult execute(Packet packet) {
@@ -51,6 +47,19 @@ public enum RideController {
 			result = ActionResult.INTERRUPTED;
 		}
 		return result;
+	}
+	
+	public void stopRide() {
+		Packet packet = new Packet(Motion.STOP_REQUEST);
+		try {
+			this.api.sendMessageToDevice(packet);
+		} catch (UnsupportedOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MobilePlatformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -74,6 +83,18 @@ public enum RideController {
 		t.start();
 	}
 
+	/**
+	 * Stop usługi silnikowej
+	 */
+	private void stopEngineService() {
+		try {
+			this.api.stopCommunicationWithDevice();
+		} catch (MobilePlatformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Wstępna konfiguracja ustawień sterownika silników. 
 	 */

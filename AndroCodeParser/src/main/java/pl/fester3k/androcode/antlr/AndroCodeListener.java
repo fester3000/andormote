@@ -309,6 +309,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitSleep(@NotNull AndroCodeParser.SleepContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(@NotNull AndroCodeParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(@NotNull AndroCodeParser.PrintContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#var_call}.
 	 * @param ctx the parse tree
 	 */
