@@ -7,6 +7,7 @@ import android.content.Context;
 import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.interpreter.device.action.phone.CameraAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.DummyAction;
+import pl.fester3k.androcode.interpreter.device.action.phone.FlashlightAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.AccelerometerSensorAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.GravitySensorAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.GyroscopeSensorAction;
@@ -78,7 +79,7 @@ public class ActionFactory {
 			action = new DummyAction(context, params);
 			break;
 		case FLASHLIGHT:
-			action = new DummyAction(context, params);
+			action = new FlashlightAction(context, params);
 			break;
 		case INTERNET_CONNECTION:
 			action = new DummyAction(context, params);
