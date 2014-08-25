@@ -4,7 +4,9 @@ import java.util.Properties;
 
 import pl.fester3k.androcode.interpreter.device.action.ActionResult;
 import pl.fester3k.androcode.interpreter.device.action.BaseDeviceAction;
+import pl.fester3k.androcode.interpreter.device.action.phone.helpers.CameraActivity;
 import android.content.Context;
+import android.content.Intent;
 
 public class CameraAction extends BaseDeviceAction {
 	public CameraAction(Context context, Properties params) {
@@ -14,8 +16,9 @@ public class CameraAction extends BaseDeviceAction {
 
 	@Override
 	public ActionResult run() {
-//FIXME		Intent intent = new Intent(activity, PhotoActivity.class);
-//		activity.startActivity(intent);
+		Intent intent = new Intent(context, CameraActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 		return ActionResult.FAILED;
 	}
 

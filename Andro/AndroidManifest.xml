@@ -22,12 +22,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-    
-        <service 
+        <service
             android:name=".AndroCodeService"
             android:enabled="true" >
         </service>
-
         <service
             android:name="andro_mote.ioio_service.EnginesService"
             android:enabled="true" >
@@ -46,6 +44,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="pl.fester3k.androcode.interpreter.device.action.phone.helpers.CameraActivity"
+            android:label="@string/title_activity_camera" 
+            android:screenOrientation="landscape">
         </activity>
     </application>
 
