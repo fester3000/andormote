@@ -1,5 +1,7 @@
 package mobi.andromote.andro;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import mobi.andromote.andro.AndroCodeService.LocalBinder;
@@ -9,20 +11,29 @@ import org.apache.log4j.Logger;
 import pl.fester3k.androcode.interpreter.device.action.ActionParams;
 import pl.fester3k.androcode.interpreter.device.action.phone.helpers.CameraPreview;
 import pl.fester3k.androcode.interpreter.device.action.phone.helpers.PhotoHandler;
+import pl.fester3k.androcode.interpreter.utils.FileUtils;
+import pl.fester3k.androcode.interpreter.utils.FileUtils.MediaType;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.SurfaceHolder;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class AndroMainActivity extends Activity {
@@ -38,6 +49,7 @@ public class AndroMainActivity extends Activity {
 	private Camera camera;
 	private CameraPreview preview;
 	FrameLayout previewFrame;
+	private MediaRecorder mediaRecorder;
 	private TakePhotoTask task;
 
 	@Override
@@ -46,10 +58,34 @@ public class AndroMainActivity extends Activity {
 		Intent intent = new Intent(this, AndroCodeService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 		LocalBroadcastManager.getInstance(this).registerReceiver(localMessageReceiver, new IntentFilter("message-event"));
-		LocalBroadcastManager.getInstance(this).registerReceiver(cameraActionsReceiver, new IntentFilter("CAMERA_ACTION"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(cameraActionsReceiver, new IntentFilter(ActionParams.ACTION));
 		setContentView(R.layout.activity_main);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		safeCameraOpenInView();
 	}
+
+	@Override
+	protected void onPause() {
+		if(mediaRecorder != null) {
+			mediaRecorder.release();
+		}
+		releaseCameraAndPreview();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(localMessageReceiver);
+		if(isBound) {
+			unbindService(connection);
+			isBound = false;
+		}
+	}	
 
 	private BroadcastReceiver localMessageReceiver = new BroadcastReceiver() {
 		@Override
@@ -62,9 +98,10 @@ public class AndroMainActivity extends Activity {
 	private BroadcastReceiver cameraActionsReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Toast.makeText(AndroMainActivity.this, "camera action received ", Toast.LENGTH_SHORT).show();
-			logger.debug("camera action received");
-			interpretIntent(intent);
+			Toast.makeText(AndroMainActivity.this, "Activity action received ", Toast.LENGTH_SHORT).show();
+			logger.debug("Activity action received");
+			WorkerThread thread = new WorkerThread(intent);
+			thread.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
 		}
 	};
 
@@ -84,28 +121,6 @@ public class AndroMainActivity extends Activity {
 		}
 	};
 
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		releaseCameraAndPreview();
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(localMessageReceiver);
-		if(isBound) {
-			unbindService(connection);
-			isBound = false;
-		}
-	}	
-
 	private synchronized void interpretIntent(Intent intent) {
 		if(camera == null) {
 			return;
@@ -114,22 +129,20 @@ public class AndroMainActivity extends Activity {
 			Bundle extras = intent.getExtras();
 			int activityMode = extras.getInt(ActionParams.Others.ACTIVITY_MODE.toString());
 			switch(activityMode) {
-			case ActionParams.CAMERA_PICTURE: 
+			case ActionParams.ACTION_PICTURE: 
 				takePhoto(extras); 
 				break;
-			case ActionParams.CAMERA_FLASHLIGHT: 
+			case ActionParams.ACTION_FLASHLIGHT: 
 				useFlashlight(extras);
 				break;
-			case ActionParams.CAMERA_VIDEO: 
+			case ActionParams.ACTION_VIDEO: 
 				recordVideo(extras);
+				break;
+			case ActionParams.ACTION_AUDIO:
+				recordAudio(extras);
 				break;
 			}
 		}
-	}
-
-	private void recordVideo(Bundle extras) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void useFlashlight(Bundle extras) {
@@ -150,9 +163,9 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void takePhoto(Bundle extras) {
-		int jpegQuality = extras.getInt(ActionParams.Camera.JPEG_QUALITY.toString(), DEFAULT_JPEG_QUALITY);
-		String flashMode = extras.getString(ActionParams.Camera.FLASH.toString(), DEFAULT_FLASH_MODE);
-		boolean isMaximumSize = extras.getBoolean(ActionParams.Camera.SIZE.toString(), DEFAULT_IS_MAXIMUM_SIZE);
+		int jpegQuality = extras.getInt(ActionParams.CAMERA.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
+		String flashMode = extras.getString(ActionParams.CAMERA.FLASH.toString(), DEFAULT_FLASH_MODE);
+		boolean isMaximumSize = extras.getBoolean(ActionParams.CAMERA.SIZE.toString(), DEFAULT_IS_MAXIMUM_SIZE);
 
 		logger.debug("Quality: " + jpegQuality + " flash: " + flashMode + " sizeMode: " + isMaximumSize);
 		Camera.Parameters params = camera.getParameters();  
@@ -167,6 +180,120 @@ public class AndroMainActivity extends Activity {
 		camera.setParameters(params);  
 		task = new TakePhotoTask(this);
 		task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+	}
+
+	private void recordVideo(Bundle extras) {
+		boolean record = extras.getBoolean(ActionParams.VIDEO.MODE.toString(), false);
+		if(record) {
+			logger.info("starting video recording");
+			startVideoRecording();
+		} else {
+			logger.info("stoping video recording");
+			stopVideoRecording();
+		}
+	}
+
+	private void stopVideoRecording() {
+		stopMediaRecording();
+		try {
+			camera.reconnect();
+			Camera.Parameters params = camera.getParameters();  
+			params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			camera.setParameters(params);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void stopMediaRecording() {
+		// stop media recorder
+		mediaRecorder.stop();
+		// reset media recorder
+		mediaRecorder.reset();
+	}
+
+	private void startVideoRecording() {
+		try {
+			File videoFile = FileUtils.createFileName(MediaType.VIDEO);
+			File mediafile = videoFile;
+			if(mediafile.exists()) {
+				mediafile.delete();
+			}
+			mediafile = null;
+			// set up media recorder
+			if(mediaRecorder == null) {
+				mediaRecorder = new MediaRecorder();
+			}
+			Camera.Parameters params = camera.getParameters();  
+			params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+			camera.setParameters(params);
+			if(camera != null) {
+				camera.unlock();
+			}
+			mediaRecorder.setCamera(camera);
+			
+			mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);			
+			mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+			
+			CamcorderProfile profile = null;
+			if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P))
+			      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_1080P);
+		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P))
+		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
+		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P))
+		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
+		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH))
+		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+		      
+		    if (profile != null)
+		      mediaRecorder.setProfile(profile); 						
+			mediaRecorder.setOutputFile(videoFile.toString());
+
+			// prepare media recorder
+			mediaRecorder.prepare();
+			// start media recorder
+			mediaRecorder.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void recordAudio(Bundle extras) {
+		boolean record = extras.getBoolean(ActionParams.AUDIO.MODE.toString(), false);
+		if(record) {
+			logger.info("starting audio recording");
+			startAudioRecording();
+		} else {
+			logger.info("stoping audio recording");
+			stopMediaRecording();
+		}
+	}
+
+	private void startAudioRecording() {
+		try {
+			File audioFile = FileUtils.createFileName(MediaType.AUDIO);
+			File mediafile = audioFile;
+			if(mediafile.exists()) {
+				mediafile.delete();
+			}
+			mediafile = null;
+			// set up media recorder
+			if(mediaRecorder == null) {
+				mediaRecorder = new MediaRecorder();
+			}
+			mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+			mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+			mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC);
+			mediaRecorder.setOutputFile(audioFile.toString());
+
+			// prepare media recorder
+			mediaRecorder.prepare();
+			// start media recorder
+			mediaRecorder.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean safeCameraOpenInView() { 
@@ -223,6 +350,21 @@ public class AndroMainActivity extends Activity {
 				}
 				logger.debug("after picture");
 			}
+			return null;
+		}
+	}
+	
+	private class WorkerThread extends AsyncTask<Void, Void, Void> {
+		private final Intent intent;
+
+		public WorkerThread(Intent intent) {
+			super();
+			this.intent = intent;
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			interpretIntent(intent);
 			return null;
 		}
 	}

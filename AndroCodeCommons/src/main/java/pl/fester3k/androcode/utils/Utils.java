@@ -8,6 +8,12 @@ import pl.fester3k.androcode.scopeManagement.Scope;
 import pl.fester3k.androcode.symbolManagement.Symbol;
 
 public class Utils {	
+	
+	/**
+	 * private constructor - this class is not supposed to be instantiated
+	 */
+	private Utils() {}
+	
 	public static Type getTypeFromSymbol(String id, Scope startingScope) {
 		Type result = Type.INVALID;
 		if(isNullOrEmpty(id)) {
@@ -44,4 +50,5 @@ public class Utils {
 		}
 		return text;
 	}	
+	
 }

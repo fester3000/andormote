@@ -7,7 +7,7 @@
 
     <FrameLayout
         android:id="@+id/camera_preview"
-        android:layout_width="130dp"
+        android:layout_width="170dp"
         android:layout_height="100dp" 
         />
 

@@ -4,9 +4,11 @@ package pl.fester3k.androcode.interpreter.device.action;
  * Contains enums with action parameter names
  */
 public class ActionParams {
-	public static final int CAMERA_PICTURE = 0;
-	public static final int CAMERA_FLASHLIGHT = 1;
-	public static final int CAMERA_VIDEO = 2;
+	public static final String ACTION = "ACTION";
+	public static final int ACTION_PICTURE = 1;
+	public static final int ACTION_FLASHLIGHT = 2;
+	public static final int ACTION_VIDEO = 3;
+	public static final int ACTION_AUDIO = 4;
 	/**
 	 * This class cannot be instantiated!!
 	 */
@@ -14,11 +16,20 @@ public class ActionParams {
 	public enum Others {
 		ACTIVITY_MODE, ACTION_ID;
 	}	
-	public enum Camera {
+	public enum CAMERA {
+		MODE,
 		FOCUS, 
 		FLASH, 
 		SIZE, 
-		JPEG_QUALITY;
+		QUALITY;
+	}
+	
+	public enum VIDEO {
+		MODE;
+	}
+	
+	public enum AUDIO {
+		MODE;
 	}
 	
 	public enum FLASHLIGHT {

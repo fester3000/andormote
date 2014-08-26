@@ -22,7 +22,7 @@ public enum ActionManager {
 	public Object execute(Device device) {
 		Object result = null;
 		Action action = actionFactory.createAction(device.getFeature(), device.getParams());
-		log.info("Running action " + device.getFeature());
+		log.info("Running action " + action.getClass().getSimpleName());
 		action.run();
 		if(action instanceof BaseSensorAction) {
 			log.info("Processing sensor action");

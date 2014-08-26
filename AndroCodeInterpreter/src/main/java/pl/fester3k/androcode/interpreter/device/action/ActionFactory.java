@@ -8,6 +8,8 @@ import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.interpreter.device.action.phone.CameraAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.DummyAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.FlashlightAction;
+import pl.fester3k.androcode.interpreter.device.action.phone.RecAudioAction;
+import pl.fester3k.androcode.interpreter.device.action.phone.RecVideoAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.AccelerometerSensorAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.GravitySensorAction;
 import pl.fester3k.androcode.interpreter.device.action.phone.sensors.GyroscopeSensorAction;
@@ -64,7 +66,7 @@ public class ActionFactory {
 			action = new TemperatureSensorAction(context);
 			break;
 		case AUDIO_IN:
-			action = new DummyAction(context, params);
+			action = new RecAudioAction(context, params);
 			break;
 		case AUDIO_OUT:
 			action = new DummyAction(context, params);
@@ -74,6 +76,9 @@ public class ActionFactory {
 			break;
 		case CAMERA:
 			action = new CameraAction(context, params);
+			break;
+		case RECORD_VIDEO:
+			action = new RecVideoAction(context, params);
 			break;
 		case DATA_TRANSFER_CONNECTION:
 			action = new DummyAction(context, params);

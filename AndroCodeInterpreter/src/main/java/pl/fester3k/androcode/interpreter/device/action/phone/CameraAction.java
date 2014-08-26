@@ -18,17 +18,26 @@ public class CameraAction extends BaseDeviceAction {
 
 	@Override
 	public ActionResult run() {
-		Intent intent = new Intent("CAMERA_ACTION");
+		Intent intent = new Intent(ActionParams.ACTION);
 		setIntentExtras(intent);	
-		intent.putExtra(ActionParams.Others.ACTIVITY_MODE.toString(), ActionParams.CAMERA_PICTURE);
+		intent.putExtra(ActionParams.Others.ACTIVITY_MODE.toString(), ActionParams.ACTION_PICTURE);
 		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 		return ActionResult.COMPLETED;
 	}
 
+	/**
+	 * FLASH:
+	 * ON, AUTO, OF
+	 * QUALITY:
+	 * integer from 0 to 100
+	 * SIZE:
+	 * SMALL, MAX
+	 * @param intent
+	 */
 	private void setIntentExtras(Intent intent) {
-		if(params.containsKey(ActionParams.Camera.FLASH.toString())) {
+		if(params.containsKey(ActionParams.CAMERA.FLASH.toString())) {
 			String result = Camera.Parameters.FLASH_MODE_AUTO;
-			String flashMode = (String)params.get(ActionParams.Camera.FLASH.toString());
+			String flashMode = (String)params.get(ActionParams.CAMERA.FLASH.toString());
 			if(flashMode.equals("ON")) {
 				result = Camera.Parameters.FLASH_MODE_ON;
 			} else if (flashMode.equals("OFF")) {
@@ -36,27 +45,27 @@ public class CameraAction extends BaseDeviceAction {
 			} else if (flashMode.equals("AUTO")) {
 				result = Camera.Parameters.FLASH_MODE_AUTO;
 			}
-			intent.putExtra(ActionParams.Camera.FLASH.toString(), result);
+			intent.putExtra(ActionParams.CAMERA.FLASH.toString(), result);
 		}
-		if(params.containsKey(ActionParams.Camera.JPEG_QUALITY.toString())) {
+		if(params.containsKey(ActionParams.CAMERA.QUALITY.toString())) {
 			int quality;
 			try {
-			quality = Integer.valueOf((String)params.get(ActionParams.Camera.JPEG_QUALITY.toString()));
+			quality = Integer.valueOf((String)params.get(ActionParams.CAMERA.QUALITY.toString()));
 			} catch (NumberFormatException e) {
 				logger.error(e.getMessage());
 				quality = 90;
 			}
-			intent.putExtra(ActionParams.Camera.JPEG_QUALITY.toString(), quality);
+			intent.putExtra(ActionParams.CAMERA.QUALITY.toString(), quality);
 		}
-		if(params.containsKey(ActionParams.Camera.SIZE.toString())) {
+		if(params.containsKey(ActionParams.CAMERA.SIZE.toString())) {
 			boolean isMaximumSize = true;
-			String size = (String)params.get(ActionParams.Camera.SIZE.toString());
+			String size = (String)params.get(ActionParams.CAMERA.SIZE.toString());
 			if(size.equals("SMALL")) {
 				isMaximumSize = false;
 			} else if(size.equals("MAX")){
 				isMaximumSize = true;
 			}
-			intent.putExtra(ActionParams.Camera.SIZE.toString(), isMaximumSize);
+			intent.putExtra(ActionParams.CAMERA.SIZE.toString(), isMaximumSize);
 		}
 	}
 

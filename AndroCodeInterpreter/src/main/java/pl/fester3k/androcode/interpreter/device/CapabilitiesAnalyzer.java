@@ -154,6 +154,7 @@ public enum CapabilitiesAnalyzer {
 	private void checkCameraCapability() {
 		if(deviceHasFeature(PackageManager.FEATURE_CAMERA)) {
 			availableFeatures.add(Feature.CAMERA);
+			availableFeatures.add(Feature.RECORD_VIDEO);
 		}
 
 	}

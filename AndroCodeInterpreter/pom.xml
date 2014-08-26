@@ -4,7 +4,7 @@
 	<groupId>pl.fester3k.andromote.androcode</groupId>
 	<artifactId>AndroCodeInterpreter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AndroCodeValidator</name>
+	<name>AndroCodeInterpreter</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
