@@ -5,10 +5,10 @@ import java.util.Properties;
 import pl.fester3k.androcode.interpreter.device.action.ActionParams;
 import pl.fester3k.androcode.interpreter.device.action.ActionResult;
 import pl.fester3k.androcode.interpreter.device.action.BaseDeviceAction;
-import pl.fester3k.androcode.interpreter.device.action.phone.helpers.CameraActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.support.v4.content.LocalBroadcastManager;
 
 public class CameraAction extends BaseDeviceAction {
 	public CameraAction(Context context, Properties params) {
@@ -18,11 +18,10 @@ public class CameraAction extends BaseDeviceAction {
 
 	@Override
 	public ActionResult run() {
-		Intent intent = new Intent(context, CameraActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);		
+		Intent intent = new Intent("CAMERA_ACTION");
 		setIntentExtras(intent);	
 		intent.putExtra(ActionParams.Others.ACTIVITY_MODE.toString(), ActionParams.CAMERA_PICTURE);
-		context.startActivity(intent);
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 		return ActionResult.COMPLETED;
 	}
 

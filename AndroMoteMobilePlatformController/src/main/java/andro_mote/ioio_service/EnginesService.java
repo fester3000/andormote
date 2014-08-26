@@ -35,7 +35,7 @@ public class EnginesService extends IOIOService {
 	 * Pojazd Andromote
 	 */
 	private Vehicle vehicle;
-	
+
 	EngineControllerLooper looper = null;
 	//	private Compass compass = null;
 
@@ -77,7 +77,15 @@ public class EnginesService extends IOIOService {
 		log.debug(TAG, "engineService; onStartCommand(); startId=" + startId);
 		localBroadcastDispatcher = LocalBroadcastDispatcher.INSTANCE;
 		localBroadcastDispatcher.init(getApplicationContext());
-		trySetupDevicesWithExtrasFrom(intent); 
+		if(intent != null ) {
+			trySetupVehicleWithExtrasFrom(intent);
+		} else {
+			try {
+			intent.getAction();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
 		initStepsQueue();
 		super.onStartCommand(intent, flags, startId);
 
@@ -89,7 +97,7 @@ public class EnginesService extends IOIOService {
 		//		this.compass.unregisterListeners();
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected IOIOLooper createIOIOLooper() {
 		log.debug(TAG, "EnginesControllerService: creating IOIOLooper");
@@ -152,7 +160,7 @@ public class EnginesService extends IOIOService {
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_SPEED_B) {
 			log.debug(TAG, "setting speed to value: " + inputPacket.getSpeedB());
 			vehicle.getSettings().setSpeedB(inputPacket.getSpeedB());
-		
+
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_STEPPER_MODE) {
 			if (motionMode.equals(MotionMode.MOTION_MODE_CONTINUOUS)) {
 				log.debug(TAG, "zmiana trybu ruchu na krokowy");
@@ -201,7 +209,7 @@ public class EnginesService extends IOIOService {
 		}
 	}
 
-	private void trySetupDevicesWithExtrasFrom(Intent intent) {
+	private void trySetupVehicleWithExtrasFrom(Intent intent) {
 		try {
 			Packet pack = (Packet) intent.getParcelableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
 			if (pack != null && pack.getPlatformName() != null && pack.getDriverName() != null) {

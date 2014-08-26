@@ -5,8 +5,8 @@ import mobi.andromote.andro.webservice.WebService;
 
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.interpreter.device.ActionManager;
 import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
-import pl.fester3k.androcode.interpreter.device.DeviceManager;
 import pl.fester3k.androcode.interpreter.device.RideController;
 import android.app.Service;
 import android.content.Intent;
@@ -19,9 +19,14 @@ public class AndroCodeService extends Service {
 	private final IBinder binder = new LocalBinder();
 	
 	@Override
-	public IBinder onBind(Intent intent) {
-		ConfigureLog4J.configure();
+	public void onCreate() {
+		super.onCreate();
 		init();
+	}
+
+
+	@Override
+	public IBinder onBind(Intent intent) {
 		return binder;
 	}
 	
@@ -37,7 +42,8 @@ public class AndroCodeService extends Service {
 		CapabilitiesAnalyzer.INSTANCE.init(this);
 		//TODO - wyswietlac w odrebnym fragmencie
 		log.debug(CapabilitiesAnalyzer.INSTANCE.toString());
-		DeviceManager.INSTANCE.init(this);
+		ActionManager.INSTANCE.init(this);
+		
 		webService = new WebService(this);
 		webService.start();
 	}
@@ -45,8 +51,16 @@ public class AndroCodeService extends Service {
 	
 	@Override
 	public boolean onUnbind(Intent intent) {
-		webService.destroy();
-		RideController.INSTANCE.destroy();
 		return super.onUnbind(intent);
 	}
+
+
+	@Override
+	public void onDestroy() {
+		webService.destroy();
+		RideController.INSTANCE.destroy();
+		super.onDestroy();
+	}
+	
+	
 }

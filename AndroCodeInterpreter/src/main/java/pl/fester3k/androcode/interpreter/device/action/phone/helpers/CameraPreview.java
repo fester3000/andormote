@@ -46,6 +46,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	        try {
 	            camera.stopPreview();
 	        } catch (Exception e){
+	        	Log.d(TAG, "Error while stopingPreview()");
 	          // ignore: tried to stop a non-existent preview
 	        }
 
@@ -64,6 +65,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 
 }

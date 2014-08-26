@@ -30,17 +30,17 @@ public enum RideController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		startEngineService();
+		startAndromoteControllerService();
 	}
 
 	public void destroy() {
-		stopEngineService();
+		stopAndromoteControllerService();
 	}
 
 	public ActionResult execute(Packet packet) {
 		ActionResult result;
 		try {	
-			this.api.sendMessageToDevice(packet);
+			api.sendMessageToDevice(packet);
 			result = ActionResult.COMPLETED;
 		} catch (MobilePlatformException e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public enum RideController {
 	public void stopRide() {
 		Packet packet = new Packet(Motion.STOP_REQUEST);
 		try {
-			this.api.sendMessageToDevice(packet);
+			api.sendMessageToDevice(packet);
 		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public enum RideController {
 	/**
 	 * Start i ustawienia początkowe steronika silników.
 	 */
-	private void startEngineService() {
+	private void startAndromoteControllerService() {
 		// ustawienia silników w nowym wątku z powodu asynchronicznego wywołania
 		// aktywacji usługi
 		Thread t = new Thread() {
@@ -74,7 +74,7 @@ public enum RideController {
 				try {
 					Thread.sleep(2000);
 
-					initEngineService();
+					initAndromoteControllerService();
 				} catch (InterruptedException e) {
 					log.error( e.getMessage());
 				}
@@ -86,9 +86,9 @@ public enum RideController {
 	/**
 	 * Stop usługi silnikowej
 	 */
-	private void stopEngineService() {
+	private void stopAndromoteControllerService() {
 		try {
-			this.api.stopCommunicationWithDevice();
+			api.stopCommunicationWithDevice();
 		} catch (MobilePlatformException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public enum RideController {
 	/**
 	 * Wstępna konfiguracja ustawień sterownika silników. 
 	 */
-	private void initEngineService() {
+	private void initAndromoteControllerService() {
 		// zmiana czasu trwaniajednego węzła
 		Packet motionMode = new Packet(Engine.SET_CONTINUOUS_MODE);
 		Packet stepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
@@ -106,9 +106,9 @@ public enum RideController {
 		Packet speedPacket = new Packet(Engine.SET_SPEED);
 		speedPacket.setSpeed(0.8);
 		try {
-			this.api.sendMessageToDevice(motionMode);
-			this.api.sendMessageToDevice(stepDurationPacket);
-			this.api.sendMessageToDevice(speedPacket);
+			api.sendMessageToDevice(motionMode);
+			api.sendMessageToDevice(stepDurationPacket);
+			api.sendMessageToDevice(speedPacket);
 		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

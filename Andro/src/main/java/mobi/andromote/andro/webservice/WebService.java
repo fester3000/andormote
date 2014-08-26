@@ -79,6 +79,7 @@ public class WebService {
 				e.printStackTrace();
 			}
 		}
+		
 		public void tryToStopMe() {
 			try {
 				serverSocket.close();

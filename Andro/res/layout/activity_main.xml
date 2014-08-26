@@ -5,6 +5,12 @@
     android:background="#0099cc"
     tools:context=".MainActivity" >
 
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="130dp"
+        android:layout_height="100dp" 
+        />
+
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"

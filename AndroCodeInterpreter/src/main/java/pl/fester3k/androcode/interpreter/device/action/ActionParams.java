@@ -12,7 +12,7 @@ public class ActionParams {
 	 */
 	private ActionParams() {}
 	public enum Others {
-		ACTIVITY_MODE;
+		ACTIVITY_MODE, ACTION_ID;
 	}	
 	public enum Camera {
 		FOCUS, 

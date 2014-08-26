@@ -46,7 +46,7 @@ import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.datatypes.Device;
 import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
-import pl.fester3k.androcode.interpreter.device.DeviceManager;
+import pl.fester3k.androcode.interpreter.device.ActionManager;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
@@ -426,7 +426,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		}
 		if(devices.containsKey(varId)) {
 			Device device = devices.get(varId);
-			result = DeviceManager.INSTANCE.execute(device);
+			result = ActionManager.INSTANCE.execute(device);
 		} else {
 			log.warn("Device from variable "+ varId + " not found!", ctx);
 		}

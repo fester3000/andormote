@@ -7,16 +7,16 @@ import pl.fester3k.androcode.datatypes.Device;
 import pl.fester3k.androcode.interpreter.device.action.Action;
 import pl.fester3k.androcode.interpreter.device.action.ActionFactory;
 import pl.fester3k.androcode.interpreter.device.action.BaseSensorAction;
-import android.app.Activity;
 import android.content.Context;
 
-public enum DeviceManager {
+public enum ActionManager {
 	INSTANCE;
-	private final Logger log = LoggerFactory.getLogger(DeviceManager.class);
+	private final Logger log = LoggerFactory.getLogger(ActionManager.class);
 	private ActionFactory actionFactory;
 	
 	public void init(Context context) {
 		actionFactory = new ActionFactory(context);
+		
 	}
 	
 	public Object execute(Device device) {
