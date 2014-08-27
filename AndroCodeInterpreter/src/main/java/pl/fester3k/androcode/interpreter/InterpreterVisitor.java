@@ -1,9 +1,7 @@
 package pl.fester3k.androcode.interpreter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -43,10 +41,10 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
-import pl.fester3k.androcode.datatypes.Device;
 import pl.fester3k.androcode.datatypes.Feature;
-import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
-import pl.fester3k.androcode.interpreter.device.ActionManager;
+import pl.fester3k.androcode.deviceManagement.ActionManager;
+import pl.fester3k.androcode.interpreter.exceptions.NoSuchActionException;
+import pl.fester3k.androcode.interpreter.exceptions.NoSuchFeatureException;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.interpreter.tokens.Operator;
@@ -68,7 +66,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private Scope currentScope;
 	private final ParseTreeProperty<Scope> scopes;
 	private final AndroLog log;
-	private Map<String, Device> devices = new HashMap<String, Device>();
 
 	public InterpreterVisitor(SymbolTable symbolTable) {
 		this.log = new AndroLog(InterpreterVisitor.class.getSimpleName()); 
@@ -76,12 +73,12 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		this.globals = symbolTable.getGlobals();
 		this.scopes = symbolTable.getScopes();
 	}
-	
+
 	@Override
 	public Object visitStatement(StatementContext ctx) {
 		return super.visitStatement(ctx);
 	}
- 
+
 	@Override
 	public Object visitScript(ScriptContext ctx) {
 		currentScope = globals;
@@ -126,7 +123,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		currentScope = currentScope.getEnclosingScope();
 		return result;
 	}
-	
+
 	@Override
 	public Object visitReturn_statement(Return_statementContext ctx) {
 		Object result = null;
@@ -150,7 +147,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		Boolean result = (Boolean)visit(ctx.condition());
 		return !result;
 	}
-	
+
 	@Override
 	public Object visitCondition_var_negated(
 			Condition_var_negatedContext ctx) {		
@@ -165,7 +162,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		value = castValueToType(value, type);
 		return value;
 	}
-	
+
 	@Override
 	public Object visitVar_declaration(Var_declarationContext ctx) {
 		String id = ctx.ID().getText();
@@ -173,7 +170,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		MemorySpace space = getSpaceWithSymbol(id);
 		Object result = null;
 		if(expr != null) {
-//			printer.print(id + " = " , ctx);
+			//			printer.print(id + " = " , ctx);
 			result = assignValueToVar(id, expr, space);
 		}
 		return result;
@@ -188,7 +185,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		assignValueToVar(id, expr, space);
 		return null;
 	}
-	
+
 	private Object assignValueToVar(String id,
 			ExprContext expr, MemorySpace space) {
 		Object value = visit(expr);
@@ -228,7 +225,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 
 		return result;
 	}	
-	
+
 	@Override
 	public Object visitVar_call(Var_callContext ctx) {
 		String id = ctx.ID().getText();
@@ -243,7 +240,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitFunction_call(Function_callContext ctx) {
 		String id = ctx.ID().getText();
 		ArgumentsContext argumentsContext = ctx.arguments();
-		
+
 		FunctionSymbol function = (FunctionSymbol)currentScope.resolve(id);
 		if(function == null) {
 			log.error("Function not found!", ctx);
@@ -253,7 +250,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		FunctionSpace fspace = new FunctionSpace(function);
 		MemorySpace savedMemory = currentMemory;
 		currentMemory = fspace;
-		
+
 		Map<String, Symbol> declaredParameters = function.getOrderedArgs();
 		if(argumentsContext == null) {
 			//TODO jesli nie ma arguemntow np. funkcja bezargumentowa
@@ -337,7 +334,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		} else {
 			newVal = newValAssignment;
 		}
-		
+
 		visit(startValAssignment); 
 		while((Boolean)visit(condition)) { 
 			visit(block); 
@@ -345,7 +342,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Object visitWhile_loop(While_loopContext ctx) {
 		ConditionContext condition = ctx.condition();
@@ -377,8 +374,8 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 				operatorTokenType);
 		return result;
 	}	
-	
-		
+
+
 	@Override
 	public Object visitSleep(SleepContext ctx) {
 		int sleepTime = Integer.valueOf(ctx.INT().getText());
@@ -401,7 +398,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitExpr_dev(Expr_devContext ctx) {
 		return visit(ctx.dev_operation());
 	}
-	
+
 	@Override
 	public Object visitDev_setParam(Dev_setParamContext ctx) {
 		boolean result = false; 
@@ -413,7 +410,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		result = setDeviceParam(ctx, varId, propertyName, value);
 		return result;
 	}
-	
+
 	@Override
 	public Object visitDev_exec(Dev_execContext ctx) {
 		String varId = ctx.ID().getText();
@@ -424,16 +421,22 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			value = Utils.getStringOutOfQuotes(value);
 			setDeviceParam(ctx, varId, propertyName, value);
 		}
-		if(devices.containsKey(varId)) {
-			Device device = devices.get(varId);
-			result = ActionManager.INSTANCE.execute(device);
-		} else {
-			log.warn("Device from variable "+ varId + " not found!", ctx);
+		try {
+			result = ActionManager.INSTANCE.execute(varId);
+			if(ctx.INT() != null) {
+				int sleepTime = Integer.valueOf(ctx.INT().getText());
+				tryToSleepInAndrocode(sleepTime);
+			}
+		} catch(NoSuchActionException e) {
+			log.warn(e.getMessage(), ctx);
 		}
-		if(ctx.INT() != null) {
-			int sleepTime = Integer.valueOf(ctx.INT().getText());
-			tryToSleepInAndrocode(sleepTime);
-		}
+		//		if(devices.containsKey(varId)) {
+		//			Device device = devices.get(varId);
+		//			result = ActionManager.INSTANCE.execute(device);
+		//		} else {
+		//			
+		//		}
+
 		return result;
 	}
 
@@ -441,29 +444,22 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitDev_get(Dev_getContext ctx) {
 		String varId = ctx.ID().getText();
 		String featureName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
-		boolean hasFeature = CapabilitiesAnalyzer.INSTANCE.hasFeature(Feature.valueOf(featureName));
-		if(hasFeature) {
-			Device device = new Device(featureName);
-			devices.put(varId, device);
-		} else {
-			log.warn("Device doesn't have " + featureName);
+		try {
+			ActionManager.INSTANCE.get(Feature.valueOf(featureName), varId);
+		} catch (NoSuchFeatureException e) {
+			log.warn(e.getMessage(), ctx);
 		}
 		return featureName;
 	}
 
 	private boolean setDeviceParam(ParserRuleContext ctx, String varId,
 			String propertyName, String value) {
-		boolean result;
-		if(devices.containsKey(varId)) {
-			Device device = devices.get(varId);
-			Properties params = device.getParams();
-			params.put(propertyName, value);
-			device.setParams(params);
-			devices.put(varId, device);
+		boolean result = false;
+		try {
+			ActionManager.INSTANCE.setParam(varId, propertyName, value);
 			result = true;
-		} else {
+		} catch (NoSuchActionException e) {
 			log.warn("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
-			result = false;
 		}
 		return result;
 	}
@@ -627,7 +623,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		}
 		return result;
 	}
-	
+
 	private ParserRuleContext getFunctionById(ParserRuleContext baseCtx, String id) {
 		ParserRuleContext result = null;
 		ParserRuleContext ctx = baseCtx;

@@ -5,9 +5,8 @@ import mobi.andromote.andro.webservice.WebService;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.interpreter.device.ActionManager;
-import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
-import pl.fester3k.androcode.interpreter.device.RideController;
+import pl.fester3k.androcode.deviceManagement.ActionManager;
+import pl.fester3k.androcode.deviceManagement.RideController;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -39,9 +38,6 @@ public class AndroCodeService extends Service {
 	private void init() {
 		ConfigureLog4J.configure();
 		RideController.INSTANCE.onCreate(getApplication());  //TODO wada - kolejnosc wywolania...
-		CapabilitiesAnalyzer.INSTANCE.init(this);
-		//TODO - wyswietlac w odrebnym fragmencie
-		log.debug(CapabilitiesAnalyzer.INSTANCE.toString());
 		ActionManager.INSTANCE.init(this);
 		
 		webService = new WebService(this);

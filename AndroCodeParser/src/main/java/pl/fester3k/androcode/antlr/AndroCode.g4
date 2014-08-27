@@ -88,8 +88,8 @@ if_condition
 
 dev_operation
     : ID'.' 'setParam' LP STRING ',' expr RP		#dev_setParam
-    | ID'.' 'getDevice' LP STRING RP			#dev_get
-    | ID'.' 'execute' LP (STRING ',' expr (',' INT)?)? RP          #dev_exec
+    | ID'.' 'getAction' LP STRING RP			#dev_get
+    | ID'.' 'exec' LP (STRING ',' expr (',' INT)?)? RP  #dev_exec
     ;
     
 value     
@@ -117,7 +117,7 @@ K_FLOAT_TYPE: 'float' ;
 K_CHAR_TYPE: 'char' ;
 K_STRING_TYPE: 'String' ;
 K_BOOLEAN_TYPE: 'bool';
-K_DEV_TYPE  : 'device' ;
+K_DEV_TYPE  : 'action' ;
 
 
 LIBNAME     : (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')*'.and' ;

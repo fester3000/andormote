@@ -24,8 +24,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import pl.fester3k.androcode.datatypes.Script;
-import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
-import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;

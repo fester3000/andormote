@@ -8,16 +8,14 @@ import mobi.andromote.andro.AndroCodeService.LocalBinder;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.interpreter.device.action.ActionParams;
-import pl.fester3k.androcode.interpreter.device.action.phone.helpers.CameraPreview;
-import pl.fester3k.androcode.interpreter.device.action.phone.helpers.PhotoHandler;
+import pl.fester3k.androcode.datatypes.ActionParams;
+import pl.fester3k.androcode.deviceManagement.action.phone.helpers.CameraPreview;
+import pl.fester3k.androcode.deviceManagement.action.phone.helpers.PhotoHandler;
 import pl.fester3k.androcode.interpreter.utils.FileUtils;
 import pl.fester3k.androcode.interpreter.utils.FileUtils.MediaType;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -29,11 +27,8 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.SurfaceHolder;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class AndroMainActivity extends Activity {
@@ -152,10 +147,6 @@ public class AndroMainActivity extends Activity {
 		if(flashlightTurnOn) {
 			params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 			camera.setParameters(params);
-			camera.stopPreview();
-			preview = new CameraPreview(this, camera); 
-			FrameLayout previewFrame = (FrameLayout) findViewById(R.id.camera_preview);
-			previewFrame.addView(preview); 
 		} else {
 			params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			camera.setParameters(params);
@@ -186,7 +177,7 @@ public class AndroMainActivity extends Activity {
 		boolean record = extras.getBoolean(ActionParams.VIDEO.MODE.toString(), false);
 		if(record) {
 			logger.info("starting video recording");
-			startVideoRecording();
+			startVideoRecording(extras);
 		} else {
 			logger.info("stoping video recording");
 			stopVideoRecording();
@@ -205,7 +196,7 @@ public class AndroMainActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void stopMediaRecording() {
 		// stop media recorder
 		mediaRecorder.stop();
@@ -213,7 +204,9 @@ public class AndroMainActivity extends Activity {
 		mediaRecorder.reset();
 	}
 
-	private void startVideoRecording() {
+	private void startVideoRecording(Bundle extras) {
+		String quality = extras.getString(ActionParams.VIDEO.QUALITY.toString(), "HIGH");
+		String flash = extras.getString(ActionParams.VIDEO.FLASH.toString(), Camera.Parameters.FLASH_MODE_OFF);
 		try {
 			File videoFile = FileUtils.createFileName(MediaType.VIDEO);
 			File mediafile = videoFile;
@@ -226,28 +219,26 @@ public class AndroMainActivity extends Activity {
 				mediaRecorder = new MediaRecorder();
 			}
 			Camera.Parameters params = camera.getParameters();  
-			params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+			params.setFlashMode(flash);
 			camera.setParameters(params);
 			if(camera != null) {
 				camera.unlock();
 			}
 			mediaRecorder.setCamera(camera);
-			
+
 			mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);			
 			mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-			
+
+
 			CamcorderProfile profile = null;
-			if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P))
-			      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_1080P);
-		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P))
-		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
-		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P))
-		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
-		    else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH))
-		      profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
-		      
-		    if (profile != null)
-		      mediaRecorder.setProfile(profile); 						
+			if(quality.equals("HIGH")) {
+				profile = getBestPossibleCamcoderProfile();
+			} else {
+				profile = getLowCamcoderProfile();
+			}
+			if (profile != null) {
+				mediaRecorder.setProfile(profile);
+			}
 			mediaRecorder.setOutputFile(videoFile.toString());
 
 			// prepare media recorder
@@ -257,6 +248,27 @@ public class AndroMainActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private CamcorderProfile getLowCamcoderProfile() {
+		CamcorderProfile profile = null;
+		if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P))
+			profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
+		else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH))
+			profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+		return profile;
+	}
+
+	private CamcorderProfile getBestPossibleCamcoderProfile() {
+		CamcorderProfile profile = null;
+		if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P))
+			profile = CamcorderProfile.get(CamcorderProfile.QUALITY_1080P);
+		else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P))
+			profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
+		else {
+			profile = getLowCamcoderProfile();
+		}
+		return profile;
 	}
 
 	private void recordAudio(Bundle extras) {
@@ -353,7 +365,7 @@ public class AndroMainActivity extends Activity {
 			return null;
 		}
 	}
-	
+
 	private class WorkerThread extends AsyncTask<Void, Void, Void> {
 		private final Intent intent;
 

@@ -8,10 +8,9 @@ import pl.fester3k.androcode.AndroCodePreprocessor;
 import pl.fester3k.androcode.dataholder.TreeWithSymbolTable;
 import pl.fester3k.androcode.datatypes.Script;
 import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
+import pl.fester3k.androcode.deviceManagement.RideController;
 import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
 import pl.fester3k.androcode.interpreter.AndroCodeInterpreter;
-import pl.fester3k.androcode.interpreter.device.CapabilitiesAnalyzer;
-import pl.fester3k.androcode.interpreter.device.RideController;
 import android.content.Context;
 
 public enum AndroscriptProcessor {
@@ -24,8 +23,6 @@ public enum AndroscriptProcessor {
 	public ScriptProcessStatus process(Script script, Context context) {
 		ScriptProcessStatus result;
 		SDScriptRepository scriptRepository = new SDScriptRepository(context);
-		CapabilitiesAnalyzer.INSTANCE.checkCurrentCapabilities();
-		log.info(CapabilitiesAnalyzer.INSTANCE.toString());
 		log.debug("processing script " + script.getName());
 		result = parse(script);
 		scriptRepository.saveExternally(script);

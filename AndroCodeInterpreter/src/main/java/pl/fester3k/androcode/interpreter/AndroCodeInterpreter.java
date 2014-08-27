@@ -2,7 +2,8 @@ package pl.fester3k.androcode.interpreter;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import pl.fester3k.androcode.interpreter.device.RideController;
+import pl.fester3k.androcode.deviceManagement.ActionManager;
+import pl.fester3k.androcode.deviceManagement.RideController;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.symbolManagement.SymbolTable;
 
@@ -12,8 +13,10 @@ public class AndroCodeInterpreter {
 	
 	public void interpret(ParseTree tree, SymbolTable symbolTable) {
 		logProcessingStarted();
+		ActionManager.INSTANCE.prepare();
 		interpreterVisitor = new InterpreterVisitor(symbolTable);
 		interpreterVisitor.visit(tree);
+		ActionManager.INSTANCE.cleanup();
 		logProcessingDone();
 	}
 
