@@ -166,6 +166,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitParameter(@NotNull AndroCodeParser.ParameterContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#mixed_string}.
+	 * @param ctx the parse tree
+	 */
+	void enterMixed_string(@NotNull AndroCodeParser.Mixed_stringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#mixed_string}.
+	 * @param ctx the parse tree
+	 */
+	void exitMixed_string(@NotNull AndroCodeParser.Mixed_stringContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#if_condition}.
 	 * @param ctx the parse tree
 	 */
@@ -263,6 +274,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#var_or_val}.
+	 * @param ctx the parse tree
+	 */
+	void enterVar_or_val(@NotNull AndroCodeParser.Var_or_valContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#var_or_val}.
+	 * @param ctx the parse tree
+	 */
+	void exitVar_or_val(@NotNull AndroCodeParser.Var_or_valContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#condition_equality}.

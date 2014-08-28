@@ -53,15 +53,15 @@ public class CameraAction extends BaseDeviceAction {
 			}
 			intent.putExtra(ActionParams.CAMERA.QUALITY.toString(), quality);
 		}
-		if(getParams().containsKey(ActionParams.CAMERA.SIZE.toString())) {
+		if(getParams().containsKey(ActionParams.CAMERA.RESOLUTION.toString())) {
 			boolean isMaximumSize = true;
-			String size = (String)getParams().get(ActionParams.CAMERA.SIZE.toString());
-			if(size.equals("SMALL")) {
+			String size = (String)getParams().get(ActionParams.CAMERA.RESOLUTION.toString());
+			if(size.equals("LOW")) {
 				isMaximumSize = false;
-			} else if(size.equals("MAX")){
+			} else if(size.equals("HIGH")){
 				isMaximumSize = true;
 			}
-			intent.putExtra(ActionParams.CAMERA.SIZE.toString(), isMaximumSize);
+			intent.putExtra(ActionParams.CAMERA.RESOLUTION.toString(), isMaximumSize);
 		}
 	}
 

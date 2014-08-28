@@ -23,6 +23,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.datatypes.BroadcastIntentFilters;
 import pl.fester3k.androcode.datatypes.Script;
 import android.content.Context;
 import android.content.Intent;
@@ -164,7 +165,7 @@ public class WebService {
 
 	private void toastMessage(final String text) {
 		log.info(text);
-		Intent intent = new Intent("message-event");
+		Intent intent = new Intent(BroadcastIntentFilters.TOAST);
 		intent.putExtra("message", text);
 		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}

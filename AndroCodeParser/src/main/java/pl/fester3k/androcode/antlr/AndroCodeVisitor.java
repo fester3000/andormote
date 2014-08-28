@@ -113,6 +113,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParameter(@NotNull AndroCodeParser.ParameterContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#mixed_string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMixed_string(@NotNull AndroCodeParser.Mixed_stringContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#if_condition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -174,6 +181,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#var_or_val}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVar_or_val(@NotNull AndroCodeParser.Var_or_valContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#condition_equality}.

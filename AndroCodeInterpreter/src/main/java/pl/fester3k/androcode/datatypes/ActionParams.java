@@ -17,10 +17,22 @@ public class ActionParams {
 		ACTIVITY_MODE, ACTION_ID, GET;
 	}	
 	public enum CAMERA {
-		MODE,
-		FOCUS, 
-		FLASH, 
-		SIZE, 
+		/**
+		 * Flash mode parameter
+		 * values: ON, OFF, AUTO, STILL
+		 */ 
+		FLASH,
+		
+		/**
+		 * Picture resolution
+		 * values: LOW, HIGH
+		 */ 
+		RESOLUTION,
+		
+		/**
+		 * Result JPEG quality
+		 * values: integer from 0 to 100
+		 */ 
 		QUALITY;
 	}
 	
@@ -36,5 +48,16 @@ public class ActionParams {
 	
 	public enum FLASHLIGHT {
 		MODE;
+	}
+	
+	public enum SMS {
+		TO,
+		TEXT;
+	}
+	
+	public enum EMAIL {
+		TO,
+		TEXT,
+		TOPIC;
 	}
 }

@@ -26,6 +26,37 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
+			//FIXME
+			/*
+			 * 08-28 13:29:12.630: E/AndroidRuntime(1520): FATAL EXCEPTION: main
+08-28 13:29:12.630: E/AndroidRuntime(1520): Process: mobi.andromote.andro, PID: 1520
+08-28 13:29:12.630: E/AndroidRuntime(1520): java.lang.NullPointerException
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at pl.fester3k.androcode.deviceManagement.action.phone.helpers.CameraPreview.surfaceCreated(CameraPreview.java:29)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.SurfaceView.updateWindow(SurfaceView.java:572)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.SurfaceView.onWindowVisibilityChanged(SurfaceView.java:232)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.View.dispatchWindowVisibilityChanged(View.java:8004)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewGroup.dispatchWindowVisibilityChanged(ViewGroup.java:1077)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewGroup.dispatchWindowVisibilityChanged(ViewGroup.java:1077)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewGroup.dispatchWindowVisibilityChanged(ViewGroup.java:1077)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewGroup.dispatchWindowVisibilityChanged(ViewGroup.java:1077)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewGroup.dispatchWindowVisibilityChanged(ViewGroup.java:1077)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:1233)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:996)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:5600)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:761)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.Choreographer.doCallbacks(Choreographer.java:574)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.Choreographer.doFrame(Choreographer.java:544)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:747)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.os.Handler.handleCallback(Handler.java:733)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.os.Handler.dispatchMessage(Handler.java:95)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.os.Looper.loop(Looper.java:136)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at android.app.ActivityThread.main(ActivityThread.java:5001)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at java.lang.reflect.Method.invokeNative(Native Method)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at java.lang.reflect.Method.invoke(Method.java:515)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:785)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:601)
+08-28 13:29:12.630: E/AndroidRuntime(1520): 	at dalvik.system.NativeStart.main(Native Method)
+*/
 			camera.setPreviewDisplay(holder);
 			camera.startPreview();
 		} catch (IOException e) {

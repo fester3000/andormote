@@ -36,16 +36,25 @@ statement       // statement
     ;
 
 expr 			        //expression
-    : fcal=function_call                    #expr_fcall		// returns: function type    
-    | '(' subExpr=expr ')'                  #expr_parenthesis 	// returns: type of expr
-    | '-' subExpr=expr                      #expr_uminus	// returns: type of expr
-    | a=expr op=(MULT_OP | DEV_OP) b=expr   #expr_binop // returns: type of Lexpr
-    | a=expr op=(ADD_OP | SUBST_OP) b=expr  #expr_binop // returns: type of Lexpr
-    | LP type RP expr                       #expr_cast // returns: type of "type"
-    | id=ID op=(INCR_OP | DECR_OP)          #expr_incr_decr	// returns: int
-    | dev_operation                         #expr_dev	// returns: boolean
-    | v=value                               #expr_value	// returns: value type
-    | var_call                              #expr_var	// returns: type of var ID
+    : fcal=function_call                                #expr_fcall		// returns: function type    
+    | '(' subExpr=expr ')'                              #expr_parenthesis 	// returns: type of expr
+    | '-' subExpr=expr                                  #expr_uminus	// returns: type of expr
+    | a=expr op=(MULT_OP | DEV_OP) b=expr               #expr_binop // returns: type of Lexpr
+    | a=expr op=(ADD_OP | SUBST_OP) b=expr              #expr_binop // returns: type of Lexpr
+    | LP type RP expr                                   #expr_cast // returns: type of "type"
+    | id=ID op=(INCR_OP | DECR_OP)                      #expr_incr_decr	// returns: int
+    | dev_operation                                     #expr_dev	// returns: boolean
+    | v=value                                           #expr_value	// returns: value type
+    | var_call                                          #expr_var	// returns: type of var ID
+    ;
+
+var_or_val
+    : var_call
+    | value
+    ;    
+
+mixed_string
+    : var_or_val (ADD_OP var_or_val)*
     ;
 
 sleep
@@ -53,7 +62,7 @@ sleep
     ;
 
 print
-    : 'print' LP (ID | value) ('+' (ID | value) )? RP ';'
+    : 'print' LP mixed_string RP ';'
     ;
 
 return_statement 
@@ -87,9 +96,9 @@ if_condition
     : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
 
 dev_operation
-    : ID'.' 'setParam' LP STRING ',' expr RP		#dev_setParam
+    : ID'.' 'setParam' LP STRING ',' mixed_string RP		#dev_setParam
     | ID'.' 'getAction' LP STRING RP			#dev_get
-    | ID'.' 'exec' LP (STRING ',' expr (',' INT)?)? RP  #dev_exec
+    | ID'.' 'exec' LP (STRING ',' mixed_string (',' INT)?)? RP  #dev_exec
     ;
     
 value     

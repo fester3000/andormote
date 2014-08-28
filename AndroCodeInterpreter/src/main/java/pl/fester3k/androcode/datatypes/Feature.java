@@ -4,8 +4,8 @@ package pl.fester3k.androcode.datatypes;
 public enum Feature {
 	RIDE,
 	
-	SMS_SENDER, 
-	EMAIL_SENDER, 
+	SMS, 
+	EMAIL, 
 	WIFI_CONNECTION, 
 	TETHERING, 
 	CAMERA,  //DONE 

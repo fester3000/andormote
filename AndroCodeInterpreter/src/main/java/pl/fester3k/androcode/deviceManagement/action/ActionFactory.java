@@ -3,9 +3,11 @@ package pl.fester3k.androcode.deviceManagement.action;
 import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.deviceManagement.action.phone.CameraAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.DummyAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.EmailAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.FlashlightAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecAudioAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecVideoAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.SMSAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.AccelerometerSensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.GravitySensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.GyroscopeSensorAction;
@@ -80,8 +82,8 @@ public class ActionFactory {
 		case FLASHLIGHT:
 			action = new FlashlightAction(context);
 			break;
-		case EMAIL_SENDER:
-			action = new DummyAction(context);
+		case EMAIL:
+			action = new EmailAction(context);
 			break;
 		case LOCATION:
 			action = new DummyAction(context);
@@ -92,8 +94,8 @@ public class ActionFactory {
 		case RIDE:
 			action = new SimpleRideAction(context);
 			break;
-		case SMS_SENDER:
-			action = new DummyAction(context);
+		case SMS:
+			action = new SMSAction(context);
 			break;
 		case TETHERING:
 			action = new DummyAction(context);

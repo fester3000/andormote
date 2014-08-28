@@ -202,6 +202,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMixed_string(@NotNull AndroCodeParser.Mixed_stringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMixed_string(@NotNull AndroCodeParser.Mixed_stringContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIf_condition(@NotNull AndroCodeParser.If_conditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -313,6 +326,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturn_statement(@NotNull AndroCodeParser.Return_statementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVar_or_val(@NotNull AndroCodeParser.Var_or_valContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVar_or_val(@NotNull AndroCodeParser.Var_or_valContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

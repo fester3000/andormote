@@ -115,13 +115,15 @@ public class CapabilitiesAnalyzer {
 	}
 
 	private void checkInternetConnection() {
-		// TODO Auto-generated method stub
+		//TODO write condition
+		//PoprawIĆ komunikaty
+		availableFeatures.add(Feature.EMAIL);
 
 	}
 
 	private void checkTelephonyCapabiliy() {
 		if(deviceHasFeature(PackageManager.FEATURE_TELEPHONY)) {
-			availableFeatures.add(Feature.SMS_SENDER);
+			availableFeatures.add(Feature.SMS);
 		}
 
 	}

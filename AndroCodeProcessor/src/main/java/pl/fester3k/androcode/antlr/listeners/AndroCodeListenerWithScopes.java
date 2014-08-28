@@ -31,10 +31,13 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Lib_includesContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Mixed_stringContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParameterContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ParametersContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.PrintContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.SleepContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.StatementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.TypeContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ValueContext;
@@ -328,10 +331,46 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 		super.exitWhile_loop(ctx);
 	}
 
+	
+
+	@Override
+	public void enterMixed_string(Mixed_stringContext ctx) {
+		super.enterMixed_string(ctx);
+	}
+
+
+	@Override
+	public void exitMixed_string(Mixed_stringContext ctx) {
+		super.exitMixed_string(ctx);
+	}
+
+
+	@Override
+	public void enterSleep(SleepContext ctx) {
+		super.enterSleep(ctx);
+	}
+
+
+	@Override
+	public void exitSleep(SleepContext ctx) {
+		super.exitSleep(ctx);
+	}
+
+
+	@Override
+	public void enterPrint(PrintContext ctx) {
+		super.enterPrint(ctx);
+	}
+
+
+	@Override
+	public void exitPrint(PrintContext ctx) {
+		super.exitPrint(ctx);
+	}
+
 
 	@Override
 	public void enterExpr_fcall(Expr_fcallContext ctx) {
-		
 		super.enterExpr_fcall(ctx);
 	}
 

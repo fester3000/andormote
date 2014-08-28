@@ -9,6 +9,7 @@ import mobi.andromote.andro.AndroCodeService.LocalBinder;
 import org.apache.log4j.Logger;
 
 import pl.fester3k.androcode.datatypes.ActionParams;
+import pl.fester3k.androcode.datatypes.BroadcastIntentFilters;
 import pl.fester3k.androcode.deviceManagement.action.phone.helpers.CameraPreview;
 import pl.fester3k.androcode.deviceManagement.action.phone.helpers.PhotoHandler;
 import pl.fester3k.androcode.interpreter.utils.FileUtils;
@@ -52,7 +53,7 @@ public class AndroMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Intent intent = new Intent(this, AndroCodeService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
-		LocalBroadcastManager.getInstance(this).registerReceiver(localMessageReceiver, new IntentFilter("message-event"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(localMessageReceiver, new IntentFilter(BroadcastIntentFilters.TOAST));
 		LocalBroadcastManager.getInstance(this).registerReceiver(cameraActionsReceiver, new IntentFilter(ActionParams.ACTION));
 		setContentView(R.layout.activity_main);
 	}
@@ -156,7 +157,7 @@ public class AndroMainActivity extends Activity {
 	private void takePhoto(Bundle extras) {
 		int jpegQuality = extras.getInt(ActionParams.CAMERA.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
 		String flashMode = extras.getString(ActionParams.CAMERA.FLASH.toString(), DEFAULT_FLASH_MODE);
-		boolean isMaximumSize = extras.getBoolean(ActionParams.CAMERA.SIZE.toString(), DEFAULT_IS_MAXIMUM_SIZE);
+		boolean isMaximumSize = extras.getBoolean(ActionParams.CAMERA.RESOLUTION.toString(), DEFAULT_IS_MAXIMUM_SIZE);
 
 		logger.debug("Quality: " + jpegQuality + " flash: " + flashMode + " sizeMode: " + isMaximumSize);
 		Camera.Parameters params = camera.getParameters();  

@@ -33,12 +33,16 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.For_loopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Mixed_stringContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.PrintContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.SleepContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.StatementContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.ValueContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_valContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.datatypes.Feature;
@@ -163,6 +167,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return value;
 	}
 
+
 	@Override
 	public Object visitVar_declaration(Var_declarationContext ctx) {
 		String id = ctx.ID().getText();
@@ -203,14 +208,17 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 
 	@Override
 	public Object visitExpr_value(Expr_valueContext ctx) {
-		String value = ctx.value().getText();
+		return visit(ctx.value());
+	}
+
+	@Override
+	public Object visitValue(ValueContext ctx) {
+		String value = ctx.getText();
 		Object evaluatedValue = null;
 		Type type = Type.getTypeByTokenType(ctx.start.getType());
 		evaluatedValue = convertStringToProperValue(value, evaluatedValue, type);
 		return evaluatedValue;
 	}
-
-
 
 	@Override
 	public Object visitExpr_binop(Expr_binopContext ctx) {
@@ -382,17 +390,37 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		tryToSleepInAndrocode(sleepTime);
 		return null;
 	}
-
-
-
-	private void tryToSleepInAndrocode(int sleepTime) {
-		try {
-			Thread.sleep(sleepTime);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	
+	@Override
+	public Object visitPrint(PrintContext ctx) {
+		String message = (String)visit(ctx.mixed_string());
+		print(message);
+		return null;
 	}
 
+	//TODO przepisać na binop 
+	@Override
+	public String visitMixed_string(Mixed_stringContext ctx) {
+		String result;
+		List<Var_or_valContext> var_or_vals = ctx.var_or_val();
+		result = tryToConcat(var_or_vals);
+		return result;
+	}
+	
+	@Override
+	public Object visitVar_or_val(Var_or_valContext ctx) {
+		String result = "";
+		Var_callContext var_call = ctx.var_call();
+		ValueContext value = ctx.value();
+		if(var_call != null) {
+			Object var_callString = visit(var_call);
+			result = String.valueOf(var_callString);
+		} else if(value != null) {
+			Object valueString = visit(value);
+			result = String.valueOf(valueString);
+		}
+		return result;
+	}
 
 	@Override
 	public Object visitExpr_dev(Expr_devContext ctx) {
@@ -404,9 +432,8 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		boolean result = false; 
 		String varId = ctx.ID().getText();
 		String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
-		String value = String.valueOf(visit(ctx.expr()));
+		String value = String.valueOf(visit(ctx.mixed_string()));
 		value = Utils.getStringOutOfQuotes(value);
-
 		result = setDeviceParam(ctx, varId, propertyName, value);
 		return result;
 	}
@@ -415,9 +442,9 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitDev_exec(Dev_execContext ctx) {
 		String varId = ctx.ID().getText();
 		Object result = null;
-		if(ctx.STRING() != null && ctx.expr() != null) {
+		if(ctx.STRING() != null && ctx.mixed_string() != null) {
 			String propertyName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
-			String value = String.valueOf(visit(ctx.expr()));
+			String value = String.valueOf(visit(ctx.mixed_string()));
 			value = Utils.getStringOutOfQuotes(value);
 			setDeviceParam(ctx, varId, propertyName, value);
 		}
@@ -430,13 +457,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		} catch(NoSuchActionException e) {
 			log.warn(e.getMessage(), ctx);
 		}
-		//		if(devices.containsKey(varId)) {
-		//			Device device = devices.get(varId);
-		//			result = ActionManager.INSTANCE.execute(device);
-		//		} else {
-		//			
-		//		}
-
 		return result;
 	}
 
@@ -452,6 +472,19 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return featureName;
 	}
 
+	private void print(final String message) {
+		log.info(message);
+	}
+	
+	private String tryToConcat(List<Var_or_valContext> var_or_vals) {
+		String result = "";
+		for (Var_or_valContext var_or_val : var_or_vals) {
+			String tempValue = (String)visit(var_or_val);
+			result = result + tempValue;
+		}
+		return result;
+	}
+
 	private boolean setDeviceParam(ParserRuleContext ctx, String varId,
 			String propertyName, String value) {
 		boolean result = false;
@@ -462,6 +495,14 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			log.warn("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
 		}
 		return result;
+	}
+	
+	private void tryToSleepInAndrocode(int sleepTime) {
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private Object castValueToType(Object value, Type type) {
@@ -513,7 +554,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		break;
 		case INT:	evaluatedValue = Integer.valueOf(value);
 		break;
-		case STRING: evaluatedValue = value;
+		case STRING: evaluatedValue = Utils.getStringOutOfQuotes(value);
 		break;
 		default: 
 			break;
