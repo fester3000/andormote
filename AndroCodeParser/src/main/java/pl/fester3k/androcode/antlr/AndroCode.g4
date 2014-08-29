@@ -96,10 +96,10 @@ if_condition
     : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
 
 dev_operation
-    : ID'.' 'setParam' LP STRING ',' mixed_string RP		#dev_setParam
+    : ID'.' 'setParam' LP STRING ',' mixed_string RP	#dev_setParam
     | ID'.' 'getAction' LP STRING RP			#dev_get
     | ID'.' 'exec' LP (STRING ',' mixed_string (',' INT)?)? RP  #dev_exec
-    | ID'.' 'release' LP RP #dev_release
+    | ID'.' 'release' LP RP                             #dev_release
     ;
     
 value     

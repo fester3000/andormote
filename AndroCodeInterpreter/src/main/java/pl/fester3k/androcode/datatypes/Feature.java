@@ -6,16 +6,16 @@ public enum Feature {
 	
 	SMS, //DONE
 	EMAIL, //DONE
-	WIFI_CONNECT, 
+	WIFI_CONNECT, //DONE
 	CAMERA,  //DONE 
 	RECORD_VIDEO, //DONE
 	FLASHLIGHT, //DONE
-	AUDIO_OUT,  
+//	AUDIO_OUT,  
 	RECORD_AUDIO, 	//DONE
-	TTS, 		//DONE 1/4
+	TTS, 		//DONE //TODO Dodać w przyszłości tryb nadpisywania i oczekiwania na zakończenie 
 	
 	LOCATION, 		//DONE
-	COMPASS,
+	COMPASS,		//DONE
 	LIGHT_SENSOR,   //DONE
 	GRAVITY_SENSOR, //DONE 
 	HUMIDITY_SENSOR,//DONE  

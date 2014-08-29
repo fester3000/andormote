@@ -197,7 +197,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		Object value = visit(expr);
 		if(value == null) {
 			log.error("Value has not been yet computed", expr);
-			//TODO Throw
+			return value;
 		}
 		Type destinationType = Utils.getTypeFromSymbol(id, currentScope);
 		value = castValueToType(value, destinationType);

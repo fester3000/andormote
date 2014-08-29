@@ -45,8 +45,6 @@ public class CapabilitiesAnalyzer {
 			checkSensorCapabilities();
 			checkDevicesCapabilities();
 			checkCommunicationCapabilities();
-
-			checkApplicationLaunchCapability(); //Bez sensu
 		}
 	}
 	
@@ -61,7 +59,6 @@ public class CapabilitiesAnalyzer {
 	private void checkDevicesCapabilities() {
 		checkCameraCapability();
 		checkFlashlightCapability();
-		checkAudioCapabilities();
 		checkRecordingCapabilities();
 		checkTTSCapabilities();
 
@@ -78,6 +75,7 @@ public class CapabilitiesAnalyzer {
 		checkProximitySensorCapability();
 		checkAccelerometerSensorCapability();
 		checkMagneticSensorCapability();
+		checkCompassCapability();
 		checkAudioLevelSensorCapability();
 		checkPressureCapability();
 
@@ -87,11 +85,6 @@ public class CapabilitiesAnalyzer {
 		if(RideController.INSTANCE.isRideAvailable()) {
 			availableFeatures.add(Feature.RIDE);
 		}
-	}
-
-	private void checkApplicationLaunchCapability() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void checkWIFIConnection() {
@@ -114,6 +107,12 @@ public class CapabilitiesAnalyzer {
 	}
 	
 
+	private void checkCompassCapability() {
+		if(deviceHasSensor(Sensor.TYPE_ACCELEROMETER) && deviceHasSensor(Sensor.TYPE_MAGNETIC_FIELD)) {
+			availableFeatures.add(Feature.COMPASS);
+		}
+	}
+
 	private void checkTTSCapabilities() {
 		availableFeatures.add(Feature.TTS);
 	}
@@ -122,10 +121,6 @@ public class CapabilitiesAnalyzer {
 		if(deviceHasFeature(PackageManager.FEATURE_MICROPHONE)) {
 			availableFeatures.add(Feature.RECORD_AUDIO);
 		}
-	}
-
-	private void checkAudioCapabilities() {
-		// TODO
 	}
 
 	private void checkFlashlightCapability() {

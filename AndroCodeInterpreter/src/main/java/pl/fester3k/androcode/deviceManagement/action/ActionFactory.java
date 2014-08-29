@@ -1,12 +1,12 @@
 package pl.fester3k.androcode.deviceManagement.action;
 
 import pl.fester3k.androcode.datatypes.Feature;
-import pl.fester3k.androcode.deviceManagement.action.phone.AudioOut;
 import pl.fester3k.androcode.deviceManagement.action.phone.CameraAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.CompassAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.DummyAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.EmailAction;
-import pl.fester3k.androcode.deviceManagement.action.phone.LocationAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.FlashlightAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.LocationAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecAudioAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecVideoAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.SMSAction;
@@ -75,9 +75,9 @@ public class ActionFactory {
 		case RECORD_AUDIO:
 			action = new RecAudioAction(context);
 			break;
-		case AUDIO_OUT:
-			action = new AudioOut(context);
-			break;
+//		case AUDIO_OUT:
+//			action = new AudioOut(context);
+//			break;
 		case TTS:
 			action = new TextToSpeechAction(context);
 			break;
@@ -104,6 +104,9 @@ public class ActionFactory {
 			break;
 		case WIFI_CONNECT:
 			action = new WiFiConnectAction(context);
+			break;
+		case COMPASS:
+			action = new CompassAction(context);
 			break;
 		default:
 			action = new DummyAction(context);

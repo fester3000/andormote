@@ -3,7 +3,6 @@ package pl.fester3k.androcode.deviceManagement.action.phone;
 import java.util.List;
 
 import pl.fester3k.androcode.datatypes.ActionParams;
-import pl.fester3k.androcode.datatypes.ActionResult;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.content.Context;
 import android.location.Location;

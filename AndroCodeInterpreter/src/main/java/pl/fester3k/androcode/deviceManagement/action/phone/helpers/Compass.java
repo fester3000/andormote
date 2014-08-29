@@ -48,7 +48,6 @@ public class Compass implements SensorEventListener {
 
 	float orientation[] = new float[3];
 
-	private String TAG = Compass.class.getName();
 	private Logger logger = LoggerFactory.getLogger(Compass.class);
 
 	private double azimut;
@@ -68,15 +67,13 @@ public class Compass implements SensorEventListener {
 
 	public Compass(Context context) {
 		if (context != null) {
-			logger.debug(TAG, "CompassLib: init compass");
+			logger.debug("CompassLib: init compass");
 			this.appContext = context;
 			mSensorManager = (SensorManager) this.appContext.getSystemService(Context.SENSOR_SERVICE);
 			accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-
-			// registerListeners(SensorManager.SENSOR_DELAY_GAME);
 		} else {
-			logger.debug(TAG, "AndroMoteCompassLib cannot be initialized: application context is null");
+			logger.debug("AndroMoteCompassLib cannot be initialized: application context is null");
 		}
 	}
 
@@ -85,9 +82,9 @@ public class Compass implements SensorEventListener {
 		// logger.debug(TAG, "Compass: sensorAccuracyChanged: " +
 		// sensor.getName() + "; new accuracy: " + accuracy);
 		if (sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-			this.setAccelerometerSensorAccuracy(accuracy);
+			accelerometerSensorAccuracy = accuracy;
 		else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-			this.setMagneticFieldSensorAccuracy(accuracy);
+			magneticFieldSensorAccuracy = accuracy;
 	}
 
 	@Override
@@ -105,9 +102,9 @@ public class Compass implements SensorEventListener {
 					// logger.debug(TAG, "success=" + success);
 					if (success) {
 						SensorManager.getOrientation(R, orientation);
-						setAzimut(Math.toDegrees(orientation[0]));
-						setPitch(Math.toDegrees(orientation[1]));
-						setRoll(Math.toDegrees(orientation[2]));
+						azimut = Math.toDegrees(orientation[0]);
+						pitch= Math.toDegrees(orientation[1]);
+						roll = Math.toDegrees(orientation[2]);
 
 						if (azimut < 0) {
 							this.setBearing(360 + azimut);
@@ -126,8 +123,8 @@ public class Compass implements SensorEventListener {
 	public void unregisterListeners() {
 		mSensorManager.unregisterListener(this);
 
-		this.setAccelerometerSensorAccuracy(0);
-		this.setMagneticFieldSensorAccuracy(0);
+		accelerometerSensorAccuracy = 0;
+		magneticFieldSensorAccuracy = 0;
 	}
 
 	/**
@@ -140,12 +137,12 @@ public class Compass implements SensorEventListener {
 	 *            danych
 	 */
 	public void registerListeners(int sensorDelayType) {
-		logger.debug(TAG, "Compass: registering compass listeners...");
+		logger.debug("Compass: registering compass listeners...");
 		mSensorManager = (SensorManager) this.appContext.getSystemService(Context.SENSOR_SERVICE);
 
 		mSensorManager.registerListener(this, accelerometer, sensorDelayType);
 		mSensorManager.registerListener(this, magnetometer, sensorDelayType);
-		logger.debug(TAG, "Compass: registering compass listeners...");
+		logger.debug("Compass: registering compass listeners...");
 	}
 
 	/**
@@ -157,14 +154,14 @@ public class Compass implements SensorEventListener {
 	 * @param output
 	 * @return
 	 */
-	public float[] lowPassFilter(float[] input, float[] output) {
+	private float[] lowPassFilter(float[] input, float[] output) {
 		if (output == null) {
-			logger.debug(TAG, "output is null; input[0]: " + input[0]);
+//			logger.debug("output is null; input[0]: " + input[0]);
 			return input;
 		}
 
 		if (output[0] == 0 && output[1] == 0 && output[2] == 0) {
-			logger.debug(TAG, "output values = 0");
+//			logger.debug("output values = 0");
 			return input;
 		}
 
@@ -204,37 +201,16 @@ public class Compass implements SensorEventListener {
 	 * @param bearing
 	 *            kierunek telefonu
 	 */
-	public void setBearing(double bearing) {
+	private void setBearing(double bearing) {
 		// logger.debug(TAG, "zmiana położenia w stopniach: " + degrees);
 		this.bearing = bearing;
-	}
-
-	public void setAzimut(double azimut) {
-		this.azimut = azimut;
-	}
-
-	public void setPitch(double pitch) {
-		this.pitch = pitch;
-	}
-
-	public void setRoll(double roll) {
-		this.roll = roll;
 	}
 
 	public int getAccelerometerSensorAccuracy() {
 		return accelerometerSensorAccuracy;
 	}
 
-	public void setAccelerometerSensorAccuracy(int accelerometerSensorAccuracy) {
-		this.accelerometerSensorAccuracy = accelerometerSensorAccuracy;
-	}
-
 	public int getMagneticFieldSensorAccuracy() {
 		return magneticFieldSensorAccuracy;
 	}
-
-	public void setMagneticFieldSensorAccuracy(int magneticFieldSensorAccuracy) {
-		this.magneticFieldSensorAccuracy = magneticFieldSensorAccuracy;
-	}
-
 }
