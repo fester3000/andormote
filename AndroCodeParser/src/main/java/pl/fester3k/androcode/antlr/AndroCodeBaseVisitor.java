@@ -237,6 +237,14 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitScript(@NotNull AndroCodeParser.ScriptContext ctx) { return visitChildren(ctx); }
 
 	/**

@@ -21,6 +21,7 @@ import andro_mote.commons.PacketType.Motion;
 import andro_mote.devices.Vehicle;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
@@ -81,6 +82,7 @@ public class EnginesService extends IOIOService {
 			trySetupVehicleWithExtrasFrom(intent);
 		} else {
 			try {
+				//FIXME To jakiś hack
 			intent.getAction();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
@@ -89,7 +91,7 @@ public class EnginesService extends IOIOService {
 		initStepsQueue();
 		super.onStartCommand(intent, flags, startId);
 
-		return startId;
+		return Service.START_REDELIVER_INTENT;
 	}
 
 	@Override

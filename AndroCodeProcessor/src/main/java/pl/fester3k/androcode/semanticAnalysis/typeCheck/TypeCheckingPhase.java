@@ -219,7 +219,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			error = true;
 			return; //FIXME throw!!
 		}
-		Type expressionPromotionType = Type.promoteFromTo[expressionType.priority][destinationType.priority];
+		Type expressionPromotionType = Type.promoteFromTo[expressionType.index][destinationType.index];
 		log.printPromotedTypeWithContext(expressionPromotionType, expressionToPromote);
 
 		if(canAssignTo(expressionType, expressionPromotionType, destinationType)) {
@@ -243,8 +243,8 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			return; //FIXME throw!!
 		}
 
-		int typePriorityA = typeA.priority;
-		int typePriorityB = typeB.priority;
+		int typePriorityA = typeA.index;
+		int typePriorityB = typeB.index;
 		Type resultType = typeTable[typePriorityA][typePriorityB];
 		if (resultType == Type.VOID) {
 			log.error("Arguments " + argA.getText() + " and " + argB.getText() + " has incompatible types in " + ctx.getText(), ctx);
@@ -260,8 +260,8 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 
 	private <T extends ParserRuleContext> void performArgumentPromotion(T argA, T argB, ParserRuleContext ctx,
 			int typePriorityA, int typePriorityB, Type resultType) {
-		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.priority];
-		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.priority];
+		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.index];
+		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.index];
 
 		log.printPromotedTypeWithContext(promoteTypeA, argA);
 		log.printPromotedTypeWithContext(promoteTypeB, argB);

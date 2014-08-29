@@ -371,6 +371,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterScript(@NotNull AndroCodeParser.ScriptContext ctx) { }
 	/**
 	 * {@inheritDoc}

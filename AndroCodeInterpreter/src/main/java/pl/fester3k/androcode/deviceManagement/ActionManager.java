@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.fester3k.androcode.datatypes.Feature;
+import pl.fester3k.androcode.datatypes.ServiceWithHandler;
 import pl.fester3k.androcode.deviceManagement.action.Action;
 import pl.fester3k.androcode.deviceManagement.action.ActionFactory;
 import pl.fester3k.androcode.interpreter.exceptions.NoSuchActionException;
@@ -26,9 +27,9 @@ public enum ActionManager {
 	 * Metoda musi zostać wywołana przed korzystaniem z obiektu
 	 * @param context
 	 */
-	public void init(Context context) {
-		actionFactory = new ActionFactory(context);
-		capabilitiesAnalyzer = new CapabilitiesAnalyzer(context);
+	public void init(ServiceWithHandler service) {
+		actionFactory = new ActionFactory((Context)service, service.getHandler());
+		capabilitiesAnalyzer = new CapabilitiesAnalyzer((Context)service);
 	}
 	
 	/**
@@ -90,5 +91,16 @@ public enum ActionManager {
 		log.debug("Result: " + result);			
 		log.info("Action is done");
 		return result;
+	}
+
+	public void release(String varName) throws NoSuchActionException {
+		Action action = reservedActions.get(varName);
+		if(action == null) {
+			throw new NoSuchActionException(varName);
+		}
+		log.debug("Releasing action " + action.getClass().getSimpleName());
+		action.cleanup();
+		reservedActions.remove(varName);
+		log.debug("Action released.");
 	}
 }

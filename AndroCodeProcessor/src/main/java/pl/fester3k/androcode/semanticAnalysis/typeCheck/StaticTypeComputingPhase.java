@@ -139,7 +139,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 	 */
 	@Override
 	public void exitDev_exec(Dev_execContext ctx) {
-		Type type = Type.INT;
+		Type type = Type.OBJECT;
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}

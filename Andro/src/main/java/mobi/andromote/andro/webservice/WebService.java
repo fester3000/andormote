@@ -27,14 +27,16 @@ import pl.fester3k.androcode.datatypes.BroadcastIntentFilters;
 import pl.fester3k.androcode.datatypes.Script;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 public class WebService {
 	private final Logger log = Logger.getLogger(WebService.class);
-	Context context; 
-	String message = "";
-	ServerSocket serverSocket;
-	SocketServerThread socketServerThread;
+	private final Context  context; 
+	private String message = "";
+	private ServerSocket serverSocket;
+	private SocketServerThread socketServerThread;
+	private Handler handler = new Handler();
 
 	public WebService(Context context) {
 		this.context = context;
@@ -62,7 +64,7 @@ public class WebService {
 				serverSocket = new ServerSocket(SocketServerPORT);
 				toastMessage("I'm waiting here: " + getIpAddress() + ":" + serverSocket.getLocalPort());
 
-				while (!isFinished) {
+				while (!isFinished()) {
 					Socket socket = serverSocket.accept();
 					count++;
 					message += "#" + count + " from " + socket.getInetAddress()	+ ":" + socket.getPort() + "\n";
@@ -79,14 +81,22 @@ public class WebService {
 			}
 		}
 		
-		public void tryToStopMe() {
+		public synchronized void tryToStopMe() {
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			isFinished = true;
+			setFinished(true);
+		}
+
+		public synchronized boolean isFinished() {
+			return isFinished;
+		}
+
+		public synchronized void setFinished(boolean isFinished) {
+			this.isFinished = isFinished;
 		}
 	}
 

@@ -7,6 +7,7 @@ import pl.fester3k.androcode.deviceManagement.action.phone.helpers.email.GMailSe
 import android.content.Context;
 
 public class EmailAction extends BaseDeviceAction {
+	private static final String EMAIL_REGEX = "^([0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$"; 
 	public EmailAction(Context context) {
 		super(context);		
 	}
@@ -29,7 +30,7 @@ public class EmailAction extends BaseDeviceAction {
 		}
 		if(getParams().containsKey(ActionParams.EMAIL.TO.toString())) {
 			emailAddress = (String)getParams().get(ActionParams.EMAIL.TO.toString());
-			if(emailAddress != null && !emailAddress.equals("")) {
+			if(emailAddress != null && !emailAddress.equals("") && emailAddress.matches(EMAIL_REGEX)) {
 				try {   
 					//FIXME Only for internal use!!!
 					logger.debug("SendMail " + text + " " + topic);
@@ -38,7 +39,9 @@ public class EmailAction extends BaseDeviceAction {
                 } catch (Exception e) {   
                     logger.error("SendMail " + e.getMessage());   
                 } 
-			} 
+			} else {
+				logger.warn("email addres not specified or incorrect");
+			}
 		} else {
 			logger.warn("Email not sent. No e-mail address number provided");
 		}

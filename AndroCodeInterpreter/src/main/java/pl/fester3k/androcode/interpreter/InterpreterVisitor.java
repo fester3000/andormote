@@ -19,6 +19,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_releaseContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ExprContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
@@ -283,7 +284,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return result;
 	}
 
-
 	@Override
 	public Object visitExpr_var(Expr_varContext ctx) {
 		return super.visitExpr_var(ctx);
@@ -426,6 +426,16 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitExpr_dev(Expr_devContext ctx) {
 		return visit(ctx.dev_operation());
 	}
+	
+
+	@Override
+	public Object visitDev_release(Dev_releaseContext ctx) {
+		boolean result = false; 
+		String varId = ctx.ID().getText();
+		result = releaseDevice(ctx, varId);
+		return result;
+	}
+
 
 	@Override
 	public Object visitDev_setParam(Dev_setParamContext ctx) {
@@ -492,10 +502,23 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			ActionManager.INSTANCE.setParam(varId, propertyName, value);
 			result = true;
 		} catch (NoSuchActionException e) {
-			log.warn("No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
+			log.warn("setParam " + varId + " - No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
 		}
 		return result;
 	}
+	
+
+	private boolean releaseDevice(Dev_releaseContext ctx, String varId) {
+		boolean result = false;
+		try {
+			ActionManager.INSTANCE.release(varId);
+			result = true;
+		} catch (NoSuchActionException e) {
+			log.warn("Release  " + varId + " - No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
+		}
+		return result;
+	}
+
 	
 	private void tryToSleepInAndrocode(int sleepTime) {
 		try {

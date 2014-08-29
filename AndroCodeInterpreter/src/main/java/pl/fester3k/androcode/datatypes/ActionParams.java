@@ -42,7 +42,7 @@ public class ActionParams {
 		QUALITY;
 	}
 	
-	public enum AUDIO {
+	public enum AUDIO_IN {
 		MODE;
 	}
 	
@@ -59,5 +59,21 @@ public class ActionParams {
 		TO,
 		TEXT,
 		TOPIC;
+	}
+	public enum WIFI {
+		SSID,
+		MODE,
+		PASS;
+	}
+	public enum WIFI_MODE {
+		OPEN,
+		WEPx,
+		WPAx;
+	}
+	public enum AUDIO_OUT {
+		PATH;
+	}
+	public enum TTS {
+		TEXT;
 	}
 }

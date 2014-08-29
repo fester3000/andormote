@@ -1,42 +1,216 @@
 package pl.fester3k.androcode.deviceManagement.action.phone;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
+import java.util.List;
 
+import pl.fester3k.androcode.datatypes.ActionParams;
+import pl.fester3k.androcode.datatypes.ActionParams.WIFI_MODE;
 import pl.fester3k.androcode.datatypes.ActionResult;
-import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 
 public class WiFiConnectAction extends BaseDeviceAction {
+	private ActionParams.WIFI_MODE networkMode = WIFI_MODE.OPEN;
+	private String networkSSID = "";
+	private String networkPass = "";
+	
 	public WiFiConnectAction(Context context) {
 		super(context);		
 	}
 
 	@Override
 	public ActionResult run() {
-		final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/"; 
-		File newdir = new File(dir); 
-		newdir.mkdirs();
-
-		Date date = new Date();
-		String file = dir+date.getTime()+".jpg";
-		File newfile = new File(file);
-		try {
-			newfile.createNewFile();
-		} catch (IOException e) {}       
-
-		Uri outputFileUri = Uri.fromFile(newfile);
-
-		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); 
-		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
+		connectToWiFI();
 		return ActionResult.COMPLETED;
 	}
+
+	private void connectToWiFI() {
+		if(getParams().containsKey(ActionParams.WIFI.SSID.toString())) {
+			networkSSID = (String)getParams().get(ActionParams.WIFI.SSID.toString());
+		}
+		if(getParams().containsKey(ActionParams.WIFI.PASS.toString())) {
+			networkPass = (String)getParams().get(ActionParams.WIFI.PASS.toString());
+		}
+		if(getParams().containsKey(ActionParams.WIFI.PASS.toString())) {
+			networkMode = ActionParams.WIFI_MODE.valueOf((String)getParams().get(ActionParams.WIFI.MODE.toString()));
+		}
+		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+		ConnectToWIFITask connectTask = new ConnectToWIFITask(wifiManager);
+		connectTask.execute();
+	}
+
+	/**
+	 * Sprawdza czy dana siec istnieje i aktualizuje jej konfiguracje je�li
+	 * ta zostanie znaleziona
+	 * @param config nowa konfiguracja sieci
+	 * @return identyfikator sieci, do ktorej podlaczono
+	 */
+
+	private void updateNetwork(WifiManager wifiManager, WifiConfiguration config) {
+		Integer foundNetworkId = findNetworkInExistingConfig(wifiManager, config.SSID);
+		if (foundNetworkId != null) {
+			logger.debug("Removing old configuration of " + config.SSID);
+			wifiManager.removeNetwork(foundNetworkId);
+			wifiManager.saveConfiguration();
+		}
+		int networkId = wifiManager.addNetwork(config);
+		if (networkId >= 0) {
+			if (wifiManager.enableNetwork(networkId, false)) {
+				logger.debug("Connecting to network " + config.SSID);
+				wifiManager.saveConfiguration();
+			} else {
+				logger.debug("Failed to enable network " + config.SSID);
+			}
+		} else {
+			logger.debug("Unable to add network " + config.SSID);
+		}
+	}
+
+	private WifiConfiguration clearNetworkConf(String ssid) {
+		WifiConfiguration config = new WifiConfiguration();
+		config.allowedAuthAlgorithms.clear();
+		config.allowedGroupCiphers.clear();
+		config.allowedKeyManagement.clear();
+		config.allowedPairwiseCiphers.clear();
+		config.allowedProtocols.clear();
+		
+		config.SSID = convertToQuotedString(ssid);
+		return config;
+	}
+
+	
+	private void changeNetworkWEP(WifiManager wifiManager, String ssid, String password) {
+		WifiConfiguration config = clearNetworkConf(ssid);
+		config.wepKeys[0] = convertToQuotedString(password);
+		config.wepTxKeyIndex = 0;
+		config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+		config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+		updateNetwork(wifiManager, config);
+	}
+
+	private void changeNetworkWPA(WifiManager wifiManager, String ssid, String password) {
+		WifiConfiguration config = clearNetworkConf(ssid);
+		config.preSharedKey = convertToQuotedString(password);
+		config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+		config.allowedProtocols.set(WifiConfiguration.Protocol.WPA); // WPA
+		config.allowedProtocols.set(WifiConfiguration.Protocol.RSN); // WPA2
+		config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+		config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_EAP);
+		config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+		config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+		updateNetwork(wifiManager, config);
+	}
+
+	private void changeNetworkUnEncrypted(WifiManager wifiManager, String ssid) {
+		WifiConfiguration config = clearNetworkConf(ssid);
+		config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+		updateNetwork(wifiManager, config);
+	}
+
+	private Integer findNetworkInExistingConfig(WifiManager wifiManager, String ssid) {
+		List<WifiConfiguration> existingConfigs = wifiManager.getConfiguredNetworks();
+		for (WifiConfiguration existingConfig : existingConfigs) {
+			if (existingConfig.SSID.equals(ssid)) {
+				return existingConfig.networkId;
+			}
+		}
+		return null;
+	}
+
+	
+	  private static String convertToQuotedString(String string) {
+	    if (string == null || string.length() == 0) {
+	      return null;
+	    }
+	    if (string.charAt(0) == '"' && string.charAt(string.length() - 1) == '"') {
+	      return string;
+	    }
+	    return '\"' + string + '\"';
+	  }
+	  
+	/**
+	 * Przeprowadza proces uruchomienia komunikacji WIFI, dodaje/aktualizuje konfiguracje sieci
+	 * i podejmuje probe polaczenia z dodana siecia
+	 * @author Sebastian
+	 *
+	 */
+	private class ConnectToWIFITask extends AsyncTask<Void, Void, Boolean> {
+
+		private WifiManager wifiManager;
+		
+		public ConnectToWIFITask(WifiManager wifiManager) {
+			super();
+			this.wifiManager = wifiManager;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			if(!wifiManager.isWifiEnabled()) {
+				logger.debug("Enabling WIFI...");
+				if(wifiManager.setWifiEnabled(true)) {
+					logger.debug("WIFI Enabled");
+				} else {
+					logger.debug("Failed to enable WIFI");
+					return false;
+				}
+
+				int count = 0;
+				while(!wifiManager.isWifiEnabled()) {
+					if(count >= 10) {
+						logger.debug("Enable WIFI timeout");
+						return false;
+					}
+					logger.debug("Waiting for WIFI...");
+					try {
+						Thread.sleep(1000L);
+					} catch (InterruptedException e) {
+
+					}
+					count++;
+				}
+			}
+			
+			logger.debug(networkSSID);
+
+			switch(networkMode) {
+			//OPEN
+			case OPEN: 
+				changeNetworkUnEncrypted(wifiManager, networkSSID);
+				break;
+			//WEP
+			case WEPx: 
+				changeNetworkWEP(wifiManager, networkSSID, networkPass);
+				break;
+			//WPA/WPA2
+			case WPAx: 
+				changeNetworkWPA(wifiManager, networkSSID, networkPass);
+				break;
+			default:
+				logger.debug("Network mode not recognized, attempting to connect to open network");
+				changeNetworkUnEncrypted(wifiManager, networkSSID);
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			
+			if(result) {
+				logger.info("Connected to " + networkSSID);
+			} else {
+				logger.info("Failed to connect to " + networkSSID);			}
+			super.onPostExecute(result);
+		}
+
+		
+	  }
 
 }

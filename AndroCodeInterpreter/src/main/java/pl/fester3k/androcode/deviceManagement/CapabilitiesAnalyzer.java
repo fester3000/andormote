@@ -11,6 +11,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 
 public class CapabilitiesAnalyzer {
 	private final Logger log = LoggerFactory.getLogger(CapabilitiesAnalyzer.class);
@@ -53,9 +56,6 @@ public class CapabilitiesAnalyzer {
 		checkTelephonyCapabiliy();
 		checkInternetConnection();
 		checkWIFIConnection();
-//		checkBluetoothConnection();
-		checkTetheringCapabilities();
-
 	}
 
 	private void checkDevicesCapabilities() {
@@ -63,12 +63,12 @@ public class CapabilitiesAnalyzer {
 		checkFlashlightCapability();
 		checkAudioCapabilities();
 		checkRecordingCapabilities();
+		checkTTSCapabilities();
 
 	}
 
 	private void checkSensorCapabilities() {
 		checkLocationProvider();
-		checkPreciseLocationProvider();
 		checkLightSensorCapability();
 		checkGravitySensorCapability();
 		checkRelativeHumiditySensorCapability();
@@ -83,7 +83,6 @@ public class CapabilitiesAnalyzer {
 
 	}
 
-
 	private void checkRideCapabilities() {
 		if(RideController.INSTANCE.isRideAvailable()) {
 			availableFeatures.add(Feature.RIDE);
@@ -95,42 +94,33 @@ public class CapabilitiesAnalyzer {
 
 	}
 
-	private void checkTetheringCapabilities() {
-		if(deviceHasFeature(PackageManager.FEATURE_WIFI)) {
-			availableFeatures.add(Feature.TETHERING);
-		}
-	}
-
-//	private void checkBluetoothConnection() {
-//		if(deviceHasFeature(PackageManager.FEATURE_BLUETOOTH)) {
-//			availableFeatures.add(Feature.BLUETOOTH_CONNECTION);
-//		}
-//
-//	}
-
 	private void checkWIFIConnection() {
 		if(deviceHasFeature(PackageManager.FEATURE_WIFI)) {
-			availableFeatures.add(Feature.WIFI_CONNECTION);
+			availableFeatures.add(Feature.WIFI_CONNECT);
 		}
 	}
 
 	private void checkInternetConnection() {
-		//TODO write condition
-		//PoprawIĆ komunikaty
-		availableFeatures.add(Feature.EMAIL);
-
+		ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(pickIsMobileDataTransferOn(connectivityManager) || pickIsWifiOn(connectivityManager)) {
+			availableFeatures.add(Feature.EMAIL);
+		}
 	}
 
 	private void checkTelephonyCapabiliy() {
 		if(deviceHasFeature(PackageManager.FEATURE_TELEPHONY)) {
 			availableFeatures.add(Feature.SMS);
 		}
+	}
+	
 
+	private void checkTTSCapabilities() {
+		availableFeatures.add(Feature.TTS);
 	}
 
 	private void checkRecordingCapabilities() {
 		if(deviceHasFeature(PackageManager.FEATURE_MICROPHONE)) {
-			availableFeatures.add(Feature.AUDIO_IN);
+			availableFeatures.add(Feature.RECORD_AUDIO);
 		}
 	}
 
@@ -220,13 +210,6 @@ public class CapabilitiesAnalyzer {
 		}
 	}
 
-	private void checkPreciseLocationProvider() {
-		if(deviceHasFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-			availableFeatures.add(Feature.LOCATION_GPS);
-		}
-
-	}
-
 	private void checkLocationProvider() {
 		if(deviceHasFeature(PackageManager.FEATURE_LOCATION)) {
 			availableFeatures.add(Feature.LOCATION);
@@ -266,5 +249,30 @@ public class CapabilitiesAnalyzer {
 		return availableFeaturesString;
 	}
 	
-	
+	private static boolean pickIsMobileDataTransferOn(ConnectivityManager connectivityManager) {
+		if(connectivityManager != null) {
+			NetworkInfo networkInfo = connectivityManager.getNetworkInfo(0);
+			if(networkInfo != null) {
+				State mobile =	networkInfo.getState();
+
+				if (mobile != null && (mobile == State.CONNECTED || mobile == State.CONNECTING ) )
+					return true;
+			}
+		}
+		return false;	
+	}
+
+	private static boolean pickIsWifiOn(ConnectivityManager connectivityManager) {
+		if(connectivityManager != null) {
+			State wifi = connectivityManager.getNetworkInfo(1).getState();
+			if (wifi == State.CONNECTED || wifi == State.CONNECTING)
+				return true;
+		}
+		return false;	
+	}
+//
+//	private static boolean pickIsGpsOn(Activity mainActivity) {
+//		LocationManager locationManager = (LocationManager)mainActivity.getSystemService(Context.LOCATION_SERVICE);
+//		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//	}
 }

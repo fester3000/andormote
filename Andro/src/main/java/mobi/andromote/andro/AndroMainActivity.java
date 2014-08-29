@@ -273,7 +273,7 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void recordAudio(Bundle extras) {
-		boolean record = extras.getBoolean(ActionParams.AUDIO.MODE.toString(), false);
+		boolean record = extras.getBoolean(ActionParams.AUDIO_IN.MODE.toString(), false);
 		if(record) {
 			logger.info("starting audio recording");
 			startAudioRecording();

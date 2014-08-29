@@ -1,14 +1,19 @@
 package pl.fester3k.androcode.deviceManagement.action;
 
 import pl.fester3k.androcode.datatypes.Feature;
+import pl.fester3k.androcode.deviceManagement.action.phone.AudioOut;
 import pl.fester3k.androcode.deviceManagement.action.phone.CameraAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.DummyAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.EmailAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.LocationAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.FlashlightAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecAudioAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.RecVideoAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.SMSAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.TextToSpeechAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.WiFiConnectAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.AccelerometerSensorAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.sensors.AudioSensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.GravitySensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.GyroscopeSensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.HumidityAction;
@@ -20,12 +25,15 @@ import pl.fester3k.androcode.deviceManagement.action.phone.sensors.ProximitySens
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.TemperatureSensorAction;
 import pl.fester3k.androcode.deviceManagement.action.ride.SimpleRideAction;
 import android.content.Context;
+import android.os.Handler;
 
 public class ActionFactory {
-	private Context context;
+	private final Context context;
+	private final Handler handler;
 
-	public ActionFactory(Context context) {
+	public ActionFactory(Context context, Handler handler) {
 		this.context = context;
+		this.handler = handler;
 	}
 
 	public Action createAction(Feature feature) {
@@ -35,7 +43,7 @@ public class ActionFactory {
 			action = new AccelerometerSensorAction(context);
 			break;
 		case AUDIO_SENSOR:
-			action = new DummyAction(context);
+			action = new AudioSensorAction(context, handler);
 			break;
 		case GRAVITY_SENSOR:
 			action = new GravitySensorAction(context);
@@ -64,15 +72,15 @@ public class ActionFactory {
 		case TEMPERATURE_SENSOR:
 			action = new TemperatureSensorAction(context);
 			break;
-		case AUDIO_IN:
+		case RECORD_AUDIO:
 			action = new RecAudioAction(context);
 			break;
 		case AUDIO_OUT:
-			action = new DummyAction(context);
+			action = new AudioOut(context);
 			break;
-//		case BLUETOOTH_CONNECTION:
-//			action = new DummyAction(context, feature);
-//			break;
+		case TTS:
+			action = new TextToSpeechAction(context);
+			break;
 		case CAMERA:
 			action = new CameraAction(context);
 			break;
@@ -86,10 +94,7 @@ public class ActionFactory {
 			action = new EmailAction(context);
 			break;
 		case LOCATION:
-			action = new DummyAction(context);
-			break;
-		case LOCATION_GPS:
-			action = new DummyAction(context);
+			action = new LocationAction(context, handler);
 			break;
 		case RIDE:
 			action = new SimpleRideAction(context);
@@ -97,11 +102,8 @@ public class ActionFactory {
 		case SMS:
 			action = new SMSAction(context);
 			break;
-		case TETHERING:
-			action = new DummyAction(context);
-			break;
-		case WIFI_CONNECTION:
-			action = new DummyAction(context);
+		case WIFI_CONNECT:
+			action = new WiFiConnectAction(context);
 			break;
 		default:
 			action = new DummyAction(context);

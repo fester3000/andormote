@@ -2,15 +2,22 @@ package pl.fester3k.androcode.deviceManagement.action.phone.helpers;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import pl.fester3k.androcode.deviceManagement.ActionManager;
 import android.media.MediaRecorder;
 
-public class AudioSensor {
+public class AudioSensorHelper {
+	private final Logger logger = LoggerFactory.getLogger(AudioSensorHelper.class);
+	
 	static final private double EMA_FILTER = 0.6;
 
 	private MediaRecorder mRecorder = null;
 	private double mEMA = 0.0;
 
 	public void start() {
+		logger.debug("AudioSensor started");
 		if (mRecorder == null) {
 			mRecorder = new MediaRecorder();
 			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -34,6 +41,7 @@ public class AudioSensor {
 	}
 
 	public void stop() {
+		logger.debug("AudioSensor stopped");
 		if (mRecorder != null) {
 			mRecorder.stop();       
 			mRecorder.release();
@@ -41,7 +49,7 @@ public class AudioSensor {
 		}
 	}
 
-	public double getAmplitude() {
+	public synchronized double getAmplitude() {
 		if (mRecorder != null)
 			return  (mRecorder.getMaxAmplitude()/2700.0);
 		else
@@ -49,7 +57,7 @@ public class AudioSensor {
 
 	}
 
-	public double getAmplitudeEMA() {
+	public synchronized double getAmplitudeEMA() {
 		double amp = getAmplitude();
 		mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
 		return mEMA;

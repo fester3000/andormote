@@ -5,17 +5,20 @@ import mobi.andromote.andro.webservice.WebService;
 
 import org.apache.log4j.Logger;
 
+import pl.fester3k.androcode.datatypes.ServiceWithHandler;
 import pl.fester3k.androcode.deviceManagement.ActionManager;
 import pl.fester3k.androcode.deviceManagement.RideController;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 
-public class AndroCodeService extends Service {
+public class AndroCodeService extends Service implements ServiceWithHandler {
 	private final Logger log = Logger.getLogger(AndroMainActivity.class);
 	WebService webService;
 	private final IBinder binder = new LocalBinder();
+	private final Handler handler = new Handler();
 	
 	@Override
 	public void onCreate() {
@@ -56,6 +59,11 @@ public class AndroCodeService extends Service {
 		webService.destroy();
 		RideController.INSTANCE.destroy();
 		super.onDestroy();
+	}
+
+
+	public Handler getHandler() {
+		return handler;
 	}
 	
 	
