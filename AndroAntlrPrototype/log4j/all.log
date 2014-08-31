@@ -8116,3 +8116,1749 @@ end
 20:20:43.807 INFO  InterpreterVisitor - ####################################
 20:20:43.807 INFO  InterpreterVisitor - ## AndroCode interpreting is done ##
 20:20:43.807 INFO  InterpreterVisitor - ####################################
+14:39:22.937 INFO  AndroCodePreprocessor - ####################################
+14:39:22.940 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:39:22.940 INFO  AndroCodePreprocessor - ####################################
+14:39:22.940 INFO  AndroCodePreprocessor - Processing file testAction
+14:39:22.940 INFO  AndroCodePreprocessor - Processing first pass...
+14:39:23.033 INFO  DefinePhase - Starting define phase
+14:39:23.038 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:39:23.040 INFO  ResolvePhase - Starting resolve phase
+14:39:23.040 DEBUG ResolvePhase -  [1,0] : global []
+14:39:23.041 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:39:23.042 INFO  TypeCheckingPhase - Starting type checking phase
+14:39:23.043 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        return (result1 == result2);   
+   }
+end
+14:39:23.044 INFO  AndroCodePreprocessor - First pass done.
+14:39:23.046 INFO  AndroCodePreprocessor - Processing second pass...
+14:39:23.048 INFO  DefinePhase - Starting define phase
+14:39:23.048 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:39:23.048 INFO  ResolvePhase - Starting resolve phase
+14:39:23.048 DEBUG ResolvePhase -  [1,0] : global []
+14:39:23.049 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:39:23.051 INFO  AndroCodePreprocessor - Second pass done.
+14:39:23.051 INFO  AndroCodePreprocessor - ####################################
+14:39:23.051 INFO  AndroCodePreprocessor - ##  AndroCode processing is done  ##
+14:39:23.051 INFO  AndroCodePreprocessor - ####################################
+14:39:23.053 INFO  InterpreterVisitor - ####################################
+14:39:23.053 INFO  InterpreterVisitor - ## AndroCode interpreting started ##
+14:39:23.053 INFO  InterpreterVisitor - ####################################
+14:39:58.891 INFO  AndroCodePreprocessor - ####################################
+14:39:58.893 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:39:58.893 INFO  AndroCodePreprocessor - ####################################
+14:39:58.893 INFO  AndroCodePreprocessor - Processing file testAction
+14:39:58.893 INFO  AndroCodePreprocessor - Processing first pass...
+14:39:58.947 INFO  DefinePhase - Starting define phase
+14:39:58.948 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:39:58.950 INFO  ResolvePhase - Starting resolve phase
+14:39:58.950 DEBUG ResolvePhase -  [1,0] : global []
+14:39:58.951 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:39:58.952 INFO  TypeCheckingPhase - Starting type checking phase
+14:39:58.953 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        return (result1 == result2);   
+   }
+end
+14:39:58.954 INFO  AndroCodePreprocessor - First pass done.
+14:39:58.954 INFO  AndroCodePreprocessor - Processing second pass...
+14:39:58.956 INFO  DefinePhase - Starting define phase
+14:39:58.956 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:39:58.956 INFO  ResolvePhase - Starting resolve phase
+14:39:58.956 DEBUG ResolvePhase -  [1,0] : global []
+14:39:58.957 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:39:58.957 INFO  AndroCodePreprocessor - Second pass done.
+14:39:58.957 INFO  AndroCodePreprocessor - ####################################
+14:39:58.957 INFO  AndroCodePreprocessor - ##  AndroCode processing is done  ##
+14:39:58.957 INFO  AndroCodePreprocessor - ####################################
+14:40:25.541 INFO  AndroCodePreprocessor - ####################################
+14:40:25.543 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:40:25.543 INFO  AndroCodePreprocessor - ####################################
+14:40:25.543 INFO  AndroCodePreprocessor - Processing file testAction
+14:40:25.543 INFO  AndroCodePreprocessor - Processing first pass...
+14:40:25.598 INFO  DefinePhase - Starting define phase
+14:40:25.599 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:40:25.600 INFO  ResolvePhase - Starting resolve phase
+14:40:25.600 DEBUG ResolvePhase -  [1,0] : global []
+14:40:25.601 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:40:25.602 INFO  TypeCheckingPhase - Starting type checking phase
+14:40:25.604 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        return (result1 == result2);   
+   }
+end
+14:40:25.604 INFO  AndroCodePreprocessor - First pass done.
+14:40:25.605 INFO  AndroCodePreprocessor - Processing second pass...
+14:40:25.606 INFO  DefinePhase - Starting define phase
+14:40:25.607 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:40:25.607 INFO  ResolvePhase - Starting resolve phase
+14:40:25.607 DEBUG ResolvePhase -  [1,0] : global []
+14:40:25.607 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:40:25.607 INFO  AndroCodePreprocessor - Second pass done.
+14:40:25.607 INFO  AndroCodePreprocessor - ####################################
+14:40:25.608 INFO  AndroCodePreprocessor - ##  AndroCode processing is done  ##
+14:40:25.608 INFO  AndroCodePreprocessor - ####################################
+14:41:23.082 INFO  AndroCodePreprocessor - ####################################
+14:41:23.083 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:41:23.083 INFO  AndroCodePreprocessor - ####################################
+14:41:23.084 INFO  AndroCodePreprocessor - Processing file testAction
+14:41:23.084 INFO  AndroCodePreprocessor - Processing first pass...
+14:41:23.138 INFO  DefinePhase - Starting define phase
+14:41:23.139 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:41:23.140 INFO  ResolvePhase - Starting resolve phase
+14:41:23.141 DEBUG ResolvePhase -  [1,0] : global []
+14:41:23.141 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:41:23.142 INFO  TypeCheckingPhase - Starting type checking phase
+14:41:23.144 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        return (result1 == result2);   
+   }
+end
+14:41:23.144 INFO  AndroCodePreprocessor - First pass done.
+14:41:23.144 INFO  AndroCodePreprocessor - Processing second pass...
+14:41:23.146 INFO  DefinePhase - Starting define phase
+14:41:23.147 DEBUG DefinePhase -  [1,0] : exitScript global []
+14:41:23.147 INFO  ResolvePhase - Starting resolve phase
+14:41:23.147 DEBUG ResolvePhase -  [1,0] : global []
+14:41:23.147 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:41:23.147 INFO  AndroCodePreprocessor - Second pass done.
+14:41:23.147 INFO  AndroCodePreprocessor - ####################################
+14:41:23.147 INFO  AndroCodePreprocessor - ##  AndroCode processing is done  ##
+14:41:23.148 INFO  AndroCodePreprocessor - ####################################
+14:42:39.574 INFO  AndroCodePreprocessor - ####################################
+14:42:39.575 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:42:39.575 INFO  AndroCodePreprocessor - ####################################
+14:42:39.575 INFO  AndroCodePreprocessor - Processing file testAction
+14:42:39.575 INFO  AndroCodePreprocessor - Processing first pass...
+14:42:39.646 INFO  DefinePhase - Starting define phase
+14:42:39.650 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:42:39.650 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:42:39.650 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:42:39.651 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:42:39.651 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:42:39.651 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2]
+14:42:39.651 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:42:39.651 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:42:39.652 INFO  ResolvePhase - Starting resolve phase
+14:42:39.652 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:42:39.653 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:42:39.653 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:42:39.653 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:42:39.653 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:42:39.653 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:42:39.653 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:42:39.653 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:42:39.653 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:42:39.653 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:42:39.653 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:42:39.653 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:42:39.654 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:42:39.654 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:42:39.654 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:42:39.654 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:42:39.654 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:42:39.654 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:42:39.654 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:42:39.654 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:42:39.654 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:42:39.654 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:42:39.654 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:42:39.654 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:42:39.654 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:42:39.654 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2]
+14:42:39.654 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:42:39.654 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:42:39.654 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:42:39.654 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:42:39.655 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:42:39.655 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:42:39.655 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:42:39.655 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:42:39.655 DEBUG ResolvePhase -  [35,16] : Symbol bool result1 ok
+14:42:39.656 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:42:39.656 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:42:39.657 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [35,16] : -> bool result1
+14:42:39.658 DEBUG StaticTypeComputingPhase -  [35,15] : -> null (result1==result2)
+14:42:39.659 INFO  TypeCheckingPhase - Starting type checking phase
+14:42:39.661 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:42:39.661 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:42:39.661 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:42:39.661 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:42:39.661 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:42:39.662 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:42:39.662 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+14:42:39.662 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+14:42:39.662 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:42:39.662 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:42:39.662 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+14:42:39.662 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:42:39.662 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:42:39.662 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+14:42:39.662 ERROR TypeCheckingPhase -  [35,15] : Unable to process automatic type promotion for bool and (result1==result2). Assigned value has unknown type in return(result1==result2);
+14:42:39.663 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        return (result1 == result2);   
+   }
+end
+14:42:39.663 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:42:39.663 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@ab54eb
+14:42:39.663 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:42:39.663 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+14:42:39.663 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:42:39.663 ERROR Main - Semantic analysis failed
+14:45:08.465 INFO  AndroCodePreprocessor - ####################################
+14:45:08.466 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:45:08.466 INFO  AndroCodePreprocessor - ####################################
+14:45:08.466 INFO  AndroCodePreprocessor - Processing file testAction
+14:45:08.466 INFO  AndroCodePreprocessor - Processing first pass...
+14:45:08.537 INFO  DefinePhase - Starting define phase
+14:45:08.539 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:45:08.539 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:45:08.539 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:45:08.539 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:45:08.540 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:45:08.540 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:45:08.540 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:45:08.540 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:45:08.540 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:45:08.541 INFO  ResolvePhase - Starting resolve phase
+14:45:08.541 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:45:08.542 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:45:08.542 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:45:08.542 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:45:08.542 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:45:08.542 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:45:08.542 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:45:08.542 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:45:08.542 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:45:08.542 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:45:08.542 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:45:08.542 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:45:08.542 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:45:08.542 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:45:08.542 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:45:08.542 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:45:08.543 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:45:08.543 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:45:08.543 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:45:08.543 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:45:08.543 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:45:08.543 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:45:08.543 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:45:08.543 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:45:08.543 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:45:08.543 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:45:08.543 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:45:08.543 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:45:08.543 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:45:08.543 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:45:08.543 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:45:08.543 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:45:08.543 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:45:08.543 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:45:08.543 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:45:08.544 ERROR ResolvePhase -  [35,22] : !Symbol false not declared! in false
+14:45:08.544 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:45:08.544 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:45:08.544 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:45:08.544 ERROR ResolvePhase -  [37,18] : !Symbol true not declared! in true
+14:45:08.544 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:45:08.544 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:45:08.544 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@1d5a0
+14:45:08.544 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:45:08.544 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+14:45:08.544 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:45:08.544 ERROR Main - Semantic analysis failed
+14:45:24.061 INFO  AndroCodePreprocessor - ####################################
+14:45:24.062 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:45:24.062 INFO  AndroCodePreprocessor - ####################################
+14:45:24.062 INFO  AndroCodePreprocessor - Processing file testAction
+14:45:24.062 INFO  AndroCodePreprocessor - Processing first pass...
+14:45:24.132 INFO  DefinePhase - Starting define phase
+14:45:24.134 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:45:24.134 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:45:24.134 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:45:24.134 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:45:24.134 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:45:24.134 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:45:24.135 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:45:24.135 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:45:24.135 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:45:24.136 INFO  ResolvePhase - Starting resolve phase
+14:45:24.136 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:45:24.137 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:45:24.137 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:45:24.137 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:45:24.137 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:45:24.137 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:45:24.137 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:45:24.137 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:45:24.137 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:45:24.137 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:45:24.137 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:45:24.137 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:45:24.137 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:45:24.137 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:45:24.137 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:45:24.137 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:45:24.137 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:45:24.138 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:45:24.138 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:45:24.138 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:45:24.138 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:45:24.138 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:45:24.138 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:45:24.138 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:45:24.138 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:45:24.138 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:45:24.138 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:45:24.138 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:45:24.138 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:45:24.138 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:45:24.138 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:45:24.138 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:45:24.138 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:45:24.138 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:45:24.138 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:45:24.138 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:45:24.139 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:45:24.139 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:45:24.139 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:45:24.139 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:45:24.140 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:45:24.141 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+14:45:24.142 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+14:45:24.143 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+14:45:24.143 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+14:45:24.143 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+14:45:24.144 INFO  TypeCheckingPhase - Starting type checking phase
+14:45:24.145 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:45:24.145 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:45:24.145 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:45:24.145 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:45:24.146 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:45:24.146 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:45:24.146 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+14:45:24.146 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+14:45:24.146 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:45:24.146 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:45:24.146 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+14:45:24.146 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:45:24.146 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:45:24.147 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+14:45:24.147 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+14:45:24.147 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:45:24.147 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+14:45:24.147 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:45:24.147 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        bool result = FALSE;
+        if(result1 == result2) {
+        	result = TRUE;
+        }
+        return result;   
+   }
+end
+14:45:24.147 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:45:24.147 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@941db6
+14:45:24.147 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:45:24.147 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+14:45:24.147 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:45:24.148 ERROR Main - Semantic analysis failed
+14:46:36.506 INFO  AndroCodePreprocessor - ####################################
+14:46:36.506 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:46:36.507 INFO  AndroCodePreprocessor - ####################################
+14:46:36.507 INFO  AndroCodePreprocessor - Processing file testAction
+14:46:36.507 INFO  AndroCodePreprocessor - Processing first pass...
+14:46:36.588 INFO  DefinePhase - Starting define phase
+14:46:36.591 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:46:36.591 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:46:36.591 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:46:36.591 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:46:36.593 INFO  ResolvePhase - Starting resolve phase
+14:46:36.593 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:46:36.594 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:46:36.594 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:46:36.594 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:46:36.594 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:46:36.594 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:46:36.594 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:46:36.594 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:46:36.594 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:46:36.594 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:46:36.594 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:46:36.594 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:46:36.594 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:46:36.594 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:46:36.594 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:46:36.594 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:46:36.595 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:46:36.595 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:46:36.595 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:46:36.595 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:46:36.595 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:46:36.595 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:46:36.595 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:46:36.595 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:46:36.595 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:46:36.595 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:46:36.595 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:46:36.595 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:46:36.595 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:46:36.595 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:46:36.595 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:46:36.595 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:46:36.595 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:46:36.595 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:46:36.596 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:46:36.596 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:46:36.596 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:46:36.596 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:46:36.596 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:46:36.597 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:46:36.597 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:46:36.598 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:46:36.599 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+14:46:36.600 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+14:46:36.613 INFO  TypeCheckingPhase - Starting type checking phase
+14:46:44.076 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:46:44.077 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:46:44.078 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:46:44.079 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:46:44.081 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:46:44.084 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:46:44.086 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+14:46:44.087 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+14:46:44.088 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:46:44.089 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:46:44.091 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+14:46:44.092 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:46:44.094 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:46:44.095 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+14:46:44.095 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+14:46:44.096 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:46:44.097 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+14:46:44.098 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:46:44.101 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        bool result = FALSE;
+        if(result1 == result2) {
+        	result = TRUE;
+        }
+        return result;   
+   }
+end
+14:46:49.050 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:46:49.051 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@842d9a
+14:46:49.051 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:46:49.051 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+14:46:49.052 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:46:49.052 ERROR Main - Semantic analysis failed
+14:46:52.526 INFO  AndroCodePreprocessor - ####################################
+14:46:52.527 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:46:52.527 INFO  AndroCodePreprocessor - ####################################
+14:46:52.527 INFO  AndroCodePreprocessor - Processing file testAction
+14:46:52.527 INFO  AndroCodePreprocessor - Processing first pass...
+14:46:52.608 INFO  DefinePhase - Starting define phase
+14:46:52.611 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:46:52.611 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:46:52.612 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:46:52.612 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:46:52.613 INFO  ResolvePhase - Starting resolve phase
+14:46:52.614 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:46:52.614 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:46:52.614 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:46:52.614 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:46:52.614 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:46:52.614 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:46:52.614 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:46:52.614 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:46:52.614 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:46:52.615 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:46:52.615 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:46:52.615 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:46:52.615 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:46:52.615 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:46:52.615 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:46:52.615 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:46:52.615 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:46:52.615 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:46:52.615 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:46:52.615 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:46:52.615 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:46:52.615 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:46:52.615 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:46:52.615 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:46:52.616 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:46:52.616 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:46:52.616 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:46:52.616 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:46:52.616 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:46:52.616 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:46:52.616 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:46:52.616 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:46:52.616 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:46:52.616 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:46:52.616 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:46:52.616 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:46:52.616 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:46:52.616 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:46:52.616 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:46:52.617 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:46:52.618 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:46:52.619 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:46:52.620 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+14:46:52.621 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+14:46:52.627 INFO  TypeCheckingPhase - Starting type checking phase
+14:46:59.050 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:46:59.050 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:46:59.050 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:46:59.051 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:46:59.051 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:46:59.051 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:46:59.052 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+14:46:59.052 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+14:46:59.052 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:46:59.052 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:46:59.052 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+14:46:59.052 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:46:59.053 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:46:59.053 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+14:46:59.053 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+14:46:59.053 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:46:59.053 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+14:46:59.053 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:46:59.054 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        bool result = FALSE;
+        if(result1 == result2) {
+        	result = TRUE;
+        }
+        return result;   
+   }
+end
+14:46:59.054 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:46:59.055 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@1950e0a
+14:46:59.055 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:46:59.055 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+14:46:59.055 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+14:46:59.055 ERROR Main - Semantic analysis failed
+14:47:40.049 INFO  AndroCodePreprocessor - ####################################
+14:47:40.050 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:47:40.050 INFO  AndroCodePreprocessor - ####################################
+14:47:40.050 INFO  AndroCodePreprocessor - Processing file testAction
+14:47:40.050 INFO  AndroCodePreprocessor - Processing first pass...
+14:47:40.131 INFO  DefinePhase - Starting define phase
+14:47:40.134 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:47:40.134 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:47:40.134 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:47:40.134 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:47:40.136 INFO  ResolvePhase - Starting resolve phase
+14:47:40.136 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:47:40.136 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:47:40.137 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:47:40.137 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:47:40.137 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:47:40.137 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:47:40.137 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:47:40.137 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:47:40.137 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:47:40.137 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:47:40.137 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:47:40.137 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:47:40.137 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:47:40.137 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:47:40.137 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:47:40.137 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:47:40.137 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:47:40.137 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:47:40.137 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:47:40.138 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:47:40.138 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:47:40.138 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:47:40.138 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:47:40.138 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:47:40.138 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:47:40.138 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:47:40.138 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:47:40.138 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:47:40.138 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:47:40.138 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:47:40.138 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:47:40.138 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:47:40.138 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:47:40.138 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:47:40.138 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:47:40.138 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:47:40.138 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:47:40.139 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:47:40.139 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:47:40.139 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:47:40.140 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:47:40.141 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:47:40.142 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+14:47:40.143 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+14:47:40.150 INFO  TypeCheckingPhase - Starting type checking phase
+14:48:10.923 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:48:23.818 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:48:25.245 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:50:49.143 INFO  AndroCodePreprocessor - ####################################
+14:50:49.144 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+14:50:49.144 INFO  AndroCodePreprocessor - ####################################
+14:50:49.144 INFO  AndroCodePreprocessor - Processing file testAction
+14:50:49.144 INFO  AndroCodePreprocessor - Processing first pass...
+14:50:49.227 INFO  DefinePhase - Starting define phase
+14:50:49.229 DEBUG DefinePhase -  [12,38] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [14,15] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [11,52] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [29,38] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [32,41] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [36,31] : exitBlock local []
+14:50:49.230 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:50:49.230 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:50:49.230 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:50:49.232 INFO  ResolvePhase - Starting resolve phase
+14:50:49.232 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+14:50:49.232 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+14:50:49.232 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+14:50:49.232 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+14:50:49.233 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+14:50:49.233 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+14:50:49.233 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+14:50:49.233 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+14:50:49.233 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+14:50:49.233 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+14:50:49.233 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+14:50:49.233 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+14:50:49.233 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+14:50:49.233 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+14:50:49.233 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+14:50:49.233 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+14:50:49.233 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+14:50:49.233 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+14:50:49.233 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+14:50:49.233 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+14:50:49.233 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+14:50:49.234 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+14:50:49.234 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+14:50:49.234 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+14:50:49.234 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+14:50:49.234 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+14:50:49.234 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+14:50:49.234 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+14:50:49.234 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+14:50:49.234 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+14:50:49.234 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+14:50:49.234 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+14:50:49.234 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+14:50:49.234 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+14:50:49.234 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+14:50:49.234 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+14:50:49.234 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+14:50:49.234 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+14:50:49.234 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+14:50:49.235 INFO  StaticTypeComputingPhase - Starting static type computing phase
+14:50:49.235 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+14:50:49.236 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+14:50:49.237 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+14:50:49.238 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+14:50:49.239 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+14:50:49.239 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+14:50:49.239 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+14:50:49.245 INFO  TypeCheckingPhase - Starting type checking phase
+14:50:51.751 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+14:50:53.000 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+14:50:53.896 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:51:10.535 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:51:12.616 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:51:12.617 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:51:16.121 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+14:51:17.593 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+14:51:41.240 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:51:41.241 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:51:43.208 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+14:51:43.208 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:51:43.209 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:51:44.456 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+14:51:45.640 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+14:51:45.640 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:51:46.776 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+14:51:51.963 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+16:12:27.660 INFO  AndroCodePreprocessor - ####################################
+16:12:27.661 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+16:12:27.661 INFO  AndroCodePreprocessor - ####################################
+16:12:27.661 INFO  AndroCodePreprocessor - Processing file testAction
+16:12:27.661 INFO  AndroCodePreprocessor - Processing first pass...
+16:12:27.732 INFO  DefinePhase - Starting define phase
+16:12:27.735 DEBUG DefinePhase -  [12,38] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [14,15] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [11,52] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [29,38] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [32,41] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [36,31] : exitBlock local []
+16:12:27.735 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:12:27.735 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:12:27.735 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:12:27.737 INFO  ResolvePhase - Starting resolve phase
+16:12:27.737 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:12:27.737 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+16:12:27.737 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+16:12:27.737 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+16:12:27.737 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+16:12:27.737 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+16:12:27.737 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+16:12:27.737 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+16:12:27.738 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+16:12:27.738 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+16:12:27.738 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+16:12:27.738 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+16:12:27.738 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+16:12:27.738 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+16:12:27.738 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+16:12:27.738 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+16:12:27.738 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+16:12:27.738 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+16:12:27.738 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+16:12:27.738 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+16:12:27.738 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+16:12:27.738 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+16:12:27.738 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+16:12:27.738 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+16:12:27.738 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:12:27.739 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:12:27.739 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+16:12:27.739 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+16:12:27.739 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+16:12:27.739 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+16:12:27.739 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+16:12:27.739 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+16:12:27.739 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+16:12:27.739 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+16:12:27.739 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+16:12:27.739 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+16:12:27.739 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+16:12:27.739 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+16:12:27.739 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+16:12:27.740 INFO  StaticTypeComputingPhase - Starting static type computing phase
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:12:27.740 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [12,18] : -> null targetBearing-10
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:12:27.741 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [29,18] : -> null targetBearing-10
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+16:12:27.742 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [32,21] : -> null targetBearing+10
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+16:12:27.743 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+16:12:27.744 INFO  TypeCheckingPhase - Starting type checking phase
+16:12:27.746 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+16:12:27.746 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+16:12:27.746 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+16:12:27.746 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+16:12:27.746 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+16:12:27.746 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+16:12:27.747 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+16:12:27.747 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+16:12:27.747 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+16:12:27.747 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+16:12:27.747 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+16:12:27.747 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+16:12:27.747 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+16:12:27.747 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+16:12:27.747 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+16:12:27.747 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+16:12:27.747 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+16:12:27.747 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+16:12:27.748 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        bool result = FALSE;
+        if(result1 == result2) {
+        	result = TRUE;
+        }
+        return result;   
+   }
+end
+16:12:27.748 ERROR AndroCodePreprocessor - Errors found during resolve phase
+16:12:27.748 DEBUG AndroCodePreprocessor - [Ljava.lang.StackTraceElement;@15aed57
+16:12:27.748 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+16:12:27.748 INFO  AndroCodePreprocessor - !!!  AndroCode processing failed  !!!
+16:12:27.748 INFO  AndroCodePreprocessor - ##############!!!!!!!!!!#############
+16:12:27.748 ERROR Main - Semantic analysis failed
+16:12:59.947 INFO  AndroCodePreprocessor - ####################################
+16:12:59.947 INFO  AndroCodePreprocessor - ##  AndroCode processing started  ##
+16:12:59.948 INFO  AndroCodePreprocessor - ####################################
+16:12:59.948 INFO  AndroCodePreprocessor - Processing file testAction
+16:12:59.948 INFO  AndroCodePreprocessor - Processing first pass...
+16:13:00.018 INFO  DefinePhase - Starting define phase
+16:13:00.020 DEBUG DefinePhase -  [12,38] : exitBlock local []
+16:13:00.020 DEBUG DefinePhase -  [14,15] : exitBlock local []
+16:13:00.020 DEBUG DefinePhase -  [11,52] : exitBlock local []
+16:13:00.020 DEBUG DefinePhase -  [29,38] : exitBlock local []
+16:13:00.020 DEBUG DefinePhase -  [32,41] : exitBlock local []
+16:13:00.021 DEBUG DefinePhase -  [36,31] : exitBlock local []
+16:13:00.021 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:13:00.021 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:13:00.021 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:13:00.022 INFO  ResolvePhase - Starting resolve phase
+16:13:00.022 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:13:00.023 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+16:13:00.023 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+16:13:00.023 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+16:13:00.023 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+16:13:00.023 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+16:13:00.023 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+16:13:00.023 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+16:13:00.023 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+16:13:00.023 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+16:13:00.023 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+16:13:00.023 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+16:13:00.023 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+16:13:00.023 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+16:13:00.023 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+16:13:00.024 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+16:13:00.024 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+16:13:00.024 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+16:13:00.024 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+16:13:00.024 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+16:13:00.024 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+16:13:00.024 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+16:13:00.024 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+16:13:00.024 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+16:13:00.024 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:13:00.024 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:13:00.024 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+16:13:00.024 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+16:13:00.024 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+16:13:00.024 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+16:13:00.024 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+16:13:00.024 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+16:13:00.024 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+16:13:00.024 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+16:13:00.025 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+16:13:00.025 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+16:13:00.025 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+16:13:00.025 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+16:13:00.025 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+16:13:00.026 INFO  StaticTypeComputingPhase - Starting static type computing phase
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+16:13:00.026 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing-10
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+16:13:00.027 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing-10
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+16:13:00.028 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing+10
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+16:13:00.029 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+16:13:00.030 INFO  TypeCheckingPhase - Starting type checking phase
+16:13:00.032 DEBUG TypeCheckingPhase -  [8,20] : -> PromotedType (float) compass.exec("GET","BEARING")
+16:13:00.032 DEBUG TypeCheckingPhase -  [9,26] : -> PromotedType (float) 150
+16:13:00.032 DEBUG TypeCheckingPhase -  [11,27] : -> Promotion not necessary or impossible for bearing in bearing,targetBearing
+16:13:00.032 DEBUG TypeCheckingPhase -  [11,36] : -> Promotion not necessary or impossible for targetBearing in bearing,targetBearing
+16:13:00.032 DEBUG TypeCheckingPhase -  [12,18] : -> float targetBearing-10
+16:13:00.032 DEBUG TypeCheckingPhase -  [12,8] : -> bool bearing<targetBearing-10
+16:13:00.032 DEBUG TypeCheckingPhase -  [27,20] : -> Promotion not necessary or impossible for FALSE in boolresult1=FALSE
+16:13:00.032 DEBUG TypeCheckingPhase -  [28,23] : -> Promotion not necessary or impossible for FALSE in boolresult2=FALSE
+16:13:00.032 DEBUG TypeCheckingPhase -  [29,18] : -> float targetBearing-10
+16:13:00.032 DEBUG TypeCheckingPhase -  [29,8] : -> bool bearing>targetBearing-10
+16:13:00.033 DEBUG TypeCheckingPhase -  [30,19] : -> Promotion not necessary or impossible for TRUE in result1=TRUE
+16:13:00.033 DEBUG TypeCheckingPhase -  [32,21] : -> float targetBearing+10
+16:13:00.033 DEBUG TypeCheckingPhase -  [32,11] : -> bool bearing<targetBearing+10
+16:13:00.033 DEBUG TypeCheckingPhase -  [33,19] : -> Promotion not necessary or impossible for TRUE in result2=TRUE
+16:13:00.033 DEBUG TypeCheckingPhase -  [35,22] : -> Promotion not necessary or impossible for FALSE in boolresult=FALSE
+16:13:00.033 DEBUG TypeCheckingPhase -  [36,11] : -> bool result1==result2
+16:13:00.033 DEBUG TypeCheckingPhase -  [37,18] : -> Promotion not necessary or impossible for TRUE in result=TRUE
+16:13:00.033 DEBUG TypeCheckingPhase -  [39,15] : -> Promotion not necessary or impossible for result in returnresult;
+16:13:00.033 DEBUG TypeCheckingPhase - begin
+	action compass;
+    compass.getAction("COMPASS");
+	action ride;
+    ride.getAction("RIDE");
+    sleep(500);
+    int i;
+    float bearing = compass.exec("GET", "BEARING");
+    float targetBearing = 150;
+    ride.setParam("SPEED", 0.8);
+    while(!bearingOnCourse(bearing, targetBearing)) {
+    	if(bearing < targetBearing - 10) {
+        	ride.exec("MOTION_TYPE", "MOVE_RIGHT",500);
+        } else {
+        	ride.exec("MOTION_TYPE", "MOVE_LEFT",500);
+        }
+    }
+    
+    action tts;
+    tts.getAction("TTS");
+    tts.exec("TEXT", "Kurs obrany Kapitanie!");
+    
+    ride.exec("MOTION_TYPE", "MOVE_FORWARD",2500);
+    
+   
+   	bool bearingOnCourse(float bearing, float targetBearing) {
+    	bool result1 = FALSE;
+        bool result2 = FALSE;
+   		if(bearing > targetBearing - 10) {
+        	result1 = TRUE; 
+        }
+        if(bearing < targetBearing + 10) {
+        	result2 = TRUE;
+        }
+        bool result = FALSE;
+        if(result1 == result2) {
+        	result = TRUE;
+        }
+        return result;   
+   }
+end
+16:13:00.033 INFO  AndroCodePreprocessor - First pass done.
+16:13:00.033 INFO  AndroCodePreprocessor - Processing second pass...
+16:13:00.036 INFO  DefinePhase - Starting define phase
+16:13:00.036 DEBUG DefinePhase -  [12,38] : exitBlock local []
+16:13:00.036 DEBUG DefinePhase -  [14,15] : exitBlock local []
+16:13:00.036 DEBUG DefinePhase -  [11,52] : exitBlock local []
+16:13:00.037 DEBUG DefinePhase -  [29,38] : exitBlock local []
+16:13:00.037 DEBUG DefinePhase -  [32,41] : exitBlock local []
+16:13:00.037 DEBUG DefinePhase -  [36,31] : exitBlock local []
+16:13:00.037 DEBUG DefinePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:13:00.037 DEBUG DefinePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:13:00.037 DEBUG DefinePhase -  [1,0] : exitScript global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:13:00.037 INFO  ResolvePhase - Starting resolve phase
+16:13:00.037 DEBUG ResolvePhase -  [1,0] : global [compass, ride, i, bearing, targetBearing, tts, bearingOnCourse]
+16:13:00.037 DEBUG ResolvePhase -  [2,1] : Symbol device compass ok
+16:13:00.037 DEBUG ResolvePhase -  [3,4] : Symbol device compass ok
+16:13:00.037 DEBUG ResolvePhase -  [4,1] : Symbol device ride ok
+16:13:00.037 DEBUG ResolvePhase -  [5,4] : Symbol device ride ok
+16:13:00.037 DEBUG ResolvePhase -  [7,4] : Symbol int i ok
+16:13:00.037 DEBUG ResolvePhase -  [8,4] : Symbol float bearing ok
+16:13:00.037 DEBUG ResolvePhase -  [8,20] : Symbol device compass ok
+16:13:00.037 DEBUG ResolvePhase -  [9,4] : Symbol float targetBearing ok
+16:13:00.037 DEBUG ResolvePhase -  [10,4] : Symbol device ride ok
+16:13:00.037 DEBUG ResolvePhase -  [11,11] : Symbol bool bearingOnCourse ok
+16:13:00.037 DEBUG ResolvePhase -  [11,27] : Symbol float bearing ok
+16:13:00.037 DEBUG ResolvePhase -  [11,36] : Symbol float targetBearing ok
+16:13:00.037 DEBUG ResolvePhase -  [11,52] : exitBlock local []
+16:13:00.038 DEBUG ResolvePhase -  [12,8] : Symbol float bearing ok
+16:13:00.038 DEBUG ResolvePhase -  [12,18] : Symbol float targetBearing ok
+16:13:00.038 DEBUG ResolvePhase -  [12,38] : exitBlock local []
+16:13:00.038 DEBUG ResolvePhase -  [13,9] : Symbol device ride ok
+16:13:00.038 DEBUG ResolvePhase -  [14,15] : exitBlock local []
+16:13:00.038 DEBUG ResolvePhase -  [15,9] : Symbol device ride ok
+16:13:00.038 DEBUG ResolvePhase -  [19,4] : Symbol device tts ok
+16:13:00.038 DEBUG ResolvePhase -  [20,4] : Symbol device tts ok
+16:13:00.038 DEBUG ResolvePhase -  [21,4] : Symbol device tts ok
+16:13:00.038 DEBUG ResolvePhase -  [23,4] : Symbol device ride ok
+16:13:00.038 DEBUG ResolvePhase -  [26,4] : exitFunction function<bearingOnCourse:bool>:[<bearing:float>, <targetBearing:float>]
+16:13:00.038 DEBUG ResolvePhase -  [26,61] : exitBlock local [result1, result2, result]
+16:13:00.038 DEBUG ResolvePhase -  [27,5] : Symbol bool result1 ok
+16:13:00.038 DEBUG ResolvePhase -  [28,8] : Symbol bool result2 ok
+16:13:00.038 DEBUG ResolvePhase -  [29,8] : Symbol float bearing ok
+16:13:00.038 DEBUG ResolvePhase -  [29,18] : Symbol float targetBearing ok
+16:13:00.038 DEBUG ResolvePhase -  [29,38] : exitBlock local []
+16:13:00.038 DEBUG ResolvePhase -  [32,11] : Symbol float bearing ok
+16:13:00.038 DEBUG ResolvePhase -  [32,21] : Symbol float targetBearing ok
+16:13:00.038 DEBUG ResolvePhase -  [32,41] : exitBlock local []
+16:13:00.038 DEBUG ResolvePhase -  [35,8] : Symbol bool result ok
+16:13:00.038 DEBUG ResolvePhase -  [36,11] : Symbol bool result1 ok
+16:13:00.038 DEBUG ResolvePhase -  [36,22] : Symbol bool result2 ok
+16:13:00.038 DEBUG ResolvePhase -  [36,31] : exitBlock local []
+16:13:00.039 DEBUG ResolvePhase -  [39,15] : Symbol bool result ok
+16:13:00.039 INFO  StaticTypeComputingPhase - Starting static type computing phase
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [2,1] : -> device actioncompass
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [3,4] : -> device compass.getAction("COMPASS")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [4,1] : -> device actionride
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [5,4] : -> device ride.getAction("RIDE")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [7,4] : -> int inti
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [8,20] : -> object compass.exec("GET","BEARING")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [8,4] : -> float floatbearing=compass.exec("GET","BEARING")
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [9,26] : -> int 150
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [9,4] : -> float floattargetBearing=150
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [10,4] : -> null ride.setParam("SPEED",0.8)
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [11,27] : -> float bearing
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [11,36] : -> float targetBearing
+16:13:00.039 DEBUG StaticTypeComputingPhase -  [11,11] : -> bool bearingOnCourse(bearing,targetBearing)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,8] : -> float bearing
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,34] : -> int 10
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,18] : -> float targetBearing-10
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [12,8] : -> bool bearing<targetBearing-10
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [13,9] : -> object ride.exec("MOTION_TYPE","MOVE_RIGHT",500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [15,9] : -> object ride.exec("MOTION_TYPE","MOVE_LEFT",500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [19,4] : -> device actiontts
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [20,4] : -> device tts.getAction("TTS")
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [21,4] : -> object tts.exec("TEXT","Kurs obrany Kapitanie!")
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [23,4] : -> object ride.exec("MOTION_TYPE","MOVE_FORWARD",2500)
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [27,20] : -> bool FALSE
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [27,5] : -> bool boolresult1=FALSE
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [28,23] : -> bool FALSE
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [28,8] : -> bool boolresult2=FALSE
+16:13:00.040 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,8] : -> float bearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,34] : -> int 10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,18] : -> float targetBearing-10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [29,8] : -> bool bearing>targetBearing-10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [30,19] : -> bool TRUE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [30,9] : -> bool result1=TRUE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,11] : -> float bearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,37] : -> int 10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,21] : -> float targetBearing+10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [32,11] : -> bool bearing<targetBearing+10
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [33,19] : -> bool TRUE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [33,9] : -> bool result2=TRUE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [35,22] : -> bool FALSE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [35,8] : -> bool boolresult=FALSE
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+16:13:00.041 DEBUG StaticTypeComputingPhase -  [36,22] : -> bool result2
+16:13:00.042 DEBUG StaticTypeComputingPhase -  [36,11] : -> bool result1==result2
+16:13:00.042 DEBUG StaticTypeComputingPhase -  [37,18] : -> bool TRUE
+16:13:00.042 DEBUG StaticTypeComputingPhase -  [37,9] : -> bool result=TRUE
+16:13:00.042 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+16:13:00.042 DEBUG StaticTypeComputingPhase -  [39,15] : -> bool result
+16:13:00.042 INFO  AndroCodePreprocessor - Second pass done.
+16:13:00.042 INFO  AndroCodePreprocessor - ####################################
+16:13:00.042 INFO  AndroCodePreprocessor - ##  AndroCode processing is done  ##
+16:13:00.042 INFO  AndroCodePreprocessor - ####################################

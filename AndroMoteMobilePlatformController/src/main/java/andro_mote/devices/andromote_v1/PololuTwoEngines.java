@@ -11,7 +11,7 @@ import ioio.lib.api.exception.ConnectionLostException;
  * Dwukanałowy sterownik max 1A
  * MAX_STEP_DURATION = 2000
  * MIN_SPEED = 0.6
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriverNewBrightCompatible {

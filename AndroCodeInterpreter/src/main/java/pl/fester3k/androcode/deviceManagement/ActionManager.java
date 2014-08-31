@@ -63,6 +63,10 @@ public enum ActionManager {
 		Action action = null;
 		if(capabilitiesAnalyzer.hasFeature(feature)) {
 			action = actionFactory.createAction(feature);
+			if(reservedActions.containsKey(varName)) {
+				Action oldAction = reservedActions.get(varName);
+				oldAction.cleanup();
+			}
 			reservedActions.put(varName, action);
 		} else {
 			throw new NoSuchFeatureException(feature.toString());

@@ -33,7 +33,7 @@ import android.os.IBinder;
  * korzystać bezpośrednio z klas w bibliotekach Android.
  * 
  * @author Maciej Gzik
- * @author Sebastian Łuczak
+ * @author Sebastian Łuczak Łuczak
  * 
  */
 public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
@@ -230,7 +230,7 @@ public class AndroMoteController extends AndroMoteMobilePlatformApiAbstract {
 	@Override
 	public boolean stopMobilePlatform() throws MobilePlatformException {
 		checkIfApplicationIsNull();
-		Packet packet = new Packet(Motion.STOP_REQUEST);
+		Packet packet = new Packet(Motion.STOP);
 		executeActionOnAndromote(packet);
 		logger.debug(TAG, "AndroMoteEngineControllerApi: stop");
 

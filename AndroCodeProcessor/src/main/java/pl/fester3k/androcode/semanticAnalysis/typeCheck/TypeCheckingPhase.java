@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ConditionContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_combinedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
@@ -18,10 +19,10 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ExprContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ScriptContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
@@ -38,7 +39,7 @@ import pl.fester3k.androcode.utils.Utils;
  *	a) computing static expression types
  *	*b) automatic type promotion
  *	*c) enforcing static type safety
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
@@ -75,7 +76,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	@Override
 	public void exitCondition_var_negated(
 			Condition_var_negatedContext ctx) {
-		String id = ctx.var_call().getText();
+		String id = ctx.var_or_function_call().getChild(0).getText();
 		Type type = Utils.getTypeFromSymbol(id, currentScope);
 		if(!(type.equals(Type.BOOLEAN))) {
 			log.error(id + " must have boolean type", ctx);
@@ -114,17 +115,13 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		processAssignmentTypePromotion(type, ctx.expr());
 		//FIXME sprawdzać czy cast jest legalny
 	}
-
-	/**
-	 * Catches all function calls "id(arguments)"
-	 * Promotes and checks types of function arguments (if they exist)
-	 */
+	
 	@Override
-	public void exitExpr_fcall(Expr_fcallContext ctx) {
-		String name = ctx.fcal.ID().getText();
+	public void exitFunction_call(Function_callContext ctx) {
+		String name = ctx.ID().getText();
 		FunctionSymbol function = (FunctionSymbol)currentScope.resolve(name); 
 		Map<String, Symbol> declaredParameters = function.getOrderedArgs();
-		ArgumentsContext argumentsDefinedInFunctionCall = ctx.fcal.arguments();
+		ArgumentsContext argumentsDefinedInFunctionCall = ctx.arguments();
 		if(argumentsDefinedInFunctionCall == null) {
 			return;
 		}
@@ -142,7 +139,37 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 			processAssignmentTypePromotion(parameterType, expressionToPromote);
 			i++;
 		}
+		super.exitFunction_call(ctx);
 	}
+//
+//	/**
+//	 * Catches all function calls "id(arguments)"
+//	 * Promotes and checks types of function arguments (if they exist)
+//	 */
+//	@Override
+//	public void exitExpr_fcall(Expr_fcallContext ctx) {
+//		String name = ctx.fcal.ID().getText();
+//		FunctionSymbol function = (FunctionSymbol)currentScope.resolve(name); 
+//		Map<String, Symbol> declaredParameters = function.getOrderedArgs();
+//		ArgumentsContext argumentsDefinedInFunctionCall = ctx.fcal.arguments();
+//		if(argumentsDefinedInFunctionCall == null) {
+//			return;
+//		}
+//		List<ExprContext> arguments = argumentsDefinedInFunctionCall.expr();
+//		int i = 0;
+//		if(declaredParameters.size() != arguments.size()) {
+//			log.error("number of parameters mismatch!", ctx);
+//			error = true;
+//			return;
+////			throw new TypeCheckingException("number of parameters mismatch!", ctx);
+//		}
+//		for (Symbol parameter : declaredParameters.values()) {
+//			Type parameterType = parameter.getType();
+//			ExprContext expressionToPromote = arguments.get(i);
+//			processAssignmentTypePromotion(parameterType, expressionToPromote);
+//			i++;
+//		}
+//	}
 
 	/**
 	 * Catches all variable declarations
@@ -183,6 +210,19 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		processAutomaticTypePromotion(Type.relationalResultType, ctx.a, ctx.b, ctx);
 		//tryToPromote(ctx, Type.BOOLEAN);
 	}
+	
+	/**
+	 * Catches all relational conditions
+	 */
+	@Override
+	public void exitCondition_combined(Condition_combinedContext ctx) {
+		List<ConditionContext> conditions = ctx.condition();
+		for (ConditionContext condition : conditions) {
+			if(!types.get(condition).equals(Type.BOOLEAN)) {
+				log.error("Bad condition type! in", ctx);
+			}
+		}
+	}
 
 	/**
 	 * Catches all equality conditions
@@ -192,6 +232,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		processAutomaticTypePromotion(Type.equalityResultType, ctx.a, ctx.b, ctx);
 		//tryToPromote(ctx, Type.BOOLEAN);
 	}
+
 
 	/**
 	 * Catches all return statements

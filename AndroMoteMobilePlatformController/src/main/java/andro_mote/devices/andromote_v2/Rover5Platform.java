@@ -11,8 +11,8 @@ import andro_mote.logger.AndroMoteLogger;
 /**
  * Dwukanałowy sterownik max 4A
  * MAX_STEP_DURATION = 2000
- * MIN_SPEED = 0.3
- * @author Sebastian
+ * MIN_SPEED = -1.0
+ * @author Sebastian Łuczak
  *
  */
 public class Rover5Platform extends PlatformAbstract implements Platform {
@@ -26,6 +26,25 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		super(parentDevice);
 		this.driver = driver;
 	}
+	
+	public void moveCaterpillar(double speed, double speedB) {
+		if(speed >= 0) {
+			driver.setM1_inA_value(true);
+			driver.setM1_inB_value(false);
+		} else {
+			driver.setM1_inA_value(false);
+			driver.setM1_inB_value(true);
+		}
+		if(speedB >= 0) {
+			driver.setM2_inA_value(true);
+			driver.setM2_inB_value(false);
+		} else {
+			driver.setM2_inA_value(false);
+			driver.setM2_inB_value(true);
+		}
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
+	}
 
 	public void steerLeft(double speed) {
 		driver.setM1_inA_value(false);
@@ -33,8 +52,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM2_inA_value(true);
 		driver.setM2_inB_value(false);
 		
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speed);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
 	}
 
 	public void steerRight(double speed) {
@@ -43,8 +62,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM2_inA_value(false);
 		driver.setM2_inB_value(true);
 		
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speed);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
 
 	}
 
@@ -66,8 +85,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM2_inA_value(true);
 		driver.setM2_inB_value(false);
 		
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speed);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
 	}
 	
 	public void moveForwardDifferSpeed(double speed, double speedB) {
@@ -77,8 +96,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM2_inA_value(true);
 		driver.setM2_inB_value(false);
 		
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speedB);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
 	}
 
 	public void moveBackward(double speed) {
@@ -87,8 +106,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM1_inB_value(true);
 		driver.setM2_inA_value(false);
 		driver.setM2_inB_value(true);
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speed);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
 	}
 
 	public void moveBackwardDifferSpeed(double speed, double speedB) {
@@ -97,8 +116,8 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		driver.setM1_inB_value(true);
 		driver.setM2_inA_value(false);
 		driver.setM2_inB_value(true);
-		driver.setM1_PWM_DutyCycle_value(speed);
-		driver.setM2_PWM_DutyCycle_value(speedB);
+		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
+		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
 	}
 
 	
@@ -113,37 +132,40 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		double speedB = inputPacket.getSpeedB();
 		PacketType.Motion packetType = (Motion) inputPacket.getPacketType();
 		switch(packetType) {
-		case MOVE_LEFT_FORWARD_REQUEST : 
+		case MOVE_CATERPILLAR : 
+			moveCaterpillar(speed, speedB);
+			break;
+		case MOVE_LEFT_FORWARD : 
 			moveForwardDifferSpeed(speed * 0.3, speed);
 			break;
-		case MOVE_FORWARD_REQUEST : 
+		case MOVE_FORWARD : 
 			moveForward(speed);
 			break;
-		case MOVE_FORWARD_DIFFER_SPEED_REQUEST : 
+		case MOVE_FORWARD_DIFFER_SPEED : 
 			moveForwardDifferSpeed(speed, speedB);
 			break;
-		case MOVE_RIGHT_FORWARD_REQUEST : 
+		case MOVE_RIGHT_FORWARD : 
 			moveForwardDifferSpeed(speed, speed * 0.3);
 			break;
-		case MOVE_LEFT_REQUEST : 
+		case MOVE_LEFT : 
 			steerLeft(speed);
 			break;
-		case STOP_REQUEST : 
+		case STOP : 
 			stop();
 			break;
-		case MOVE_RIGHT_REQUEST : 
+		case MOVE_RIGHT : 
 			steerRight(speed);
 			break;
-		case MOVE_LEFT_BACKWARD_REQUEST : 
+		case MOVE_LEFT_BACKWARD : 
 			moveBackwardDifferSpeed(speed * 0.3, speed);
 			break;
-		case MOVE_BACKWARD_REQUEST : 
+		case MOVE_BACKWARD : 
 			moveBackward(speed);
 			break;
-		case MOVE_BACKWARD_DIFFER_SPEED_REQUEST : 
+		case MOVE_BACKWARD_DIFFER_SPEED : 
 			moveBackwardDifferSpeed(speed, speedB);
 			break;
-		case MOVE_RIGHT_BACKWARD_REQUEST : 
+		case MOVE_RIGHT_BACKWARD : 
 			moveBackwardDifferSpeed(speed, speed * 0.3);
 			break;
 		default:
@@ -156,37 +178,37 @@ public class Rover5Platform extends PlatformAbstract implements Platform {
 		double speed = parentDevice.getSettings().getSpeed();
 		double speedB = parentDevice.getSettings().getSpeed_B();
 		switch(packetType) {
-		case MOVE_LEFT_FORWARD_REQUEST : 
+		case MOVE_LEFT_FORWARD : 
 			moveForwardDifferSpeed(speed * 0.3, speed);
 			break;
-		case MOVE_FORWARD_REQUEST : 
+		case MOVE_FORWARD : 
 			moveForward(speed);
 			break;
-		case MOVE_FORWARD_DIFFER_SPEED_REQUEST : 
+		case MOVE_FORWARD_DIFFER_SPEED : 
 			moveForwardDifferSpeed(speed, speedB);
 			break;
-		case MOVE_RIGHT_FORWARD_REQUEST : 
+		case MOVE_RIGHT_FORWARD : 
 			moveForwardDifferSpeed(speed, speed * 0.3);
 			break;
-		case MOVE_LEFT_REQUEST : 
+		case MOVE_LEFT : 
 			steerLeft(speed);
 			break;
-		case STOP_REQUEST : 
+		case STOP : 
 			stop();
 			break;
-		case MOVE_RIGHT_REQUEST : 
+		case MOVE_RIGHT : 
 			steerRight(speed);
 			break;
-		case MOVE_LEFT_BACKWARD_REQUEST : 
+		case MOVE_LEFT_BACKWARD : 
 			moveBackwardDifferSpeed(speed * 0.3, speed);
 			break;
-		case MOVE_BACKWARD_REQUEST : 
+		case MOVE_BACKWARD : 
 			moveBackward(speed);
 			break;
-		case MOVE_BACKWARD_DIFFER_SPEED_REQUEST : 
+		case MOVE_BACKWARD_DIFFER_SPEED : 
 			moveBackwardDifferSpeed(speed, speedB);
 			break;
-		case MOVE_RIGHT_BACKWARD_REQUEST : 
+		case MOVE_RIGHT_BACKWARD : 
 			moveBackwardDifferSpeed(speed, speed * 0.3);
 			break;
 		default:

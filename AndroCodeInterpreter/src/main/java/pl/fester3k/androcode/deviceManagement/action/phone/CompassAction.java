@@ -11,7 +11,7 @@ public class CompassAction extends BaseDeviceAction {
 	public CompassAction(Context context) {
 		super(context);		
 		compass = new Compass(context);
-		compass.registerListeners(SensorManager.SENSOR_DELAY_NORMAL);
+		compass.registerListeners(SensorManager.SENSOR_DELAY_GAME);
 	}
 
 	@Override

@@ -43,14 +43,9 @@ public class Compass implements SensorEventListener {
 	float[] mAcceleration;
 	float[] mGeomagnetic;
 
-	float R[] = new float[9];
-	float I[] = new float[9];
-
-	float orientation[] = new float[3];
-
 	private Logger logger = LoggerFactory.getLogger(Compass.class);
 
-	private double azimut;
+	private double azimuth;
 
 	private double pitch;
 
@@ -60,6 +55,11 @@ public class Compass implements SensorEventListener {
 
 	private int accelerometerSensorAccuracy = 0;
 	private int magneticFieldSensorAccuracy = 0;
+	
+	float R[] = new float[9];
+	float I[] = new float[9];
+
+	float orientation[] = new float[3];
 
 	private int setBearingIntervalCounter = 0;
 
@@ -89,7 +89,7 @@ public class Compass implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if (sensorRefreshCounter++ % 5 == 0) {
+//		if (sensorRefreshCounter++ % 5 == 0) {
 			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
 			}
@@ -97,25 +97,23 @@ public class Compass implements SensorEventListener {
 				mGeomagnetic = lowPassFilter(event.values.clone(), mGeomagnetic);
 			}
 			if (mAcceleration != null && mGeomagnetic != null) {
-				if (setBearingIntervalCounter++ % 5 == 0) {
+//				if (setBearingIntervalCounter++ % 5 == 0) {
 					boolean success = SensorManager.getRotationMatrix(R, I, mAcceleration, mGeomagnetic);
 					// logger.debug(TAG, "success=" + success);
 					if (success) {
 						SensorManager.getOrientation(R, orientation);
-						azimut = Math.toDegrees(orientation[0]);
-						pitch= Math.toDegrees(orientation[1]);
-						roll = Math.toDegrees(orientation[2]);
-
-						if (azimut < 0) {
-							this.setBearing(360 + azimut);
-						} else {
-							this.setBearing(azimut);
-						}
+						azimuth = (float)Math.toDegrees(orientation[0]);
+						pitch= (float)Math.toDegrees(orientation[1]);
+						roll = (float)Math.toDegrees(orientation[2]);
+						azimuth = (azimuth + 360) % 360;
+						setBearing(azimuth);
+//						logger.info(Double.toString(azimuth));
 					}
-				}
+//				}
 			}
-		}
+//		}
 	}
+
 
 	/**
 	 * Usunięcie listenerów z sensor managera
@@ -175,7 +173,7 @@ public class Compass implements SensorEventListener {
 	// /////////////////////////////// getters setters
 
 	public double getAzimut() {
-		return azimut;
+		return azimuth;
 	}
 
 	public double getPitch() {
@@ -191,20 +189,24 @@ public class Compass implements SensorEventListener {
 	 * 
 	 * @return azymut
 	 */
-	public double getBearing() {
+	public synchronized double getBearing() {
 		return bearing;
 	}
 
+
+	private synchronized void setBearing(double bearing) {
+		this.bearing = bearing; 
+	}
 	/**
 	 * Funkcja zwraca kierunek telefonu w stopniach.
 	 * 
 	 * @param bearing
 	 *            kierunek telefonu
 	 */
-	private void setBearing(double bearing) {
-		// logger.debug(TAG, "zmiana położenia w stopniach: " + degrees);
-		this.bearing = bearing;
-	}
+	//	private void setBearing(double bearing) {
+	//		// logger.debug(TAG, "zmiana położenia w stopniach: " + degrees);
+	//		this.bearing = bearing;
+	//	}
 
 	public int getAccelerometerSensorAccuracy() {
 		return accelerometerSensorAccuracy;

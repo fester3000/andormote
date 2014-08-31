@@ -22,7 +22,7 @@ public class FileUtils {
 	}
 	/**
 	 * Enumeration that specifies the media type to create file name
-	 * @author Sebastian
+	 * @author Sebastian Łuczak
 	 *
 	 */
 	public enum MediaType {

@@ -3,7 +3,7 @@ package andro_mote.commons;
 /**
  * Tryb krokowy *_STEPPER
  * Tryb ciągły *_CONTINOUS
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 public enum MotionMode {

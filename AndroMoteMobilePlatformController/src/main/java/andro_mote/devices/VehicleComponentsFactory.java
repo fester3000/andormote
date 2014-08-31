@@ -1,10 +1,8 @@
-package andro_mote.devices.factories;
+package andro_mote.devices;
 
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.DeviceDefinitions;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.devices.Vehicle;
-import andro_mote.devices.VehicleSettings;
 import andro_mote.devices.andromote_v1.MotorDriverNewBrightCompatible;
 import andro_mote.devices.andromote_v1.PlatformNewBright;
 import andro_mote.devices.andromote_v1.PololuTwoEngines;
@@ -20,7 +18,7 @@ import andro_mote.logger.AndroMoteLogger;
  * Klasa fabryki obiektów Device - nowe obiekty wytwarzane są po podaniu nazwy
  * platformy i sterownika
  * 
- * @author Sebastian Łuczak
+ * @author Sebastian Łuczak Łuczak
  * 
  */
 
@@ -81,7 +79,7 @@ public enum VehicleComponentsFactory {
 			result = new VehicleSettings.Builder(2000, 0.6).build();
 			break;
 		case ROVER5TwoEngines:
-			result = new VehicleSettings.Builder(2000, 0.3).build();
+			result = new VehicleSettings.Builder(2000, -1.0).build();
 			break;
 			default:
 				throw new UnknownDeviceException("Unknown model: " + platformType);	

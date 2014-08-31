@@ -21,7 +21,7 @@ import pl.fester3k.androcode.symbolManagement.VariableSymbol;
 
 /**
  * TODO Kontrola unikalności identyfikatorów w ramach scope'ów (i w górę hierarchii)
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 public class DefinePhase extends AndroCodeBaseListener {	

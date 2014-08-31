@@ -21,26 +21,26 @@ public class Step implements IStep {
 	}
 
 	public Motion getReverseDirection() {
-		if (this.stepType == Motion.MOVE_FORWARD_REQUEST) {
-			return Motion.MOVE_BACKWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
-			return Motion.MOVE_LEFT_BACKWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_RIGHT_FORWARD_REQUEST) {
-			return Motion.MOVE_RIGHT_BACKWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_BACKWARD_REQUEST) {
-			return Motion.MOVE_FORWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_LEFT_BACKWARD_REQUEST) {
-			return Motion.MOVE_LEFT_FORWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
-			return Motion.MOVE_RIGHT_FORWARD_REQUEST;
-		} else if (this.stepType == Motion.MOVE_RIGHT_90_DEGREES_REQUEST) {
-			return Motion.MOVE_LEFT_90_DEGREES_REQUEST;
-		} else if (this.stepType == Motion.MOVE_LEFT_90_DEGREES_REQUEST) {
-			return Motion.MOVE_RIGHT_90_DEGREES_REQUEST;
-		} else if (this.stepType == Motion.MOVE_RIGHT_DEGREES_REQUEST) {
-			return Motion.MOVE_LEFT_DEGREES_REQUEST;
-		} else if (this.stepType == Motion.MOVE_LEFT_DEGREES_REQUEST) {
-			return Motion.MOVE_RIGHT_DEGREES_REQUEST;
+		if (this.stepType == Motion.MOVE_FORWARD) {
+			return Motion.MOVE_BACKWARD;
+		} else if (this.stepType == Motion.MOVE_LEFT_FORWARD) {
+			return Motion.MOVE_LEFT_BACKWARD;
+		} else if (this.stepType == Motion.MOVE_RIGHT_FORWARD) {
+			return Motion.MOVE_RIGHT_BACKWARD;
+		} else if (this.stepType == Motion.MOVE_BACKWARD) {
+			return Motion.MOVE_FORWARD;
+		} else if (this.stepType == Motion.MOVE_LEFT_BACKWARD) {
+			return Motion.MOVE_LEFT_FORWARD;
+		} else if (this.stepType == Motion.MOVE_RIGHT_BACKWARD) {
+			return Motion.MOVE_RIGHT_FORWARD;
+		} else if (this.stepType == Motion.MOVE_RIGHT_90_DEGREES) {
+			return Motion.MOVE_LEFT_90_DEGREES;
+		} else if (this.stepType == Motion.MOVE_LEFT_90_DEGREES) {
+			return Motion.MOVE_RIGHT_90_DEGREES;
+		} else if (this.stepType == Motion.MOVE_RIGHT_DEGREES) {
+			return Motion.MOVE_LEFT_DEGREES;
+		} else if (this.stepType == Motion.MOVE_LEFT_DEGREES) {
+			return Motion.MOVE_RIGHT_DEGREES;
 		} else {
 			return this.stepType;
 		}
@@ -56,44 +56,44 @@ public class Step implements IStep {
 	public static Motion getTakenStep(Motion stepRequest) {
 		Motion returnStepType = null;
 		switch (stepRequest) {
-		case MOVE_LEFT_FORWARD_REQUEST:
-			returnStepType = Motion.MOVE_LEFT_FORWARD;
+		case MOVE_LEFT_FORWARD:
+			returnStepType = Motion.MOVE_LEFT_FORWARD_RESPONSE;
 			break;
-		case MOVE_FORWARD_REQUEST:
-			returnStepType = Motion.MOVE_FORWARD;
+		case MOVE_FORWARD:
+			returnStepType = Motion.MOVE_FORWARD_RESPONSE;
 			break;
-		case MOVE_RIGHT_FORWARD_REQUEST:
-			returnStepType = Motion.MOVE_RIGHT_FORWARD;
+		case MOVE_RIGHT_FORWARD:
+			returnStepType = Motion.MOVE_RIGHT_FORWARD_RESPONSE;
 			break;
-		case MOVE_LEFT_REQUEST:
-			returnStepType = Motion.MOVE_LEFT;
+		case MOVE_LEFT:
+			returnStepType = Motion.MOVE_LEFT_RESPONSE;
 			break;
-		case STOP_REQUEST:
-			returnStepType = Motion.STOP;
+		case STOP:
+			returnStepType = Motion.STOP_RESPONSE;
 			break;
-		case MOVE_RIGHT_REQUEST:
-			returnStepType = Motion.MOVE_RIGHT;
+		case MOVE_RIGHT:
+			returnStepType = Motion.MOVE_RIGHT_RESPONSE;
 			break;
-		case MOVE_LEFT_BACKWARD_REQUEST:
-			returnStepType = Motion.MOVE_LEFT_BACKWARD;
+		case MOVE_LEFT_BACKWARD:
+			returnStepType = Motion.MOVE_LEFT_BACKWARD_RESPONSE;
 			break;
-		case MOVE_BACKWARD_REQUEST:
-			returnStepType = Motion.MOVE_BACKWARD;
+		case MOVE_BACKWARD:
+			returnStepType = Motion.MOVE_BACKWARD_RESPONSE;
 			break;
-		case MOVE_RIGHT_BACKWARD_REQUEST:
-			returnStepType = Motion.MOVE_RIGHT_BACKWARD;
+		case MOVE_RIGHT_BACKWARD:
+			returnStepType = Motion.MOVE_RIGHT_BACKWARD_RESPONSE;
 			break;
-		case MOVE_LEFT_90_DEGREES_REQUEST:
-			returnStepType = Motion.MOVE_LEFT_90_DEGREES;
+		case MOVE_LEFT_90_DEGREES:
+			returnStepType = Motion.MOVE_LEFT_90_DEGREES_RESPONSE;
 			break;
-		case MOVE_RIGHT_90_DEGREES_REQUEST:
-			returnStepType = Motion.MOVE_RIGHT_90_DEGREES;
+		case MOVE_RIGHT_90_DEGREES:
+			returnStepType = Motion.MOVE_RIGHT_90_DEGREES_RESPONSE;
 			break;
-		case MOVE_LEFT_DEGREES_REQUEST:
-			returnStepType = Motion.MOVE_LEFT_DEGREES;
+		case MOVE_LEFT_DEGREES:
+			returnStepType = Motion.MOVE_LEFT_DEGREES_RESPONSE;
 			break;
-		case MOVE_RIGHT_DEGREES_REQUEST:
-			returnStepType = Motion.MOVE_RIGHT_DEGREES;
+		case MOVE_RIGHT_DEGREES:
+			returnStepType = Motion.MOVE_RIGHT_DEGREES_RESPONSE;
 			break;
 		default:
 			break;

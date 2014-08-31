@@ -40,11 +40,11 @@ public class CapabilitiesAnalyzer {
 	public void checkCurrentCapabilities() {
 		if(context != null) {
 			availableFeatures = new HashSet<Feature>();
-			checkRideCapabilities();
 
 			checkSensorCapabilities();
 			checkDevicesCapabilities();
 			checkCommunicationCapabilities();
+			checkRideCapabilities();
 		}
 	}
 	
@@ -84,6 +84,13 @@ public class CapabilitiesAnalyzer {
 	private void checkRideCapabilities() {
 		if(RideController.INSTANCE.isRideAvailable()) {
 			availableFeatures.add(Feature.RIDE);
+			availableFeatures.add(Feature.RIDE_SETUP);
+			if(availableFeatures.contains(Feature.COMPASS)) {
+				availableFeatures.add(Feature.RIDE_BEARING);
+			}
+			if(availableFeatures.contains(Feature.LOCATION)) {
+				availableFeatures.add(Feature.RIDE_GPS);
+			}
 		}
 	}
 
@@ -131,7 +138,7 @@ public class CapabilitiesAnalyzer {
 
 	private void checkCameraCapability() {
 		if(deviceHasFeature(PackageManager.FEATURE_CAMERA)) {
-			availableFeatures.add(Feature.CAMERA);
+			availableFeatures.add(Feature.PICTURE);
 			availableFeatures.add(Feature.RECORD_VIDEO);
 		}
 

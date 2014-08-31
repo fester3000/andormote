@@ -23,7 +23,10 @@ import pl.fester3k.androcode.deviceManagement.action.phone.sensors.MagneticField
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.PressureSensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.ProximitySensorAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.sensors.TemperatureSensorAction;
-import pl.fester3k.androcode.deviceManagement.action.ride.SimpleRideAction;
+import pl.fester3k.androcode.deviceManagement.action.ride.RideBearing;
+import pl.fester3k.androcode.deviceManagement.action.ride.RideGPS;
+import pl.fester3k.androcode.deviceManagement.action.ride.Ride;
+import pl.fester3k.androcode.deviceManagement.action.ride.RideSetup;
 import android.content.Context;
 import android.os.Handler;
 
@@ -78,10 +81,19 @@ public class ActionFactory {
 //		case AUDIO_OUT:
 //			action = new AudioOut(context);
 //			break;
+		case SMS:
+			action = new SMSAction(context);
+			break;
+		case WIFI_CONNECT:
+			action = new WiFiConnectAction(context);
+			break;
+		case COMPASS:
+			action = new CompassAction(context);
+			break;
 		case TTS:
 			action = new TextToSpeechAction(context);
 			break;
-		case CAMERA:
+		case PICTURE:
 			action = new CameraAction(context);
 			break;
 		case RECORD_VIDEO:
@@ -97,16 +109,16 @@ public class ActionFactory {
 			action = new LocationAction(context, handler);
 			break;
 		case RIDE:
-			action = new SimpleRideAction(context);
+			action = new Ride(context);
 			break;
-		case SMS:
-			action = new SMSAction(context);
+		case RIDE_SETUP:
+			action = new RideSetup(context);
 			break;
-		case WIFI_CONNECT:
-			action = new WiFiConnectAction(context);
+		case RIDE_BEARING:
+			action = new RideBearing(context);
 			break;
-		case COMPASS:
-			action = new CompassAction(context);
+		case RIDE_GPS:
+			action = new RideGPS(context);
 			break;
 		default:
 			action = new DummyAction(context);

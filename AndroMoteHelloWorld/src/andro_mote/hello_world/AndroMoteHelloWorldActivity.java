@@ -176,31 +176,31 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		Packet packet = null;
 		switch(v.getId()) {
 		case R.id.lfButton:
-			packet = new Packet(Motion.MOVE_LEFT_FORWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_LEFT_FORWARD);
 			break;
 		case R.id.fButton:
-			packet = new Packet(Motion.MOVE_FORWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_FORWARD);
 			break;
 		case R.id.rfButton:
-			packet = new Packet(Motion.MOVE_RIGHT_FORWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_RIGHT_FORWARD);
 			break;
 		case R.id.lButton:
-			packet = new Packet(Motion.MOVE_LEFT_BACKWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_LEFT_BACKWARD);
 			break;
 		case R.id.stopButton:
-			packet = new Packet(Motion.STOP_REQUEST);
+			packet = new Packet(Motion.STOP);
 			break;
 		case R.id.rButton:
-			packet = new Packet(Motion.MOVE_RIGHT_REQUEST);
+			packet = new Packet(Motion.MOVE_RIGHT);
 			break;
 		case R.id.lbButton:
-			packet = new Packet(Motion.MOVE_LEFT_BACKWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_LEFT_BACKWARD);
 			break;
 		case R.id.bButton:
-			packet = new Packet(Motion.MOVE_BACKWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_BACKWARD);
 			break;
 		case R.id.rbButton:
-			packet = new Packet(Motion.MOVE_RIGHT_BACKWARD_REQUEST);
+			packet = new Packet(Motion.MOVE_RIGHT_BACKWARD);
 			break;
 		case R.id.startServiceButton:
 			try {

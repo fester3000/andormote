@@ -40,14 +40,14 @@ public abstract class PlatformAbstract implements Platform {
 	@Override
 	public void takeStep(Step step) {
 		logger.debug(TAG, "step execution");
-		if (step.getStepType() == Motion.MOVE_FORWARD_REQUEST
-				|| step.getStepType() == Motion.MOVE_RIGHT_FORWARD_REQUEST
-				|| step.getStepType() == Motion.MOVE_LEFT_FORWARD_REQUEST
-				|| step.getStepType() == Motion.MOVE_LEFT_REQUEST 
-				|| step.getStepType() == Motion.MOVE_RIGHT_REQUEST
-				|| step.getStepType() == Motion.MOVE_LEFT_BACKWARD_REQUEST
-				|| step.getStepType() == Motion.MOVE_RIGHT_BACKWARD_REQUEST
-				|| step.getStepType() == Motion.MOVE_BACKWARD_REQUEST) {
+		if (step.getStepType() == Motion.MOVE_FORWARD
+				|| step.getStepType() == Motion.MOVE_RIGHT_FORWARD
+				|| step.getStepType() == Motion.MOVE_LEFT_FORWARD
+				|| step.getStepType() == Motion.MOVE_LEFT 
+				|| step.getStepType() == Motion.MOVE_RIGHT
+				|| step.getStepType() == Motion.MOVE_LEFT_BACKWARD
+				|| step.getStepType() == Motion.MOVE_RIGHT_BACKWARD
+				|| step.getStepType() == Motion.MOVE_BACKWARD) {
 			TakeStepThread makeStep = new TakeStepThread(step);
 			makeStep.startThread();
 		} 

@@ -50,7 +50,7 @@ public enum RideController {
 	}
 	
 	public void stopRide() {
-		Packet packet = new Packet(Motion.STOP_REQUEST);
+		Packet packet = new Packet(Motion.STOP);
 		try {
 			api.sendMessageToDevice(packet);
 		} catch (UnsupportedOperationException e) {

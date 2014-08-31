@@ -181,7 +181,7 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -189,7 +189,7 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -229,7 +229,7 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -238,6 +238,14 @@ public class AndroCodeBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

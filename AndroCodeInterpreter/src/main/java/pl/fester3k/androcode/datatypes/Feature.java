@@ -2,12 +2,15 @@ package pl.fester3k.androcode.datatypes;
 
 //TODO Zabezpieczyc sie przed bledami w pisowni feature
 public enum Feature {
-	RIDE,
+	RIDE, //DONE
+	RIDE_SETUP,
+	RIDE_BEARING,
+	RIDE_GPS,
 	
 	SMS, //DONE
 	EMAIL, //DONE
 	WIFI_CONNECT, //DONE
-	CAMERA,  //DONE 
+	PICTURE,  //DONE 
 	RECORD_VIDEO, //DONE
 	FLASHLIGHT, //DONE
 //	AUDIO_OUT,  

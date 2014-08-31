@@ -1,7 +1,5 @@
 package andro_mote.devices;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import andro_mote.commons.MotionMode;
 import andro_mote.ioio_service.EnginesService;
 import andro_mote.logger.AndroMoteLogger;

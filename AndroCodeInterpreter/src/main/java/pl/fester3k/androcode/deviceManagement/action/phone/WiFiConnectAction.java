@@ -139,7 +139,7 @@ public class WiFiConnectAction extends BaseDeviceAction {
 	/**
 	 * Przeprowadza proces uruchomienia komunikacji WIFI, dodaje/aktualizuje konfiguracje sieci
 	 * i podejmuje probe polaczenia z dodana siecia
-	 * @author Sebastian
+	 * @author Sebastian Łuczak
 	 *
 	 */
 	private class ConnectToWIFITask extends AsyncTask<Void, Void, Boolean> {

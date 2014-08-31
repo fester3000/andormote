@@ -70,6 +70,9 @@ public enum Type {
 		case AndroCodeParser.INT:
 			result = INT;
 			break;
+		case AndroCodeParser.NEGATED_INT:
+			result = INT;
+			break;
 		case AndroCodeParser.K_CHAR_TYPE: 
 			result = CHAR;
 			break;
@@ -77,6 +80,9 @@ public enum Type {
 			result = CHAR;
 			break;
 		case AndroCodeParser.K_FLOAT_TYPE: 
+			result = FLOAT;
+			break;
+		case AndroCodeParser.NEGATED_FLOAT:
 			result = FLOAT;
 			break;
 		case AndroCodeParser.FLOAT:

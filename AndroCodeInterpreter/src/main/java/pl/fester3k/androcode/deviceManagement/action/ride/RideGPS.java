@@ -1,7 +1,6 @@
 package pl.fester3k.androcode.deviceManagement.action.ride;
 
 import pl.fester3k.androcode.datatypes.ActionResult;
-import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.deviceManagement.RideController;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import andro_mote.commons.Packet;
@@ -10,9 +9,9 @@ import andro_mote.commons.PacketType.Motion;
 import android.content.Context;
 
 
-public class SimpleRideAction extends BaseDeviceAction {
+public class RideGPS extends BaseDeviceAction {
 	
-	public SimpleRideAction(Context context) {
+	public RideGPS(Context context) {
 		super(context);
 
 	}

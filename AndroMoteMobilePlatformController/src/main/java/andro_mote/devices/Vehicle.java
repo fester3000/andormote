@@ -5,7 +5,6 @@ import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.DeviceDefinitions;
 import andro_mote.commons.Packet;
-import andro_mote.devices.factories.VehicleComponentsFactory;
 import andro_mote.devices.generics.MotorDriver;
 import andro_mote.devices.generics.Platform;
 import andro_mote.logger.AndroMoteLogger;

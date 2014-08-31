@@ -53,7 +53,7 @@ public class EnginesService extends IOIOService {
 	/**
 	 * Binder pozwalający na przypisanie usługi EnginesControllerService do innej usługi/aktywności
 	 * wewnątrz aplikacji. Pozwala na bezpośrednie wywoływanie metod publicznych usługi
-	 * @author Sebastian
+	 * @author Sebastian Łuczak
 	 *
 	 */
 	public class LocalBinder extends Binder {
@@ -130,7 +130,7 @@ public class EnginesService extends IOIOService {
 	 * Receiver wiadomości dla sterownika silnikami.
 	 * 
 	 * @author Maciej Gzik
-	 * @author Sebastian
+	 * @author Sebastian Łuczak
 	 */
 	public void interpretPacket(Packet inputPacket) {
 		log.debug(TAG, "engine service broadcast received: " + inputPacket.getPacketType());
@@ -285,33 +285,33 @@ public class EnginesService extends IOIOService {
 		Motion motionPacketType = (Motion)packetType;
 		log.debug(TAG, "EnginesControllerService; add packet to stepsList: " + motionPacketType);
 		if (looper != null) {
-			if (motionPacketType == PacketType.Motion.MOVE_LEFT_FORWARD_REQUEST) {
+			if (motionPacketType == PacketType.Motion.MOVE_LEFT_FORWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_FORWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_FORWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.STOP_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.STOP) {
 				log.debug(TAG, "PacketType.STOP w trybie steppera nie jest dodawany do kolejki!!!");
-			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_BACKWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_BACKWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_BACKWARD) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_90_DEGREES_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_90_DEGREES) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_90_DEGREES_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_90_DEGREES) {
 				stepsQueue.addLast(new Step(motionPacketType));
-			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_DEGREES_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_LEFT_DEGREES) {
 				Step step = new Step(motionPacketType);
 				step.setDegrees(inputPacket.getBearing());
 				stepsQueue.addLast(step);
-			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_DEGREES_REQUEST) {
+			} else if (motionPacketType == PacketType.Motion.MOVE_RIGHT_DEGREES) {
 				Step step = new Step(motionPacketType);
 				step.setDegrees(inputPacket.getBearing());
 				stepsQueue.addLast(step);

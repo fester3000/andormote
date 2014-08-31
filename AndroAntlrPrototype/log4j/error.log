@@ -317,3 +317,77 @@
 20:17:10.495 ERROR DefinePhase -  [50,9] : !Symbol abecadlo not declared! in abecadlo
 20:17:10.495 ERROR AndroCodeProcessor - Errors found during resolve phase
 20:17:10.495 ERROR Main - Semantic analysis failed
+14:42:39.661 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:42:39.661 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:42:39.661 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:42:39.662 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:42:39.662 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:42:39.662 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:42:39.662 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:42:39.662 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:42:39.662 ERROR TypeCheckingPhase -  [35,15] : Unable to process automatic type promotion for bool and (result1==result2). Assigned value has unknown type in return(result1==result2);
+14:42:39.663 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:42:39.663 ERROR Main - Semantic analysis failed
+14:45:08.544 ERROR ResolvePhase -  [35,22] : !Symbol false not declared! in false
+14:45:08.544 ERROR ResolvePhase -  [37,18] : !Symbol true not declared! in true
+14:45:08.544 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:45:08.544 ERROR Main - Semantic analysis failed
+14:45:24.145 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:45:24.145 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:45:24.146 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:45:24.146 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:45:24.146 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:45:24.146 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:45:24.146 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:45:24.146 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:45:24.147 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:45:24.147 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:45:24.147 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:45:24.148 ERROR Main - Semantic analysis failed
+14:46:44.078 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:46:44.079 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:46:44.081 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:46:44.084 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:46:44.088 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:46:44.089 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:46:44.092 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:46:44.094 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:46:44.096 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:46:44.098 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:46:49.050 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:46:49.052 ERROR Main - Semantic analysis failed
+14:46:59.050 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:46:59.051 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:46:59.051 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:46:59.051 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:46:59.052 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:46:59.052 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:46:59.052 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:46:59.053 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:46:59.053 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:46:59.053 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+14:46:59.054 ERROR AndroCodePreprocessor - Errors found during resolve phase
+14:46:59.055 ERROR Main - Semantic analysis failed
+14:48:25.245 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:50:53.896 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+14:51:10.535 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+14:51:12.616 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+14:51:12.617 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+14:51:41.240 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+14:51:41.241 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+14:51:43.208 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+14:51:43.209 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+14:51:45.640 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+14:51:51.963 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+16:12:27.746 ERROR TypeCheckingPhase -  [11,27] : Unable to process automatic type promotion for float and bearing. Assigned value has unknown type in bearing,targetBearing
+16:12:27.746 ERROR TypeCheckingPhase -  [11,36] : Unable to process automatic type promotion for float and targetBearing. Assigned value has unknown type in bearing,targetBearing
+16:12:27.746 ERROR TypeCheckingPhase -  [12,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing-10
+16:12:27.746 ERROR TypeCheckingPhase -  [12,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing<targetBearing-10){ride.exec("MOTION_TYPE","MOVE_RIGHT",500);}else{ride.exec("MOTION_TYPE","MOVE_LEFT",500);}
+16:12:27.747 ERROR TypeCheckingPhase -  [29,18] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing>targetBearing-10
+16:12:27.747 ERROR TypeCheckingPhase -  [29,8] : Unable to process automatic type promotion for bearing and targetBearing-10. expression types was unrecognized in if(bearing>targetBearing-10){result1=TRUE;}
+16:12:27.747 ERROR TypeCheckingPhase -  [32,21] : Unable to process automatic type promotion for targetBearing and 10. expression types was unrecognized in bearing<targetBearing+10
+16:12:27.747 ERROR TypeCheckingPhase -  [32,11] : Unable to process automatic type promotion for bearing and targetBearing+10. expression types was unrecognized in if(bearing<targetBearing+10){result2=TRUE;}
+16:12:27.747 ERROR TypeCheckingPhase -  [36,11] : Unable to process automatic type promotion for result1 and result2. expression types was unrecognized in if(result1==result2){result=TRUE;}
+16:12:27.747 ERROR TypeCheckingPhase -  [39,15] : Unable to process automatic type promotion for bool and result. Assigned value has unknown type in returnresult;
+16:12:27.748 ERROR AndroCodePreprocessor - Errors found during resolve phase
+16:12:27.748 ERROR Main - Semantic analysis failed

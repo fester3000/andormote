@@ -280,6 +280,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -287,19 +300,6 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -358,13 +358,13 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx) { }
+	@Override public void enterExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx) { }
+	@Override public void exitExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -378,6 +378,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

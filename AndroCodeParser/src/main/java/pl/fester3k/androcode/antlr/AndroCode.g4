@@ -36,20 +36,20 @@ statement       // statement
     ;
 
 expr 			        //expression
-    : fcal=function_call                                #expr_fcall		// returns: function type    
+    : var_or_function_call                              #expr_var_or_fcall		// returns: function type    
     | '(' subExpr=expr ')'                              #expr_parenthesis 	// returns: type of expr
-    | '-' subExpr=expr                                  #expr_uminus	// returns: type of expr
+    | MINUS_OP subExpr=expr                                  #expr_uminus	// returns: type of expr
     | a=expr op=(MULT_OP | DEV_OP) b=expr               #expr_binop // returns: type of Lexpr
-    | a=expr op=(ADD_OP | SUBST_OP) b=expr              #expr_binop // returns: type of Lexpr
+    | a=expr op=(ADD_OP | MINUS_OP) b=expr              #expr_binop // returns: type of Lexpr
     | LP type RP expr                                   #expr_cast // returns: type of "type"
     | id=ID op=(INCR_OP | DECR_OP)                      #expr_incr_decr	// returns: int
     | dev_operation                                     #expr_dev	// returns: boolean
     | v=value                                           #expr_value	// returns: value type
-    | var_call                                          #expr_var	// returns: type of var ID
+    //| var_call                                          #expr_var	// returns: type of var ID
     ;
 
 var_or_val
-    : var_call
+    : var_or_function_call
     | value
     ;    
 
@@ -71,19 +71,26 @@ return_statement
 
 var_declaration // declaration of variable 'ID' of type 'type' with optional assignment
     : type ID ('=' expr)?;
-var_call
-    : ID ;
 assignment // assignment
     : a=ID '=' b=expr;
+/*var_call
+    : ID ;
 function_call // call of function 'ID' with optional arguments
     : ID LP arguments? RP  
+    ;*/
+var_or_function_call
+    : ID                    #var_call
+    | ID LP arguments? RP   #function_call
     ;
+
 condition  // logical condition
-    : '!' LP var_call RP                                    #condition_var_negated
-    | '!' var_call                                          #condition_var_negated
+    : '!' LP var_or_function_call RP                        #condition_var_negated
+    | '!' var_or_function_call                              #condition_var_negated
     | '!' LP condition RP                                   #condition_negated
     | a=expr op=( EQ_OP | NOT_EQ_OP ) b=expr                #condition_equality
     | a=expr op=( GT_OP | LT_OP | GTEQ_OP | LTEQ_OP) b=expr #condition_relational
+    | condition logical_op condition (logical_op condition)* #condition_combined
+    | LP condition RP                                       #condition_parenthesis
     ;
 
 arguments   
@@ -91,7 +98,7 @@ arguments
 for_loop    
     : 'for' LP assignment ';' condition ';' (newValExpr=expr | newValAssign=assignment) RP block ;
 while_loop  
-    : 'while' LP condition RP block ;
+    : 'while' LP condition (',' INT)? RP block ;
 if_condition
     : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
 
@@ -104,8 +111,10 @@ dev_operation
     
 value     
     : CHAR           
-    | INT            
-    | FLOAT          
+    | INT
+    | NEGATED_INT
+    | FLOAT       
+    | NEGATED_FLOAT
     | STRING         
     | BOOLEAN        
     | NULL           
@@ -119,6 +128,11 @@ type
     | K_STRING_TYPE  
     | K_BOOLEAN_TYPE 
     | K_DEV_TYPE     
+    ;
+
+logical_op
+    : AND_OP
+    | OR_OP
     ;
 
 K_INT_TYPE  : 'int' ;
@@ -136,7 +150,7 @@ ID          : LOWERCASE_LETTER+ (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '
 LP          : '(' ;
 RP          : ')' ;
 ADD_OP      : '+' ;
-SUBST_OP    : '-' ;
+MINUS_OP    : '-' ;
 MULT_OP     : '*' ;
 DEV_OP      : '/' ;
 INCR_OP      : '++';
@@ -149,8 +163,15 @@ LT_OP       : '<' ;
 GTEQ_OP     : '>=' ;
 LTEQ_OP     : '<=' ;
 
+AND_OP      : '&&';
+OR_OP       : '||';
+
 CHAR        :   '\'' . '\'' ;
+
+NEGATED_INT : MINUS_OP INT;
 INT         : '0' | [1-9] DIGIT* ;
+
+NEGATED_FLOAT : MINUS_OP FLOAT;
 FLOAT
             :   DIGIT* '.' DIGIT*
             |   '.' DIGIT+

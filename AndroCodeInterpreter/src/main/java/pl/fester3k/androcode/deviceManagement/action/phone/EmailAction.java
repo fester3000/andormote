@@ -25,8 +25,8 @@ public class EmailAction extends BaseDeviceAction {
 		if(getParams().containsKey(ActionParams.EMAIL.TEXT.toString())) {
 			text = (String)getParams().get(ActionParams.EMAIL.TEXT.toString());
 		}
-		if(getParams().containsKey(ActionParams.EMAIL.TOPIC.toString())) {
-			topic = (String)getParams().get(ActionParams.EMAIL.TOPIC.toString());
+		if(getParams().containsKey(ActionParams.EMAIL.SUBJECT.toString())) {
+			topic = (String)getParams().get(ActionParams.EMAIL.SUBJECT.toString());
 		}
 		if(getParams().containsKey(ActionParams.EMAIL.TO.toString())) {
 			emailAddress = (String)getParams().get(ActionParams.EMAIL.TO.toString());

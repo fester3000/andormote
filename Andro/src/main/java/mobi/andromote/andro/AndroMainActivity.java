@@ -155,9 +155,9 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void takePhoto(Bundle extras) {
-		int jpegQuality = extras.getInt(ActionParams.CAMERA.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
-		String flashMode = extras.getString(ActionParams.CAMERA.FLASH.toString(), DEFAULT_FLASH_MODE);
-		boolean isMaximumSize = extras.getBoolean(ActionParams.CAMERA.RESOLUTION.toString(), DEFAULT_IS_MAXIMUM_SIZE);
+		int jpegQuality = extras.getInt(ActionParams.PICTURE.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
+		String flashMode = extras.getString(ActionParams.PICTURE.FLASH.toString(), DEFAULT_FLASH_MODE);
+		boolean isMaximumSize = extras.getBoolean(ActionParams.PICTURE.RESOLUTION.toString(), DEFAULT_IS_MAXIMUM_SIZE);
 
 		logger.debug("Quality: " + jpegQuality + " flash: " + flashMode + " sizeMode: " + isMaximumSize);
 		Camera.Parameters params = camera.getParameters();  

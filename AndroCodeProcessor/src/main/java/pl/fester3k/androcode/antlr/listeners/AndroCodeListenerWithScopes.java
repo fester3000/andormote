@@ -10,22 +10,23 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.ArgumentsContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BodyContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_combinedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_releaseContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_setParamContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_devContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_valueContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_varContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_var_or_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.For_loopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
@@ -43,6 +44,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.TypeContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ValueContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_valContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.scopeManagement.GlobalScope;
@@ -369,17 +371,17 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	}
 
 
-	@Override
-	public void enterExpr_fcall(Expr_fcallContext ctx) {
-		super.enterExpr_fcall(ctx);
-	}
-
-
-	@Override
-	public void exitExpr_fcall(Expr_fcallContext ctx) {
-		
-		super.exitExpr_fcall(ctx);
-	}
+//	@Override
+//	public void enterExpr_fcall(Expr_fcallContext ctx) {
+//		super.enterExpr_fcall(ctx);
+//	}
+//
+//
+//	@Override
+//	public void exitExpr_fcall(Expr_fcallContext ctx) {
+//		
+//		super.exitExpr_fcall(ctx);
+//	}
 
 
 	@Override
@@ -424,19 +426,19 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	}
 
 
-	@Override
-	public void enterExpr_var(Expr_varContext ctx) {
-		
-		super.enterExpr_var(ctx);
-	}
-
-
-	@Override
-	public void exitExpr_var(Expr_varContext ctx) {
-		
-		super.exitExpr_var(ctx);
-	}
-
+//	@Override
+//	public void enterExpr_var(Expr_varContext ctx) {
+//		
+//		super.enterExpr_var(ctx);
+//	}
+//
+//
+//	@Override
+//	public void exitExpr_var(Expr_varContext ctx) {
+//		
+//		super.exitExpr_var(ctx);
+//	}
+//
 
 	@Override
 	public void exitScript(ScriptContext ctx) {
@@ -580,5 +582,63 @@ public class AndroCodeListenerWithScopes extends AndroCodeBaseListener {
 	@Override
 	public void visitErrorNode(ErrorNode node) {
 		super.visitErrorNode(node);
+	}
+
+
+	@Override
+	public void enterVar_or_val(Var_or_valContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterVar_or_val(ctx);
+	}
+
+
+	@Override
+	public void exitVar_or_val(Var_or_valContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitVar_or_val(ctx);
+	}
+
+
+	@Override
+	public void enterExpr_var_or_fcall(Expr_var_or_fcallContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterExpr_var_or_fcall(ctx);
+	}
+
+
+	@Override
+	public void exitExpr_var_or_fcall(Expr_var_or_fcallContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitExpr_var_or_fcall(ctx);
+	}
+
+
+	@Override
+	public void enterDev_release(Dev_releaseContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDev_release(ctx);
+	}
+
+
+	@Override
+	public void exitDev_release(Dev_releaseContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitDev_release(ctx);
+	}
+
+
+	@Override
+	public void enterCondition_combined(Condition_combinedContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterCondition_combined(ctx);
+	}
+
+
+	@Override
+	public void exitCondition_combined(Condition_combinedContext ctx) {
+		// TODO Auto-generated method stub
+		super.exitCondition_combined(ctx);
 	}	
+	
+	
 }

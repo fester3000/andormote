@@ -121,6 +121,11 @@ public class PacketType {
 		SET_STEPPER_MODE,
 
 		/**
+		 * Potwierdzenie zmiany trybu ruchu na krokowy.
+		 */
+		STEPPER_MODE_RESPONSE,
+
+		/**
 		 * Pakiet z informacją o trybie ruchu węzła.
 		 */
 		MOTION_MODE_RESPONSE,
@@ -135,10 +140,6 @@ public class PacketType {
 		 */
 		CONTINUOUS_MODE_RESPONSE,
 
-		/**
-		 * Potwierdzenie zmiany trybu ruchu na krokowy.
-		 */
-		STEPPER_MODE_RESPONSE,
 
 		/**
 		 * Zmiana prędkości silników. 
@@ -221,148 +222,160 @@ public class PacketType {
 	 * mogą zawierać zmianę prędkości, jeżeli różna od zera.
 	 * 
 	 * @author Maciej Gzik
+	 * @author Sebastian Łuczak
 	 * 
 	 */
 	public enum Motion implements IPacketType {
 
 		/**
+		 * Zlecenie wykonania ruchu do przodu ze zmienną prędkością obrotu na gąsienicach.
+		 * Dotyczy pojazdów gąsienicowych
+		 */
+		MOVE_CATERPILLAR_RESPONSE,
+
+		/**
+		 * Zlecenie wykonania ruchu do przodu ze zmienną prędkością obrotu na gąsienicach.
+		 * Dotyczy pojazdów gąsienicowych
+		 */
+		MOVE_CATERPILLAR,
+		/**
 		 * Ruch do przodu inicjowany przez AndroMote.
 		 */
-		MOVE_FORWARD,
+		MOVE_FORWARD_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu do przodu.
 		 */
-		MOVE_FORWARD_REQUEST,
+		MOVE_FORWARD,
 
 		/**
 		 * Ruch do tyłu inicjowany przez AndroMote.
 		 */
-		MOVE_BACKWARD,
+		MOVE_BACKWARD_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu do tyłu.
 		 */
-		MOVE_BACKWARD_REQUEST,
+		MOVE_BACKWARD,
 		
 		/**
 		 * Ruch do przodu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica) inicjowany przez AndroMote.
 		 */
-		MOVE_FORWARD_DIFFER_SPEED,
+		MOVE_FORWARD_DIFFER_SPEED_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu do przodu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica).
 		 */
-		MOVE_FORWARD_DIFFER_SPEED_REQUEST,
+		MOVE_FORWARD_DIFFER_SPEED,
 
 		/**
 		 * Ruch do tyłu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica) inicjowany przez AndroMote.
 		 */
-		MOVE_BACKWARD_DIFFER_SPEED,
+		MOVE_BACKWARD_DIFFER_SPEED_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu do tyłu przy dwóch różnych prędkościach (np. lewa i prawa gąsienica).
 		 */
-		MOVE_BACKWARD_DIFFER_SPEED_REQUEST,
+		MOVE_BACKWARD_DIFFER_SPEED,
 
 		/**
 		 * Ruch w lewo inicjowany przez AndroMote.
 		 */
-		MOVE_LEFT_FORWARD,
+		MOVE_LEFT_FORWARD_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu w lewo do przodu.
 		 */
-		MOVE_LEFT_FORWARD_REQUEST,
+		MOVE_LEFT_FORWARD,
 
 		/**
 		 * Ruch w prawo inicjowany przez AndroMote.
 		 */
-		MOVE_RIGHT_FORWARD,
+		MOVE_RIGHT_FORWARD_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu w prawo do przodu.
 		 */
-		MOVE_RIGHT_FORWARD_REQUEST,
+		MOVE_RIGHT_FORWARD,
 
 		/**
 		 * Ruch w lewo do tyłu inicjowany przez AndroMote.
 		 */
-		MOVE_LEFT_BACKWARD,
+		MOVE_LEFT_BACKWARD_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu w lewo do tyłu.
 		 */
-		MOVE_LEFT_BACKWARD_REQUEST,
+		MOVE_LEFT_BACKWARD,
 
 		/**
 		 * Wykonany skręt w lewo bez zatrzymania
 		 */
-		MOVE_LEFT,
+		MOVE_LEFT_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania ruchu w lewo. W zależności od modelu moze być to
 		 * skręcenie kół lub ciągły skręt w lewo.
 		 */
-		MOVE_LEFT_REQUEST,
+		MOVE_LEFT,
 
 		/**
 		 * Wykonane zatrzymanie węzła
 		 */
-		STOP,
+		STOP_RESPONSE,
 
 		/**
 		 * Zlecenie zatrzymania węzła.
 		 */
-		STOP_REQUEST,
+		STOP,
 
 		/**
 		 * Wykonany skręt w prawo
 		 */
-		MOVE_RIGHT,
+		MOVE_RIGHT_RESPONSE,
 
 		/**
 		 * Polecenie skrętu w prawo. W zależności od modelu moze być to
 		 * skręcenie kół lub ciągły skręt w prawo.
 		 */
-		MOVE_RIGHT_REQUEST,
-
-		/**
-		 * Zlecenie wykonania ruchu w prawo do tyłu.
-		 */
-		MOVE_RIGHT_BACKWARD_REQUEST,
+		MOVE_RIGHT,
 
 		/**
 		 * Wykonany skręt w prawo w tył
+		 */
+		MOVE_RIGHT_BACKWARD_RESPONSE,
+
+		/**
+		 * Zlecenie wykonania ruchu w prawo do tyłu.
 		 */
 		MOVE_RIGHT_BACKWARD,
 
 		/**
 		 * Wykonany skręt w prawo o 90 stopni
 		 */
-		MOVE_RIGHT_90_DEGREES,
+		MOVE_RIGHT_90_DEGREES_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania skrętu w prawo o 90 stopni
 		 */
-		MOVE_RIGHT_90_DEGREES_REQUEST,
+		MOVE_RIGHT_90_DEGREES,
 
 		/**
 		 * Wykonany skręt w lewo o 90 stopni
 		 */
-		MOVE_LEFT_90_DEGREES,
+		MOVE_LEFT_90_DEGREES_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania skrętu w lewo o 90 stopni
 		 */
-		MOVE_LEFT_90_DEGREES_REQUEST,
+		MOVE_LEFT_90_DEGREES,
 
 		/**
 		 * Wykonany skręt w prawo o określoną liczbę stopni. Zawartość pakietu:
 		 * 
 		 * - int bearing - liczba stopni skrętu od pozycji początkowej
 		 */
-		MOVE_LEFT_DEGREES,
+		MOVE_LEFT_DEGREES_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania skrętu w prawo o określoną liczbę stopni.
@@ -370,7 +383,7 @@ public class PacketType {
 		 * 
 		 * - int bearing - liczba stopni skrętu od pozycji początkowej
 		 */
-		MOVE_LEFT_DEGREES_REQUEST,
+		MOVE_LEFT_DEGREES,
 
 		/**
 		 * Wykonany skręt w prawo o określoną liczbę stopni. Zawartość pakietu
@@ -378,7 +391,7 @@ public class PacketType {
 		 * 
 		 * - int bearing - liczba stopni skrętu od pozycji początkowej
 		 */
-		MOVE_RIGHT_DEGREES,
+		MOVE_RIGHT_DEGREES_RESPONSE,
 
 		/**
 		 * Zlecenie wykonania skrętu w prawo o określoną liczbę stopni. TODO:
@@ -386,7 +399,7 @@ public class PacketType {
 		 * 
 		 * - int bearing - liczba stopni skrętu od pozycji początkowej
 		 */
-		MOVE_RIGHT_DEGREES_REQUEST,
+		MOVE_RIGHT_DEGREES,
 	}
 
 	/**

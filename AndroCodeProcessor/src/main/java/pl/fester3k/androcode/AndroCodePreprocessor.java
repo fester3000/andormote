@@ -20,7 +20,7 @@ import pl.fester3k.androcode.utils.Utils;
 
 /**
  * 
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 public class AndroCodePreprocessor {

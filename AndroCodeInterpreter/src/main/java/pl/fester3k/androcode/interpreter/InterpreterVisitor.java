@@ -1,5 +1,6 @@
 package pl.fester3k.androcode.interpreter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -13,6 +14,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BlockContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.BodyContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ConditionContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_combinedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
@@ -29,11 +31,12 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_valueContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_varContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_var_or_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.For_loopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.If_conditionContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Logical_opContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Mixed_stringContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.PrintContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Return_statementContext;
@@ -43,16 +46,17 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.StatementContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.ValueContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_valContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.datatypes.Feature;
+import pl.fester3k.androcode.datatypes.Operator;
 import pl.fester3k.androcode.deviceManagement.ActionManager;
 import pl.fester3k.androcode.interpreter.exceptions.NoSuchActionException;
 import pl.fester3k.androcode.interpreter.exceptions.NoSuchFeatureException;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
-import pl.fester3k.androcode.interpreter.tokens.Operator;
 import pl.fester3k.androcode.logger.AndroLog;
 import pl.fester3k.androcode.scopeManagement.GlobalScope;
 import pl.fester3k.androcode.scopeManagement.Scope;
@@ -154,10 +158,51 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	}
 
 	@Override
-	public Object visitCondition_var_negated(
-			Condition_var_negatedContext ctx) {		
-		Boolean result = (Boolean)visit(ctx.var_call());
+	public Object visitCondition_var_negated(Condition_var_negatedContext ctx) {		
+		Boolean result = (Boolean)visit(ctx.var_or_function_call());
 		return !result;
+	}
+
+	@Override
+	public Object visitCondition_combined(Condition_combinedContext ctx) {
+		boolean result = false;
+		List<ConditionContext> conditions = ctx.condition();
+		List<Logical_opContext> logical_operators = ctx.logical_op();
+
+		result = computeCombinedCondition(conditions, logical_operators);
+		log.debug("Combined result " + result);
+		return result;
+	}
+
+	private boolean computeCombinedCondition(List<ConditionContext> conditions,
+			List<Logical_opContext> logical_operators) {
+		boolean result = false;
+		boolean resultA = (Boolean) visit(conditions.get(0));
+		conditions.remove(0);
+		Operator operator = Operator.getOperatorByTokenType(logical_operators.get(0).start.getType());
+		logical_operators.remove(0);
+		boolean resultB;
+		if(!logical_operators.isEmpty()) {
+			resultB = computeCombinedCondition(conditions, logical_operators);
+		} else {
+			resultB = (Boolean)visit(conditions.get(0));
+		}
+		log.debug("resultA " + resultA);
+		log.debug("resultB " + resultB);
+		switch(operator) {
+		case AND_OP:
+			result = resultA && resultB;
+			log.debug("AND result " + result);
+			break;
+		case OR_OP:
+			result = resultA || resultB;
+			log.debug("OR result " + result);
+			break;
+		default:
+			log.warn("Incorrect arguments and/or operators to compute combined condition result");
+			break;
+		}
+		return result;
 	}
 
 	@Override
@@ -284,10 +329,6 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return result;
 	}
 
-	@Override
-	public Object visitExpr_var(Expr_varContext ctx) {
-		return super.visitExpr_var(ctx);
-	}
 
 	@Override
 	public Object visitExpr_incr_decr(Expr_incr_decrContext ctx) {
@@ -390,7 +431,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		tryToSleepInAndrocode(sleepTime);
 		return null;
 	}
-	
+
 	@Override
 	public Object visitPrint(PrintContext ctx) {
 		String message = (String)visit(ctx.mixed_string());
@@ -406,14 +447,14 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		result = tryToConcat(var_or_vals);
 		return result;
 	}
-	
+
 	@Override
 	public Object visitVar_or_val(Var_or_valContext ctx) {
 		String result = "";
-		Var_callContext var_call = ctx.var_call();
+		Var_or_function_callContext varOrFunction = ctx.var_or_function_call();
 		ValueContext value = ctx.value();
-		if(var_call != null) {
-			Object var_callString = visit(var_call);
+		if(varOrFunction != null) {
+			Object var_callString = visit(varOrFunction);
 			result = String.valueOf(var_callString);
 		} else if(value != null) {
 			Object valueString = visit(value);
@@ -426,7 +467,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	public Object visitExpr_dev(Expr_devContext ctx) {
 		return visit(ctx.dev_operation());
 	}
-	
+
 
 	@Override
 	public Object visitDev_release(Dev_releaseContext ctx) {
@@ -485,7 +526,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private void print(final String message) {
 		log.info(message);
 	}
-	
+
 	private String tryToConcat(List<Var_or_valContext> var_or_vals) {
 		String result = "";
 		for (Var_or_valContext var_or_val : var_or_vals) {
@@ -506,7 +547,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		}
 		return result;
 	}
-	
+
 
 	private boolean releaseDevice(Dev_releaseContext ctx, String varId) {
 		boolean result = false;
@@ -519,7 +560,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		return result;
 	}
 
-	
+
 	private void tryToSleepInAndrocode(int sleepTime) {
 		try {
 			Thread.sleep(sleepTime);
@@ -668,7 +709,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		case ADD_OP:
 			result = resultExprA.floatValue() + resultExprB.floatValue();
 			break;
-		case SUBST_OP:
+		case MINUS_OP:
 			result = resultExprA.floatValue() - resultExprB.floatValue();
 			break;
 		case MULT_OP:

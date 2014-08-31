@@ -155,18 +155,18 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitWhile_loop(@NotNull AndroCodeParser.While_loopContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#logical_op}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#expr_incr_decr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_fcall}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#var_declaration}.
@@ -197,11 +197,11 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link AndroCodeParser#expr_var}.
+	 * Visit a parse tree produced by {@link AndroCodeParser#expr_var_or_fcall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx);
+	T visitExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#dev_release}.
@@ -209,6 +209,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_combined}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#script}.

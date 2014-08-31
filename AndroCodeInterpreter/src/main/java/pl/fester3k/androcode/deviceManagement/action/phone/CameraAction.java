@@ -29,9 +29,9 @@ public class CameraAction extends BaseDeviceAction {
 	 * @param intent
 	 */
 	private void setIntentExtras(Intent intent) {
-		if(getParams().containsKey(ActionParams.CAMERA.FLASH.toString())) {
+		if(getParams().containsKey(ActionParams.PICTURE.FLASH.toString())) {
 			String result = Camera.Parameters.FLASH_MODE_AUTO;
-			String flashMode = (String)getParams().get(ActionParams.CAMERA.FLASH.toString());
+			String flashMode = (String)getParams().get(ActionParams.PICTURE.FLASH.toString());
 			if(flashMode.equals("ON")) {
 				result = Camera.Parameters.FLASH_MODE_ON;
 			} else if (flashMode.equals("OFF")) {
@@ -41,27 +41,27 @@ public class CameraAction extends BaseDeviceAction {
 			} else if (flashMode.equals("STILL")) {
 				result = Camera.Parameters.FLASH_MODE_TORCH;
 			}
-			intent.putExtra(ActionParams.CAMERA.FLASH.toString(), result);
+			intent.putExtra(ActionParams.PICTURE.FLASH.toString(), result);
 		}
-		if(getParams().containsKey(ActionParams.CAMERA.QUALITY.toString())) {
+		if(getParams().containsKey(ActionParams.PICTURE.QUALITY.toString())) {
 			int quality;
 			try {
-			quality = Integer.valueOf((String)getParams().get(ActionParams.CAMERA.QUALITY.toString()));
+			quality = Integer.valueOf((String)getParams().get(ActionParams.PICTURE.QUALITY.toString()));
 			} catch (NumberFormatException e) {
 				logger.error(e.getMessage());
 				quality = 90;
 			}
-			intent.putExtra(ActionParams.CAMERA.QUALITY.toString(), quality);
+			intent.putExtra(ActionParams.PICTURE.QUALITY.toString(), quality);
 		}
-		if(getParams().containsKey(ActionParams.CAMERA.RESOLUTION.toString())) {
+		if(getParams().containsKey(ActionParams.PICTURE.RESOLUTION.toString())) {
 			boolean isMaximumSize = true;
-			String size = (String)getParams().get(ActionParams.CAMERA.RESOLUTION.toString());
+			String size = (String)getParams().get(ActionParams.PICTURE.RESOLUTION.toString());
 			if(size.equals("LOW")) {
 				isMaximumSize = false;
 			} else if(size.equals("HIGH")){
 				isMaximumSize = true;
 			}
-			intent.putExtra(ActionParams.CAMERA.RESOLUTION.toString(), isMaximumSize);
+			intent.putExtra(ActionParams.PICTURE.RESOLUTION.toString(), isMaximumSize);
 		}
 	}
 

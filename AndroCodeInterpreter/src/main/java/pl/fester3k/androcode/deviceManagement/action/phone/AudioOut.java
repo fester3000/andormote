@@ -21,26 +21,26 @@ public class AudioOut extends BaseDeviceAction implements OnPreparedListener {
 
 	@Override
 	public Object run() {
-		if(params.containsKey(ActionParams.AUDIO_OUT.PATH)) {
-			String path = params.getProperty(ActionParams.AUDIO_OUT.PATH.toString());
-			File file = new File(path);
-			Uri fileUri = Uri.fromFile(file);
-			logger.debug(fileUri.toString());
-			mediaPlayer = new MediaPlayer();
-			mediaPlayer.setOnPreparedListener(this);
-			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			try {
-				mediaPlayer.setDataSource(context, fileUri);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		if(params.containsKey(ActionParams.AUDIO_OUT.PATH)) {
+//			String path = params.getProperty(ActionParams.AUDIO_OUT.PATH.toString());
+//			File file = new File(path);
+//			Uri fileUri = Uri.fromFile(file);
+//			logger.debug(fileUri.toString());
+//			mediaPlayer = new MediaPlayer();
+//			mediaPlayer.setOnPreparedListener(this);
+//			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//			try {
+//				mediaPlayer.setDataSource(context, fileUri);
+//			} catch (IllegalArgumentException e) {
+//				e.printStackTrace();
+//			} catch (SecurityException e) {
+//				e.printStackTrace();
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		return ActionResult.COMPLETED;
 	}
 

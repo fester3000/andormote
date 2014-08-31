@@ -1,9 +1,9 @@
-package pl.fester3k.androcode.interpreter.tokens;
+package pl.fester3k.androcode.datatypes;
 
 import pl.fester3k.androcode.antlr.AndroCodeLexer;
 
 public enum Operator {
-	INVALID_OP, ADD_OP, SUBST_OP, MULT_OP, DEV_OP, INCR_OP, DECR_OP, EQ_OP, NOT_EQ_OP, GT_OP, LT_OP, GTEQ_OP, LTEQ_OP;
+	INVALID_OP, ADD_OP, MINUS_OP, MULT_OP, DEV_OP, INCR_OP, DECR_OP, EQ_OP, NOT_EQ_OP, GT_OP, LT_OP, GTEQ_OP, LTEQ_OP, AND_OP, OR_OP;
 	
 	public static Operator getOperatorByTokenType(int tokenType) {
 		Operator result = INVALID_OP;
@@ -11,8 +11,8 @@ public enum Operator {
 			case AndroCodeLexer.ADD_OP: 
 				result = ADD_OP;
 				break;
-			case AndroCodeLexer.SUBST_OP: 
-				result = SUBST_OP;
+			case AndroCodeLexer.MINUS_OP: 
+				result = MINUS_OP;
 				break;
 			case AndroCodeLexer.MULT_OP: 
 				result = MULT_OP;
@@ -43,6 +43,12 @@ public enum Operator {
 				break;
 			case AndroCodeLexer.LTEQ_OP: 
 				result = LTEQ_OP;
+				break;
+			case AndroCodeLexer.AND_OP:
+				result = AND_OP;
+				break;
+			case AndroCodeLexer.OR_OP:
+				result = OR_OP;
 				break;
 		}
 		return result;

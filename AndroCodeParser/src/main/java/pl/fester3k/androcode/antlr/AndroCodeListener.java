@@ -232,6 +232,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitWhile_loop(@NotNull AndroCodeParser.While_loopContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#logical_op}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#logical_op}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogical_op(@NotNull AndroCodeParser.Logical_opContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#expr_incr_decr}.
 	 * @param ctx the parse tree
 	 */
@@ -241,17 +252,6 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr_incr_decr(@NotNull AndroCodeParser.Expr_incr_decrContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#expr_fcall}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#expr_fcall}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr_fcall(@NotNull AndroCodeParser.Expr_fcallContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#var_declaration}.
@@ -298,15 +298,15 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitCondition_equality(@NotNull AndroCodeParser.Condition_equalityContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link AndroCodeParser#expr_var}.
+	 * Enter a parse tree produced by {@link AndroCodeParser#expr_var_or_fcall}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx);
+	void enterExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AndroCodeParser#expr_var}.
+	 * Exit a parse tree produced by {@link AndroCodeParser#expr_var_or_fcall}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr_var(@NotNull AndroCodeParser.Expr_varContext ctx);
+	void exitExpr_var_or_fcall(@NotNull AndroCodeParser.Expr_var_or_fcallContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#dev_release}.
@@ -318,6 +318,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDev_release(@NotNull AndroCodeParser.Dev_releaseContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_combined}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_combined}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_combined(@NotNull AndroCodeParser.Condition_combinedContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#script}.

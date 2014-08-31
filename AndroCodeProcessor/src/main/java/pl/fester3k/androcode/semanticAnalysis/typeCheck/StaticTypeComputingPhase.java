@@ -4,19 +4,23 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import pl.fester3k.androcode.antlr.AndroCodeParser.AssignmentContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_combinedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_equalityContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_relationalContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Condition_var_negatedContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_execContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Dev_getContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_binopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_castContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_devContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_valueContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_varContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_var_or_fcallContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
+import pl.fester3k.androcode.antlr.AndroCodeParser.Var_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_declarationContext;
 import pl.fester3k.androcode.antlr.enums.Type;
 import pl.fester3k.androcode.antlr.listeners.AndroCodeListenerWithScopes;
@@ -31,7 +35,7 @@ import pl.fester3k.androcode.utils.Utils;
  *	c) enforcing static type safety
  *
  *
- * @author Sebastian
+ * @author Sebastian Łuczak
  *
  */
 
@@ -43,7 +47,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		super(globals, scopes, StaticTypeComputingPhase.class.getSimpleName());
 		log.info("Starting static type computing phase");
 	}
-	
+
 	/**
 	 * Catches all casts 
 	 */
@@ -83,7 +87,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-	
+
 	/**
 	 * Catches all minus unary calls "-expr"
 	 */
@@ -103,9 +107,9 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void exitDev_get(Dev_getContext ctx) {
 		Type type = Type.DEVICE;
@@ -113,27 +117,49 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		log.printTypeWithContext(type, ctx);
 	}
 
-	/**
-	 * Catches all variable calls "id"
-	 */
+	//	/**
+	//	 * Catches all variable calls "id"
+	//	 */
+	//	@Override
+	//	public void exitExpr_var(Expr_varContext ctx) {
+	//		Type type = Utils.getTypeFromSymbol(ctx.getChild(0).getText(), currentScope);
+	//		types.put(ctx, type);
+	//		log.printTypeWithContext(type, ctx);
+	//	}
+	//
+	//	/**
+	//	 * Catches all function calls "id(arguments)"
+	//	 */
+	//	@Override
+	//	public void exitExpr_fcall(Expr_fcallContext ctx) {
+	//		String name = ctx.fcal.ID().getText();
+	//		Type type = Utils.getTypeFromSymbol(name, currentScope);
+	//		types.put(ctx, type);
+	//		log.printTypeWithContext(type, ctx);
+	//	}
+
 	@Override
-	public void exitExpr_var(Expr_varContext ctx) {
+	public void exitVar_call(Var_callContext ctx) {
 		Type type = Utils.getTypeFromSymbol(ctx.getChild(0).getText(), currentScope);
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
 
-	/**
-	 * Catches all function calls "id(arguments)"
-	 */
 	@Override
-	public void exitExpr_fcall(Expr_fcallContext ctx) {
-		String name = ctx.fcal.ID().getText();
+	public void exitExpr_var_or_fcall(Expr_var_or_fcallContext ctx) {
+		Type type = types.get(ctx.var_or_function_call());
+		types.put(ctx, type);
+		log.printTypeWithContext(type, ctx);
+	}
+
+	@Override
+	public void exitFunction_call(Function_callContext ctx) {
+		String name = ctx.ID().getText();
 		Type type = Utils.getTypeFromSymbol(name, currentScope);
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-	
+
 	/**
 	 * Catches all device execs
 	 */
@@ -164,7 +190,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-	
+
 	/**
 	 * Catches all binary arithmetic operations (+,-,*,/)
 	 */
@@ -174,7 +200,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx, type);
 		log.printTypeWithContext(type, ctx);
 	}
-	
+
 	/**
 	 * Catches all relational conditions
 	 */
@@ -184,7 +210,7 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		types.put(ctx,type);
 		log.printTypeWithContext(type, ctx);
 	}
-		
+
 	/**
 	 * Catches all equality conditions
 	 */
@@ -195,9 +221,39 @@ public class StaticTypeComputingPhase extends AndroCodeListenerWithScopes {
 		log.printTypeWithContext(type, ctx);
 	}
 
+	/**
+	 * Catches all negated boolean variables or functions 
+	 */
+	@Override
+	public void exitCondition_var_negated(Condition_var_negatedContext ctx) {
+		Type type = Type.BOOLEAN;
+		types.put(ctx,type);
+		log.printTypeWithContext(type, ctx);
+	}
+
+	/**
+	 * Catches all negated conditions
+	 */
+	@Override
+	public void exitCondition_negated(Condition_negatedContext ctx) {
+		Type type = Type.BOOLEAN;
+		types.put(ctx,type);
+		log.printTypeWithContext(type, ctx);
+	}
+
+	/**
+	 * Catches all combined conditions
+	 */
+	@Override
+	public void exitCondition_combined(Condition_combinedContext ctx) {
+		Type type = Type.BOOLEAN;
+		types.put(ctx,type);
+		log.printTypeWithContext(type, ctx);
+	}
+
 	public ParseTreeProperty<Type> getTypes() {
 		return types;
 	}
-	
-	
+
+
 }

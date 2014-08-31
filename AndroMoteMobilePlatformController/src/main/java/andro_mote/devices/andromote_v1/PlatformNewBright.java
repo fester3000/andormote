@@ -23,38 +23,38 @@ public class PlatformNewBright extends PlatformAbstract {
 		double speed = inputPacket.getSpeed();
 		PacketType.Motion packetType = (Motion) inputPacket.getPacketType();
 		switch(packetType) {
-		case MOVE_LEFT_FORWARD_REQUEST : 
+		case MOVE_LEFT_FORWARD : 
 			moveForward(speed);
 			steerLeft();
 			break;
-		case MOVE_FORWARD_REQUEST : 
+		case MOVE_FORWARD : 
 			moveForward(speed);
 			steerCenter();
 			break;
-		case MOVE_RIGHT_FORWARD_REQUEST : 
+		case MOVE_RIGHT_FORWARD : 
 			moveForward(speed);
 			steerRight();
 			break;
-		case MOVE_LEFT_REQUEST : 
+		case MOVE_LEFT : 
 			moveForward(0.0);
 			steerLeft();
 			break;
-		case STOP_REQUEST : 
+		case STOP : 
 			stop();
 			break;
-		case MOVE_RIGHT_REQUEST : 
+		case MOVE_RIGHT : 
 			stop();
 			steerRight();
 			break;
-		case MOVE_LEFT_BACKWARD_REQUEST : 
+		case MOVE_LEFT_BACKWARD : 
 			moveBackward(speed);
 			steerLeft();
 			break;
-		case MOVE_BACKWARD_REQUEST : 
+		case MOVE_BACKWARD : 
 			moveBackward(speed);
 			steerCenter();
 			break;
-		case MOVE_RIGHT_BACKWARD_REQUEST : 
+		case MOVE_RIGHT_BACKWARD : 
 			moveBackward(speed);
 			steerRight();
 			break;
@@ -125,30 +125,30 @@ public class PlatformNewBright extends PlatformAbstract {
 	 */
 	protected void setValuesForSimpleStep(Motion packetType) {
 		double speed = parentDevice.getSettings().getSpeed();
-		if (packetType == Motion.MOVE_LEFT_FORWARD_REQUEST) {
+		if (packetType == Motion.MOVE_LEFT_FORWARD) {
 			moveForward(speed);
 			steerLeft();
-		} else if (packetType == PacketType.Motion.MOVE_FORWARD_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_FORWARD) {
 			moveForward(speed);
 			steerCenter();
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_RIGHT_FORWARD) {
 			moveForward(speed);
 			steerRight();
-		} else if (packetType == PacketType.Motion.MOVE_LEFT_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_LEFT) {
 			moveForward(0.0);
 			steerLeft();
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_RIGHT) {
 			moveForward(0.0);
 			steerRight();
-		} else if (packetType == PacketType.Motion.STOP_REQUEST) {
+		} else if (packetType == PacketType.Motion.STOP) {
 			stop();
-		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_LEFT_BACKWARD) {
 			moveBackward(speed);
 			steerLeft();
-		} else if (packetType == PacketType.Motion.MOVE_BACKWARD_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_BACKWARD) {
 			moveBackward(speed);
 			steerCenter();
-		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD_REQUEST) {
+		} else if (packetType == PacketType.Motion.MOVE_RIGHT_BACKWARD) {
 			moveBackward(speed);
 			steerRight();
 		}
