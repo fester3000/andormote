@@ -23,4 +23,9 @@ public class HumidityAction extends BaseSensorAction {
 
 		value = sensorEvent.values[0];		
 	}
+	
+	@Override
+	public void putParam(String propertyName, String value) {
+		throw new UnsupportedOperationException();
+	}
 }

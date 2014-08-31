@@ -22,10 +22,10 @@ public class AudioOut extends BaseDeviceAction implements OnPreparedListener {
 	@Override
 	public Object run() {
 //		if(params.containsKey(ActionParams.AUDIO_OUT.PATH)) {
-//			String path = params.getProperty(ActionParams.AUDIO_OUT.PATH.toString());
+//			String path = params.getProperty(ActionParams.AUDIO_OUT.PATH);
 //			File file = new File(path);
 //			Uri fileUri = Uri.fromFile(file);
-//			logger.debug(fileUri.toString());
+//			logger.debug(fileUri);
 //			mediaPlayer = new MediaPlayer();
 //			mediaPlayer.setOnPreparedListener(this);
 //			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -59,5 +59,10 @@ public class AudioOut extends BaseDeviceAction implements OnPreparedListener {
 		if(notReleased) {
 			mediaPlayer.start();
 		}		
+	}
+	
+	@Override
+	public void putParam(String propertyName, String value) {
+		throw new UnsupportedOperationException();
 	}
 }

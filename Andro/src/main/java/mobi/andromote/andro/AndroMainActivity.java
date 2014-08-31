@@ -311,11 +311,11 @@ public class AndroMainActivity extends Activity {
 
 	private boolean safeCameraOpenInView() { 
 		boolean qOpened = false;
-		releaseCameraAndPreview(); 
+//		releaseCameraAndPreview(); 
 		camera = getCameraInstance(); 
 		qOpened = (camera != null); 
 		preview = new CameraPreview(this, camera); 
-		FrameLayout previewFrame = (FrameLayout) findViewById(R.id.camera_preview); 
+		previewFrame = (FrameLayout) findViewById(R.id.camera_preview); 
 		previewFrame.addView(preview); 
 		return qOpened; 
 	}
@@ -332,6 +332,7 @@ public class AndroMainActivity extends Activity {
 		if(preview != null){
 			preview.destroyDrawingCache();
 			preview.setCamera(null);
+			previewFrame.removeAllViews();
 		}
 	}
 

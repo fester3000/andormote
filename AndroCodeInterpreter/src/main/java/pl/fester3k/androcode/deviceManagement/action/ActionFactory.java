@@ -1,7 +1,7 @@
 package pl.fester3k.androcode.deviceManagement.action;
 
 import pl.fester3k.androcode.datatypes.Feature;
-import pl.fester3k.androcode.deviceManagement.action.phone.CameraAction;
+import pl.fester3k.androcode.deviceManagement.action.phone.PictureAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.CompassAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.DummyAction;
 import pl.fester3k.androcode.deviceManagement.action.phone.EmailAction;
@@ -94,7 +94,7 @@ public class ActionFactory {
 			action = new TextToSpeechAction(context);
 			break;
 		case PICTURE:
-			action = new CameraAction(context);
+			action = new PictureAction(context);
 			break;
 		case RECORD_VIDEO:
 			action = new RecVideoAction(context);

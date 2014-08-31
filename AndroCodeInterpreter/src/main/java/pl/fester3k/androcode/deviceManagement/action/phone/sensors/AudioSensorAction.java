@@ -54,5 +54,8 @@ public class AudioSensorAction extends BaseSensorAction {
 		}
 	};
 
-
+	@Override
+	public void putParam(String propertyName, String value) {
+		throw new UnsupportedOperationException();
+	}
 }

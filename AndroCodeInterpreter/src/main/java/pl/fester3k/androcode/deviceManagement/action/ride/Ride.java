@@ -24,31 +24,31 @@ public class Ride extends BaseDeviceAction {
 		ActionResult result;
 		Packet packet;
 		logger.debug("Ride action run");
-		if(getParams().containsKey(ActionParams.RIDE_MANUAL.MOTION.toString())) {
+		if(params.containsKey(ActionParams.RIDE_MANUAL.MOTION)) {
 			// Jazda ze zdefiniowaną prędkością
-			String motionType = getParams().getProperty(ActionParams.RIDE_MANUAL.MOTION.toString());
+			String motionType = params.get(ActionParams.RIDE_MANUAL.MOTION);
 			packet = new Packet(Motion.valueOf(motionType));
-			if(getParams().containsKey(ActionParams.RIDE_MANUAL.SPEED.toString())) {
-				String speedParam = getParams().getProperty(ActionParams.RIDE_MANUAL.SPEED.toString(), DEFAULT_SPEED);
+			if(params.containsKey(ActionParams.RIDE_MANUAL.SPEED)) {
+				String speedParam = params.get(ActionParams.RIDE_MANUAL.SPEED);
 				double speed = Double.valueOf(speedParam);
 				packet.setSpeed(speed);	
 			}
-			if(getParams().containsKey(ActionParams.RIDE_MANUAL.SPEED_B.toString())) {
-				String speedParam = getParams().getProperty(ActionParams.RIDE_MANUAL.SPEED_B.toString(), DEFAULT_SPEED);
+			if(params.containsKey(ActionParams.RIDE_MANUAL.SPEED_B)) {
+				String speedParam = params.get(ActionParams.RIDE_MANUAL.SPEED_B);
 				double speed = Double.valueOf(speedParam);
 				packet.setSpeedB(speed);	
 			}
 			result = RideController.INSTANCE.execute(packet);
-		} else if(getParams().containsKey("SPEED")) {
+		} else if(params.containsKey("SPEED")) {
 			// Zmiana samej prędkości, bez zmiany trybu jazdy
-			String speedParam = getParams().getProperty("SPEED", DEFAULT_SPEED);
+			String speedParam = params.get(ActionParams.RIDE_MANUAL.SPEED);
 			double speed = Double.valueOf(speedParam);
 			packet = new Packet(Engine.SET_SPEED);
 			packet.setSpeed(speed);
 			result = RideController.INSTANCE.execute(packet);
-		} else if(getParams().containsKey("SPEED_B")) {
+		} else if(params.containsKey(ActionParams.RIDE_MANUAL.SPEED_B)) {
 			// Zmiana samej prędkości prawej gąsienicy (jeśli dotyczy), bez zmiany trybu jazdy
-			String speedParam = getParams().getProperty("SPEED_B", DEFAULT_SPEED);
+			String speedParam = params.get(ActionParams.RIDE_MANUAL.SPEED_B);
 			double speed = Double.valueOf(speedParam);
 			packet = new Packet(Engine.SET_SPEED_B);
 			packet.setSpeedB(speed);	
@@ -59,4 +59,8 @@ public class Ride extends BaseDeviceAction {
 		return result;
 	}
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.RIDE_MANUAL.valueOf(propertyName), value);
+	}
 }

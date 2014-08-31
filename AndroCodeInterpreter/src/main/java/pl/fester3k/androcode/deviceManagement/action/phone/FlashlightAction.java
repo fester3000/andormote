@@ -1,14 +1,10 @@
 package pl.fester3k.androcode.deviceManagement.action.phone;
 
-import java.util.Properties;
-
 import pl.fester3k.androcode.datatypes.ActionParams;
 import pl.fester3k.androcode.datatypes.ActionResult;
-import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Camera;
 import android.support.v4.content.LocalBroadcastManager;
 
 public class FlashlightAction extends BaseDeviceAction {
@@ -35,9 +31,9 @@ public class FlashlightAction extends BaseDeviceAction {
 	}
 
 	private void setIntentExtras(Intent intent) {
-		if(getParams().containsKey(ActionParams.FLASHLIGHT.MODE.toString())) {
+		if(params.containsKey(ActionParams.FLASHLIGHT.MODE)) {
 			Boolean result = true;
-			String flashMode = (String)getParams().get(ActionParams.FLASHLIGHT.MODE.toString());
+			String flashMode = (String)params.get(ActionParams.FLASHLIGHT.MODE);
 			if(flashMode.equals("ON")) {
 				result = true;
 			} else if (flashMode.equals("OFF")) {
@@ -45,5 +41,10 @@ public class FlashlightAction extends BaseDeviceAction {
 			} 
 			intent.putExtra(ActionParams.FLASHLIGHT.MODE.toString(), result);
 		}
+	}
+	
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.FLASHLIGHT.valueOf(propertyName), value);
 	}
 }

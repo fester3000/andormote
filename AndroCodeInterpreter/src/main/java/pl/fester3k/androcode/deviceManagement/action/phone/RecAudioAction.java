@@ -35,9 +35,9 @@ public class RecAudioAction extends BaseDeviceAction {
 	 * @param intent
 	 */
 	private void setIntentExtras(Intent intent) {
-		if(getParams().containsKey(ActionParams.AUDIO_IN.MODE.toString())) {
+		if(params.containsKey(ActionParams.AUDIO_IN.MODE)) {
 			boolean record = false;
-			String mode = (String)getParams().get(ActionParams.AUDIO_IN.MODE.toString());
+			String mode = (String)params.get(ActionParams.AUDIO_IN.MODE);
 			if(mode.equals("ON")) {
 				record = true;
 			}
@@ -45,4 +45,8 @@ public class RecAudioAction extends BaseDeviceAction {
 		}
 	}
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.AUDIO_IN.valueOf(propertyName), value);
+	}
 }

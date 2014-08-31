@@ -22,14 +22,14 @@ public class EmailAction extends BaseDeviceAction {
 		String emailAddress = ""; 
 		String topic = "";
 		String text = "";
-		if(getParams().containsKey(ActionParams.EMAIL.TEXT.toString())) {
-			text = (String)getParams().get(ActionParams.EMAIL.TEXT.toString());
+		if(params.containsKey(ActionParams.EMAIL.TEXT)) {
+			text = (String)params.get(ActionParams.EMAIL.TEXT);
 		}
-		if(getParams().containsKey(ActionParams.EMAIL.SUBJECT.toString())) {
-			topic = (String)getParams().get(ActionParams.EMAIL.SUBJECT.toString());
+		if(params.containsKey(ActionParams.EMAIL.SUBJECT)) {
+			topic = (String)params.get(ActionParams.EMAIL.SUBJECT);
 		}
-		if(getParams().containsKey(ActionParams.EMAIL.TO.toString())) {
-			emailAddress = (String)getParams().get(ActionParams.EMAIL.TO.toString());
+		if(params.containsKey(ActionParams.EMAIL.TO)) {
+			emailAddress = (String)params.get(ActionParams.EMAIL.TO);
 			if(emailAddress != null && !emailAddress.equals("") && emailAddress.matches(EMAIL_REGEX)) {
 				try {   
 					//FIXME Only for internal use!!!
@@ -45,5 +45,10 @@ public class EmailAction extends BaseDeviceAction {
 		} else {
 			logger.warn("Email not sent. No e-mail address number provided");
 		}
+	}
+	
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.EMAIL.valueOf(propertyName), value);
 	}
 }

@@ -1,10 +1,8 @@
 package pl.fester3k.androcode.deviceManagement.action.phone;
 
 import java.util.Locale;
-import java.util.concurrent.Executor;
 
 import pl.fester3k.androcode.datatypes.ActionParams;
-import pl.fester3k.androcode.datatypes.ActionParams.TTS;
 import pl.fester3k.androcode.datatypes.ActionResult;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.annotation.TargetApi;
@@ -26,8 +24,8 @@ public class TextToSpeechAction extends BaseDeviceAction implements TextToSpeech
 
 	@Override
 	public Object run() {
-		if(params.containsKey(ActionParams.TTS.TEXT.toString())) {
-			String text = (String) params.get(ActionParams.TTS.TEXT.toString());
+		if(params.containsKey(ActionParams.TTS.TEXT)) {
+			String text = (String) params.get(ActionParams.TTS.TEXT);
 			logger.info("TTS is speaking: " + text);
 
 			TTSTask task = new TTSTask(text);
@@ -103,7 +101,12 @@ public class TextToSpeechAction extends BaseDeviceAction implements TextToSpeech
 
 			return null;
 		}
+	}
+	
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.TTS.valueOf(propertyName), value);
 	}
 
 }

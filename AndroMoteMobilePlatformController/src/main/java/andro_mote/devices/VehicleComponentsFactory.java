@@ -59,7 +59,7 @@ public enum VehicleComponentsFactory {
 			}
 			break;
 		case ROVER5TwoEngines:
-			logger.debug(TAG, "Model factory: creating NewBrightModel");
+			logger.debug(TAG, "Model factory: creating ROVER5TwoEngines");
 			if(driver instanceof MotorDriverRover5Compatible) {
 				result = new Rover5Platform((MotorDriverRover5Compatible)driver, parentDevice);
 			} else {

@@ -27,14 +27,14 @@ public class WiFiConnectAction extends BaseDeviceAction {
 	}
 
 	private void connectToWiFI() {
-		if(getParams().containsKey(ActionParams.WIFI.SSID.toString())) {
-			networkSSID = (String)getParams().get(ActionParams.WIFI.SSID.toString());
+		if(params.containsKey(ActionParams.WIFI.SSID)) {
+			networkSSID = (String)params.get(ActionParams.WIFI.SSID);
 		}
-		if(getParams().containsKey(ActionParams.WIFI.PASS.toString())) {
-			networkPass = (String)getParams().get(ActionParams.WIFI.PASS.toString());
+		if(params.containsKey(ActionParams.WIFI.PASS)) {
+			networkPass = (String)params.get(ActionParams.WIFI.PASS);
 		}
-		if(getParams().containsKey(ActionParams.WIFI.PASS.toString())) {
-			networkMode = ActionParams.WIFI_MODE.valueOf((String)getParams().get(ActionParams.WIFI.MODE.toString()));
+		if(params.containsKey(ActionParams.WIFI.PASS)) {
+			networkMode = ActionParams.WIFI_MODE.valueOf((String)params.get(ActionParams.WIFI.MODE));
 		}
 		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
 		ConnectToWIFITask connectTask = new ConnectToWIFITask(wifiManager);
@@ -212,5 +212,10 @@ public class WiFiConnectAction extends BaseDeviceAction {
 
 		
 	  }
+
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.WIFI.valueOf(propertyName), value);
+	}
 
 }

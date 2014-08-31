@@ -15,4 +15,8 @@ public class DummyAction extends BaseDeviceAction {
 		return ActionResult.COMPLETED;
 	}
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		throw new UnsupportedOperationException();
+	}
 }

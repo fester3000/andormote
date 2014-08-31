@@ -20,17 +20,17 @@ public class RideSetup extends BaseDeviceAction {
 		ActionResult result;
 		Packet packet;
 		logger.debug("Ride action run");
-		if(getParams().containsKey(ActionParams.RIDE_SETUP.MOTION_MODE.toString())) {
-			String motionMode = (String)getParams().get(ActionParams.RIDE_SETUP.MOTION_MODE.toString());
+		if(params.containsKey(ActionParams.RIDE_SETUP.MOTION_MODE.toString())) {
+			String motionMode = (String)params.get(ActionParams.RIDE_SETUP.MOTION_MODE);
 			if(motionMode.equals("STEP")) {
 				packet = new Packet(Engine.SET_CONTINUOUS_MODE);
 			} else {
 				packet = new Packet(Engine.SET_STEPPER_MODE);
 			}
 			result = RideController.INSTANCE.execute(packet);
-		} else if(getParams().containsKey(ActionParams.RIDE_SETUP.STEP_DURATION.toString())) {
+		} else if(params.containsKey(ActionParams.RIDE_SETUP.STEP_DURATION)) {
 			// Zmiana czasu trwania kroku
-			long stepDuration = Long.valueOf(getParams().getProperty(ActionParams.RIDE_SETUP.STEP_DURATION.toString()));
+			long stepDuration = Long.valueOf((String)params.get(ActionParams.RIDE_SETUP.STEP_DURATION));
 			packet = new Packet(Engine.SET_STEP_DURATION);
 			packet.setStepDuration(stepDuration);	
 			result = RideController.INSTANCE.execute(packet);
@@ -40,4 +40,8 @@ public class RideSetup extends BaseDeviceAction {
 		return result;
 	}
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.RIDE_SETUP.valueOf(propertyName), value);
+	}
 }

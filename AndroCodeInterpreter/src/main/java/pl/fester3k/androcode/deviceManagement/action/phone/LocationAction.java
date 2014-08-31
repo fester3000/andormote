@@ -3,6 +3,7 @@ package pl.fester3k.androcode.deviceManagement.action.phone;
 import java.util.List;
 
 import pl.fester3k.androcode.datatypes.ActionParams;
+import pl.fester3k.androcode.datatypes.ActionParams.Others;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.content.Context;
 import android.location.Location;
@@ -32,8 +33,8 @@ public class LocationAction extends BaseDeviceAction implements LocationListener
 				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000L, 4.f, LocationAction.this);
 			}
 		});
-		if(params.containsKey(ActionParams.Others.GET.toString())) {
-			String valueLabel = (String)params.get(ActionParams.Others.GET.toString());
+		if(params.containsKey(ActionParams.Others.GET)) {
+			String valueLabel = (String)params.get(ActionParams.Others.GET);
 			if(valueLabel.equals("LAT")) {
 				result = location.getLatitude();
 			}
@@ -58,7 +59,7 @@ public class LocationAction extends BaseDeviceAction implements LocationListener
 
 	@Override
 	public void onLocationChanged(Location location) {
-		logger.debug("Location changed to " + location.toString());
+		logger.debug("Location changed to " + location);
 		this.location = location;
 		
 	}
@@ -93,5 +94,10 @@ public class LocationAction extends BaseDeviceAction implements LocationListener
 	        return null;
 	    }
 	    return bestLocation;
+	}
+	
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(Others.valueOf(propertyName), value);
 	}
 }

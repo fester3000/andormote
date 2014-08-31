@@ -11,19 +11,23 @@ public class ActionParams {
 	public static final int ACTION_FLASHLIGHT = 2;
 	public static final int ACTION_VIDEO = 3;
 	public static final int ACTION_AUDIO = 4;
+	
 	/**
 	 * This class cannot be instantiated!!
 	 */
 	private ActionParams() {}
-	public enum Others {
+	public interface ActionParam {}
+
+	public enum Others implements ActionParam {
 		ACTIVITY_MODE, ACTION_ID, GET;
-	}	
+	}
+	
 	/**
 	 * 
 	 * @author Sebastian Luczak
 	 *
 	 */
-	public enum PICTURE {
+	public enum PICTURE implements ActionParam {
 		/**
 		 * Tryb flasha w aparacie
 		 * ON, OFF, AUTO, STILL
@@ -43,7 +47,7 @@ public class ActionParams {
 		QUALITY;
 	}
 	
-	public enum VIDEO {
+	public enum VIDEO implements ActionParam {
 		/**
 		 * Stan nagrywania
 		 * ON, OFF
@@ -61,7 +65,7 @@ public class ActionParams {
 		QUALITY;
 	}
 	
-	public enum AUDIO_IN {
+	public enum AUDIO_IN implements ActionParam {
 		/**
 		 * Stan nagrywania
 		 * ON, OFF 
@@ -69,7 +73,7 @@ public class ActionParams {
 		MODE;
 	}
 	
-	public enum FLASHLIGHT {
+	public enum FLASHLIGHT implements ActionParam {
 		/**
 		 * Stan latarki
 		 * ON, OFF
@@ -77,7 +81,7 @@ public class ActionParams {
 		MODE;
 	}
 	
-	public enum SMS {
+	public enum SMS implements ActionParam {
 		/**
 		 * Numer telefonu odbiorcy wiadomości
 		 */
@@ -88,7 +92,7 @@ public class ActionParams {
 		TEXT;
 	}
 	
-	public enum EMAIL {
+	public enum EMAIL implements ActionParam {
 		/**
 		 * Adres(y) odbiorców wiadomości e-mail
 		 * Adresy e-mail oddzielane przecinkami:
@@ -104,7 +108,7 @@ public class ActionParams {
 		 */
 		SUBJECT;
 	}
-	public enum WIFI {
+	public enum WIFI implements ActionParam {
 		/**
 		 * Nazwa dodawanej sieci
 		 */
@@ -118,7 +122,7 @@ public class ActionParams {
 		 */
 		PASS;
 	}
-	public enum WIFI_MODE {
+	public enum WIFI_MODE implements ActionParam {
 		OPEN,
 		WEPx,
 		WPAx;
@@ -129,7 +133,7 @@ public class ActionParams {
 //		 */
 //		PATH;
 //	}
-	public enum TTS {
+	public enum TTS implements ActionParam {
 		/**
 		 * Tresć do odczytania przez syntyzator mowy
 		 */
@@ -140,7 +144,7 @@ public class ActionParams {
 	 * @author Sebastian Luczak
 	 *
 	 */
-	public enum RIDE_MANUAL {
+	public enum RIDE_MANUAL implements ActionParam {
 		/**
 		 * Prędkość/prędkość lewej gąsienicy (jeśli dotyczy)
 		 */
@@ -160,7 +164,7 @@ public class ActionParams {
 	 * @author Sebastian Luczak
 	 *
 	 */
-	public enum RIDE_SETUP {
+	public enum RIDE_SETUP implements ActionParam {
 		/**
 		 * Ruch ciągły lub krokowy
 		 * CONT, STEP
@@ -178,19 +182,19 @@ public class ActionParams {
 	 * @author Sebastian Luczak
 	 *
 	 */
-	public enum RIDE_BEARING {
+	public enum RIDE_BEARING implements ActionParam {
 		/**
 		 * Kierunek geograficzny do obrania przez platformę
 		 * Podawany w stopniach 0-359 
 		 */
 		BEARING,
+		
 		/**
-		 * Tryb obierania kursu - platforma może zwrócić kontrolę od razu po otrzymaniu zadania lub dopiero po dokonaniu ruchu
-		 * SYNCH, ASYNCH
+		 * Określa czy podana wartość BEARING to azymut, czy przesunięcie względem obecnego kursu 
 		 */
-		MODE;
+		IS_OFFSET;
 	}
-	public enum RIDE_GPS {
+	public enum RIDE_GPS implements ActionParam {
 		LAT,
 		LONG,
 		SPEED;

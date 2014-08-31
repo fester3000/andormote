@@ -51,10 +51,10 @@ public class Compass implements SensorEventListener {
 
 	private double roll;
 
-	private double bearing;
+	private int bearing;
 
-	private int accelerometerSensorAccuracy = 0;
-	private int magneticFieldSensorAccuracy = 0;
+	private int accelerometerSensorAccuracy = SensorManager.SENSOR_STATUS_UNRELIABLE;
+	private int magneticFieldSensorAccuracy = SensorManager.SENSOR_STATUS_UNRELIABLE;
 	
 	float R[] = new float[9];
 	float I[] = new float[9];
@@ -106,7 +106,7 @@ public class Compass implements SensorEventListener {
 						pitch= (float)Math.toDegrees(orientation[1]);
 						roll = (float)Math.toDegrees(orientation[2]);
 						azimuth = (azimuth + 360) % 360;
-						setBearing(azimuth);
+						setBearing((int)azimuth);
 //						logger.info(Double.toString(azimuth));
 					}
 //				}
@@ -169,6 +169,11 @@ public class Compass implements SensorEventListener {
 
 		return output;
 	}
+	
+	public boolean isInitialized() {
+		return (magneticFieldSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE && 
+				accelerometerSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE);
+	}
 
 	// /////////////////////////////// getters setters
 
@@ -189,12 +194,12 @@ public class Compass implements SensorEventListener {
 	 * 
 	 * @return azymut
 	 */
-	public synchronized double getBearing() {
+	public synchronized int getBearing() {
 		return bearing;
 	}
 
 
-	private synchronized void setBearing(double bearing) {
+	private synchronized void setBearing(int bearing) {
 		this.bearing = bearing; 
 	}
 	/**

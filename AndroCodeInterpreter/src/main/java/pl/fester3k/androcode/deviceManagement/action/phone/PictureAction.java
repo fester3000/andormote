@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.support.v4.content.LocalBroadcastManager;
 
-public class CameraAction extends BaseDeviceAction {
-	public CameraAction(Context context) {
+public class PictureAction extends BaseDeviceAction {
+	public PictureAction(Context context) {
 		super(context);		
 	}
 	
@@ -29,9 +29,9 @@ public class CameraAction extends BaseDeviceAction {
 	 * @param intent
 	 */
 	private void setIntentExtras(Intent intent) {
-		if(getParams().containsKey(ActionParams.PICTURE.FLASH.toString())) {
+		if(params.containsKey(ActionParams.PICTURE.FLASH)) {
 			String result = Camera.Parameters.FLASH_MODE_AUTO;
-			String flashMode = (String)getParams().get(ActionParams.PICTURE.FLASH.toString());
+			String flashMode = (String)params.get(ActionParams.PICTURE.FLASH);
 			if(flashMode.equals("ON")) {
 				result = Camera.Parameters.FLASH_MODE_ON;
 			} else if (flashMode.equals("OFF")) {
@@ -43,19 +43,19 @@ public class CameraAction extends BaseDeviceAction {
 			}
 			intent.putExtra(ActionParams.PICTURE.FLASH.toString(), result);
 		}
-		if(getParams().containsKey(ActionParams.PICTURE.QUALITY.toString())) {
+		if(params.containsKey(ActionParams.PICTURE.QUALITY)) {
 			int quality;
 			try {
-			quality = Integer.valueOf((String)getParams().get(ActionParams.PICTURE.QUALITY.toString()));
+			quality = Integer.valueOf((String)params.get(ActionParams.PICTURE.QUALITY));
 			} catch (NumberFormatException e) {
 				logger.error(e.getMessage());
 				quality = 90;
 			}
 			intent.putExtra(ActionParams.PICTURE.QUALITY.toString(), quality);
 		}
-		if(getParams().containsKey(ActionParams.PICTURE.RESOLUTION.toString())) {
+		if(params.containsKey(ActionParams.PICTURE.RESOLUTION)) {
 			boolean isMaximumSize = true;
-			String size = (String)getParams().get(ActionParams.PICTURE.RESOLUTION.toString());
+			String size = (String)params.get(ActionParams.PICTURE.RESOLUTION);
 			if(size.equals("LOW")) {
 				isMaximumSize = false;
 			} else if(size.equals("HIGH")){
@@ -65,4 +65,8 @@ public class CameraAction extends BaseDeviceAction {
 		}
 	}
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.PICTURE.valueOf(propertyName), value);
+	}
 }

@@ -6,9 +6,7 @@ import pl.fester3k.androcode.datatypes.ActionParams;
 import pl.fester3k.androcode.datatypes.ActionResult;
 import pl.fester3k.androcode.deviceManagement.action.BaseDeviceAction;
 import android.content.Context;
-import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
-import android.widget.Toast;
 
 public class SMSAction extends BaseDeviceAction {
 	public SMSAction(Context context) {
@@ -24,11 +22,11 @@ public class SMSAction extends BaseDeviceAction {
 	private void sendSMS() {
 		String phoneNumber = ""; 
 		String text = "";
-		if(getParams().containsKey(ActionParams.SMS.TEXT.toString())) {
-			text = (String)getParams().get(ActionParams.SMS.TEXT.toString());
+		if(params.containsKey(ActionParams.SMS.TEXT)) {
+			text = (String)params.get(ActionParams.SMS.TEXT);
 		}
-		if(getParams().containsKey(ActionParams.SMS.TO.toString())) {
-			phoneNumber = (String)getParams().get(ActionParams.SMS.TO.toString());
+		if(params.containsKey(ActionParams.SMS.TO)) {
+			phoneNumber = (String)params.get(ActionParams.SMS.TO);
 			if(phoneNumber != null && !phoneNumber.equals("")) {
 				SmsManager smsManager = SmsManager.getDefault();
 				ArrayList<String> parts = smsManager.divideMessage(text);
@@ -38,6 +36,11 @@ public class SMSAction extends BaseDeviceAction {
 		} else {
 			logger.warn("SMS not sent. No phone number provided");
 		}
+	}
+	
 
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.SMS.valueOf(propertyName), value);
 	}
 }

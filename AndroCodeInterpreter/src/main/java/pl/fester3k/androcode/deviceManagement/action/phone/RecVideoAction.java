@@ -37,17 +37,17 @@ public class RecVideoAction extends BaseDeviceAction {
 	 * @param intent
 	 */
 	private void setIntentExtras(Intent intent) {
-		if(getParams().containsKey(ActionParams.VIDEO.MODE.toString())) {
+		if(params.containsKey(ActionParams.VIDEO.MODE)) {
 			boolean record = false;
-			String mode = (String)getParams().get(ActionParams.VIDEO.MODE.toString());
+			String mode = (String)params.get(ActionParams.VIDEO.MODE);
 			if(mode.equals("ON")) {
 				record = true;
 			}
 			intent.putExtra(ActionParams.VIDEO.MODE.toString(), record);
 		}
-		if(getParams().containsKey(ActionParams.VIDEO.FLASH.toString())) {
+		if(params.containsKey(ActionParams.VIDEO.FLASH)) {
 			String result = Camera.Parameters.FLASH_MODE_OFF;
-			String flashMode = (String)getParams().get(ActionParams.VIDEO.FLASH.toString());
+			String flashMode = (String)params.get(ActionParams.VIDEO.FLASH);
 			if(flashMode.equals("ON")) {
 				result = Camera.Parameters.FLASH_MODE_TORCH;
 			} else if (flashMode.equals("OFF")) {
@@ -55,10 +55,16 @@ public class RecVideoAction extends BaseDeviceAction {
 			} 
 			intent.putExtra(ActionParams.VIDEO.FLASH.toString(), result);
 		}
-		if(getParams().containsKey(ActionParams.VIDEO.QUALITY.toString())) {
-			String quality = (String)getParams().get(ActionParams.VIDEO.QUALITY.toString());
+		if(params.containsKey(ActionParams.VIDEO.QUALITY)) {
+			String quality = (String)params.get(ActionParams.VIDEO.QUALITY);
 			intent.putExtra(ActionParams.VIDEO.QUALITY.toString(), quality);
 		}
+	}
+	
+
+	@Override
+	public void putParam(String propertyName, String value) {
+		params.put(ActionParams.VIDEO.valueOf(propertyName), value);
 	}
 
 }

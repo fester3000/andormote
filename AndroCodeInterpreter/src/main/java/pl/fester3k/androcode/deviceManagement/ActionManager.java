@@ -7,6 +7,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.fester3k.androcode.datatypes.ActionParams;
+import pl.fester3k.androcode.datatypes.ActionParams.ActionParam;
 import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.datatypes.ServiceWithHandler;
 import pl.fester3k.androcode.deviceManagement.action.Action;
@@ -79,9 +81,10 @@ public enum ActionManager {
 		if(action == null) {
 			throw new NoSuchActionException(varName);
 		}
-		Properties params = action.getParams();
-		params.put(propertyName, value);
-		action.setParams(params);
+		action.putParam(propertyName, value);
+//		Map<ActionParam, Object> params = action.params;
+//		params.put(ActionParam.getValueOf(propertyName), value);
+//		action.setParams(params);
 	}
 	
 	public Object execute(String varName) throws NoSuchActionException {

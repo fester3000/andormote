@@ -51,4 +51,25 @@ public class Utils {
 		return text;
 	}	
 	
+	/**
+	 * Przeliczenie stopni na radiany.
+	 * 
+	 * @param deg
+	 *            wartość w stoniach
+	 * @return wartość w radianach
+	 * @author Maciej Gzik
+	 */
+	public static double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	/**
+	 * 
+	 * @param rad
+	 * @return
+	 * @author Maciej Gzik
+	 */
+	public static double rad2deg(double rad) {
+		return (rad * 180 / Math.PI);
+	}
 }
