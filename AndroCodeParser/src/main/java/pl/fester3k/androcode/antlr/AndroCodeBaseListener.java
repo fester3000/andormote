@@ -163,6 +163,19 @@ public class AndroCodeBaseListener implements AndroCodeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCondition_parenthesis(@NotNull AndroCodeParser.Condition_parenthesisContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition_parenthesis(@NotNull AndroCodeParser.Condition_parenthesisContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunction(@NotNull AndroCodeParser.FunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}

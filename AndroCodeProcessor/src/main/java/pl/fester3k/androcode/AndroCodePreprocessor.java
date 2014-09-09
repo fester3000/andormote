@@ -28,11 +28,21 @@ public class AndroCodePreprocessor {
 	SemanticAnalyser semanticAnalyser = new SemanticAnalyser();
 	ParseTree tree;
 
+	/**
+	 * Pozwala sprawdzić poprawność semantyczną programu dostarczonego pod postacią ciągu znaków
+	 * @param script ciąg znaków zawierający kod programu
+	 * @return true lub false, zaleznie od wyniku działania
+	 */
 	public boolean validateCode(String script) {
 		InputStream inputStream = Utils.convertStringToStream(script);
 		return tryToValidate(inputStream);
 	}
 
+	/**
+	 * pozwala sprawdzić poprawność semantyczną programu dostarczonego w pliku
+	 * @param filename nazwa pliku z kodem programu
+	 * @return true lub false, zależnie od wyniku działania
+	 */
 	public boolean validateFile(String filename) {
 		InputStream inputStream = null;
 		try {
@@ -49,6 +59,13 @@ public class AndroCodePreprocessor {
 		return tryToValidate(inputStream);
 	}
 
+	/**
+	 * 
+	 * @param script
+	 * @return
+	 * @throws IOException
+	 * @throws SemanticAnalysisException
+	 */
 	public TreeWithSymbolTable analyseCode(String script) throws IOException, SemanticAnalysisException {
 		logProcessingStarted();
 		InputStream inputStream = Utils.convertStringToStream(script);
@@ -100,7 +117,7 @@ public class AndroCodePreprocessor {
 		boolean result = false;
 		try {
 			logValidatingStarted();
-			validate(inputStream);
+			performAnalyserPass(inputStream);
 			result = true;
 			logValidatingDone();
 		} catch (SemanticAnalysisException e) {
@@ -116,34 +133,44 @@ public class AndroCodePreprocessor {
 	}
 
 	private SymbolTable process(InputStream inputStream) throws IOException, SemanticAnalysisException {
-		SymbolTable symbolTable = validate(inputStream);
+		SymbolTable symbolTable = performAnalyserPass(inputStream);
 		logProcessingDone();
 		return symbolTable;
 	}
 
-	private SymbolTable validate(InputStream inputStream) throws IOException, SemanticAnalysisException {
-		InputStream streamAfterAutoPromotion = firstPass(inputStream);
-		SymbolTable secondPassResult = secondPass(streamAfterAutoPromotion);
-		return secondPassResult;
-	}
-
-	private InputStream firstPass(InputStream inputStream) throws IOException, SemanticAnalysisException {
-		log.info("Processing first pass...");
+//	private SymbolTable validate(InputStream inputStream) throws IOException, SemanticAnalysisException {
+//		InputStream streamAfterAutoPromotion = firstPass(inputStream);
+//		SymbolTable secondPassResult = secondPass(streamAfterAutoPromotion);
+//		SymbolTable symbolTable = performAnalyserPass(inputStream);
+//		return symbolTable;
+//	}
+	
+	private SymbolTable performAnalyserPass(InputStream inputStream) throws IOException, SemanticAnalysisException {
+//		log.info("Processing pass...");
 		CommonTokenStream tokens = createTokenStream(inputStream);
 		tree = buildParserTree(tokens); 														// I. parsing
-		String androCodeAfterAutoPromotion = semanticAnalyser.processFirstPass(tree, tokens);	// II. Semantic analysis:
-		log.info("First pass done.");
-		return Utils.convertStringToStream(androCodeAfterAutoPromotion);
-	}
-
-	private SymbolTable secondPass(InputStream streamAfterAutoPromotion) throws IOException, SemanticAnalysisException {
-		log.info("Processing second pass...");
-		CommonTokenStream tokens = createTokenStream(streamAfterAutoPromotion);
-		tree = buildParserTree(tokens); 														// I. parsing
-		SymbolTable symbolTable = semanticAnalyser.processLastPass(tree, tokens); // II. Semantic analysis:
-		log.info("Second pass done.");
+		SymbolTable symbolTable = semanticAnalyser.processAnalyserPass(tree, tokens); // II. Semantic analysis:
+//		log.info("Pass done.");
 		return symbolTable;
 	}
+
+//	private InputStream firstPass(InputStream inputStream) throws IOException, SemanticAnalysisException {
+//		log.info("Processing first pass...");
+//		CommonTokenStream tokens = createTokenStream(inputStream);
+//		tree = buildParserTree(tokens); 														// I. parsing
+//		String androCodeAfterAutoPromotion = semanticAnalyser.processFirstPass(tree, tokens);	// II. Semantic analysis:
+//		log.info("First pass done.");
+//		return Utils.convertStringToStream(androCodeAfterAutoPromotion);
+//	}
+//
+//	private SymbolTable secondPass(InputStream streamAfterAutoPromotion) throws IOException, SemanticAnalysisException {
+//		log.info("Processing second pass...");
+//		CommonTokenStream tokens = createTokenStream(streamAfterAutoPromotion);
+//		tree = buildParserTree(tokens); 														// I. parsing
+//		SymbolTable symbolTable = semanticAnalyser.processLastPass(tree, tokens); // II. Semantic analysis:
+//		log.info("Second pass done.");
+//		return symbolTable;
+//	}
 
 	private ParseTree buildParserTree(CommonTokenStream tokens) {
 		ParseTree tree;

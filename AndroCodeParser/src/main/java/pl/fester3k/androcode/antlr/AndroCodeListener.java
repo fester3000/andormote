@@ -133,6 +133,17 @@ public interface AndroCodeListener extends ParseTreeListener {
 	void exitType(@NotNull AndroCodeParser.TypeContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link AndroCodeParser#condition_parenthesis}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition_parenthesis(@NotNull AndroCodeParser.Condition_parenthesisContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AndroCodeParser#condition_parenthesis}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition_parenthesis(@NotNull AndroCodeParser.Condition_parenthesisContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link AndroCodeParser#function}.
 	 * @param ctx the parse tree
 	 */

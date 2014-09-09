@@ -23,7 +23,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.datatypes.BroadcastIntentFilters;
+import pl.fester3k.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
 import pl.fester3k.androcode.datatypes.Script;
 import android.content.Context;
 import android.content.Intent;

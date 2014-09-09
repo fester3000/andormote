@@ -16,6 +16,7 @@
 		<module>../IOIOLib</module>
 		<module>../IOIOLibBT</module>
 		<module>../AndroMoteMobilePlatformController</module>
+		<module>../AndroMoteFunctionalityFramework</module>
 		<module>../AndroCodeInterpreter</module>
 	</modules>
 	<build>

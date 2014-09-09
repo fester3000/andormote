@@ -92,6 +92,13 @@ public interface AndroCodeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitType(@NotNull AndroCodeParser.TypeContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link AndroCodeParser#condition_parenthesis}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition_parenthesis(@NotNull AndroCodeParser.Condition_parenthesisContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link AndroCodeParser#function}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

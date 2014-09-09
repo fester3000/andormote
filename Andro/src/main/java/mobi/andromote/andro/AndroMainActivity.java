@@ -8,12 +8,12 @@ import mobi.andromote.andro.AndroCodeService.LocalBinder;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.datatypes.ActionParams;
-import pl.fester3k.androcode.datatypes.BroadcastIntentFilters;
-import pl.fester3k.androcode.deviceManagement.action.phone.helpers.CameraPreview;
-import pl.fester3k.androcode.deviceManagement.action.phone.helpers.PhotoHandler;
-import pl.fester3k.androcode.interpreter.utils.FileUtils;
-import pl.fester3k.androcode.interpreter.utils.FileUtils.MediaType;
+import pl.fester3k.andromote.functionalityFramework.functions.phone.helpers.CameraPreview;
+import pl.fester3k.andromote.functionalityFramework.functions.phone.helpers.PhotoHandler;
+import pl.fester3k.andromote.functionalityFramework.datatypes.ActionParams;
+import pl.fester3k.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
+import pl.fester3k.andromote.functionalityFramework.utils.FileUtils;
+import pl.fester3k.andromote.functionalityFramework.utils.FileUtils.MediaType;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;

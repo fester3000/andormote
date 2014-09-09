@@ -8,6 +8,8 @@ import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.StaticTypeComputingPhase;
 import pl.fester3k.androcode.semanticAnalysis.typeCheck.TypeCheckingPhase;
 import pl.fester3k.androcode.symbolManagement.SymbolTable;
+import pl.fester3k.androcode.symbolTable.DefinePhase;
+import pl.fester3k.androcode.symbolTable.ResolvePhase;
 
 public class SemanticAnalyser {
 	private ParseTreeWalker walker;
@@ -20,16 +22,22 @@ public class SemanticAnalyser {
 		walker = new ParseTreeWalker();
 	}
 
-	public String processFirstPass(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
+	public SymbolTable processAnalyserPass(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
 		commonAnalysisSteps(tree, tokens);
 		typeCheckingPhase(tree, tokens);
-		return typeCheckingPhase.getRewriter().getText();
-	}
-
-	public SymbolTable processLastPass(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
-		commonAnalysisSteps(tree, tokens);
 		return new SymbolTable(definePhase.getGlobals(), definePhase.getScopes());
 	}
+	
+//	public String processFirstPass(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
+//		commonAnalysisSteps(tree, tokens);
+//		typeCheckingPhase(tree, tokens);
+//		return typeCheckingPhase.getRewriter().getText();
+//	}
+//
+//	public SymbolTable processLastPass(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
+//		commonAnalysisSteps(tree, tokens);
+//		return new SymbolTable(definePhase.getGlobals(), definePhase.getScopes());
+//	}
 
 	private void commonAnalysisSteps(ParseTree tree, TokenStream tokens) throws SemanticAnalysisException {
 		definePhase = new DefinePhase();

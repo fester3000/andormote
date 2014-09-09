@@ -8,7 +8,6 @@ import pl.fester3k.androcode.AndroCodePreprocessor;
 import pl.fester3k.androcode.dataholder.TreeWithSymbolTable;
 import pl.fester3k.androcode.datatypes.Script;
 import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
-import pl.fester3k.androcode.deviceManagement.RideController;
 import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
 import pl.fester3k.androcode.interpreter.AndroCodeInterpreter;
 import android.content.Context;
@@ -36,7 +35,6 @@ public enum AndroscriptProcessor {
 		try {
 			preprocessResult = preprocessor.analyseCode(script.getContent());
 			interpreter.interpret(preprocessResult.getTree(), preprocessResult.getSymbolTable());
-			RideController.INSTANCE.stopRide();
 			result = ScriptProcessStatus.OK;
 		} catch (SemanticAnalysisException e) {
 			log.error(e.getMessage());

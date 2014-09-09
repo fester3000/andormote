@@ -22,14 +22,13 @@
 		</dependency>
 		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
-			<artifactId>AndroCodePreprocessor</artifactId>
+			<artifactId>AndroCodeCompilerFrontend</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeInterpreter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<type>apklib</type>
 		</dependency>
 		<dependency>
 			<groupId>andro_mote</groupId>
@@ -93,6 +92,12 @@
 			<artifactId>activation</artifactId>
 			<version>1.0.0</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>pl.fester3k.andromote.functionalityFramework</groupId>
+			<artifactId>AndroMoteFunctionalityFramework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>apklib</type>
 		</dependency>
 	</dependencies>
 

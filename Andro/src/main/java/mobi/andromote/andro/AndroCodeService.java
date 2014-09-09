@@ -1,13 +1,19 @@
 package mobi.andromote.andro;
 
+
 import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.webservice.WebService;
+import mobi.andromote.andromote2.functions.AndroMote2CapabilitiesAnalyzer;
+import mobi.andromote.andromote2.functions.AndroMote2FunctionFactory;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.datatypes.ServiceWithHandler;
-import pl.fester3k.androcode.deviceManagement.ActionManager;
-import pl.fester3k.androcode.deviceManagement.RideController;
+import pl.fester3k.andromote.functionalityFramework.CapabilitiesAnalyzer;
+import pl.fester3k.andromote.functionalityFramework.FunctionManager;
+import pl.fester3k.andromote.functionalityFramework.datatypes.ServiceWithHandler;
+import pl.fester3k.andromote.functionalityFramework.functions.FunctionFactory;
+import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
+import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -40,8 +46,11 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 	
 	private void init() {
 		ConfigureLog4J.configure();
-		RideController.INSTANCE.onCreate(getApplication());  //TODO wada - kolejnosc wywolania...
-		ActionManager.INSTANCE.init(this);
+		MotorDriverType motorDriver = MotorDriverType.RNVN2;
+		MobilePlatformType mobilePlatform = MobilePlatformType.ROVER5TwoEngines;
+		FunctionFactory functionFactory = new AndroMote2FunctionFactory(this, getHandler());
+		CapabilitiesAnalyzer capabilitiesAnalyzer = new AndroMote2CapabilitiesAnalyzer(this); 
+		FunctionManager.INSTANCE.init(getApplication(), capabilitiesAnalyzer, functionFactory, mobilePlatform, motorDriver);
 		
 		webService = new WebService(this);
 		webService.start();
@@ -56,8 +65,8 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 
 	@Override
 	public void onDestroy() {
+		FunctionManager.INSTANCE.onDestroy();
 		webService.destroy();
-		RideController.INSTANCE.destroy();
 		super.onDestroy();
 	}
 

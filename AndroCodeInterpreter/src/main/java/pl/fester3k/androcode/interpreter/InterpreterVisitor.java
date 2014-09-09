@@ -1,6 +1,5 @@
 package pl.fester3k.androcode.interpreter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -31,7 +30,6 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_incr_decrContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_parenthesisContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_uminusContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_valueContext;
-import pl.fester3k.androcode.antlr.AndroCodeParser.Expr_var_or_fcallContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.For_loopContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.FunctionContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Function_callContext;
@@ -50,11 +48,7 @@ import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_function_callContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.Var_or_valContext;
 import pl.fester3k.androcode.antlr.AndroCodeParser.While_loopContext;
 import pl.fester3k.androcode.antlr.enums.Type;
-import pl.fester3k.androcode.datatypes.Feature;
 import pl.fester3k.androcode.datatypes.Operator;
-import pl.fester3k.androcode.deviceManagement.ActionManager;
-import pl.fester3k.androcode.interpreter.exceptions.NoSuchActionException;
-import pl.fester3k.androcode.interpreter.exceptions.NoSuchFeatureException;
 import pl.fester3k.androcode.interpreter.memory.FunctionSpace;
 import pl.fester3k.androcode.interpreter.memory.MemorySpace;
 import pl.fester3k.androcode.logger.AndroLog;
@@ -65,6 +59,9 @@ import pl.fester3k.androcode.symbolManagement.Symbol;
 import pl.fester3k.androcode.symbolManagement.SymbolTable;
 import pl.fester3k.androcode.symbolManagement.VariableSymbol;
 import pl.fester3k.androcode.utils.Utils;
+import pl.fester3k.andromote.functionalityFramework.FunctionManager;
+import pl.fester3k.andromote.functionalityFramework.exceptions.NoSuchActionException;
+import pl.fester3k.andromote.functionalityFramework.exceptions.NoSuchFeatureException;
 
 public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private MemorySpace globalMemory = new MemorySpace("Global");
@@ -500,7 +497,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			setDeviceParam(ctx, varId, propertyName, value);
 		}
 		try {
-			result = ActionManager.INSTANCE.execute(varId);
+			result = FunctionManager.INSTANCE.execute(varId);
 			if(ctx.INT() != null) {
 				int sleepTime = Integer.valueOf(ctx.INT().getText());
 				tryToSleepInAndrocode(sleepTime);
@@ -516,7 +513,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 		String varId = ctx.ID().getText();
 		String featureName = Utils.getStringOutOfQuotes(ctx.STRING().getText());
 		try {
-			ActionManager.INSTANCE.get(Feature.valueOf(featureName), varId);
+			FunctionManager.INSTANCE.get(featureName, varId);
 		} catch (NoSuchFeatureException e) {
 			log.warn(e.getMessage(), ctx);
 		}
@@ -540,7 +537,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 			String propertyName, String value) {
 		boolean result = false;
 		try {
-			ActionManager.INSTANCE.setParam(varId, propertyName, value);
+			FunctionManager.INSTANCE.setParam(varId, propertyName, value);
 			result = true;
 		} catch (NoSuchActionException e) {
 			log.warn("setParam " + varId + " - No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);
@@ -552,7 +549,7 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	private boolean releaseDevice(Dev_releaseContext ctx, String varId) {
 		boolean result = false;
 		try {
-			ActionManager.INSTANCE.release(varId);
+			FunctionManager.INSTANCE.release(varId);
 			result = true;
 		} catch (NoSuchActionException e) {
 			log.warn("Release  " + varId + " - No such device! Have you forgot to call device.getDevice(\"deviceName\")?", ctx);

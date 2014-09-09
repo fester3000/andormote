@@ -46,20 +46,20 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 	private boolean error = false;
 	private final ParseTreeProperty<Type> types;
 	private ParseTreeProperty<Type> promotedTypes = new ParseTreeProperty<Type>();
-	private TokenStreamRewriter rewriter;
+//	private TokenStreamRewriter rewriter;
 
 	public TypeCheckingPhase(GlobalScope globals,
 			ParseTreeProperty<Scope> scopes, ParseTreeProperty<Type> types, TokenStream tokens) {
 		super(globals, scopes, TypeCheckingPhase.class.getSimpleName());
 		log.info("Starting type checking phase");
 		this.types = types;
-		rewriter = new TokenStreamRewriter(tokens);
+//		rewriter = new TokenStreamRewriter(tokens);
 	}
-
-	@Override
-	public void exitScript(ScriptContext ctx) {
-		log.debug(rewriter.getText());
-	}
+//
+//	@Override
+//	public void exitScript(ScriptContext ctx) {
+//		log.debug(rewriter.getText());
+//	}
 
 	@Override
 	public void exitCondition_negated(Condition_negatedContext ctx) {
@@ -299,34 +299,34 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		}
 	}
 
-	private <T extends ParserRuleContext> void performArgumentPromotion(T argA, T argB, ParserRuleContext ctx,
-			int typePriorityA, int typePriorityB, Type resultType) {
-		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.index];
-		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.index];
+//	private <T extends ParserRuleContext> void performArgumentPromotion(T argA, T argB, ParserRuleContext ctx,
+//			int typePriorityA, int typePriorityB, Type resultType) {
+//		Type promoteTypeA = Type.promoteFromTo[typePriorityA][resultType.index];
+//		Type promoteTypeB = Type.promoteFromTo[typePriorityB][resultType.index];
+//
+//		log.printPromotedTypeWithContext(promoteTypeA, argA);
+//		log.printPromotedTypeWithContext(promoteTypeB, argB);
+//
+//		tryToPromote(argA, promoteTypeA);
+//		tryToPromote(argB, promoteTypeB);
+//	}
 
-		log.printPromotedTypeWithContext(promoteTypeA, argA);
-		log.printPromotedTypeWithContext(promoteTypeB, argB);
+//	private void tryToPromote(ParserRuleContext ctx, Type typeToCast) {
+//		Type type = types.get(ctx);
+//		if(typeToCast != type) {
+//			promotedTypes.put(ctx, typeToCast);
+//			insertCast(ctx, typeToCast);
+//		}
+//	}
 
-		tryToPromote(argA, promoteTypeA);
-		tryToPromote(argB, promoteTypeB);
-	}
-
-	private void tryToPromote(ParserRuleContext ctx, Type typeToCast) {
-		Type type = types.get(ctx);
-		if(typeToCast != type) {
-			promotedTypes.put(ctx, typeToCast);
-			insertCast(ctx, typeToCast);
-		}
-	}
-
-	private void insertCast(ParserRuleContext ctx, Type typeToCast) {
-		if(typeToCast != null) {
-			String textToInsert = "(" + typeToCast + ")";
-			log.debug("Inserting cast to " + textToInsert, ctx);
-			rewriter.insertBefore(ctx.start, textToInsert);
-			types.put(ctx, typeToCast);
-		} 
-	}
+//	private void insertCast(ParserRuleContext ctx, Type typeToCast) {
+//		if(typeToCast != null) {
+//			String textToInsert = "(" + typeToCast + ")";
+//			log.debug("Inserting cast to " + textToInsert, ctx);
+//			rewriter.insertBefore(ctx.start, textToInsert);
+//			types.put(ctx, typeToCast);
+//		} 
+//	}
 
 	public boolean isError() {
 		return error;
@@ -336,7 +336,7 @@ public class TypeCheckingPhase extends AndroCodeListenerWithScopes {
 		return promotedTypes;
 	}
 
-	public TokenStreamRewriter getRewriter() {
-		return rewriter;
-	}
+//	public TokenStreamRewriter getRewriter() {
+//		return rewriter;
+//	}
 }

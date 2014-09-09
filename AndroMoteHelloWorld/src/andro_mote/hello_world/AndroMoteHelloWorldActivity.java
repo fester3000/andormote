@@ -15,7 +15,7 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.logger.AndroMoteLogger;
-import andro_mote.platform_controller.AndroMoteController;
+import andro_mote.platform_controller.HardwareApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,7 +52,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 	private Button stepperButton = null;
 	private Button continousButton = null;
 
-	private AndroMoteController api = null;
+	private HardwareApi api = null;
 
 	AndroMoteLogger logger = new AndroMoteLogger(AndroMoteHelloWorldActivity.class);
 
@@ -62,7 +62,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		setContentView(R.layout.activity_main);
 		this.initComponents();
 		BasicConfigurator.configure();
-		this.api = new AndroMoteController(this.getApplication());
+		this.api = new HardwareApi(this.getApplication());
 		startEngineService();
 	}
 

@@ -10,7 +10,7 @@ script          // overal script structure constists of optional header (with li
 lib_includes    // library declaration is followed by "use" keyword
     : 'use' LIBNAME ';';        
 body            // expression list has to contain at least main function and has to be enclosed between "begin" and "end" keywords
-    : 'begin' function* statement* function* 'end';  
+    : function* statement* function*;  
 
 function        // typical function of desired type with opional parameters
     : type ID LP parameters? RP block;
@@ -38,7 +38,7 @@ statement       // statement
 expr 			        //expression
     : var_or_function_call                              #expr_var_or_fcall		// returns: function type    
     | '(' subExpr=expr ')'                              #expr_parenthesis 	// returns: type of expr
-    | MINUS_OP subExpr=expr                                  #expr_uminus	// returns: type of expr
+    | MINUS_OP subExpr=expr                             #expr_uminus	// returns: type of expr
     | a=expr op=(MULT_OP | DEV_OP) b=expr               #expr_binop // returns: type of Lexpr
     | a=expr op=(ADD_OP | MINUS_OP) b=expr              #expr_binop // returns: type of Lexpr
     | LP type RP expr                                   #expr_cast // returns: type of "type"
@@ -71,13 +71,10 @@ return_statement
 
 var_declaration // declaration of variable 'ID' of type 'type' with optional assignment
     : type ID ('=' expr)?;
-assignment // assignment
+
+assignment 
     : a=ID '=' b=expr;
-/*var_call
-    : ID ;
-function_call // call of function 'ID' with optional arguments
-    : ID LP arguments? RP  
-    ;*/
+
 var_or_function_call
     : ID                    #var_call
     | ID LP arguments? RP   #function_call
@@ -104,7 +101,7 @@ if_condition
 
 dev_operation
     : ID'.' 'setParam' LP STRING ',' mixed_string RP	#dev_setParam
-    | ID'.' 'getAction' LP STRING RP			#dev_get
+    | ID'.' 'getFeature' LP STRING RP			#dev_get
     | ID'.' 'exec' LP (STRING ',' mixed_string (',' INT)?)? RP  #dev_exec
     | ID'.' 'release' LP RP                             #dev_release
     ;
@@ -141,11 +138,11 @@ K_FLOAT_TYPE: 'float' ;
 K_CHAR_TYPE: 'char' ;
 K_STRING_TYPE: 'String' ;
 K_BOOLEAN_TYPE: 'bool';
-K_DEV_TYPE  : 'action' ;
+K_DEV_TYPE  : 'feature' ;
 
 
 LIBNAME     : (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')*'.and' ;
-ID          : LOWERCASE_LETTER+ (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')* ;
+ID          : LOWERCASE_LETTER (LOWERCASE_LETTER | UPPERCASE_LETTER | DIGIT | '_')* ;
 
 LP          : '(' ;
 RP          : ')' ;
