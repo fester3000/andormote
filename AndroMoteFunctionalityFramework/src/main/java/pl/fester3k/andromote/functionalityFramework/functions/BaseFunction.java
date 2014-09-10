@@ -11,9 +11,14 @@ import android.content.Context;
 
 public abstract class BaseFunction implements Function {
 	protected Logger logger = LoggerFactory.getLogger(BaseDeviceFunction.class);
-	protected Context context;
+	protected final Context context;
 	protected Map<FunctionParam, String> params = new HashMap<FunctionParam, String>();
-	
+		
+	public BaseFunction(Context context) {
+		super();
+		this.context = context;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

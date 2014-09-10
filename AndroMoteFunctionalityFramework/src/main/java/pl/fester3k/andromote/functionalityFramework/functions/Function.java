@@ -1,17 +1,21 @@
 package pl.fester3k.andromote.functionalityFramework.functions;
 
-
-
 public interface Function {
 	/**
-	 * Uruchamia wykonanie danej akcji
-	 * @return
+	 * Uruchamia wykonanie danej funkcji
+	 * @return wynik działania funkcji (jeśli dotyczy)
 	 */
 	public Object run();
 	
 	/**
-	 * Czyści i zwalnia zasoby systemowe po zakończenu korzystania z akcji 
+	 * Czyści i zwalnia zasoby systemowe po zakończenu korzystania z funkcji 
 	 */
 	public void cleanup();
-	public void putParam(String propertyName, String value);
+	
+	/**
+	 * Ustawia parametr o nazwie propertyName na wartość value
+	 * @param paramName Nazwa parametru funkcji
+	 * @value Wartość do ustawienia  
+	 */
+	public void putParam(String paramName, String value);
 }

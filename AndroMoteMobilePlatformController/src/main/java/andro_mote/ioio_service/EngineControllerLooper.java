@@ -17,7 +17,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	private static final String TAG = EngineControllerLooper.class.getName();
 	private AndroMoteLogger logger = new AndroMoteLogger(EngineControllerLooper.class);
 	private final EnginesService parentControllerService;
-	
+
 	private final Vehicle vehicle;
 	private Step currentStep = null;	
 	private boolean isDeviceConnected = false;
@@ -45,7 +45,7 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 	@Override
 	public void loop() throws ConnectionLostException, InterruptedException {
 		if (vehicle.getSettings().getMotionMode().equals(MotionMode.MOTION_MODE_STEPPER)) {
-			 logger.debug(TAG, "stepper mode loop start");
+			logger.debug(TAG, "stepper mode loop start");
 			// blokada przed pobieraniem kolejnych kroków w trakcie wykonywanej akcji
 			if (!EnginesService.isOperationExecuted) {
 				currentStep = parentControllerService.getNextStep();
@@ -57,33 +57,42 @@ public class EngineControllerLooper extends BaseIOIOLooper {
 			}
 
 			Thread.sleep(50);
-			vehicle.writeNewIoioPinValues(ioio_);
+			writeNewPinValuesToIoio();
 			vehicle.readCurrentValues();
 
 		} else if (vehicle.getSettings().getMotionMode().equals(
 				MotionMode.MOTION_MODE_CONTINUOUS)) {
-			vehicle.writeNewIoioPinValues(ioio_);
+			writeNewPinValuesToIoio();
 			vehicle.readCurrentValues();
 			Thread.sleep(50);
 		}
 
 	}
 
+	private void writeNewPinValuesToIoio() throws ConnectionLostException {
+		ioio_.beginBatch();
+		try {
+			vehicle.writeNewIoioPinValues(ioio_);
+		} finally {
+			ioio_.endBatch();
+		}
+	}
+
 	@Override
 	public void disconnected() {
-			logger.debug(TAG, "ioio disconnected");
-			isDeviceConnected = false;
+		logger.debug(TAG, "ioio disconnected");
+		isDeviceConnected = false;
 	}
 
 	@Override
 	public void incompatible() {
 		logger.debug(TAG, "ioio incompatibile");
 	}
-	
+
 	public void executePacket(Packet inputPacket) {
-		vehicle.interpretMotionPacket(inputPacket);
+		vehicle.interpretPacket(inputPacket);
 	}
-	
+
 	public boolean isDeviceConnected() {
 		return isDeviceConnected;
 	}

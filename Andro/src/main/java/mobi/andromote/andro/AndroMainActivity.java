@@ -8,9 +8,14 @@ import mobi.andromote.andro.AndroCodeService.LocalBinder;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.andromote.functionalityFramework.functions.phone.helpers.CameraPreview;
-import pl.fester3k.andromote.functionalityFramework.functions.phone.helpers.PhotoHandler;
-import pl.fester3k.andromote.functionalityFramework.datatypes.ActionParams;
+import pl.fester3k.andromote.am2.functions.ActionIntentHelper;
+import pl.fester3k.andromote.am2.functions.CommonFunctionParams;
+import pl.fester3k.andromote.am2.functions.phone.FlashlightFunction;
+import pl.fester3k.andromote.am2.functions.phone.PictureFunction;
+import pl.fester3k.andromote.am2.functions.phone.RecAudioFunction;
+import pl.fester3k.andromote.am2.functions.phone.RecVideoFunction;
+import pl.fester3k.andromote.am2.functions.phone.helpers.CameraPreview;
+import pl.fester3k.andromote.am2.functions.phone.helpers.PhotoHandler;
 import pl.fester3k.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
 import pl.fester3k.andromote.functionalityFramework.utils.FileUtils;
 import pl.fester3k.andromote.functionalityFramework.utils.FileUtils.MediaType;
@@ -54,7 +59,7 @@ public class AndroMainActivity extends Activity {
 		Intent intent = new Intent(this, AndroCodeService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 		LocalBroadcastManager.getInstance(this).registerReceiver(localMessageReceiver, new IntentFilter(BroadcastIntentFilters.TOAST));
-		LocalBroadcastManager.getInstance(this).registerReceiver(cameraActionsReceiver, new IntentFilter(ActionParams.ACTION));
+		LocalBroadcastManager.getInstance(this).registerReceiver(cameraActionsReceiver, new IntentFilter(ActionIntentHelper.ACTION));
 		setContentView(R.layout.activity_main);
 	}
 
@@ -123,18 +128,18 @@ public class AndroMainActivity extends Activity {
 		}
 		if(intent != null) {
 			Bundle extras = intent.getExtras();
-			int activityMode = extras.getInt(ActionParams.Others.ACTIVITY_MODE.toString());
+			int activityMode = extras.getInt(CommonFunctionParams.ACTIVITY_MODE.toString());
 			switch(activityMode) {
-			case ActionParams.ACTION_PICTURE: 
+			case ActionIntentHelper.ACTION_PICTURE: 
 				takePhoto(extras); 
 				break;
-			case ActionParams.ACTION_FLASHLIGHT: 
+			case ActionIntentHelper.ACTION_FLASHLIGHT: 
 				useFlashlight(extras);
 				break;
-			case ActionParams.ACTION_VIDEO: 
+			case ActionIntentHelper.ACTION_VIDEO: 
 				recordVideo(extras);
 				break;
-			case ActionParams.ACTION_AUDIO:
+			case ActionIntentHelper.ACTION_AUDIO:
 				recordAudio(extras);
 				break;
 			}
@@ -142,7 +147,7 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void useFlashlight(Bundle extras) {
-		boolean flashlightTurnOn = extras.getBoolean(ActionParams.FLASHLIGHT.MODE.toString(), DEFAULT_FLASHLIGHT_MODE);
+		boolean flashlightTurnOn = extras.getBoolean(FlashlightFunction.FLASHLIGHT.MODE.toString(), DEFAULT_FLASHLIGHT_MODE);
 		logger.debug("Flashlight: " + flashlightTurnOn);
 		Camera.Parameters params = camera.getParameters();
 		if(flashlightTurnOn) {
@@ -155,9 +160,9 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void takePhoto(Bundle extras) {
-		int jpegQuality = extras.getInt(ActionParams.PICTURE.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
-		String flashMode = extras.getString(ActionParams.PICTURE.FLASH.toString(), DEFAULT_FLASH_MODE);
-		boolean isMaximumSize = extras.getBoolean(ActionParams.PICTURE.RESOLUTION.toString(), DEFAULT_IS_MAXIMUM_SIZE);
+		int jpegQuality = extras.getInt(PictureFunction.PICTURE.QUALITY.toString(), DEFAULT_JPEG_QUALITY);
+		String flashMode = extras.getString(PictureFunction.PICTURE.FLASH.toString(), DEFAULT_FLASH_MODE);
+		boolean isMaximumSize = extras.getBoolean(PictureFunction.PICTURE.RESOLUTION.toString(), DEFAULT_IS_MAXIMUM_SIZE);
 
 		logger.debug("Quality: " + jpegQuality + " flash: " + flashMode + " sizeMode: " + isMaximumSize);
 		Camera.Parameters params = camera.getParameters();  
@@ -175,7 +180,7 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void recordVideo(Bundle extras) {
-		boolean record = extras.getBoolean(ActionParams.VIDEO.MODE.toString(), false);
+		boolean record = extras.getBoolean(RecVideoFunction.VIDEO.MODE.toString(), false);
 		if(record) {
 			logger.info("starting video recording");
 			startVideoRecording(extras);
@@ -206,8 +211,8 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void startVideoRecording(Bundle extras) {
-		String quality = extras.getString(ActionParams.VIDEO.QUALITY.toString(), "HIGH");
-		String flash = extras.getString(ActionParams.VIDEO.FLASH.toString(), Camera.Parameters.FLASH_MODE_OFF);
+		String quality = extras.getString(RecVideoFunction.VIDEO.QUALITY.toString(), "HIGH");
+		String flash = extras.getString(RecVideoFunction.VIDEO.FLASH.toString(), Camera.Parameters.FLASH_MODE_OFF);
 		try {
 			File videoFile = FileUtils.createFileName(MediaType.VIDEO);
 			File mediafile = videoFile;
@@ -273,7 +278,7 @@ public class AndroMainActivity extends Activity {
 	}
 
 	private void recordAudio(Bundle extras) {
-		boolean record = extras.getBoolean(ActionParams.AUDIO_IN.MODE.toString(), false);
+		boolean record = extras.getBoolean(RecAudioFunction.AUDIO_IN.MODE.toString(), false);
 		if(record) {
 			logger.info("starting audio recording");
 			startAudioRecording();

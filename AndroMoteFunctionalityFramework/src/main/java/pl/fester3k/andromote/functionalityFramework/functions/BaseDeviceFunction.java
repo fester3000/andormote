@@ -4,7 +4,7 @@ import android.content.Context;
 
 public abstract class BaseDeviceFunction extends BaseFunction {	
 	public BaseDeviceFunction(Context context) {
-		this.context = context;
+		super(context);
 	}
 	
 	@Override

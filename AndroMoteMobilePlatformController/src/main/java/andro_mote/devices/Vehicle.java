@@ -5,16 +5,16 @@ import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.DeviceDefinitions;
 import andro_mote.commons.Packet;
-import andro_mote.devices.generics.MotorDriver;
-import andro_mote.devices.generics.Platform;
+import andro_mote.devices.generics.ElectronicDevice;
+import andro_mote.devices.generics.ElectronicDeviceInterface;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 
-public final class Vehicle implements Platform, MotorDriver {
+public final class Vehicle implements ElectronicDeviceInterface, ElectronicDevice {
 	private static final String TAG = Vehicle.class.getName();
 	private AndroMoteLogger logger = new AndroMoteLogger(getClass());
-	private final MotorDriver driver;
-	private final Platform platform;
+	private final ElectronicDevice driver;
+	private final ElectronicDeviceInterface platform;
 	private final VehicleSettings settings;
 	
 	/**
@@ -31,10 +31,10 @@ public final class Vehicle implements Platform, MotorDriver {
 		this.settings = VehicleComponentsFactory.INSTANCE.getVehicleSettings(platformType);
 	}
 	
-	public Platform getPlatform() {
+	public ElectronicDeviceInterface getPlatform() {
 		return platform;
 	}
-	public MotorDriver getDriver() {
+	public ElectronicDevice getDriver() {
 		return driver;
 	}
 
@@ -55,8 +55,8 @@ public final class Vehicle implements Platform, MotorDriver {
 	}
 
 	@Override
-	public void interpretMotionPacket(Packet inputPacket) {
-		platform.interpretMotionPacket(inputPacket);		
+	public void interpretPacket(Packet inputPacket) {
+		platform.interpretPacket(inputPacket);		
 	}
 
 	@Override

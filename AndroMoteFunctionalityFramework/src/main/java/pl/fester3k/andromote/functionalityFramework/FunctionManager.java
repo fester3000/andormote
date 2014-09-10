@@ -12,7 +12,7 @@ import pl.fester3k.andromote.functionalityFramework.functions.Function;
 import pl.fester3k.andromote.functionalityFramework.functions.FunctionFactory;
 import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.platform_controller.VehicleController;
+import andro_mote.platform_controller.ElectronicsController;
 import android.app.Application;
 
 public enum FunctionManager {
@@ -31,14 +31,14 @@ public enum FunctionManager {
 	 */
 	public void init(Application application, CapabilitiesAnalyzer capabilitiesAnalyzer, FunctionFactory functionFactory, 
 			MobilePlatformType mobilePlatform, MotorDriverType motorDriver) {
-		VehicleController.INSTANCE.onCreate(application, mobilePlatform, motorDriver);
+		ElectronicsController.INSTANCE.onCreate(application, mobilePlatform, motorDriver);
 		this.functionFactory = functionFactory;
 		this.capabilitiesAnalyzer = capabilitiesAnalyzer;
 		capabilitiesAnalyzer.checkCurrentCapabilities();
 	}
 	
 	public void onDestroy() {
-		VehicleController.INSTANCE.destroy();
+		ElectronicsController.INSTANCE.destroy();
 	}
 	
 	/**

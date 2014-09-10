@@ -4,12 +4,12 @@
 	<groupId>pl.fester3k.andromote.functionalityFramework</groupId>
 	<artifactId>AndroMoteFunctionalityFramework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AndroCodeInterpreter</name>
+	<name>AndroMoteFunctionalityFramework</name>
+	<description>Andromote common elements library</description>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<platform.version>4.1.1.4</platform.version>
-		<android.plugin.version>3.9.0-rc.3</android.plugin.version>
+		<platform.version> 4.1.1.4
+		</platform.version>
 	</properties>
 
 	<parent>
@@ -19,31 +19,11 @@
 		<relativePath>../AndroMasterProject</relativePath>
 	</parent>
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-					<artifactId>android-maven-plugin</artifactId>
-					<version>${android.plugin.version}</version>
-					<extensions>true</extensions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-				<artifactId>android-maven-plugin</artifactId>
-				<configuration>
-					<sdk>
-						<platform>16</platform>
-					</sdk>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -52,13 +32,7 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>android</artifactId>
-			<version>${platform.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
+	<dependency>
 			<groupId>pl.fester3k.andromote.androcode</groupId>
 			<artifactId>AndroCodeCommons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -71,25 +45,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javamail-android</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.0.0</version>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${platform.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>javamail-android</groupId>
-			<artifactId>additionnal</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javamail-android</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-
 	</dependencies>
-	<packaging>apklib</packaging>
 </project>

@@ -1,7 +1,7 @@
 package andro_mote.devices.andromote_v1;
 
 import andro_mote.devices.Vehicle;
-import andro_mote.devices.generics.MotorDriverAbstract;
+import andro_mote.devices.generics.ElectronicDeviceAbstract;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
@@ -14,7 +14,7 @@ import ioio.lib.api.exception.ConnectionLostException;
  * @author Sebastian Łuczak
  *
  */
-public class PololuTwoEngines extends MotorDriverAbstract implements MotorDriverNewBrightCompatible {
+public class PololuTwoEngines extends ElectronicDeviceAbstract implements MotorDriverNewBrightCompatible {
 	private static final int AIN1_PIN = 44;
 	private static final int AIN2_PIN = 45;
 	private static final int PWMA_PIN = 46;

@@ -9,8 +9,8 @@ import andro_mote.devices.andromote_v1.PololuTwoEngines;
 import andro_mote.devices.andromote_v2.MotorDriverRover5Compatible;
 import andro_mote.devices.andromote_v2.RNVNH2;
 import andro_mote.devices.andromote_v2.Rover5Platform;
-import andro_mote.devices.generics.MotorDriver;
-import andro_mote.devices.generics.Platform;
+import andro_mote.devices.generics.ElectronicDevice;
+import andro_mote.devices.generics.ElectronicDeviceInterface;
 import andro_mote.logger.AndroMoteLogger;
 
 /**
@@ -28,8 +28,8 @@ public enum VehicleComponentsFactory {
 	private static final String TAG = VehicleComponentsFactory.class.getName().toString();
 	private static AndroMoteLogger logger = new AndroMoteLogger(VehicleComponentsFactory.class);
 
-	public MotorDriver getMotorDriver(MotorDriverType type, Vehicle parentDevice) throws UnknownDeviceException {
-		MotorDriver result;
+	public ElectronicDevice getMotorDriver(MotorDriverType type, Vehicle parentDevice) throws UnknownDeviceException {
+		ElectronicDevice result;
 		logger.debug(TAG, "testing: driver name given: " + type);
 		switch(type) {
 		case PololuTwoEngines:
@@ -46,8 +46,8 @@ public enum VehicleComponentsFactory {
 		return result;
 	}
 	
-	public Platform getModel(DeviceDefinitions.MobilePlatformType type, MotorDriver driver, Vehicle parentDevice) throws UnknownDeviceException {
-		Platform result;
+	public ElectronicDeviceInterface getModel(DeviceDefinitions.MobilePlatformType type, ElectronicDevice driver, Vehicle parentDevice) throws UnknownDeviceException {
+		ElectronicDeviceInterface result;
 		logger.debug(TAG, "testing: platform name given: " + type);
 		switch(type) {
 		case NewBrightModel:

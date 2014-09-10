@@ -11,7 +11,7 @@ public abstract class BaseSensorFunction extends BaseFunction implements SensorE
 	protected Sensor sensor;
 
 	public BaseSensorFunction(Context context, int sensorType) {
-		this.context = context;
+		super(context);
 		if(sensorType != 0) {
 			sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 			sensor = sensorManager.getDefaultSensor(sensorType);

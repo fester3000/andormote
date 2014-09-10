@@ -3,11 +3,11 @@ package mobi.andromote.andro;
 
 import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.webservice.WebService;
-import mobi.andromote.andromote2.functions.AndroMote2CapabilitiesAnalyzer;
-import mobi.andromote.andromote2.functions.AndroMote2FunctionFactory;
 
 import org.apache.log4j.Logger;
 
+import pl.fester3k.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
+import pl.fester3k.andromote.am2.functions.AndroMote2FunctionFactory;
 import pl.fester3k.andromote.functionalityFramework.CapabilitiesAnalyzer;
 import pl.fester3k.andromote.functionalityFramework.FunctionManager;
 import pl.fester3k.andromote.functionalityFramework.datatypes.ServiceWithHandler;
@@ -32,7 +32,6 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 		init();
 	}
 
-
 	@Override
 	public IBinder onBind(Intent intent) {
 		return binder;
@@ -56,12 +55,10 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 		webService.start();
 	}
 
-	
 	@Override
 	public boolean onUnbind(Intent intent) {
 		return super.onUnbind(intent);
 	}
-
 
 	@Override
 	public void onDestroy() {

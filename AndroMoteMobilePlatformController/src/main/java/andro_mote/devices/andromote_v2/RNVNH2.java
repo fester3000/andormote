@@ -12,15 +12,15 @@ import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
 import andro_mote.devices.Vehicle;
-import andro_mote.devices.generics.MotorDriverAbstract;
+import andro_mote.devices.generics.ElectronicDeviceAbstract;
 import andro_mote.logger.AndroMoteLogger;
 
-public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Compatible {
+public class RNVNH2 extends ElectronicDeviceAbstract implements MotorDriverRover5Compatible {
 	private static final String TAG = MotorDriverType.class.getSimpleName();
 	AndroMoteLogger log = new AndroMoteLogger(getClass());
 	private static final int M1_INA_PIN = 17;
 	private static final int M1_INB_PIN = 19;
-	private static final int M2_INA_PIN = 18;
+	private static final int M2_INA_PIN = 18;  //FIXME przypisanie pinów na odwrót...
 	private static final int M2_INB_PIN = 16;
 	
 	private static final int M1_PWM_PIN = 3;
@@ -60,8 +60,8 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 	private boolean m2_inA_value = true;
 	private boolean m2_inB_value = false;
 	
-	private double m1_PWM_DutyCycle_value = 0;
-	private double m2_PWM_DutyCycle_value = 0;
+	private float m1_PWM_DutyCycle_value = 0;
+	private float m2_PWM_DutyCycle_value = 0;
 	
 	public RNVNH2(Vehicle parentDevice) {
 		super(parentDevice);
@@ -96,18 +96,13 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 
 	@Override
 	public void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException {
-		ioio.beginBatch();
-		try {
-			m1_Pwm_Output.setDutyCycle((float) m1_PWM_DutyCycle_value);
+			m1_Pwm_Output.setDutyCycle(m1_PWM_DutyCycle_value);
 			m1_InA_Output.write(m1_inA_value);
 			m1_InB_Output.write(m1_inB_value);
 
-			m2_Pwm_Output.setDutyCycle((float) m2_PWM_DutyCycle_value);
+			m2_Pwm_Output.setDutyCycle(m2_PWM_DutyCycle_value);
 			m2_InA_Output.write(m2_inA_value);
 			m2_InB_Output.write(m2_inB_value);
-		} finally {
-			ioio.endBatch();
-		}
 	}
 	
 	@Override
@@ -150,10 +145,10 @@ public class RNVNH2 extends MotorDriverAbstract implements MotorDriverRover5Comp
 	public void setM2_inB_value(boolean m2_inB_value) {
 		this.m2_inB_value = m2_inB_value;
 	}
-	public void setM1_PWM_DutyCycle_value(double m1_PWM_DutyCycle_value) {
+	public void setM1_PWM_DutyCycle_value(float m1_PWM_DutyCycle_value) {
 		this.m1_PWM_DutyCycle_value = m1_PWM_DutyCycle_value;
 	}
-	public void setM2_PWM_DutyCycle_value(double m2_PWM_DutyCycle_value) {
+	public void setM2_PWM_DutyCycle_value(float m2_PWM_DutyCycle_value) {
 		this.m2_PWM_DutyCycle_value = m2_PWM_DutyCycle_value;
 	}	
 }
