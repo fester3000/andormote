@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>andro_mote.logger</groupId>
 	<artifactId>AndroMoteLogger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>AndroMoteLogger</name>
 	<properties>
 		<platform.version> 4.1.1.4
 		</platform.version>
 	</properties>
 	<parent>
-		<groupId>pl.fester3k.andromote</groupId>
+		<groupId>mobi.andromote.all</groupId>
 		<artifactId>AndroMasterProject</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../AndroMasterProject</relativePath>
 	</parent>
 	<build>

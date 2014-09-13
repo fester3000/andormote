@@ -2,21 +2,22 @@ package mobi.andromote.andro.androscript;
 
 import java.io.IOException;
 
+import mobi.andromote.androcode.AndroCodeCompilerFrontend;
+import mobi.andromote.androcode.dataholder.TreeWithSymbolTable;
+import mobi.andromote.androcode.datatypes.Script;
+import mobi.andromote.androcode.datatypes.ScriptProcessStatus;
+import mobi.andromote.androcode.exceptions.SemanticAnalysisException;
+import mobi.andromote.androcode.interpreter.AndroCodeInterpreter;
+
 import org.apache.log4j.Logger;
 
-import pl.fester3k.androcode.AndroCodePreprocessor;
-import pl.fester3k.androcode.dataholder.TreeWithSymbolTable;
-import pl.fester3k.androcode.datatypes.Script;
-import pl.fester3k.androcode.datatypes.ScriptProcessStatus;
-import pl.fester3k.androcode.exceptions.SemanticAnalysisException;
-import pl.fester3k.androcode.interpreter.AndroCodeInterpreter;
 import android.content.Context;
 
 public enum AndroscriptProcessor {
 	INSTANCE;
 
 	private final Logger log = Logger.getLogger(AndroscriptProcessor.class);
-	AndroCodePreprocessor preprocessor = new AndroCodePreprocessor(); 
+	AndroCodeCompilerFrontend compilerFrontEnd = new AndroCodeCompilerFrontend(); 
 	AndroCodeInterpreter interpreter = new AndroCodeInterpreter();
 
 	public ScriptProcessStatus process(Script script, Context context) {
@@ -33,7 +34,7 @@ public enum AndroscriptProcessor {
 		log.debug("parsing");
 		TreeWithSymbolTable preprocessResult;
 		try {
-			preprocessResult = preprocessor.analyseCode(script.getContent());
+			preprocessResult = compilerFrontEnd.analyseCode(script.getContent());
 			interpreter.interpret(preprocessResult.getTree(), preprocessResult.getSymbolTable());
 			result = ScriptProcessStatus.OK;
 		} catch (SemanticAnalysisException e) {

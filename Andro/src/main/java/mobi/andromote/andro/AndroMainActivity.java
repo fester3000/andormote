@@ -5,20 +5,20 @@ import java.io.IOException;
 import java.util.List;
 
 import mobi.andromote.andro.AndroCodeService.LocalBinder;
+import mobi.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
+import mobi.andromote.functionalityFramework.utils.FileUtils;
+import mobi.andromote.functionalityFramework.utils.FileUtils.MediaType;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.andromote.am2.functions.ActionIntentHelper;
-import pl.fester3k.andromote.am2.functions.CommonFunctionParams;
-import pl.fester3k.andromote.am2.functions.phone.FlashlightFunction;
-import pl.fester3k.andromote.am2.functions.phone.PictureFunction;
-import pl.fester3k.andromote.am2.functions.phone.RecAudioFunction;
-import pl.fester3k.andromote.am2.functions.phone.RecVideoFunction;
-import pl.fester3k.andromote.am2.functions.phone.helpers.CameraPreview;
-import pl.fester3k.andromote.am2.functions.phone.helpers.PhotoHandler;
-import pl.fester3k.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
-import pl.fester3k.andromote.functionalityFramework.utils.FileUtils;
-import pl.fester3k.andromote.functionalityFramework.utils.FileUtils.MediaType;
+import mobi.andromote.am2.functions.ActionIntentHelper;
+import mobi.andromote.am2.functions.CommonFunctionParams;
+import mobi.andromote.am2.functions.phone.FlashlightFunction;
+import mobi.andromote.am2.functions.phone.PictureFunction;
+import mobi.andromote.am2.functions.phone.RecAudioFunction;
+import mobi.andromote.am2.functions.phone.RecVideoFunction;
+import mobi.andromote.am2.functions.phone.helpers.CameraPreview;
+import mobi.andromote.am2.functions.phone.helpers.PhotoHandler;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;

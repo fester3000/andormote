@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.fester3k.andromote.functionalityFramework</groupId>
+	<groupId>mobi.andromote.functionalityFramework</groupId>
 	<artifactId>AndroMoteFunctionalityFramework</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>AndroMoteFunctionalityFramework</name>
 	<description>Andromote common elements library</description>
 
@@ -13,9 +13,9 @@
 	</properties>
 
 	<parent>
-		<groupId>pl.fester3k.andromote</groupId>
+		<groupId>mobi.andromote.all</groupId>
 		<artifactId>AndroMasterProject</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../AndroMasterProject</relativePath>
 	</parent>
 	<build>
@@ -33,15 +33,15 @@
 	</build>
 	<dependencies>
 	<dependency>
-			<groupId>pl.fester3k.andromote.androcode</groupId>
+			<groupId>mobi.andromote.androcode.commons</groupId>
 			<artifactId>AndroCodeCommons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>andro_mote</groupId>
-			<artifactId>AndroMoteMobilePlatformController</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>andro_mote.hardwareApi</groupId>
+			<artifactId>AndroMoteHardwareApi</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

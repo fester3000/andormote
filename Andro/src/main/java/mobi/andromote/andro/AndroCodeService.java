@@ -3,15 +3,15 @@ package mobi.andromote.andro;
 
 import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.webservice.WebService;
+import mobi.andromote.functionalityFramework.CapabilitiesAnalyzer;
+import mobi.andromote.functionalityFramework.FunctionManager;
+import mobi.andromote.functionalityFramework.datatypes.ServiceWithHandler;
+import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 
 import org.apache.log4j.Logger;
 
-import pl.fester3k.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
-import pl.fester3k.andromote.am2.functions.AndroMote2FunctionFactory;
-import pl.fester3k.andromote.functionalityFramework.CapabilitiesAnalyzer;
-import pl.fester3k.andromote.functionalityFramework.FunctionManager;
-import pl.fester3k.andromote.functionalityFramework.datatypes.ServiceWithHandler;
-import pl.fester3k.andromote.functionalityFramework.functions.FunctionFactory;
+import mobi.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
+import mobi.andromote.am2.functions.AndroMote2FunctionFactory;
 import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
 import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import android.app.Service;
@@ -67,10 +67,7 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 		super.onDestroy();
 	}
 
-
 	public Handler getHandler() {
 		return handler;
 	}
-	
-	
 }

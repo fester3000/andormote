@@ -1,21 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.fester3k.andromote</groupId>
+	<groupId>mobi.andromote.all</groupId>
 	<artifactId>AndroMasterProject</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>AndroMasterProject</name>
 
 	<modules>
 		<module>../AndroCodeCommons</module>
 		<module>../AndroCodeParser</module>
-		<module>../AndroCodeProcessor</module>
+		<module>../AndroCodeCompilerFrontend</module>
 		<module>../AndroMoteLogger</module>
 		<module>../AndroMoteCommonsLib</module>
 		<module>../IOIOLib</module>
 		<module>../IOIOLibBT</module>
-		<module>../AndroMoteMobilePlatformController</module>
+		<module>../AndroMoteHardwareApi</module>
 		<module>../AndroMoteFunctionalityFramework</module>
 		<module>../AndroCodeInterpreter</module>
 	</modules>

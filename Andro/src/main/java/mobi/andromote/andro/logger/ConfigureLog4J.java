@@ -11,7 +11,6 @@ public class ConfigureLog4J {
 	public static void configure() {
 		final LogConfigurator logConfigurator = new LogConfigurator();
 
-		
 		logConfigurator.setFileName(Environment.getExternalStorageDirectory() + "/data/mobi.andromote.andro/log/" + File.separator + "andro.log");
 		logConfigurator.setMaxFileSize(10000);
 		logConfigurator.setMaxBackupSize(10);

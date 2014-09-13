@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Enumeration;
 
 import mobi.andromote.andro.androscript.AndroscriptProcessor;
+import mobi.andromote.androcode.datatypes.Script;
+import mobi.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
@@ -23,8 +25,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import pl.fester3k.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
-import pl.fester3k.androcode.datatypes.Script;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -80,7 +80,7 @@ public class WebService {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public synchronized void tryToStopMe() {
 			try {
 				serverSocket.close();
@@ -112,20 +112,16 @@ public class WebService {
 
 		@Override
 		public void run() {
-			Authenticator authenticator = new Authenticator(); 
 			Script script = Script.nullValue();
 			DefaultHttpServerConnection connection = new DefaultHttpServerConnection();
 			try {
 				connection.bind(hostThreadSocket, new BasicHttpParams());
 				String content = getContentFromHttpRequest(connection);
 				toastMessage(content);
-				if(authenticator.isAuthenticated().equals(AuthenticationStatus.OK)) {
-					script = new Script(Script.generateScriptName(), content, new Date());
-					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
-					AndroscriptProcessor.INSTANCE.process(script, context);
-				} else {
-					connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 403, "Forbidden")));
-				}
+
+				script = new Script(Script.generateScriptName(), content, new Date());
+				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
+				AndroscriptProcessor.INSTANCE.process(script, context);
 				connection.close();
 			} catch (IOException e) {
 				e.printStackTrace();

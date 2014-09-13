@@ -1,0 +1,25 @@
+use math.and;
+
+begin
+
+float logiczna(int parametr, float test, String nazwa) {
+	int i;
+	i = 1; 
+	bool czy = TRUE;
+	int wynik = 2; 
+	
+	float zmiennop = 3;
+	zmiennop = '1';
+	
+	return wynik;
+}
+
+int main() {
+	float r;
+	r = logiczna('3', 12.1, "logika");
+	
+	{
+		return 5;
+	}
+}
+end
