@@ -1,21 +1,22 @@
-package andro_mote.devices;
+package andro_mote.devices.andromote_v1;
 
 import andro_mote.commons.MotionMode;
+import andro_mote.devices.DeviceSettings;
 import andro_mote.ioio_service.IOIOLooperManagerService;
 import andro_mote.logger.AndroMoteLogger;
 
-public class VehicleSettings {
-	private static final String TAG = VehicleSettings.class.getName();
-	private AndroMoteLogger log = new AndroMoteLogger(VehicleSettings.class);
+public class NewBrightSettings implements DeviceSettings {
+	private static final String TAG = NewBrightSettings.class.getName();
+	private AndroMoteLogger log = new AndroMoteLogger(NewBrightSettings.class);
 		/**
 		 * Maksymalny czas trwania kroku w trybie MOTION_MODE_STEPPER
 		 */
-		private final int MAX_STEP_DURATION; //2000
+		private final int MAX_STEP_DURATION = 2000;
 
 		/**
 		 * Minimalna prędkość silników. Zabezpieczenie przed małą mocą.
 		 */
-		private final double MIN_SPEED; // 0.3
+		private final double MIN_SPEED = 0.3;
 
 		/**
 		 * Aktualna prędkość silnika.
@@ -45,36 +46,51 @@ public class VehicleSettings {
 		 */
 		private MotionMode motionMode = MotionMode.MOTION_MODE_CONTINUOUS;
 
-		private VehicleSettings(Builder builder) {
-			this.MAX_STEP_DURATION = builder.MAX_STEP_DURATION;
-			this.MIN_SPEED = builder.MIN_SPEED;
-			this.currentSpeed = builder.currentSpeed;
-			this.currentSpeed_B = builder.currentSpeed_B;
-			this.pauseTimeBetweenSteps = builder.pauseTimeBetweenSteps;
-			this.stepDuration = builder.stepDuration;
-			this.motionMode = builder.motionMode;
+		public NewBrightSettings() {
+			
 		}
 		
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#getMotionMode()
+		 */
+		@Override
 		public MotionMode getMotionMode() {
 			return motionMode;
 		}
 		
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#getStepDuration()
+		 */
+		@Override
 		public long getStepDuration() {
 			return stepDuration;
 		}
 		
+		@Override
 		public long getPauseTimeBetweenSteps() {
 			return pauseTimeBetweenSteps;
 		}
 
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#getSpeed()
+		 */
+		@Override
 		public double getSpeed() {
 			return currentSpeed;
 		}
 		
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#getSpeed_B()
+		 */
+		@Override
 		public double getSpeed_B() {
 			return currentSpeed_B;
 		}
 
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#setSpeed(double)
+		 */
+		@Override
 		public void setSpeed(double speed) {
 			if (speed > 1 || speed < MIN_SPEED) {
 				log.debug(TAG, "EnginesControllerService: niedopuszczalna nowa wartość prędkości silników: " + speed
@@ -85,6 +101,10 @@ public class VehicleSettings {
 			}
 		}
 		
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#setSpeedB(double)
+		 */
+		@Override
 		public void setSpeedB(double speed) {
 			if (speed > 1 || speed < MIN_SPEED) {
 				log.debug(TAG, "EnginesControllerService: niedopuszczalna nowa wartość prędkości silników: " + speed
@@ -96,6 +116,10 @@ public class VehicleSettings {
 		}
 		
 		
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#setStepDuration(long)
+		 */
+		@Override
 		public void setStepDuration(long stepDuration) {
 			if (stepDuration > MAX_STEP_DURATION) {
 				log.debug(
@@ -110,61 +134,21 @@ public class VehicleSettings {
 			}
 		}	
 
+		/* (non-Javadoc)
+		 * @see andro_mote.devices.DeviceSettings#setMotionMode(andro_mote.commons.MotionMode)
+		 */
+		@Override
 		public void setMotionMode(MotionMode motionMode) {
 			this.motionMode = motionMode;
 			
 		}
 
+		@Override
 		public double getMIN_SPEED() {
 			return MIN_SPEED;
 		}
 
 		public int getMAX_STEP_DURATION() {
 			return MAX_STEP_DURATION;
-		}
-		
-		public static class Builder {
-			private final int MAX_STEP_DURATION;
-			private final double MIN_SPEED;
-			
-			private double currentSpeed = 0.6;
-			private double currentSpeed_B = 0.6;
-			private long pauseTimeBetweenSteps = 1000;
-			private long stepDuration = 600;
-			private MotionMode motionMode = MotionMode.MOTION_MODE_CONTINUOUS;
-			
-			public Builder(int maxStepDuration, double minSpeed) {
-				this.MAX_STEP_DURATION = maxStepDuration;
-				this.MIN_SPEED = minSpeed;
-			}
-			
-			public Builder currentSpeed(double currentSpeed) {
-				this.currentSpeed = currentSpeed;
-				return this;
-			}
-			
-			public Builder currentSpeed_B(double currentSpeed_B) {
-				this.currentSpeed_B = currentSpeed_B;
-				return this;
-			}
-			
-			public Builder pauseTimeBetweenSteps(long pauseTimeBetweenSteps) {
-				this.pauseTimeBetweenSteps = pauseTimeBetweenSteps;
-				return this;
-			}
-			
-			public Builder stepDuration(long stepDuration) {
-				this.stepDuration = stepDuration;
-				return this;
-			}
-			
-			public Builder motionMode(MotionMode motionMode) {
-				this.motionMode = motionMode;
-				return this;
-			}
-			
-			public VehicleSettings build() {
-				return new VehicleSettings(this);
-			}
 		}
 }

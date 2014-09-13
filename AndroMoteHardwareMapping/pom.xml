@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>andro_mote.commons</groupId>
-	<artifactId>AndroMoteCommonsLib</artifactId>
+	<groupId>andro_mote.hardwareMapping</groupId>
+	<artifactId>AndroMoteHardwareMapping</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>AndroMoteCommonsLib</name>
 	<description>Andromote common elements library</description>
@@ -43,16 +43,11 @@
 			<artifactId>AndroMoteLogger</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>support-v4</artifactId>
-			<version>r7</version>
-		</dependency>
+
 		<dependency>
 			<groupId>ioio.lib.android</groupId>
 			<artifactId>IOIOLib</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

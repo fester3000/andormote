@@ -1,9 +1,6 @@
 package andro_mote.api;
 
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 
 /**
  * Interfejs opsiujący funkcje aplikacji implementującej połączenie z dowolnym
@@ -28,7 +25,7 @@ public interface IAndroMoteApi {
 	 * @throws {@link MobilePlatformException}
 	 * @throws {@link UnknownDeviceException}
 	 */
-	public boolean startCommunicationWithDevice(MobilePlatformType platformName, MotorDriverType driverName) throws MobilePlatformException;
+	public boolean startCommunicationWithDevice() throws MobilePlatformException;
 
 	/**
 	 * Zatrzymanie komunikacji z urządzeniem zewnętrznym.

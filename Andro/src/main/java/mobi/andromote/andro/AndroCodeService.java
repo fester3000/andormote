@@ -1,6 +1,8 @@
 package mobi.andromote.andro;
 
 
+import mobi.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
+import mobi.andromote.am2.functions.AndroMote2FunctionFactory;
 import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.webservice.WebService;
 import mobi.andromote.functionalityFramework.CapabilitiesAnalyzer;
@@ -10,10 +12,7 @@ import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 
 import org.apache.log4j.Logger;
 
-import mobi.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
-import mobi.andromote.am2.functions.AndroMote2FunctionFactory;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
+import andro_mote.devices.andromote_v2.AndroMote2DeviceFactory;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -45,11 +44,9 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 	
 	private void init() {
 		ConfigureLog4J.configure();
-		MotorDriverType motorDriver = MotorDriverType.RNVN2;
-		MobilePlatformType mobilePlatform = MobilePlatformType.ROVER5TwoEngines;
 		FunctionFactory functionFactory = new AndroMote2FunctionFactory(this, getHandler());
 		CapabilitiesAnalyzer capabilitiesAnalyzer = new AndroMote2CapabilitiesAnalyzer(this); 
-		FunctionManager.INSTANCE.init(getApplication(), capabilitiesAnalyzer, functionFactory, mobilePlatform, motorDriver);
+		FunctionManager.INSTANCE.init(getApplication(), capabilitiesAnalyzer, functionFactory, new AndroMote2DeviceFactory());
 		
 		webService = new WebService(this);
 		webService.start();

@@ -5,6 +5,6 @@ import ioio.lib.api.exception.ConnectionLostException;
 
 public interface ElectronicDevice {
 	public void initIOIOPins(final IOIO ioio) throws ConnectionLostException;
-	public void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException;
-	public void readCurrentValues() throws InterruptedException, ConnectionLostException;
+	public void writeNewIOIOPinValues(final IOIO ioio) throws ConnectionLostException;
+	public void readNewPinValues() throws InterruptedException, ConnectionLostException;
 }

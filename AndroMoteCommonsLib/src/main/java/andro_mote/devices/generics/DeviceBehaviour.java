@@ -1,6 +1,7 @@
 package andro_mote.devices.generics;
 
 import andro_mote.commons.Packet;
+import andro_mote.commons.PacketType.Motion;
 import andro_mote.stepper.Step;
 
 /**
@@ -10,9 +11,9 @@ import andro_mote.stepper.Step;
  * @author Maciej Gzik
  * 
  */
-public interface ElectronicDeviceInterface {
+public interface DeviceBehaviour {
 	public void interpretPacket(Packet inputPacket);
-	
+	public void setValuesForSimpleStep(Motion motionType);
 	/**
 	 * Funkcja interpretująca kolejny krok z kolejki i uruchamiająca odpowidni
 	 * wątek modyfikujący ustawienia pinów IOIO.

@@ -54,22 +54,22 @@ public class AndroMoteIOIOLooper extends BaseIOIOLooper {
 			}
 
 			Thread.sleep(50);
-			writeNewPinValuesToIoio();
-			hardware.readCurrentValues();
+			writeNewIOIOPinValues();
+			hardware.readNewPinValues();
 
 		} else if (hardware.getSettings().getMotionMode().equals(
 				MotionMode.MOTION_MODE_CONTINUOUS)) {
-			writeNewPinValuesToIoio();
-			hardware.readCurrentValues();
+			writeNewIOIOPinValues();
+			hardware.readNewPinValues();
 			Thread.sleep(50);
 		}
 
 	}
 
-	private void writeNewPinValuesToIoio() throws ConnectionLostException {
+	private void writeNewIOIOPinValues() throws ConnectionLostException {
 		ioio_.beginBatch();
 		try {
-			hardware.writeNewIoioPinValues(ioio_);
+			hardware.writeNewIOIOPinValues(ioio_);
 		} finally {
 			ioio_.endBatch();
 		}

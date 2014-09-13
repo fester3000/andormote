@@ -8,15 +8,14 @@ import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.api.LocalBroadcastDispatcher;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
-import andro_mote.devices.RobotHardware;
 import andro_mote.devices.generics.ElectronicDeviceAbstract;
 import andro_mote.logger.AndroMoteLogger;
+import andro_mote.platform_controller.AdditionalPacketTypes;
 
-public class RNVNH2 extends ElectronicDeviceAbstract implements MotorDriverRover5Compatible {
-	private static final String TAG = MotorDriverType.class.getSimpleName();
+public class RNVNH2Driver extends ElectronicDeviceAbstract {
+	private static final String TAG = RNVNH2Driver.class.getSimpleName();
 	AndroMoteLogger log = new AndroMoteLogger(getClass());
 	private static final int M1_INA_PIN = 17;
 	private static final int M1_INB_PIN = 19;
@@ -63,9 +62,6 @@ public class RNVNH2 extends ElectronicDeviceAbstract implements MotorDriverRover
 	private float m1_PWM_DutyCycle_value = 0;
 	private float m2_PWM_DutyCycle_value = 0;
 	
-	public RNVNH2(RobotHardware parentDevice) {
-		super(parentDevice);
-	}
 
 	@Override
 	public void initIOIOPins(final IOIO ioio) {
@@ -128,7 +124,7 @@ public class RNVNH2 extends ElectronicDeviceAbstract implements MotorDriverRover
 //		log.debug(TAG, "Prad M2: " + m2_current_value);
 //		log.debug(TAG, "Napięcie oznaczające temperaturę układu: " + rnvn2_temperature_value);
 		if(rnvn2_temperature_value > 0.7) {
-			Packet pack = new Packet(AdditionalPacketTypes.RNVN2Alerts.CHIP_TEMPERATURE_ALERT);
+			Packet pack = new Packet(AdditionalPacketTypes.CHIP_TEMPERATURE_ALERT);
 			LocalBroadcastDispatcher.INSTANCE.sendPacketViaLocalBroadcast(pack, IntentsIdentifiers.ACTION_MESSAGE_TO_CONTROLLER);
 		}
 	}

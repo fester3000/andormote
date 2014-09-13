@@ -1,42 +1,64 @@
 package andro_mote.devices.generics;
 
+import ioio.lib.api.IOIO;
+import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.api.LocalBroadcastDispatcher;
+import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.DeviceSettings;
 import andro_mote.devices.RobotHardware;
 import andro_mote.ioio_service.IOIOLooperManagerService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.text.format.Time;
 
-public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDeviceInterface {
-	private static final String TAG = ElectronicDeviceInterfaceAbstract.class.toString();
-	private AndroMoteLogger logger = new AndroMoteLogger(ElectronicDeviceInterfaceAbstract.class);
-	protected final RobotHardware parentDevice;
-
-	public ElectronicDeviceInterfaceAbstract(RobotHardware parentDevice) {
-		super();
-		this.parentDevice = parentDevice;
-	}
-
+public abstract class RobotHardwareAbstract implements RobotHardware {
+	private static final String TAG = RobotHardwareAbstract.class.getName();
+	protected AndroMoteLogger logger = new AndroMoteLogger(getClass());
+	protected final ElectronicDeviceAbstract device;
+	
 	/**
-	 * Logowanie aktualnego czasu na podany logger.
-	 * 
-	 * @param logger
-	 * @param TAG
+	 * Konstruktor pojazdu na który składa się:
+	 * @param platformType nazwa platformy jeżdżącej zgodnie z danymi przyjmowanymi przez fabrykę platform {@link PlatformFactory
+	 * @param driverType nazwa sterownika silników zgodnie z danymi przyjmowanymi przez fabrykę sterowników {@link MotorDriverFactory}Driver
+	 * @throws UnknownDeviceException
 	 */
-	protected void logTimestamp(AndroMoteLogger logger, String TAG) {
-		Time now = new Time();
-		now.setToNow();
-		logger.debug(TAG, now.format("%d.%m.%Y %H:%M:%S:%f"));
+	public RobotHardwareAbstract (ElectronicDeviceAbstract device) {
+		this.device = device;
 	}
 
-	protected abstract void setValuesForSimpleStep(Motion packetType);
+	/* (non-Javadoc)
+	 * @see andro_mote.devices.RobotHardware#initIOIOPins(ioio.lib.api.IOIO)
+	 */
+	@Override
+	public void initIOIOPins(final IOIO ioio) throws ConnectionLostException {
+		device.initIOIOPins(ioio);
+	}
 
-	public abstract void stop();
+	/* (non-Javadoc)
+	 * @see andro_mote.devices.RobotHardware#writeNewIoioPinValues(ioio.lib.api.IOIO)
+	 */
+	@Override
+	public void writeNewIOIOPinValues(final IOIO ioio) throws ConnectionLostException {
+		device.writeNewIoioPinValues(ioio);
+	}
 
+	/* (non-Javadoc)
+	 * @see andro_mote.devices.RobotHardware#readCurrentValues()
+	 */
+	@Override
+	public void readNewPinValues() throws InterruptedException, ConnectionLostException {
+		device.readCurrentValues();
+		
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see andro_mote.devices.RobotHardware#takeStep(andro_mote.stepper.Step)
+	 */
 	@Override
 	public void takeStep(Step step) {
 		logger.debug(TAG, "step execution");
@@ -51,6 +73,18 @@ public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDev
 			TakeStepThread makeStep = new TakeStepThread(step);
 			makeStep.startThread();
 		} 
+	}
+
+	/**
+	 * Logowanie aktualnego czasu na podany logger.
+	 * 
+	 * @param logger
+	 * @param TAG
+	 */
+	protected void logTimestamp(AndroMoteLogger logger, String TAG) {
+		Time now = new Time();
+		now.setToNow();
+		logger.debug(TAG, now.format("%d.%m.%Y %H:%M:%S:%f"));
 	}
 
 	/**
@@ -86,6 +120,7 @@ public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDev
 		public void run() {
 			long stepStartTime = 0;
 			long stepStopTime = 0;
+			DeviceSettings settings = getSettings();
 			try {
 				IOIOLooperManagerService.isOperationExecuted = true;
 				stepStartTime = System.currentTimeMillis();
@@ -94,7 +129,7 @@ public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDev
 				setValuesForSimpleStep(step.getStepType());
 
 				// początek kroku
-				Thread.sleep(parentDevice.getSettings().getStepDuration());
+				Thread.sleep(settings.getStepDuration());
 				stepStopTime = System.currentTimeMillis();
 				// koniec kroku
 
@@ -102,7 +137,7 @@ public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDev
 				stop();
 
 				// przerwa pomiędzy kolejnymi krokami
-				Thread.sleep(parentDevice.getSettings().getPauseTimeBetweenSteps());
+				Thread.sleep(settings.getPauseTimeBetweenSteps());
 				IOIOLooperManagerService.isOperationExecuted = false;
 			} catch (InterruptedException e) {
 				logger.error(TAG, e);
@@ -116,8 +151,8 @@ public abstract class ElectronicDeviceInterfaceAbstract implements ElectronicDev
 			Packet responsePacket = new Packet(Engine.STEP_TAKEN_PACKET);
 			responsePacket.setStepDirection(Step.getTakenStep(step.getStepType()));
 			responsePacket.setStepDuration(stepStopTime - stepStartTime);
-			responsePacket.setSpeed(parentDevice.getSettings().getSpeed());
-			responsePacket.setSpeedB(parentDevice.getSettings().getSpeed());
+			responsePacket.setSpeed(settings.getSpeed());
+			responsePacket.setSpeedB(settings.getSpeed());
 
 			LocalBroadcastDispatcher.INSTANCE.sendPacketViaLocalBroadcast(responsePacket, IntentsIdentifiers.ACTION_ENGINE_STEP);
 		}

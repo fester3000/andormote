@@ -1,20 +1,13 @@
 package andro_mote.platform_controller;
 
-import java.io.Serializable;
-
 import andro_mote.api.AndroMoteMobilePlatformApiAbstract;
 import andro_mote.api.IPacket;
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.andromote_v2.AdditionalPacketTypes;
 import andro_mote.ioio_service.IOIOLooperManagerService;
 import andro_mote.ioio_service.IOIOLooperManagerService.LocalBinder;
 import andro_mote.logger.AndroMoteLogger;
@@ -67,15 +60,15 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 	 * @throws MobilePlatformException
 	 */
 	@Override
-	public boolean startCommunicationWithDevice(MobilePlatformType platformName, MotorDriverType driverName) throws MobilePlatformException {
+	public boolean startCommunicationWithDevice() throws MobilePlatformException {
 		checkIfServiceIsStopped();
 		checkIfApplicationIsNull();
 
 		Intent startEngineServiceIntent = new Intent(application, IOIOLooperManagerService.class);
-		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
-		pack.setPlatformName(platformName);
-		pack.setDriverName(driverName);
-		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
+//		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
+//		pack.setPlatformName(platformName);
+//		pack.setDriverName(driverName);
+//		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		ComponentName name = application.startService(startEngineServiceIntent);
 		application.bindService(startEngineServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
@@ -202,7 +195,7 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 	
 	@Override
 	public void deviceMessageReceived(Packet pack) throws MobilePlatformException {
-		if(pack.getPacketType() == AdditionalPacketTypes.RNVN2Alerts.CHIP_TEMPERATURE_ALERT) {
+		if(pack.getPacketType() == AdditionalPacketTypes.CHIP_TEMPERATURE_ALERT) {
 			stopCommunicationWithDevice();
 			logger.error(TAG, "Chip temperature is near 60 Celsius degrees!!");
 		}

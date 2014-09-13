@@ -1,11 +1,10 @@
 package andro_mote.devices.andromote_v1;
 
-import andro_mote.devices.RobotHardware;
-import andro_mote.devices.generics.ElectronicDeviceAbstract;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
+import andro_mote.devices.generics.ElectronicDeviceAbstract;
 
 /**
  * Dwukanałowy sterownik max 1A
@@ -14,7 +13,7 @@ import ioio.lib.api.exception.ConnectionLostException;
  * @author Sebastian Łuczak
  *
  */
-public class PololuTwoEngines extends ElectronicDeviceAbstract implements MotorDriverNewBrightCompatible {
+public class PololuTwoEngines extends ElectronicDeviceAbstract {
 	private static final int AIN1_PIN = 44;
 	private static final int AIN2_PIN = 45;
 	private static final int PWMA_PIN = 46;
@@ -41,11 +40,6 @@ public class PololuTwoEngines extends ElectronicDeviceAbstract implements MotorD
 	private boolean engineGearBackward = false;
 	private double engineFreq = 0;
 	private boolean stby = true;
-
-	
-	public PololuTwoEngines(RobotHardware parentDevice) {
-		super(parentDevice);
-	}
 
 	@Override
 	public void initIOIOPins(final IOIO ioio) throws ConnectionLostException {

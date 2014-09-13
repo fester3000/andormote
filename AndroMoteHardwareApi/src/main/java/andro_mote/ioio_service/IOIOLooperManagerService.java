@@ -8,9 +8,6 @@ import java.util.LinkedList;
 
 import andro_mote.api.LocalBroadcastDispatcher;
 import andro_mote.api.exceptions.UnknownDeviceException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
@@ -18,8 +15,11 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.DeviceSettings;
+import andro_mote.devices.ElectronicDeviceFactory;
 import andro_mote.devices.RobotHardware;
 import andro_mote.logger.AndroMoteLogger;
+import andro_mote.platform_controller.ElectronicsController;
 import andro_mote.stepper.Step;
 import android.app.Service;
 import android.content.Intent;
@@ -35,7 +35,7 @@ public class IOIOLooperManagerService extends IOIOService {
 	/**
 	 * Pojazd Andromote
 	 */
-	private RobotHardware hardware;
+	private DeviceSettings settings;
 
 	AndroMoteIOIOLooper looper = null;
 	//	private Compass compass = null;
@@ -78,32 +78,17 @@ public class IOIOLooperManagerService extends IOIOService {
 		log.debug(TAG, "engineService; onStartCommand(); startId=" + startId);
 		localBroadcastDispatcher = LocalBroadcastDispatcher.INSTANCE;
 		localBroadcastDispatcher.init(getApplicationContext());
-		if(intent != null ) {
-			trySetupHardwareWithExtrasFrom(intent);
-		} else {
-			try {
-				//FIXME To jakiś hack
-			intent.getAction();
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			}
-		}
 		initStepsQueue();
 		super.onStartCommand(intent, flags, startId);
-
 		return Service.START_REDELIVER_INTENT;
-	}
-
-	@Override
-	public void onDestroy() {
-		//		this.compass.unregisterListeners();
-		super.onDestroy();
 	}
 
 	@Override
 	protected IOIOLooper createIOIOLooper() {
 		log.debug(TAG, "EnginesControllerService: creating IOIOLooper");
 		try {
+			RobotHardware hardware = ElectronicsController.INSTANCE.getFactory().createRobotPlatform();
+			settings = hardware.getSettings();
 			looper = new AndroMoteIOIOLooper(this, hardware);
 			log.debug(TAG, "looper created...");
 			log.debug(TAG, "setting looper in service...");
@@ -138,7 +123,7 @@ public class IOIOLooperManagerService extends IOIOService {
 		// odrzucenie pakietów Engine i Motion w przypadku wykonywania
 		// zadania
 		boolean isMotionOrEnginePacket = inputPacket.getPacketType() instanceof Motion || inputPacket.getPacketType() instanceof Engine;
-		MotionMode motionMode = hardware.getSettings().getMotionMode();
+		MotionMode motionMode = settings.getMotionMode();
 		if (motionMode.equals(MotionMode.MOTION_MODE_CONTINUOUS) && isOperationExecuted && isMotionOrEnginePacket) {
 			log.debug(TAG, "Engine Service: incoming packet instanceof: " + inputPacket.getPacketType()
 					+ " rejected - operationIsBeingExecuted");
@@ -158,10 +143,10 @@ public class IOIOLooperManagerService extends IOIOService {
 			}
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_SPEED) {
 			log.debug(TAG, "setting speed to value: " + inputPacket.getSpeed());
-			hardware.getSettings().setSpeed(inputPacket.getSpeed());
+			settings.setSpeed(inputPacket.getSpeed());
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_SPEED_B) {
 			log.debug(TAG, "setting speed to value: " + inputPacket.getSpeedB());
-			hardware.getSettings().setSpeedB(inputPacket.getSpeedB());
+			settings.setSpeedB(inputPacket.getSpeedB());
 
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_STEPPER_MODE) {
 			if (motionMode.equals(MotionMode.MOTION_MODE_CONTINUOUS)) {
@@ -183,7 +168,7 @@ public class IOIOLooperManagerService extends IOIOService {
 		} else if (inputPacket.getPacketType() == PacketType.Engine.SET_STEP_DURATION) {
 			log.debug(TAG,
 					"EnginesControllerService: zmiana czasu trwania kroku na : " + inputPacket.getStepDuration());
-			hardware.getSettings().setStepDuration(inputPacket.getStepDuration());
+			settings.setStepDuration(inputPacket.getStepDuration());
 		} else if (inputPacket.getPacketType() == PacketType.Connection.NODE_CONNECTION_STATUS_REQUEST) {
 			log.debug(TAG, "engine service: sending motion mode: " + motionMode);
 			Packet pack = null;
@@ -200,7 +185,7 @@ public class IOIOLooperManagerService extends IOIOService {
 	 * Pobranie kolejnego kroku z kolejki.
 	 */
 	public synchronized Step getNextStep() {
-		if (hardware.getSettings().getMotionMode().equals(MotionMode.MOTION_MODE_STEPPER) && stepsQueue != null
+		if (settings.getMotionMode().equals(MotionMode.MOTION_MODE_STEPPER) && stepsQueue != null
 				&& stepsQueue.size() > 0) {
 			Step step = stepsQueue.getFirst();
 			stepsQueue.removeFirst();
@@ -208,29 +193,6 @@ public class IOIOLooperManagerService extends IOIOService {
 			return step;
 		} else {
 			return null;
-		}
-	}
-
-	private void trySetupHardwareWithExtrasFrom(Intent intent) {
-		try {
-			Packet pack = (Packet) intent.getParcelableExtra(IntentsFieldsIdentifiers.EXTRA_PACKET);
-			if (pack != null && pack.getPlatformName() != null && pack.getDriverName() != null) {
-				log.debug(TAG, "Engines Service: setting model name: " + pack.getPlatformName());
-				MobilePlatformType platformName = pack.getPlatformName();
-				MotorDriverType driverName = pack.getDriverName();
-				log.debug(TAG, "setting platform... " + platformName );
-				log.debug(TAG, "setting engine driver... " + driverName);
-				hardware = new RobotHardware(platformName, driverName);
-				//				if (this.compass == null) {
-				//					this.compass = new Compass(this.getApplicationContext());
-				//					this.compass.unregisterListeners();
-				//				}
-			} else {
-				log.debug(TAG, "Engines Service: input packet has no device info;");
-				//TODO zabezpieczyć przed sytuacją niedookreśloną			
-			}
-		} catch (UnknownDeviceException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -248,7 +210,7 @@ public class IOIOLooperManagerService extends IOIOService {
 
 	private void setMotionMode(MotionMode motionMode) {
 		Packet pack = null;
-		hardware.getSettings().setMotionMode(motionMode);
+		settings.setMotionMode(motionMode);
 		if (motionMode.equals(MotionMode.MOTION_MODE_CONTINUOUS)) {
 			pack = new Packet(PacketType.Engine.CONTINUOUS_MODE_RESPONSE);
 		} else if (motionMode.equals(MotionMode.MOTION_MODE_STEPPER)) {
@@ -258,18 +220,9 @@ public class IOIOLooperManagerService extends IOIOService {
 		localBroadcastDispatcher.sendPacketViaLocalBroadcast(pack, IntentsIdentifiers.ACTION_MESSAGE_TO_CONTROLLER);
 	}
 
-	//	public Compass getCompass() {
-	//		return compass;
-	//	}
-	//
-	//	public void setCompass(Compass compass) {
-	//		this.compass = compass;
-	//	}
-
-
 	private void interpretMotionPacketContinuous(Packet inputPacket) {
-		if (inputPacket.getSpeed() >= hardware.getSettings().getMIN_SPEED()) {
-			hardware.getSettings().setSpeed(inputPacket.getSpeed());
+		if (inputPacket.getSpeed() >= settings.getMIN_SPEED()) {
+			settings.setSpeed(inputPacket.getSpeed());
 		}
 		looper.executePacket(inputPacket);
 		log.debug(TAG, "engine service received: " + inputPacket.getPacketType());

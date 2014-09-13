@@ -2,10 +2,9 @@ package andro_mote.api;
 
 import andro_mote.api.exceptions.BroadcastReceiverClientNotSetException;
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
+import andro_mote.devices.ElectronicDeviceFactory;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 
@@ -37,11 +36,6 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 			logger.error(ANDROMOTE_API, e);
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public boolean startCommunicationWithDevice(MobilePlatformType platformName, MotorDriverType driverName) throws MobilePlatformException {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -86,6 +80,12 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 	@Override
 	public IPacket getData(IPacket dataDescriptorPacket) {
 		throw new UnsupportedOperationException();
+	}
+
+	public boolean startCommunicationWithDevice(ElectronicDeviceFactory deviceFactory)
+			throws MobilePlatformException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	//	@Override

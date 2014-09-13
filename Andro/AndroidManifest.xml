@@ -36,10 +36,10 @@
             android:enabled="true" >
         </service>
         <service
-            android:name="andro_mote.ioio_service.EnginesService"
+            android:name="andro_mote.ioio_service.IOIOLooperManagerService"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="andro_mote.ioio_service.EnginesControllerService" />
+                <action android:name="andro_mote.ioio_service.IOIOLooperManagerService" />
             </intent-filter>
         </service>
 

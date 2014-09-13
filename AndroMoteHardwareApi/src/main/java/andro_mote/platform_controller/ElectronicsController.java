@@ -1,11 +1,10 @@
 package andro_mote.platform_controller;
 
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.ElectronicDeviceFactory;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 
@@ -14,12 +13,14 @@ public enum ElectronicsController {
 	private static final String TAG = ElectronicsController.class.getSimpleName();
 	private final AndroMoteLogger log = new AndroMoteLogger(getClass());
 	private HardwareApi hardwareApi = null;
+	private ElectronicDeviceFactory factory;
 
 
-	public void onCreate(Application application, MobilePlatformType mobilePlatform, MotorDriverType motorDriver) {
-		this.hardwareApi = new HardwareApi(application);		
+	public void init(Application application, ElectronicDeviceFactory factory) {
+		this.hardwareApi = new HardwareApi(application);
+		this.factory = factory;
 		try {
-			hardwareApi.startCommunicationWithDevice(mobilePlatform, motorDriver);
+			hardwareApi.startCommunicationWithDevice();
 		} catch (MobilePlatformException e) {
 			e.printStackTrace();
 		}
@@ -111,5 +112,9 @@ public enum ElectronicsController {
 
 	public boolean isRideAvailable() {
 		return hardwareApi.checkIfConnectionIsActive();
+	}
+
+	public ElectronicDeviceFactory getFactory() {
+		return factory;
 	}
 }

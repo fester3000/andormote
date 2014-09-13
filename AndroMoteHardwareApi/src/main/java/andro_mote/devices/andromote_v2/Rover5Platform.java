@@ -3,114 +3,25 @@ package andro_mote.devices.andromote_v2;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.RobotHardware;
-import andro_mote.devices.generics.ElectronicDeviceInterfaceAbstract;
-import andro_mote.logger.AndroMoteLogger;
+import andro_mote.devices.andromote_v2.AndroMote2Settings;
+import andro_mote.devices.generics.RobotHardwareAbstract;
+import andro_mote.devices.DeviceSettings;
 
-/**
- * Dwukanałowy sterownik max 4A
- * MAX_STEP_DURATION = 2000
- * MIN_SPEED = -1.0
- * @author Sebastian Łuczak
- *
- */
-public class Rover5Platform extends ElectronicDeviceInterfaceAbstract {
-	private static final String TAG = Rover5Platform.class.toString();
-	private AndroMoteLogger logger = new AndroMoteLogger(Rover5Platform.class);
 
-	private final MotorDriverRover5Compatible driver;
-
-	public Rover5Platform(MotorDriverRover5Compatible driver, RobotHardware parentDevice) {
-		super(parentDevice);
-		this.driver = driver;
+public class Rover5Platform extends RobotHardwareAbstract {
+	private static final String TAG = Rover5Platform.class.getName();
+	private AndroMote2Settings settings;
+	
+	public Rover5Platform() {
+		super(new RNVNH2Driver());
+		settings = new AndroMote2Settings();
 	}
 	
-	private void moveCaterpillar(float speed, float speedB) {
-		if(speed >= 0) {
-			driver.setM1_inA_value(false);
-			driver.setM1_inB_value(true);
-		} else {
-			driver.setM1_inA_value(true);
-			driver.setM1_inB_value(false);
-		}
-		if(speedB >= 0) {
-			driver.setM2_inA_value(false);
-			driver.setM2_inB_value(true);
-		} else {
-			driver.setM2_inA_value(true);
-			driver.setM2_inB_value(false);
-		}
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
-	}
-
-	private void steerLeft(float speed) {
-		driver.setM1_inA_value(false);
-		driver.setM1_inB_value(true);
-		driver.setM2_inA_value(true);
-		driver.setM2_inB_value(false);
-		
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
-	}
-
-	public void steerRight(float speed) {
-		driver.setM1_inA_value(true);
-		driver.setM1_inB_value(false);
-		driver.setM2_inA_value(false);
-		driver.setM2_inB_value(true);
-		
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
-
-	}
-
-	private void moveForward(float speed) {
-		driver.setM1_inA_value(false);
-		driver.setM1_inB_value(true);
-		driver.setM2_inA_value(false);
-		driver.setM2_inB_value(true);
-		
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
-	}
-	
-	private void moveForwardDifferSpeed(float speed, float speedB) {
-		logger.debug(TAG, "moveForward -> inA: true");
-		driver.setM1_inA_value(false);
-		driver.setM1_inB_value(true);
-		driver.setM2_inA_value(false);
-		driver.setM2_inB_value(true);
-		
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
-	}
-
-	private void moveBackward(float speed) {
-		logger.debug(TAG, "moveBackward -> inA: false");
-		driver.setM1_inA_value(true);
-		driver.setM1_inB_value(false);
-		driver.setM2_inA_value(true);
-		driver.setM2_inB_value(false);
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speed));
-	}
-
-	private void moveBackwardDifferSpeed(float speed, float speedB) {
-		logger.debug(TAG, "moveBackward -> inA: false");
-		driver.setM1_inA_value(true);
-		driver.setM1_inB_value(false);
-		driver.setM2_inA_value(true);
-		driver.setM2_inB_value(false);
-		driver.setM1_PWM_DutyCycle_value(Math.abs(speed));
-		driver.setM2_PWM_DutyCycle_value(Math.abs(speedB));
-	}
-
 	@Override
 	public void stop() {
 		logger.debug(TAG, "STOP!");
-		driver.setM1_PWM_DutyCycle_value(0.0f);
-		driver.setM2_PWM_DutyCycle_value(0.0f);
+		getDevice().setM1_PWM_DutyCycle_value(0.0f);
+		getDevice().setM2_PWM_DutyCycle_value(0.0f);
 	}
 	
 	@Override
@@ -161,9 +72,9 @@ public class Rover5Platform extends ElectronicDeviceInterfaceAbstract {
 	}
 	
 	@Override
-	protected void setValuesForSimpleStep(Motion packetType) {
-		float speed = (float)parentDevice.getSettings().getSpeed();
-		float speedB = (float)parentDevice.getSettings().getSpeed_B();
+	public void setValuesForSimpleStep(Motion packetType) {
+		float speed = (float)settings.getSpeed();
+		float speedB = (float)settings.getSpeed_B();
 		switch(packetType) {
 		case MOVE_LEFT_FORWARD : 
 			moveForwardDifferSpeed(speed, speed * 0.3f);
@@ -201,5 +112,95 @@ public class Rover5Platform extends ElectronicDeviceInterfaceAbstract {
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public DeviceSettings getSettings() {
+		return settings;
+	}
+
+	private void moveCaterpillar(float speed, float speedB) {
+		if(speed >= 0) {
+			getDevice().setM1_inA_value(false);
+			getDevice().setM1_inB_value(true);
+		} else {
+			getDevice().setM1_inA_value(true);
+			getDevice().setM1_inB_value(false);
+		}
+		if(speedB >= 0) {
+			getDevice().setM2_inA_value(false);
+			getDevice().setM2_inB_value(true);
+		} else {
+			getDevice().setM2_inA_value(true);
+			getDevice().setM2_inB_value(false);
+		}
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speedB));
+	}
+
+	private void steerLeft(float speed) {
+		getDevice().setM1_inA_value(false);
+		getDevice().setM1_inB_value(true);
+		getDevice().setM2_inA_value(true);
+		getDevice().setM2_inB_value(false);
+		
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speed));
+	}
+
+	private void steerRight(float speed) {
+		getDevice().setM1_inA_value(true);
+		getDevice().setM1_inB_value(false);
+		getDevice().setM2_inA_value(false);
+		getDevice().setM2_inB_value(true);
+		
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speed));
+
+	}
+
+	private void moveForward(float speed) {
+		getDevice().setM1_inA_value(false);
+		getDevice().setM1_inB_value(true);
+		getDevice().setM2_inA_value(false);
+		getDevice().setM2_inB_value(true);
+		
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speed));
+	}
+	
+	private void moveForwardDifferSpeed(float speed, float speedB) {
+		logger.debug(TAG, "moveForward -> inA: true");
+		getDevice().setM1_inA_value(false);
+		getDevice().setM1_inB_value(true);
+		getDevice().setM2_inA_value(false);
+		getDevice().setM2_inB_value(true);
+		
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speedB));
+	}
+
+	private void moveBackward(float speed) {
+		logger.debug(TAG, "moveBackward -> inA: false");
+		getDevice().setM1_inA_value(true);
+		getDevice().setM1_inB_value(false);
+		getDevice().setM2_inA_value(true);
+		getDevice().setM2_inB_value(false);
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speed));
+	}
+
+	private void moveBackwardDifferSpeed(float speed, float speedB) {
+		logger.debug(TAG, "moveBackward -> inA: false");
+		getDevice().setM1_inA_value(true);
+		getDevice().setM1_inB_value(false);
+		getDevice().setM2_inA_value(true);
+		getDevice().setM2_inB_value(false);
+		getDevice().setM1_PWM_DutyCycle_value(Math.abs(speed));
+		getDevice().setM2_PWM_DutyCycle_value(Math.abs(speedB));
+	}
+	
+	private RNVNH2Driver getDevice() {
+		return (RNVNH2Driver)device;
 	}
 }

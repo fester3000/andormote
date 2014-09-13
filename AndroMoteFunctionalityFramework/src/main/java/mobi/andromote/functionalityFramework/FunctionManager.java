@@ -3,16 +3,16 @@ package mobi.andromote.functionalityFramework;
 import java.util.HashMap;
 import java.util.Map;
 
-import mobi.andromote.functionalityFramework.exceptions.NoSuchFunctionException;
+import mobi.andromote.functionalityFramework.datatypes.Feature;
 import mobi.andromote.functionalityFramework.exceptions.NoSuchFeatureException;
+import mobi.andromote.functionalityFramework.exceptions.NoSuchFunctionException;
 import mobi.andromote.functionalityFramework.functions.Function;
 import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
+import andro_mote.devices.ElectronicDeviceFactory;
 import andro_mote.platform_controller.ElectronicsController;
 import android.app.Application;
 
@@ -31,8 +31,8 @@ public enum FunctionManager {
 	 * @param context
 	 */
 	public void init(Application application, CapabilitiesAnalyzer capabilitiesAnalyzer, FunctionFactory functionFactory, 
-			MobilePlatformType mobilePlatform, MotorDriverType motorDriver) {
-		ElectronicsController.INSTANCE.onCreate(application, mobilePlatform, motorDriver);
+			ElectronicDeviceFactory deviceFactory) {
+		ElectronicsController.INSTANCE.init(application, deviceFactory);
 		this.functionFactory = functionFactory;
 		this.capabilitiesAnalyzer = capabilitiesAnalyzer;
 		capabilitiesAnalyzer.checkCurrentCapabilities();

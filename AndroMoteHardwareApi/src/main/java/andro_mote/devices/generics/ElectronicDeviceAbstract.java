@@ -1,24 +1,17 @@
 package andro_mote.devices.generics;
 
-import andro_mote.devices.RobotHardware;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
 
-public abstract class ElectronicDeviceAbstract implements ElectronicDevice {
+public abstract class ElectronicDeviceAbstract {
 	private static final int LED_PIN = 0;
 	private static final int LED_PWM_FREQ = 10000;
 	
 	protected double ledFreq = 0.01;
 
 	protected PwmOutput led_;
-	protected RobotHardware parentDevice;
-	
-	public ElectronicDeviceAbstract(RobotHardware parentDevice) {
-		this.parentDevice = parentDevice;
-	}
 
-	@Override
 	public void initIOIOPins(final IOIO ioio) throws ConnectionLostException {
 		try {
 			led_ = ioio.openPwmOutput(LED_PIN, LED_PWM_FREQ);
@@ -27,4 +20,8 @@ public abstract class ElectronicDeviceAbstract implements ElectronicDevice {
 			e.printStackTrace();
 		}
 	}
+	
+	public abstract void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException;
+	
+	public abstract void readCurrentValues() throws InterruptedException, ConnectionLostException;
 }
