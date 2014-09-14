@@ -17,7 +17,7 @@ import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.devices.DeviceSettings;
 import andro_mote.devices.ElectronicDeviceFactory;
-import andro_mote.devices.RobotHardware;
+import andro_mote.devices.ElectronicDevice;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.platform_controller.ElectronicsController;
 import andro_mote.stepper.Step;
@@ -87,7 +87,7 @@ public class IOIOLooperManagerService extends IOIOService {
 	protected IOIOLooper createIOIOLooper() {
 		log.debug(TAG, "EnginesControllerService: creating IOIOLooper");
 		try {
-			RobotHardware hardware = ElectronicsController.INSTANCE.getFactory().createRobotPlatform();
+			ElectronicDevice hardware = ElectronicsController.INSTANCE.getFactory().createRobotPlatform();
 			settings = hardware.getSettings();
 			looper = new AndroMoteIOIOLooper(this, hardware);
 			log.debug(TAG, "looper created...");

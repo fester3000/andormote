@@ -5,7 +5,7 @@ import ioio.lib.util.BaseIOIOLooper;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.devices.RobotHardware;
+import andro_mote.devices.ElectronicDevice;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 
@@ -15,11 +15,11 @@ public class AndroMoteIOIOLooper extends BaseIOIOLooper {
 	private AndroMoteLogger logger = new AndroMoteLogger(AndroMoteIOIOLooper.class);
 	private final IOIOLooperManagerService parentControllerService;
 
-	private final RobotHardware hardware;
+	private final ElectronicDevice hardware;
 	private Step currentStep = null;	
 	private boolean isDeviceConnected = false;
 
-	public AndroMoteIOIOLooper(IOIOLooperManagerService enginesControllerService, RobotHardware hardware) throws ConnectionLostException,
+	public AndroMoteIOIOLooper(IOIOLooperManagerService enginesControllerService, ElectronicDevice hardware) throws ConnectionLostException,
 	InterruptedException, UnknownDeviceException {
 		super();
 		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");

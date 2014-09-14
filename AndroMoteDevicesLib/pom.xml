@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>andro_mote.hardwareMapping</groupId>
-	<artifactId>AndroMoteHardwareMapping</artifactId>
+	<groupId>andro_mote.commons</groupId>
+	<artifactId>AndroMoteDevicesLib</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>AndroMoteCommonsLib</name>
-	<description>Andromote common elements library</description>
+	<name>AndroMoteDevicesLib</name>
 
 	<properties>
 		<platform.version> 4.1.1.4
@@ -45,9 +44,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>ioio.lib.android</groupId>
-			<artifactId>IOIOLib</artifactId>
+			<groupId>andro_mote.commons</groupId>
+			<artifactId>AndroMoteCommonsLib</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>andro_mote.hardwareApi</groupId>
+			<artifactId>AndroMoteHardwareApi</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<description>Zawiera przykładowe implementacje mapowania sprzętowo obiektowego dla platformy Rover5 ze sterownikiem RNVNH2 oraz platformy NewBright ze sterownikiem Pololu</description>
 </project>

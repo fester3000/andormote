@@ -9,13 +9,13 @@ import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.devices.DeviceSettings;
-import andro_mote.devices.RobotHardware;
+import andro_mote.devices.ElectronicDevice;
 import andro_mote.ioio_service.IOIOLooperManagerService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.text.format.Time;
 
-public abstract class RobotHardwareAbstract implements RobotHardware {
+public abstract class RobotHardwareAbstract implements ElectronicDevice {
 	private static final String TAG = RobotHardwareAbstract.class.getName();
 	protected AndroMoteLogger logger = new AndroMoteLogger(getClass());
 	protected final ElectronicDeviceAbstract device;
@@ -55,10 +55,6 @@ public abstract class RobotHardwareAbstract implements RobotHardware {
 		
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see andro_mote.devices.RobotHardware#takeStep(andro_mote.stepper.Step)
-	 */
 	@Override
 	public void takeStep(Step step) {
 		logger.debug(TAG, "step execution");

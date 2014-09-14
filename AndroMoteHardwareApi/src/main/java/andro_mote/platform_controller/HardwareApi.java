@@ -34,7 +34,7 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 	private static final String TAG = HardwareApi.class.toString();
 	private static AndroMoteLogger logger = new AndroMoteLogger(HardwareApi.class);
 	boolean isBound = false;
-	private IOIOLooperManagerService enginesService;
+	private IOIOLooperManagerService IOIOLooperManagerService;
 
 	/**
 	 * Konstruktor obiektu API.
@@ -81,7 +81,7 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 		public void onServiceConnected(ComponentName className,
 				IBinder service) {
 			LocalBinder binder = (LocalBinder) service;
-			enginesService = binder.getService();
+			IOIOLooperManagerService = binder.getService();
 			isBound = true;
 		}
 
@@ -210,14 +210,14 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 
 	// PRIVATE
 	private void executeActionOnAndromote(Packet pack) {
-		if(enginesService != null && isEnginesServiceConnectedToIOIO()) {
-			enginesService.interpretPacket(pack);
+		if(IOIOLooperManagerService != null && isEnginesServiceConnectedToIOIO()) {
+			IOIOLooperManagerService.interpretPacket(pack);
 		}
 	}
 
 	private boolean isEnginesServiceConnectedToIOIO() {
-		if(enginesService != null) {
-			return enginesService.isConnectedToIOIO();
+		if(IOIOLooperManagerService != null) {
+			return IOIOLooperManagerService.isConnectedToIOIO();
 		} 
 		return false;
 	}
