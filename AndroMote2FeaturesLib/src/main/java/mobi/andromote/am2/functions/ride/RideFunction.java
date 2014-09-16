@@ -55,7 +55,7 @@ public class RideFunction extends BaseDeviceFunction {
 				packet.setSpeedB(speed);	
 			}
 			result = ElectronicsController.INSTANCE.execute(packet);
-		} else if(params.containsKey("SPEED")) {
+		} else if(params.containsKey(RideFunction.RIDE_MANUAL.SPEED)) {
 			// Zmiana samej prędkości, bez zmiany trybu jazdy
 			String speedParam = params.get(RideFunction.RIDE_MANUAL.SPEED);
 			double speed = Double.valueOf(speedParam);

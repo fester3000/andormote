@@ -65,10 +65,6 @@ public class HardwareApi extends AndroMoteMobilePlatformApiAbstract {
 		checkIfApplicationIsNull();
 
 		Intent startEngineServiceIntent = new Intent(application, IOIOLooperManagerService.class);
-//		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
-//		pack.setPlatformName(platformName);
-//		pack.setDriverName(driverName);
-//		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
 		ComponentName name = application.startService(startEngineServiceIntent);
 		application.bindService(startEngineServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
