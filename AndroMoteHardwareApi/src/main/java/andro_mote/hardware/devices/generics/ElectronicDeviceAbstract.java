@@ -1,4 +1,4 @@
-package andro_mote.devices.generics;
+package andro_mote.hardware.devices.generics;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
@@ -23,5 +23,5 @@ public abstract class ElectronicDeviceAbstract {
 	
 	public abstract void writeNewIoioPinValues(final IOIO ioio) throws ConnectionLostException;
 	
-	public abstract void readCurrentValues() throws InterruptedException, ConnectionLostException;
+	public abstract void readNewIOIOPinValues() throws InterruptedException, ConnectionLostException;
 }

@@ -32,7 +32,7 @@ public class Compass implements SensorEventListener {
 	 * różniły się od siebie o 180 stopni. Zastosowany algorytm jest
 	 * wykorzystywany w systemie iOS.
 	 */
-	private static float ALPHA = 0.2f;
+	private static float ALPHA = 0.1f;
 
 	private Context appContext = null;
 
@@ -40,7 +40,7 @@ public class Compass implements SensorEventListener {
 	Sensor accelerometer = null;
 	Sensor magnetometer = null;
 
-	float[] mAcceleration;
+	float[] mAcceleration = {10.0f, 0.0f, -5.0f};
 	float[] mGeomagnetic;
 
 	private Logger logger = LoggerFactory.getLogger(Compass.class);
@@ -61,10 +61,6 @@ public class Compass implements SensorEventListener {
 
 	float orientation[] = new float[3];
 
-	private int setBearingIntervalCounter = 0;
-
-	private int sensorRefreshCounter;
-
 	public Compass(Context context) {
 		if (context != null) {
 			logger.debug("CompassLib: init compass");
@@ -79,11 +75,11 @@ public class Compass implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// logger.debug(TAG, "Compass: sensorAccuracyChanged: " +
-		// sensor.getName() + "; new accuracy: " + accuracy);
+		 logger.debug( "Compass: sensorAccuracyChanged: " +
+		 sensor.getName() + "; new accuracy: " + accuracy);
 		if (sensor.getType() == Sensor.TYPE_ACCELEROMETER)
 			accelerometerSensorAccuracy = accuracy;
-		else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+		if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
 			magneticFieldSensorAccuracy = accuracy;
 	}
 
@@ -121,7 +117,7 @@ public class Compass implements SensorEventListener {
 	public void unregisterListeners() {
 		mSensorManager.unregisterListener(this);
 
-		accelerometerSensorAccuracy = 0;
+//		accelerometerSensorAccuracy = 0;
 		magneticFieldSensorAccuracy = 0;
 	}
 
@@ -171,8 +167,7 @@ public class Compass implements SensorEventListener {
 	}
 	
 	public boolean isInitialized() {
-		return (magneticFieldSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE && 
-				accelerometerSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE);
+		return (magneticFieldSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE && accelerometerSensorAccuracy != SensorManager.SENSOR_STATUS_UNRELIABLE);
 	}
 
 	// /////////////////////////////// getters setters
@@ -212,10 +207,10 @@ public class Compass implements SensorEventListener {
 	//		// logger.debug(TAG, "zmiana położenia w stopniach: " + degrees);
 	//		this.bearing = bearing;
 	//	}
-
-	public int getAccelerometerSensorAccuracy() {
-		return accelerometerSensorAccuracy;
-	}
+//
+//	public int getAccelerometerSensorAccuracy() {
+//		return accelerometerSensorAccuracy;
+//	}
 
 	public int getMagneticFieldSensorAccuracy() {
 		return magneticFieldSensorAccuracy;

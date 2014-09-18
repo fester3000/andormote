@@ -4,8 +4,8 @@ import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Motion;
 import andro_mote.devices.andromote_v2.AndroMote2Settings;
-import andro_mote.devices.generics.RobotHardwareAbstract;
-import andro_mote.devices.DeviceSettings;
+import andro_mote.hardware.devices.DeviceSettings;
+import andro_mote.hardware.devices.generics.RobotHardwareAbstract;
 
 
 public class Rover5Platform extends RobotHardwareAbstract {

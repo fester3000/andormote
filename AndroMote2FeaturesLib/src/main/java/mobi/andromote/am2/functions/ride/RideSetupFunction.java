@@ -4,7 +4,7 @@ import mobi.andromote.functionalityFramework.datatypes.FunctionParam;
 import mobi.andromote.functionalityFramework.functions.BaseDeviceFunction;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
-import andro_mote.platform_controller.ElectronicsController;
+import andro_mote.hardware.ElectronicsController;
 import android.content.Context;
 
 

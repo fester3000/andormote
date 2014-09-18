@@ -3,8 +3,8 @@ package andro_mote.devices.andromote_v1;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.DeviceSettings;
-import andro_mote.devices.generics.RobotHardwareAbstract;
+import andro_mote.hardware.devices.DeviceSettings;
+import andro_mote.hardware.devices.generics.RobotHardwareAbstract;
 
 public class NewBrightPlatform extends RobotHardwareAbstract {
 	private static final String TAG = NewBrightPlatform.class.getName();

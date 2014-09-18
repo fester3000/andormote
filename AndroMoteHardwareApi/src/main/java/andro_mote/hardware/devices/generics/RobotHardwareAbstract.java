@@ -1,4 +1,4 @@
-package andro_mote.devices.generics;
+package andro_mote.hardware.devices.generics;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.exception.ConnectionLostException;
@@ -8,9 +8,9 @@ import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.DeviceSettings;
-import andro_mote.devices.ElectronicDevice;
-import andro_mote.ioio_service.IOIOLooperManagerService;
+import andro_mote.hardware.devices.DeviceSettings;
+import andro_mote.hardware.devices.ElectronicDevice;
+import andro_mote.hardware.ioio_service.IOIOLooperManagerService;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 import android.text.format.Time;
@@ -51,7 +51,7 @@ public abstract class RobotHardwareAbstract implements ElectronicDevice {
 	 */
 	@Override
 	public void readNewPinValues() throws InterruptedException, ConnectionLostException {
-		device.readCurrentValues();
+		device.readNewIOIOPinValues();
 		
 	}
 

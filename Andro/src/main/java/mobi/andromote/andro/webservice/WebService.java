@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.util.Date;
 import java.util.Enumeration;
 
-import mobi.andromote.andro.androscript.AndroscriptProcessor;
+import mobi.andromote.andro.androscript.AndroCodeProcessor;
 import mobi.andromote.androcode.datatypes.Script;
 import mobi.andromote.functionalityFramework.datatypes.BroadcastIntentFilters;
 
@@ -33,10 +33,10 @@ import android.support.v4.content.LocalBroadcastManager;
 public class WebService {
 	private final Logger log = Logger.getLogger(WebService.class);
 	private final Context  context; 
-	private String message = "";
+	private String connectionList = "";
 	private ServerSocket serverSocket;
 	private SocketServerThread socketServerThread;
-	private Handler handler = new Handler();
+
 
 	public WebService(Context context) {
 		this.context = context;
@@ -67,8 +67,8 @@ public class WebService {
 				while (!isFinished()) {
 					Socket socket = serverSocket.accept();
 					count++;
-					message += "#" + count + " from " + socket.getInetAddress()	+ ":" + socket.getPort() + "\n";
-					toastMessage(message);
+					connectionList += "#" + count + " from " + socket.getInetAddress()	+ ":" + socket.getPort() + "\n";
+					toastMessage(connectionList);
 					SocketServerReplyThread socketServerReplyThread = new SocketServerReplyThread(socket, count);
 					socketServerReplyThread.run();
 
@@ -121,7 +121,7 @@ public class WebService {
 
 				script = new Script(Script.generateScriptName(), content, new Date());
 				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
-				AndroscriptProcessor.INSTANCE.process(script, context);
+				AndroCodeProcessor.INSTANCE.process(script, context);
 				connection.close();
 			} catch (IOException e) {
 				e.printStackTrace();

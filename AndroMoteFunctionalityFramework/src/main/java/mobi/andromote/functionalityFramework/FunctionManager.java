@@ -12,8 +12,8 @@ import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import andro_mote.devices.ElectronicDeviceFactory;
-import andro_mote.platform_controller.ElectronicsController;
+import andro_mote.hardware.ElectronicsController;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
 import android.app.Application;
 
 public enum FunctionManager {

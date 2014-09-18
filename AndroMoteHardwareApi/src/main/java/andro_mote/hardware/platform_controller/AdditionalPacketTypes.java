@@ -1,4 +1,4 @@
-package andro_mote.platform_controller;
+package andro_mote.hardware.platform_controller;
 
 import andro_mote.commons.PacketType.IPacketType;
 

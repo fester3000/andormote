@@ -72,4 +72,12 @@ public class Utils {
 	public static double rad2deg(double rad) {
 		return (rad * 180 / Math.PI);
 	}
+	
+	public static double getDoubleFrom(String speedParam) {
+		double speed = 0;
+		if(!speedParam.isEmpty()) {
+			speed = Double.valueOf(speedParam);
+		}
+		return speed;
+	}
 }

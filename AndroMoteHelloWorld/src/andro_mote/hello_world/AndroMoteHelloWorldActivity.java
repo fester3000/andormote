@@ -1,21 +1,16 @@
 package andro_mote.hello_world;
 
-import java.io.Serializable;
-
 import org.apache.log4j.BasicConfigurator;
 
 import andro_mote.api.exceptions.MobilePlatformException;
-import andro_mote.commons.DeviceDefinitions.MobilePlatformType;
-import andro_mote.commons.DeviceDefinitions.MotorDriverType;
-import andro_mote.commons.IntentsFieldsIdentifiers;
 import andro_mote.commons.IntentsIdentifiers;
-import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.commons.PacketType;
-import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
+import andro_mote.devices.andromote_v1.AndroMote1DeviceFactory;
+import andro_mote.hardware.ElectronicsController;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
+import andro_mote.hardware.platform_controller.HardwareApi;
 import andro_mote.logger.AndroMoteLogger;
-import andro_mote.platform_controller.HardwareApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,9 +29,7 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 
 	public static final String TAG = AndroMoteHelloWorldActivity.class.toString();
 
-	private MotorDriverType motorDriver = MotorDriverType.RNVN2;
-	private MobilePlatformType mobilePlatform = MobilePlatformType.ROVER5TwoEngines;
-
+	
 	private Button mLFButton = null;
 	private Button mFButton = null;
 	private Button mRFButton = null;
@@ -62,8 +55,9 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		setContentView(R.layout.activity_main);
 		this.initComponents();
 		BasicConfigurator.configure();
-		this.api = new HardwareApi(this.getApplication());
-		startEngineService();
+		
+//		this.api = new HardwareApi(this.getApplication());
+//		startEngineService();
 	}
 
 	@Override
@@ -107,58 +101,56 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 		this.continousButton.setOnClickListener(this);
 
 	}
+//
+//	/**
+//	 * Start i ustawienia początkowe steronika silników.
+//	 */
+//	private void startEngineService() {
+//		// start serwisu silników
+//		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
+//		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
+//		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
+//		startService(startEngineServiceIntent);
+//
+//		// ustawienia silników w nowym wątku z powodu asynchronicznego wywołania
+//		// aktywacji usługi
+//		Thread t = new Thread() {
+//			public void run() {
+//				try {
+//					Thread.sleep(2000);
+//
+//					initEngineService();
+//				} catch (InterruptedException e) {
+//					Log.e("HelloIOIO", e.getMessage(), e);
+//				}
+//			}
+//		};
+//		t.start();
+//	}
 
-	/**
-	 * Start i ustawienia początkowe steronika silników.
-	 */
-	private void startEngineService() {
-		// start serwisu silników
-		Intent startEngineServiceIntent = new Intent(IntentsIdentifiers.ACTION_ENGINES_CONTROLLER);
-		Packet pack = new Packet(PacketType.Connection.MODEL_NAME);
-		pack.setPlatformName(mobilePlatform);
-		pack.setDriverName(motorDriver);
-		startEngineServiceIntent.putExtra(IntentsFieldsIdentifiers.EXTRA_PACKET, (Serializable) pack);
-		startService(startEngineServiceIntent);
-
-		// ustawienia silników w nowym wątku z powodu asynchronicznego wywołania
-		// aktywacji usługi
-		Thread t = new Thread() {
-			public void run() {
-				try {
-					Thread.sleep(2000);
-
-					initEngineService();
-				} catch (InterruptedException e) {
-					Log.e("HelloIOIO", e.getMessage(), e);
-				}
-			}
-		};
-		t.start();
-	}
-
-	/**
-	 * Wstępna konfiguracja ustawień sterownika silników. Tryb ruchu - krokowy.
-	 * Czas trwania jednego kroku - 500 ms. Prędkość tylnego silnika - 0,8.
-	 */
-	private void initEngineService() {
-		// zmiana czasu trwaniajednego węzła
-		Packet motionMode = new Packet(Engine.SET_CONTINUOUS_MODE);
-		Packet stepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
-		stepDurationPacket.setStepDuration(500);
-		Packet speedPacket = new Packet(Engine.SET_SPEED);
-		speedPacket.setSpeed(0.8);
-		try {
-			this.api.sendMessageToDevice(motionMode);
-			this.api.sendMessageToDevice(stepDurationPacket);
-			this.api.sendMessageToDevice(speedPacket);
-		} catch (UnsupportedOperationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MobilePlatformException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * Wstępna konfiguracja ustawień sterownika silników. Tryb ruchu - krokowy.
+//	 * Czas trwania jednego kroku - 500 ms. Prędkość tylnego silnika - 0,8.
+//	 */
+//	private void initEngineService() {
+//		// zmiana czasu trwaniajednego węzła
+//		Packet motionMode = new Packet(Engine.SET_CONTINUOUS_MODE);
+//		Packet stepDurationPacket = new Packet(Engine.SET_STEP_DURATION);
+//		stepDurationPacket.setStepDuration(500);
+//		Packet speedPacket = new Packet(Engine.SET_SPEED);
+//		speedPacket.setSpeed(0.8);
+//		try {
+//			this.api.sendMessageToDevice(motionMode);
+//			this.api.sendMessageToDevice(stepDurationPacket);
+//			this.api.sendMessageToDevice(speedPacket);
+//		} catch (UnsupportedOperationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (MobilePlatformException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Zatrzymanie serwisu kontroli silników. Po zakończeniu działania aplikacji
@@ -203,11 +195,13 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 			packet = new Packet(Motion.MOVE_RIGHT_BACKWARD);
 			break;
 		case R.id.startServiceButton:
-			try {
-				this.api.startCommunicationWithDevice(mobilePlatform, motorDriver);
-			} catch (MobilePlatformException e1) {
-				e1.printStackTrace();
-			}
+			ElectronicDeviceFactory factory = new AndroMote1DeviceFactory();
+			ElectronicsController.INSTANCE.init(getApplication(), factory);
+//			try {
+//				this.api.startCommunicationWithDevice(mobilePlatform, motorDriver);
+//			} catch (MobilePlatformException e1) {
+//				e1.printStackTrace();
+//			}
 			break;
 		case R.id.stopServiceButton:
 			try {
@@ -216,30 +210,30 @@ public class AndroMoteHelloWorldActivity extends Activity implements OnClickList
 				e1.printStackTrace();
 			}
 			break;
-		case R.id.setContinuousModeButton:
-			try {
-				this.api.setMotionMode(MotionMode.MOTION_MODE_CONTINUOUS);
-			} catch (MobilePlatformException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			break;
-		case R.id.setStepperModeButton:
-			try {
-				this.api.setMotionMode(MotionMode.MOTION_MODE_STEPPER);
-			} catch (MobilePlatformException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			break;
+//		case R.id.setContinuousModeButton:
+//			try {
+//				this.api.setMotionMode(MotionMode.MOTION_MODE_CONTINUOUS);
+//			} catch (MobilePlatformException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			break;
+//		case R.id.setStepperModeButton:
+//			try {
+//				this.api.setMotionMode(MotionMode.MOTION_MODE_STEPPER);
+//			} catch (MobilePlatformException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			break;
 		} 
 		if(packet!= null) {
-			try {	
+//			try {	
 				packet.setSpeed(0.7);
-				this.api.sendMessageToDevice(packet);
-			} catch (MobilePlatformException e) {
-				e.printStackTrace();
-			}
+				ElectronicsController.INSTANCE.execute(packet);
+//			} catch (MobilePlatformException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 }

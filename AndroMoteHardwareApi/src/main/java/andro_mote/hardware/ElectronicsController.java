@@ -1,10 +1,11 @@
-package andro_mote.platform_controller;
+package andro_mote.hardware;
 
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.ElectronicDeviceFactory;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
+import andro_mote.hardware.platform_controller.HardwareApi;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 

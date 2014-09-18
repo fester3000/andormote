@@ -1,4 +1,4 @@
-package andro_mote.devices;
+package andro_mote.hardware.devices;
 
 import java.util.List;
 

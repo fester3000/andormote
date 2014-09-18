@@ -1,4 +1,4 @@
-package andro_mote.devices.generics;
+package andro_mote.hardware.devices.generics;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.exception.ConnectionLostException;

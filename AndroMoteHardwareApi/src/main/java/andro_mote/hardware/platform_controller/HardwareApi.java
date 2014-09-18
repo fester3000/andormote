@@ -1,4 +1,4 @@
-package andro_mote.platform_controller;
+package andro_mote.hardware.platform_controller;
 
 import andro_mote.api.AndroMoteMobilePlatformApiAbstract;
 import andro_mote.api.IPacket;
@@ -8,8 +8,8 @@ import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.ioio_service.IOIOLooperManagerService;
-import andro_mote.ioio_service.IOIOLooperManagerService.LocalBinder;
+import andro_mote.hardware.ioio_service.IOIOLooperManagerService;
+import andro_mote.hardware.ioio_service.IOIOLooperManagerService.LocalBinder;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 import android.content.ComponentName;

@@ -1,4 +1,4 @@
-package andro_mote.ioio_service;
+package andro_mote.hardware.ioio_service;
 
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.IOIOLooper;
@@ -15,11 +15,11 @@ import andro_mote.commons.PacketType;
 import andro_mote.commons.PacketType.Engine;
 import andro_mote.commons.PacketType.IPacketType;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.DeviceSettings;
-import andro_mote.devices.ElectronicDeviceFactory;
-import andro_mote.devices.ElectronicDevice;
+import andro_mote.hardware.ElectronicsController;
+import andro_mote.hardware.devices.DeviceSettings;
+import andro_mote.hardware.devices.ElectronicDevice;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
 import andro_mote.logger.AndroMoteLogger;
-import andro_mote.platform_controller.ElectronicsController;
 import andro_mote.stepper.Step;
 import android.app.Service;
 import android.content.Intent;

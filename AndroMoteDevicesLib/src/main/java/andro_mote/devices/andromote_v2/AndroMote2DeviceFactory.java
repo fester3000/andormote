@@ -3,8 +3,8 @@ package andro_mote.devices.andromote_v2;
 import java.util.ArrayList;
 import java.util.List;
 
-import andro_mote.devices.ElectronicDeviceFactory;
-import andro_mote.devices.ElectronicDevice;
+import andro_mote.hardware.devices.ElectronicDevice;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
 
 public class AndroMote2DeviceFactory implements ElectronicDeviceFactory {
 	@Override

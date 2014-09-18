@@ -393,9 +393,13 @@ public class InterpreterVisitor extends AndroCodeBaseVisitor<Object> {
 	@Override
 	public Object visitWhile_loop(While_loopContext ctx) {
 		ConditionContext condition = ctx.condition();
-		BlockContext block = ctx.block();
-		while((Boolean)visit(condition)) {
-			visit(block);
+		if(condition != null) {
+			BlockContext block = ctx.block();
+			while((Boolean)visit(condition)) {
+				visit(block);
+			}
+		} else {
+			log.error("Bad while condition!");
 		}
 		return null;
 	}

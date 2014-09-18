@@ -1,8 +1,8 @@
-package andro_mote.devices;
+package andro_mote.hardware.devices;
 
 import andro_mote.commons.Packet;
 import andro_mote.commons.PacketType.Motion;
-import andro_mote.devices.generics.ElectronicDeviceHardware;
+import andro_mote.hardware.devices.generics.ElectronicDeviceHardware;
 import andro_mote.stepper.Step;
 
 public interface ElectronicDevice extends ElectronicDeviceHardware {

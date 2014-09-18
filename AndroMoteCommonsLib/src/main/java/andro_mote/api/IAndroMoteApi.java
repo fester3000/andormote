@@ -8,6 +8,7 @@ import andro_mote.api.exceptions.MobilePlatformException;
  * mikrokontrolera np. IOIO.
  * 
  * @author Maciej Gzik
+ * @author Sebastian Łuczak
  * 
  */
 public interface IAndroMoteApi {

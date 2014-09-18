@@ -4,7 +4,7 @@ import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.PwmOutput;
 import ioio.lib.api.exception.ConnectionLostException;
-import andro_mote.devices.generics.ElectronicDeviceAbstract;
+import andro_mote.hardware.devices.generics.ElectronicDeviceAbstract;
 
 /**
  * Dwukanałowy sterownik max 1A
@@ -104,7 +104,7 @@ public class PololuTwoEngines extends ElectronicDeviceAbstract {
 	}
 
 	@Override
-	public void readCurrentValues() {
+	public void readNewIOIOPinValues() {
 		//Nothing to read		
 	}
 }

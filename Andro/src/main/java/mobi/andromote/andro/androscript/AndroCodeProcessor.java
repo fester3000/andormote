@@ -13,10 +13,10 @@ import org.apache.log4j.Logger;
 
 import android.content.Context;
 
-public enum AndroscriptProcessor {
+public enum AndroCodeProcessor {
 	INSTANCE;
 
-	private final Logger log = Logger.getLogger(AndroscriptProcessor.class);
+	private final Logger log = Logger.getLogger(AndroCodeProcessor.class);
 	AndroCodeCompilerFrontend compilerFrontEnd = new AndroCodeCompilerFrontend(); 
 	AndroCodeInterpreter interpreter = new AndroCodeInterpreter();
 

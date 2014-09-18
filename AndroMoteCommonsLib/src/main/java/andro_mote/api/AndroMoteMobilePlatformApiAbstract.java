@@ -4,7 +4,7 @@ import andro_mote.api.exceptions.BroadcastReceiverClientNotSetException;
 import andro_mote.api.exceptions.MobilePlatformException;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.devices.ElectronicDeviceFactory;
+import andro_mote.hardware.devices.ElectronicDeviceFactory;
 import andro_mote.logger.AndroMoteLogger;
 import android.app.Application;
 
@@ -49,11 +49,6 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 	}
 
 	@Override
-	public boolean setPlatformSpeed(double speed) throws MobilePlatformException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public boolean setMotionMode(MotionMode motionMode) throws MobilePlatformException {
 		throw new UnsupportedOperationException();
 	}
@@ -84,28 +79,6 @@ IAndroMoteDeviceReceiverClient, IAndroMoteDeviceDataProvider {
 
 	public boolean startCommunicationWithDevice(ElectronicDeviceFactory deviceFactory)
 			throws MobilePlatformException {
-		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	//	@Override
-	//	public boolean turn90RightDegrees() throws MobilePlatformException {
-	//		throw new UnsupportedOperationException();
-	//	}
-	//
-	//	@Override
-	//	public boolean turn90LeftDegrees() throws MobilePlatformException {
-	//		throw new UnsupportedOperationException();
-	//	}
-	//
-	//	@Override
-	//	public boolean turnRightDegrees(int bearing) throws MobilePlatformException {
-	//		throw new UnsupportedOperationException();
-	//	}
-	//
-	//	@Override
-	//	public boolean turnLeftDegrees(int bearing) throws MobilePlatformException {
-	//		throw new UnsupportedOperationException();
-	//	}
-
 }

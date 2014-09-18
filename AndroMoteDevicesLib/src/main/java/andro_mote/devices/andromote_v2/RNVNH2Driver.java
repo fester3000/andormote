@@ -10,9 +10,9 @@ import ioio.lib.api.exception.ConnectionLostException;
 import andro_mote.api.LocalBroadcastDispatcher;
 import andro_mote.commons.IntentsIdentifiers;
 import andro_mote.commons.Packet;
-import andro_mote.devices.generics.ElectronicDeviceAbstract;
+import andro_mote.hardware.devices.generics.ElectronicDeviceAbstract;
+import andro_mote.hardware.platform_controller.AdditionalPacketTypes;
 import andro_mote.logger.AndroMoteLogger;
-import andro_mote.platform_controller.AdditionalPacketTypes;
 
 public class RNVNH2Driver extends ElectronicDeviceAbstract {
 	private static final String TAG = RNVNH2Driver.class.getSimpleName();
@@ -102,7 +102,7 @@ public class RNVNH2Driver extends ElectronicDeviceAbstract {
 	}
 	
 	@Override
-	public void readCurrentValues() throws InterruptedException, ConnectionLostException {
+	public void readNewIOIOPinValues() throws InterruptedException, ConnectionLostException {
 		final boolean m1_encoder_A_state = m1_Encoder_A_Input.read();
 		final boolean m1_encoder_B_state = m1_Encoder_B_Input.read();
 		final boolean m2_encoder_A_state = m2_Encoder_A_Input.read();

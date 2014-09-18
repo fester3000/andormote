@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>andro_mote_hello_world</groupId>
 	<artifactId>AndroMoteHelloWorld</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>apk</packaging>
 	<name>AndroMoteHelloWorld</name>
 
@@ -30,11 +30,7 @@
 			<artifactId>IOIOLibBT</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>andro_mote</groupId>
-			<artifactId>AndroMoteMobilePlatformController</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>de.mindpipe.android</groupId>
 			<artifactId>android-logging-log4j</artifactId>
@@ -44,6 +40,16 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>andro_mote.hardwareApi</groupId>
+			<artifactId>AndroMoteHardwareApi</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>andro_mote.commons</groupId>
+			<artifactId>AndroMoteDevicesLib</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

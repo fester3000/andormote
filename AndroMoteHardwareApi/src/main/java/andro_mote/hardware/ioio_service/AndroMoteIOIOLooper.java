@@ -1,11 +1,11 @@
-package andro_mote.ioio_service;
+package andro_mote.hardware.ioio_service;
 
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import andro_mote.api.exceptions.UnknownDeviceException;
 import andro_mote.commons.MotionMode;
 import andro_mote.commons.Packet;
-import andro_mote.devices.ElectronicDevice;
+import andro_mote.hardware.devices.ElectronicDevice;
 import andro_mote.logger.AndroMoteLogger;
 import andro_mote.stepper.Step;
 

@@ -9,7 +9,7 @@ import mobi.andromote.functionalityFramework.datatypes.Feature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import andro_mote.platform_controller.ElectronicsController;
+import andro_mote.hardware.ElectronicsController;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;

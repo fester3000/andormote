@@ -1,8 +1,8 @@
 package andro_mote.devices.andromote_v2;
 
 import andro_mote.commons.MotionMode;
-import andro_mote.devices.DeviceSettings;
-import andro_mote.ioio_service.IOIOLooperManagerService;
+import andro_mote.hardware.devices.DeviceSettings;
+import andro_mote.hardware.ioio_service.IOIOLooperManagerService;
 import andro_mote.logger.AndroMoteLogger;
 
 public class AndroMote2Settings implements DeviceSettings {
