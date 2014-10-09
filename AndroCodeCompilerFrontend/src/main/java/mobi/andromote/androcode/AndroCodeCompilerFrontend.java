@@ -37,6 +37,15 @@ public class AndroCodeCompilerFrontend {
 		InputStream inputStream = Utils.convertStringToStream(script);
 		return tryToValidate(inputStream);
 	}
+	
+	/**
+	 * Pozwala sprawdzić poprawność semantyczną programu dostarczonego pod postacią ciągu znaków
+	 * @param script strumień wejściowy zawierający kod programu
+	 * @return true lub false, zaleznie od wyniku działania
+	 */
+	public boolean validateCode(InputStream inputStream) {
+		return tryToValidate(inputStream);
+	}
 
 	/**
 	 * pozwala sprawdzić poprawność semantyczną programu dostarczonego w pliku
@@ -60,9 +69,9 @@ public class AndroCodeCompilerFrontend {
 	}
 
 	/**
-	 * 
-	 * @param script
-	 * @return
+	 * Przeprowadza kolejno wszystkie bloki analizy 
+	 * @param script obiekt typu String, zawierający kod źródłowy
+	 * @return Obiekt agregujący drzewo wyprowadzeń i tablicę symboli
 	 * @throws IOException
 	 * @throws SemanticAnalysisException
 	 */
@@ -72,7 +81,27 @@ public class AndroCodeCompilerFrontend {
 		SymbolTable symbolTable = process(inputStream);
 		return new TreeWithSymbolTable(tree, symbolTable);
 	}
+	
+	/**
+	 * Przeprowadza kolejno wszystkie bloki analizy 
+	 * @param script strumień InputStream zawierający kod źródłowy
+	 * @return Obiekt agregujący drzewo wyprowadzeń i tablicę symboli
+	 * @throws IOException
+	 * @throws SemanticAnalysisException
+	 */
+	public TreeWithSymbolTable analyseCode(InputStream inputStream) throws IOException, SemanticAnalysisException {
+		logProcessingStarted();
+		SymbolTable symbolTable = process(inputStream);
+		return new TreeWithSymbolTable(tree, symbolTable);
+	}
 
+	/**
+	 * Przeprowadza kolejno wszystkie bloki analizy 
+	 * @param filename ścieżka do pliku z kodem źródłowym
+	 * @return Obiekt agregujący drzewo wyprowadzeń i tablicę symboli
+	 * @throws IOException
+	 * @throws SemanticAnalysisException
+	 */
 	public TreeWithSymbolTable analyseCodeFromFile(String filename) throws SemanticAnalysisException {
 		logProcessingStarted();
 		TreeWithSymbolTable treeWithSymbolTable = null;

@@ -1,7 +1,0 @@
-
-begin
-int main() {
-	device camera;
-	camera.setParam("RECORD", TRUE);
-}
-end

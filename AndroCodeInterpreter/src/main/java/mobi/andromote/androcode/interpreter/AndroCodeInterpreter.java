@@ -11,6 +11,11 @@ public class AndroCodeInterpreter {
 	private static final AndroLog log = new AndroLog(InterpreterVisitor.class.getSimpleName());
 	InterpreterVisitor interpreterVisitor;
 	
+	/**
+	 * Metoda służy do realizacji fazy interpretacji na określonym drzewie wyprowadzeń i dostarczonej tablicy symboli
+	 * @param tree
+	 * @param symbolTable
+	 */
 	public void interpret(ParseTree tree, SymbolTable symbolTable) {
 		logProcessingStarted();
 		FunctionManager.INSTANCE.prepare();

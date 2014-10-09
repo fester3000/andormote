@@ -3,7 +3,6 @@ package mobi.andromote.functionalityFramework;
 import java.util.HashMap;
 import java.util.Map;
 
-import mobi.andromote.functionalityFramework.datatypes.Feature;
 import mobi.andromote.functionalityFramework.exceptions.NoSuchFeatureException;
 import mobi.andromote.functionalityFramework.exceptions.NoSuchFunctionException;
 import mobi.andromote.functionalityFramework.functions.Function;
@@ -24,11 +23,16 @@ public enum FunctionManager {
 	private CapabilitiesAnalyzer capabilitiesAnalyzer;
 
 	/**
-	 * Inicjalizuje singleton FunctionManager. 
-	 * Metoda musi zostać wywołana przed korzystaniem z obiektu
-	 * @param mobilePlatform 
-	 * @param motorDriver 
-	 * @param context
+	 *
+	 * Inicjalizuje singleton FunctionManager. Dostarcza do warstwy funkcjonalności niezbędną fabrykę konkretną funkcji,
+	 * obiekt odpowiedzialny za sprawdzanie dostępności funkcji w przypadku konkretnego robota AM
+	 * i fabrykę konkretną urządzeń zewnętrznych.   
+	 * Metoda musi zostać wywołana przed rozpoczęciem korzystania ze szkieletu AndroMote2
+	 *
+	 * @param application
+	 * @param capabilitiesAnalyzer
+	 * @param functionFactory
+	 * @param deviceFactory
 	 */
 	public void init(Application application, CapabilitiesAnalyzer capabilitiesAnalyzer, FunctionFactory functionFactory, 
 			ElectronicDeviceFactory deviceFactory) {
@@ -63,7 +67,7 @@ public enum FunctionManager {
 	}
 	
 	/**
-	 * Zwraca akcję danego typu {@link Feature} i dodaje ją do mapy akcji z kluczem varName
+	 * Zwraca akcję danego typu i dodaje ją do mapy akcji z kluczem varName
 	 * @param feature typ akcji
 	 * @param varName nazwa zmiennej androCode
 	 * @return skonfigurowana akcja lub null jeśli akcja danego typu nie jest dostępna na urządzeniu 

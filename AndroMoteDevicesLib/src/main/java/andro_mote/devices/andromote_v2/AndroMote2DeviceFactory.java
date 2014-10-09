@@ -14,7 +14,6 @@ public class AndroMote2DeviceFactory implements ElectronicDeviceFactory {
 
 	@Override
 	public List<ElectronicDevice> createDevices() {
-		// TODO Auto-generated method stub
 		return new ArrayList<ElectronicDevice>();
 	}
 

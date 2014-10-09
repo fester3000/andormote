@@ -6,6 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+/**
+ * Klasa abstrakcyjna, która służy do definiowania funkcji opartych na wykorzystywaniu sensorów urządzenia Android
+ * @author Sebastian Luczak
+ *
+ */
 public abstract class BaseSensorFunction extends BaseFunction implements SensorEventListener {
 	protected SensorManager sensorManager;
 	protected Sensor sensor;

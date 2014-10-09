@@ -1,26 +1,26 @@
-grammar AndroCode;
+ï»¿grammar AndroCode;
 
 @header {
     package mobi.andromote.androcode.antlr;
     import mobi.andromote.androcode.antlr.enums.Type;
 }
 
-/* regu³y analizatora sk³adniowego */
-script          // podstawowa produkcja skryptu w jêzyku AndroCode
+/* reguÅ‚y analizatora skÅ‚adniowego */
+script          // podstawowa produkcja skryptu w jÄ™zyku AndroCode
     : lib_includes* body EOF;         
-lib_includes    // deklaracja u¿ycia biblioteki zewnêtrznej
+lib_includes    // deklaracja uÅ¼ycia biblioteki zewnÄ™trznej
     : 'use' LIBNAME ';';        
-body            // cia³o skryptu
+body            // ciaÅ‚o skryptu
     : function* statement* function*;  
 function        // deklaracja funkcji, parametry opcjonalne
     : type ID LP parameters? RP block;
-parameters      //lista parametrów, przynajmniej jeden
+parameters      //lista parametrÃ³w, przynajmniej jeden
     : parameter (',' parameter)*; 
 parameter       //para typ - identyfikator parametru
     : type ID ; 
 block           // zakres = lista instrukcji zawarta w nawiasach klamrowych
     : '{' statement* '}' ; 
-statement       // lista produkcji stanowi¹cych instrukcje jêzyka AC
+statement       // lista produkcji stanowiÄ…cych instrukcje jÄ™zyka AC
     : block                                       
     | expr ';'              
     | var_declaration ';'   
@@ -32,44 +32,44 @@ statement       // lista produkcji stanowi¹cych instrukcje jêzyka AC
     | sleep
     | print
     ;
-expr 			        //lista produkcji stanowi¹cych wyra¿enie w jêzyku AC
-    : var_or_function_call                 #expr_var_or_fcall // wywo³anie zmiennej lub funkcji
-    | '(' subExpr=expr ')'                 #expr_parenthesis // wyra¿enie w nawiasie
+expr 			        //lista produkcji stanowiÄ…cych wyraÅ¼enie w jÄ™zyku AC
+    : var_or_function_call                 #expr_var_or_fcall // wywoÅ‚anie zmiennej lub funkcji
+    | '(' subExpr=expr ')'                 #expr_parenthesis // wyraÅ¼enie w nawiasie
     | MINUS_OP subExpr=expr                #expr_uminus	// operator negacji arytmetycznej
-    | a=expr op=(MULT_OP | DEV_OP) b=expr  #expr_binop // mno¿enie i dzielenie arytmetyczne
+    | a=expr op=(MULT_OP | DEV_OP) b=expr  #expr_binop // mnoÅ¼enie i dzielenie arytmetyczne
     | a=expr op=(ADD_OP | MINUS_OP) b=expr #expr_binop // dodawanie i odejmowanie arytmetyczne
     | LP type RP expr                      #expr_cast // rzutowanie - jawna konwersja
     | id=ID op=(INCR_OP | DECR_OP)         #expr_incr_decr //operator (in/de)krementacji
-    | dev_operation                        #expr_dev	// dzia³ania zwi¹zane z funkcjami robota
-    | v=value                              #expr_value	// wartoœæ typu prostego
+    | dev_operation                        #expr_dev	// dziaÅ‚ania zwiÄ…zane z funkcjami robota
+    | v=value                              #expr_value	// wartoÅ›Ä‡ typu prostego
     ;
-var_or_val  // wartoœæ typu prostego lub wywo³anie zmiennej lub funkcji
+var_or_val  // wartoÅ›Ä‡ typu prostego lub wywoÅ‚anie zmiennej lub funkcji
     : var_or_function_call
     | value
     ;    
-mixed_string // operator konkatenacji ci¹gów znaków
+mixed_string // operator konkatenacji ciÄ…gÃ³w znakÃ³w
     : var_or_val (ADD_OP var_or_val)*
     ;
-sleep // usypianie w¹tku g³ównego
+sleep // usypianie wÄ…tku gÅ‚Ã³wnego
     : 'sleep' LP INT RP ';'
     ;
-print // drukowanie wartoœci na ekran
+print // drukowanie wartoÅ›ci na ekran
     : 'print' LP mixed_string RP ';'
     ;
-return_statement // zwracanie wartoœci z funkcji
+return_statement // zwracanie wartoÅ›ci z funkcji
     : 'return' expr? ';' 
     ;
-var_declaration // deklaracja zmiennej z opcjonalnym przypisaniem wartoœci
+var_declaration // deklaracja zmiennej z opcjonalnym przypisaniem wartoÅ›ci
     : type ID ('=' expr)?;
-assignment // przypisanie wartoœci
+assignment // przypisanie wartoÅ›ci
     : a=ID '=' b=expr;
-var_or_function_call //wo³anie zmiennej lub funkcji
+var_or_function_call //woÅ‚anie zmiennej lub funkcji
     : ID                    #var_call
     | ID LP arguments? RP   #function_call
     ;
-arguments // argumenty wywo³ania funkcji
+arguments // argumenty wywoÅ‚ania funkcji
     : expr (',' expr)* ;
-condition  // warunki logiczne ró¿nego typu
+condition  // warunki logiczne rÃ³Å¼nego typu
     : '!' LP var_or_function_call RP                        #condition_var_negated
     | '!' var_or_function_call                              #condition_var_negated
     | '!' LP condition RP                                   #condition_negated
@@ -78,35 +78,35 @@ condition  // warunki logiczne ró¿nego typu
     | condition logical_op condition (logical_op condition)* #condition_combined
     | LP condition RP                                       #condition_parenthesis
     ;
-for_loop  //pêtla for
+for_loop  //pÄ™tla for
     : 'for' LP assignment ';' condition ';' (newValExpr=expr | newValAssign=assignment) RP block ;
-while_loop //pêtla while 
+while_loop //pÄ™tla while 
     : 'while' LP condition (',' INT)? RP block ;
-if_condition //warunek if z mo¿liwoœci¹ dodawania alternatyw warunkowych
+if_condition //warunek if z moÅ¼liwoÅ›ciÄ… dodawania alternatyw warunkowych
     : 'if' LP condition RP block ('elseif' LP condition RP block)* ('else' elseBlock=block)?;
-dev_operation //dzia³anie na funkcjach robota
-    : ID'.' 'setParam' LP STRING ',' mixed_string RP	#dev_setParam //ustawianie parametrów
+dev_operation //dziaÅ‚anie na funkcjach robota
+    : ID'.' 'setParam' LP STRING ',' mixed_string RP	#dev_setParam //ustawianie parametrÃ³w
     | ID'.' 'getFeature' LP STRING RP			#dev_get //pobieranie/rezerwowanie funkcji
     | ID'.' 'exec' LP (STRING ',' mixed_string (',' INT)?)? RP  #dev_exec //uruchamianie funkcji
     | ID'.' 'release' LP RP                             #dev_release //zwalnianie funkcji
     ;
-value //wartoœci typów prostych     
-    : CHAR          // wartoœæ znakowa
-    | INT           // wartoœæ ca³kowita dodatnia
-    | NEGATED_INT   // wartoœæ ca³kowita ujemna
-    | FLOAT         // wartoœæ zmiennoprzecinkowa
-    | NEGATED_FLOAT // wartoœæ zmiennoprzecinkowa ujemna
-    | STRING        // ci¹g znaków
-    | BOOLEAN       // wartoœæ logiczna
-    | NULL          // brak wartoœci 
+value //wartoÅ›ci typÃ³w prostych     
+    : CHAR          // wartoÅ›Ä‡ znakowa
+    | INT           // wartoÅ›Ä‡ caÅ‚kowita dodatnia
+    | NEGATED_INT   // wartoÅ›Ä‡ caÅ‚kowita ujemna
+    | FLOAT         // wartoÅ›Ä‡ zmiennoprzecinkowa
+    | NEGATED_FLOAT // wartoÅ›Ä‡ zmiennoprzecinkowa ujemna
+    | STRING        // ciÄ…g znakÃ³w
+    | BOOLEAN       // wartoÅ›Ä‡ logiczna
+    | NULL          // brak wartoÅ›ci 
     ;
 type //podstawowe typy zmiennych      
-    : K_INT_TYPE    // typ wartoœci ca³kowitej
+    : K_INT_TYPE    // typ wartoÅ›ci caÅ‚kowitej
     | K_VOID_TYPE   // pusty typ danych
-    | K_FLOAT_TYPE  // typ wartoœci zmiennoprzecinkowej
+    | K_FLOAT_TYPE  // typ wartoÅ›ci zmiennoprzecinkowej
     | K_CHAR_TYPE   // typ znakowy
-    | K_STRING_TYPE // typ ci¹gu znaków
-    | K_BOOLEAN_TYPE// typ wartoœci logicznych algebry Boole'a
+    | K_STRING_TYPE // typ ciÄ…gu znakÃ³w
+    | K_BOOLEAN_TYPE// typ wartoÅ›ci logicznych algebry Boole'a
     | K_DEV_TYPE    // typ - funkcja robota
     ;
 logical_op // operatory logiczne
@@ -114,7 +114,7 @@ logical_op // operatory logiczne
     | OR_OP
     ;
 
-/* regu³y analizatora leksykalnego */
+/* reguÅ‚y analizatora leksykalnego */
 K_INT_TYPE  : 'int' ;
 K_VOID_TYPE : 'void' ;
 K_FLOAT_TYPE: 'float' ;

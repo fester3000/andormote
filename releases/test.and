@@ -1,0 +1,30 @@
+feature ride;
+feature bearing;
+feature tts;
+ride.getFeature("RIDE");
+bearing.getFeature("RIDE_BEARING");
+tts.getFeature("TTS");
+
+bearing.setParam("IS_OFFSET", TRUE);
+feature flashlight;
+flashlight.getFeature("FLASHLIGHT");
+flashlight.exec("MODE", "ON");
+
+ride.exec("MOTION", "MOVE_FORWARD", 1000);
+bearing.exec("BEARING", 180);
+ride.exec("MOTION", "MOVE_FORWARD", 1000);
+bearing.exec("BEARING", -30);
+ride.exec("MOTION", "MOVE_FORWARD", 2000);
+bearing.exec("BEARING", 45);
+ride.exec("MOTION", "MOVE_FORWARD", 3000);
+bearing.exec("BEARING", -90);
+
+ride.exec("MOTION", "MOVE_FORWARD", 2000);
+int i;
+for(i = 8; i > 0 ; i--) {
+	float speed = i/10;
+	ride.exec("SPEED", speed);
+	sleep(300);
+}
+
+tts.exec("TEXT", "Skończyłem");

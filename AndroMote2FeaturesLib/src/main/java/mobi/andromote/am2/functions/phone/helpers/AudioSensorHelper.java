@@ -61,7 +61,7 @@ public class AudioSensorHelper {
 	public synchronized double getAmplitudeEMA() {
 		double amp = getAmplitude();
 		mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
-		return mEMA;
+		return mEMA * 10;
 	}
 }
 

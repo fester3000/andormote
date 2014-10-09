@@ -20,6 +20,7 @@ public class RideGPSFunction extends BaseDeviceFunction {
 
 	@Override
 	public ActionResult run() {
+		//TODO
 //		ActionResult result;
 //		Packet packet;
 //		logger.debug("Ride action run");
