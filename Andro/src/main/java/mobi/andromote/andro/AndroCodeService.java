@@ -12,6 +12,7 @@ import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 
 import org.apache.log4j.Logger;
 
+import andro_mote.devices.andromote_v1.AndroMote1DeviceFactory;
 import andro_mote.devices.andromote_v2.AndroMote2DeviceFactory;
 import android.app.Service;
 import android.content.Intent;

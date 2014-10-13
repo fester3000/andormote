@@ -27,6 +27,9 @@ import org.apache.log4j.Logger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -121,8 +124,15 @@ public class WebService {
 
 				script = new Script(Script.generateScriptName(), content, new Date());
 				connection.sendResponseHeader(new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK")));
-				AndroCodeProcessor.INSTANCE.process(script, context);
 				connection.close();
+				try {
+				    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+				    Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), notification);
+				    r.play();
+				} catch (Exception e) {
+				    e.printStackTrace();
+				}
+				AndroCodeProcessor.INSTANCE.process(script, context);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (HttpException e) {
