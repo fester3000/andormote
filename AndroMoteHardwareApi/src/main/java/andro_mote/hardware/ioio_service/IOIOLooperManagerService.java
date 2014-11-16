@@ -74,7 +74,8 @@ public class IOIOLooperManagerService extends IOIOService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
+//		FIXME Moved to main application
+//		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
 		log.debug(TAG, "engineService; onStartCommand(); startId=" + startId);
 		localBroadcastDispatcher = LocalBroadcastDispatcher.INSTANCE;
 		localBroadcastDispatcher.init(getApplicationContext());

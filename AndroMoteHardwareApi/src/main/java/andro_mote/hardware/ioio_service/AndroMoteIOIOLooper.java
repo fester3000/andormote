@@ -22,7 +22,8 @@ public class AndroMoteIOIOLooper extends BaseIOIOLooper {
 	public AndroMoteIOIOLooper(IOIOLooperManagerService enginesControllerService, ElectronicDevice hardware) throws ConnectionLostException,
 	InterruptedException, UnknownDeviceException {
 		super();
-		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
+//		FIXME Moved to main application
+//		AndroMoteLogger.ConfigureLogger("AndroMoteClient.log");
 		this.parentControllerService = enginesControllerService;
 		this.hardware = hardware;
 		logger.debug(TAG, "setup ioio engine controller");

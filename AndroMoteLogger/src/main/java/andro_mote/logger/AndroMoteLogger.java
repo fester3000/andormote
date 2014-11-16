@@ -21,22 +21,13 @@ public class AndroMoteLogger {
 	 * 
 	 * @param logFileName
 	 *            nazwa pliku z logami
-	 * @param path
-	 *            opcjonalny. Jeżeli równy null - logi zapisywane do katalogu:
-	 *            sd/AndroMote/logs/
-	 */
-	public static void ConfigureLogger(String logFileName, String path) {
-		ConfigureLog4J.configure(logFileName, path);
-	}
-
-	/**
-	 * Konfiguracja loggera.
-	 * 
-	 * @param logFileName
-	 */
-	public static void ConfigureLogger(String logFileName) {
-
-		ConfigureLog4J.configure(logFileName, null);
+	 * @param sysLogServerAddress
+	 * 			  adres IP serwera sysLog na który mają być przesyłane logi. 
+	 * 			  Format adresu: "adresIP:port"
+	 * 			  Jeśli nie ustawiony - logi nie będą wysyłane na serwer sysLog 
+	 **/
+	public static void ConfigureLogger(String logFileName, String sysLogServerAddress) {
+		ConfigureLog4J.configure(logFileName, sysLogServerAddress);
 	}
 
 	/**

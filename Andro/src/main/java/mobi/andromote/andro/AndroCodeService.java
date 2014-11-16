@@ -3,7 +3,6 @@ package mobi.andromote.andro;
 
 import mobi.andromote.am2.functions.AndroMote2CapabilitiesAnalyzer;
 import mobi.andromote.am2.functions.AndroMote2FunctionFactory;
-import mobi.andromote.andro.logger.ConfigureLog4J;
 import mobi.andromote.andro.webservice.WebService;
 import mobi.andromote.functionalityFramework.CapabilitiesAnalyzer;
 import mobi.andromote.functionalityFramework.FunctionManager;
@@ -12,8 +11,8 @@ import mobi.andromote.functionalityFramework.functions.FunctionFactory;
 
 import org.apache.log4j.Logger;
 
-import andro_mote.devices.andromote_v1.AndroMote1DeviceFactory;
 import andro_mote.devices.andromote_v2.AndroMote2DeviceFactory;
+import andro_mote.logger.AndroMoteLogger;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -44,7 +43,7 @@ public class AndroCodeService extends Service implements ServiceWithHandler {
 	}
 	
 	private void init() {
-		ConfigureLog4J.configure();
+		AndroMoteLogger.ConfigureLogger("andro", "192.168.1.201:514");
 		FunctionFactory functionFactory = new AndroMote2FunctionFactory(this, getHandler());
 		CapabilitiesAnalyzer capabilitiesAnalyzer = new AndroMote2CapabilitiesAnalyzer(this); 
 		FunctionManager.INSTANCE.init(getApplication(), capabilitiesAnalyzer, functionFactory, new AndroMote2DeviceFactory());
